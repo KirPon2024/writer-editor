@@ -94,6 +94,17 @@ const ATLAS_SURFACE_CONTRIBUTIONS = Object.freeze([
     capabilityIds: [],
   },
   {
+    surfaceKey: 'workspace',
+    surfaceId: 'surface.atlas.workspace',
+    queryRegistryKey: 'ATLAS_OVERVIEW',
+    providerId: 'query.atlasOverview',
+    slotId: 'workspace.write.atlas',
+    hostKind: 'writeWorkspace',
+    stateClass: 'DERIVED_STATE',
+    commandIds: [],
+    capabilityIds: [],
+  },
+  {
     surfaceKey: 'entity',
     surfaceId: 'surface.atlas.entityDossier',
     queryRegistryKey: 'ATLAS_ENTITY_DOSSIER',
@@ -193,7 +204,7 @@ export const ATLAS_DESIGN_OS_ALLOWED_SLOT_IDS = Object.freeze([
 export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
   schemaVersion: ATLAS_FEATURE_INTEGRATION_MANIFEST_SCHEMA_VERSION,
   featureId: 'yalken.atlasAndManualMap.v5',
-  featureVersion: '5.0.0-p0-04',
+  featureVersion: '5.1.0-wp503',
   domainOwner: 'Product Core',
   authoritativeData: [
     'atlas.author.v1',
@@ -204,6 +215,7 @@ export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
     'derived.atlas.*',
     'derived.manualMap.workbench.v1',
     'derived.projectionInspector.v1',
+    'yalken.r24.atlasSurface.v1',
   ],
   commandIds: Object.freeze([...new Set(ATLAS_SURFACE_CONTRIBUTIONS.flatMap((surface) => surface.commandIds))]),
   queryIds: Object.freeze([...new Set(ATLAS_SURFACE_CONTRIBUTIONS.map((surface) => surface.providerId))]),
@@ -218,7 +230,7 @@ export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
   readPath: 'Product Core/read models -> workspace query projection -> Design OS slot resolver -> renderer adapter.',
   requiredProductPorts: Object.freeze(['ProjectPersistencePort', 'WorkspaceQueryPort', 'ProductCommandDispatchPort']),
   requiredDesignOsPorts: Object.freeze(['CommandCatalogPort', 'CommandDispatchPort', 'DomainProjectionPort', 'ShellProjectionPort']),
-  adapterRequirements: Object.freeze(['renderer-adapter:atlas-right-rail', 'renderer-adapter:manual-map-plan-workspace']),
+  adapterRequirements: Object.freeze(['renderer-adapter:atlas-right-rail', 'renderer-adapter:atlas-workspace', 'renderer-adapter:manual-map-plan-workspace']),
   surfaceManifests: ATLAS_SURFACE_CONTRIBUTIONS,
   slotRequirements: Object.freeze([...new Set(ATLAS_SURFACE_CONTRIBUTIONS.map((surface) => surface.slotId))]),
   supportedWorkspaces: Object.freeze(['WRITE', 'PLAN', 'REVIEW']),
@@ -242,7 +254,7 @@ export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
     'renderer-host-uses-resolved-slot-binding',
   ]),
   evidenceBindings: Object.freeze(['P0_04 focused contract', 'EFINAL repair queue receipt row']),
-  currentReality: 'P0_04 binds existing Atlas and Manual Map surfaces through a versioned Design OS slot resolver without redesign.',
+  currentReality: 'WP503 extends the versioned resolver with one read-only Atlas workspace for manuscript, split and full postures over graph/list/table-parity rows.',
 });
 
 function isPlainObject(value) {

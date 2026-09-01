@@ -15,7 +15,7 @@ export const EXPECTED = Object.freeze({
   nodeEngine: '>=22.12.0 <23.0.0',
   npmEngine: '>=10.9.0 <11.0.0',
   electron: '41.10.3',
-  editorBundleSha256: '664aa13475592f97d7300ef417794815e5edcc0eee0451b3c1859d7cea41a0b4',
+  editorBundleSha256: 'b0b287b15698df9f7b3fb63215900983c3ec8604177325969cc4cbb0a833d770',
   preloadBundleSha256: '361a55245fbdee46691953b5a8fabf495c7db45e0aa6edd36597342136596561'
 });
 

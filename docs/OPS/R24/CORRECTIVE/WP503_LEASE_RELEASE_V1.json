@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP503_LEASE_RELEASE_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "status": "ADMITTED_CONDITIONAL_RELEASE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "currentLease": {
+    "fencingCounter": 66,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93"
+  },
+  "targetLease": {
+    "fencingCounter": 66,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "bindings": {
+    "authorityDigest": "4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c",
+    "stageInstanceDigest": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4",
+    "stageAdmissionDigest": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b",
+    "writeSetDigest": "cb82dc59f6697c0e87173bf67b23aaa08006b469080336c9b9e7c05196431560",
+    "acceptanceMatrixDigest": "f264985b682ee8f780573790dd7d3563aeb557c9204af56e2039f59ba8d5a731",
+    "effectiveStateDigest": "8afc06a99219e903aa772f5159089dcec6f9254c8fd2041d8d5212eb9b099b5c",
+    "stageRegistryDigest": "99b9129c5f784658de31316fdd4508131d738a15fbd194d1b954e6f0ebe583f9",
+    "protectedWipBeforeDigest": "680246f35b65f98ef17ce823d90b0e982a01528dc21fd64de0cba94e9c87095e",
+    "protectedWipAfterDigest": "95735ffa221cad9d112027d4db1d3879909ba7e0a6a4ac8989b79a8eda0d4f8d",
+    "toolchainBundleSuccessorDigest": "681fb191cc89cc8fdffc205efe5a3225934825f56710acfe7ad0efe6657bd3f1",
+    "wordingHashSuccessorDigest": "a899b5d6c8e0a290085256f939c59220a4f3d9c56e997e007c822c3ac0c274e7"
+  },
+  "activationPredicates": [
+    "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+    "NORMAL_PROTECTED_MERGE",
+    "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+    "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+    "PROTECTED_WIP_AFTER_EXACT",
+    "NO_LIVE_WORK_AT_RELEASE"
+  ],
+  "selfBindingPolicy": "FUTURE_PROVIDER_IDENTITIES_BOUND_BY_EXTERNAL_TERMINAL_RECEIPT_NO_RECURSIVE_CLOSURE_PR",
+  "programDone": false
+}

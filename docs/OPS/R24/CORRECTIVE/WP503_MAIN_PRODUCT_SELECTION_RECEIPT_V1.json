@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "YALKEN_R24_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "selectedAtUtc": "2026-09-01T14:00:00Z",
+  "schedulerPolicy": [
+    "MANDATORY_SAFETY_CORRECTNESS",
+    "CUT_SET_UNBLOCK",
+    "EVIDENCE_DEFICIT_REDUCTION",
+    "DEPENDENCY_CRITICALITY",
+    "BOUNDED_COST",
+    "STABLE_TOPOLOGICAL_RANK",
+    "STABLE_NODE_ID"
+  ],
+  "exactBase": {
+    "sha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "tree": "7f38243ced17ee249f0c541004171235a1e14788",
+    "branch": "codex/r24-wp503-atlas-surface-v1-20260901"
+  },
+  "predecessor": {
+    "stageId": "WP-502_THREADS_CAUSALITY",
+    "externalTerminalReceiptDigest": "9a5b58d2b29336508090d8a5f9e02ee61e4b6e22d7ba5ea137f6b45a7901a687",
+    "externalVerificationDigest": "26105a4c0b8aba232eb538fcb21e96eb5b6247b3cd7f26ad481d9b02b4dcea72",
+    "leaseReleaseDigest": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93",
+    "status": "EXTERNALLY_VERIFIED_DONE"
+  },
+  "selectedNode": {
+    "id": "WP-503_ATLAS_SURFACE",
+    "outcome": "Manuscript/split/full postures, shared sheets and graph/list/table parity",
+    "profile": "ATLAS_PRODUCT_V33",
+    "authority": "ATLAS_PRODUCT_V33_BOUNDED_CONTOUR",
+    "stateOwner": "DERIVED_PROJECTOR_AUTHORITY",
+    "status": "PENDING"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false
+}

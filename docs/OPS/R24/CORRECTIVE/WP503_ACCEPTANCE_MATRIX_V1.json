@@ -1,0 +1,151 @@
+{
+  "schemaVersion": "YALKEN_R24_WP503_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "status": "CONDITIONAL_PASS_PENDING_EXTERNAL_DELIVERY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4",
+    "stageAdmissionDigest": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b",
+    "acceptanceSignalsDigest": "80b58460ef9eab4e88b16a1707ee1b7d16bfec0185e591659421593f64e5ce4d",
+    "claimBindingDigest": "dbf548292850eaedd7c224932b9a92aa435b8a5aaaa294bbee19dad73a4281a4",
+    "protectedWipAfterDigest": "95735ffa221cad9d112027d4db1d3879909ba7e0a6a4ac8989b79a8eda0d4f8d"
+  },
+  "rowCount": 25,
+  "localPassedRowCount": 21,
+  "externalPredicateRowCount": 4,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "ALL_REQUIRED_PROFILES_ZERO_SKIP",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "CLAIM_BINDINGS_DENOMINATOR_COMPLETE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CONTRACT"
+    },
+    {
+      "id": "DESIGN_OS_WORKSPACE_SLOT_BOUND",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "DIFFERENTIAL_ORACLE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION"
+    },
+    {
+      "id": "EXACT_WP500_WP501_WP502_PROJECTION_BINDING",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "GRAPH_LIST_TABLE_SHARED_ROW_PARITY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MUTANTS"
+    },
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD"
+    },
+    {
+      "id": "KEYBOARD_AND_TEXTUAL_GRAPH_PARITY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CONTRACT"
+    },
+    {
+      "id": "LARGE_CORPUS_BUDGET",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION"
+    },
+    {
+      "id": "LEASE_66_RELEASED_WIP_0",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "NORMAL_PROTECTED_MERGE"
+    },
+    {
+      "id": "MANUSCRIPT_SPLIT_FULL_POSTURES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION"
+    },
+    {
+      "id": "NO_PERSISTENCE_RENDERER_COMMAND_OR_PLATFORM_EFFECT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "POSTMERGE_EXACT_HEAD",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE"
+    },
+    {
+      "id": "POST_AUDIT_TOOLCHAIN_TRACKED_BUNDLE_SUCCESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "PROTECTED_WIP_UNCHANGED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "RESPONSIVE_SAFE_FALLBACK",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION"
+    },
+    {
+      "id": "STALE_SNAPSHOT_PROJECTION_AND_GENERATION_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CONTRACT"
+    },
+    {
+      "id": "SURVIVOR_AUDIT",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE"
+    },
+    {
+      "id": "TRACKED_RENDERER_BUNDLE_EXACT_BUILD",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    },
+    {
+      "id": "WP307_EDITOR_WORDING_HASH_SUCCESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-MODEL"
+    },
+    {
+      "id": "WP502_EXTERNALLY_VERIFIED_PREDECESSOR_BOUND",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS"
+    }
+  ],
+  "activationRule": "PASS_ONLY_AFTER_ALL_FOUR_EXTERNAL_PREDICATES_ARE_OBSERVED_EXACTLY",
+  "programDone": false
+}

@@ -148,3 +148,16 @@ test('ER C06: Atlas surface switcher stays out of product truth and storage auth
     assert.doesNotMatch(switcher, forbidden);
   }
 });
+
+test('ER C06 successor: WP-503 workspace preserves right-rail navigation and adds textual parity controls', () => {
+  const html = read(path.join('src', 'renderer', 'index.html'));
+  const source = read(path.join('src', 'renderer', 'editor.js'));
+  const css = read(path.join('src', 'renderer', 'styles.css'));
+  assert.match(html, /data-atlas-workspace/u);
+  assert.match(html, /data-atlas-posture-tabs[\s\S]*role="tablist"/u);
+  assert.match(html, /data-atlas-view-tabs[\s\S]*role="tablist"/u);
+  assert.match(source, /assertAtlasSurfacePresentationParity/u);
+  assert.match(source, /applyAtlasResolvedSurfaceBinding\('workspace'/u);
+  assert.match(css, /\.atlas-workspace__table/u);
+  assert.match(css, /@media \(max-width: 1119px\)[\s\S]*main-content--atlas-split/u);
+});

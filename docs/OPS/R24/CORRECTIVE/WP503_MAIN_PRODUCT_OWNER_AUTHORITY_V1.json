@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP503_ATLAS_SURFACE_SINGLE_TERMINAL_PR_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+  "baseTree": "7f38243ced17ee249f0c541004171235a1e14788",
+  "branch": "codex/r24-wp503-atlas-surface-v1-20260901",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V11.json",
+      "sha256": "6a2032d928a258fa59dc5164b88da4a84cffef06042e070ad984aed51a82cbde"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP502_LEASE_RELEASE_V1.json",
+      "sha256": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sha256": "53d1c4d533c834e3f6cd7ba2d48a27c979879f986d1a7b1f5eea366c1556c86b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_RECEIPT_V1.json",
+      "sha256": "f7a5db8361ca32ad027a21da270353d6532eb9c6ab8d336948c03a2a7f26f9de"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_STAGE_REGISTRY_V1.json",
+      "sha256": "779828c6fed8e185cb9f026800ab128e4b3aee6e26b6c37051558c1eb64a4ff4"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "allowedCommands": [
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "gh pr checks PR --watch",
+    "gh pr create --base main --head codex/r24-wp503-atlas-surface-v1-20260901",
+    "gh pr merge PR --merge",
+    "gh run view RUN --json status,conclusion,headSha,event,attempt,jobs",
+    "gh workflow run r24-terminal-attestation.yml",
+    "git add -- EXACT_WP503_WRITE_SET",
+    "git commit -m Deliver WP-503 Atlas surface",
+    "git diff --cached --check",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git fetch origin main",
+    "git push origin codex/r24-wp503-atlas-surface-v1-20260901",
+    "git rev-parse HEAD",
+    "git rev-parse HEAD^{tree}",
+    "git rev-parse origin/main",
+    "git status --short --branch",
+    "node --test test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+    "node --test test/unit/r24-wp503-atlas-surface.test.js test/unit/r24-wp503-atlas-surface-integration.test.js test/unit/r24-wp503-atlas-surface-mutants.test.js",
+    "node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check",
+    "node scripts/ops/r24/corrective/post-audit-corrections.mjs --check-static",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs writer=WRITER",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP503_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json --stage-instance WP503_MAIN_PRODUCT_STAGE_INSTANCE_V1.json --stage-admission WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/wp503-terminal-verifier.mjs --check",
+    "npm audit --omit=dev --audit-level=high",
+    "npm ci --engine-strict",
+    "npm run agent:bootstrap -- --objective WP-503 bounded Atlas surface",
+    "npm run agent:guardrails",
+    "npm run agent:preflight -- --declaration YALKEN_R24_WP503_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "npm run build:renderer",
+    "npm run oss:policy",
+    "npm run test:electron",
+    "npm run test:r24-e0",
+    "npm run test:r24-wp503",
+    "npm run test:rtk",
+    "npm test",
+    "npx --yes --package=node@22.12.0 --package=npm@10.9.0 --call npm ci --engine-strict"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      ".github/workflows/ops-vector-close.yml",
+      ".github/workflows/r24-terminal-attestation.yml",
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V11.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP502_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/scheduler.mjs",
+      "src/core/atlas-associations-v1.mjs",
+      "src/core/atlas-book-snapshot-v1.mjs",
+      "src/core/atlas-threads-causality-v1.mjs",
+      "src/core/atlas-time-knowledge-v1.mjs",
+      "test/unit/r24-wp500-associations.test.js",
+      "test/unit/r24-wp501-time-knowledge.test.js",
+      "test/unit/r24-wp502-threads-causality.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "package.json",
+      "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "src/renderer/design-os/atlasFeatureIntegrationManifest.mjs",
+      "src/renderer/design-os/atlasSlotCatalog.v1.mjs",
+      "src/renderer/editor.js",
+      "src/renderer/index.html",
+      "src/renderer/styles.css",
+      "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "test/contracts/yalken-atlas-v5-er-c06-atlas-rail-responsive-accessibility.contract.test.js",
+      "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V12.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_AFTER_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CTR-R24-WP-503-ATLAS-SURFACE.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-EXACT-HEAD.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MUTANTS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-SURVIVOR-AUDIT.json",
+      "scripts/ops/r24/wp503-terminal-verifier.mjs",
+      "src/core/atlas-surface-v1.mjs",
+      "src/renderer/atlasSurfacePresentationModel.mjs",
+      "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+      "test/unit/r24-wp503-atlas-surface-integration.test.js",
+      "test/unit/r24-wp503-atlas-surface-mutants.test.js",
+      "test/unit/r24-wp503-atlas-surface.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "ALL_REQUIRED_PROFILES_ZERO_SKIP",
+    "CLAIM_BINDINGS_DENOMINATOR_COMPLETE",
+    "CONTRACT_NEGATIVE",
+    "DESIGN_OS_WORKSPACE_SLOT_BOUND",
+    "DIFFERENTIAL_ORACLE",
+    "EXACT_WP500_WP501_WP502_PROJECTION_BINDING",
+    "GOVERNANCE_STRICT_PASS",
+    "GRAPH_LIST_TABLE_SHARED_ROW_PARITY",
+    "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+    "INDEPENDENT_EXACT_HEAD",
+    "KEYBOARD_AND_TEXTUAL_GRAPH_PARITY",
+    "LARGE_CORPUS_BUDGET",
+    "LEASE_66_RELEASED_WIP_0",
+    "MANUSCRIPT_SPLIT_FULL_POSTURES",
+    "NO_PERSISTENCE_RENDERER_COMMAND_OR_PLATFORM_EFFECT",
+    "POSTMERGE_EXACT_HEAD",
+    "PROGRAM_DONE_FALSE",
+    "PROTECTED_WIP_UNCHANGED",
+    "RESPONSIVE_SAFE_FALLBACK",
+    "STALE_SNAPSHOT_PROJECTION_AND_GENERATION_REJECTION",
+    "SURVIVOR_AUDIT",
+    "WP502_EXTERNALLY_VERIFIED_PREDECESSOR_BOUND"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "NON_DESTRUCTIVE_LOCAL_TOOLCHAIN",
+    "PROTECTED_NORMAL_MERGE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH"
+  ],
+  "predecessors": [
+    {
+      "id": "WP502_EXTERNAL_TERMINAL_RECEIPT",
+      "digest": "9a5b58d2b29336508090d8a5f9e02ee61e4b6e22d7ba5ea137f6b45a7901a687",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP502_EXTERNAL_VERIFICATION",
+      "digest": "26105a4c0b8aba232eb538fcb21e96eb5b6247b3cd7f26ad481d9b02b4dcea72",
+      "status": "VERIFIED"
+    },
+    {
+      "id": "WP502_LEASE_RELEASE",
+      "digest": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "WP502_TERMINAL_EFFECTIVE_STATE",
+      "digest": "53d1c4d533c834e3f6cd7ba2d48a27c979879f986d1a7b1f5eea366c1556c86b",
+      "status": "CERTIFIED_DONE_RELEASED_WIP_0"
+    },
+    {
+      "id": "WP502_TERMINAL_RECEIPT",
+      "digest": "f7a5db8361ca32ad027a21da270353d6532eb9c6ab8d336948c03a2a7f26f9de",
+      "status": "CERTIFIED_DONE"
+    },
+    {
+      "id": "WP502_TERMINAL_STAGE_REGISTRY",
+      "digest": "779828c6fed8e185cb9f026800ab128e4b3aee6e26b6c37051558c1eb64a4ff4",
+      "status": "CERTIFIED_DONE"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 66,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "b81c3795dbce79f479366af1a1585078d7d53709d048d8a2c12a630d3ec08b93"
+  }
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "YALKEN_R24_WP503_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP503_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-01T13:57:42.010Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseIdentity": {
+    "sha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "treeSha": "7f38243ced17ee249f0c541004171235a1e14788"
+  },
+  "bindings": {
+    "authorityDigest": "4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c",
+    "selectionDigest": "d427af7be17e40af773cac79d40aba24b5e892dd27e1f0c710454aa3c03cc05d",
+    "stageInstanceDigest": "3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4",
+    "stageAdmissionDigest": "b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b",
+    "writeSetDigest": "cb82dc59f6697c0e87173bf67b23aaa08006b469080336c9b9e7c05196431560",
+    "commandScopeDigest": "2185338a68c2fc83e26ef0e0e298334f2947cdeb780fb8526119f4c26b20496a",
+    "acceptanceSignalsDigest": "80b58460ef9eab4e88b16a1707ee1b7d16bfec0185e591659421593f64e5ce4d",
+    "claimBindingDigest": "dbf548292850eaedd7c224932b9a92aa435b8a5aaaa294bbee19dad73a4281a4",
+    "acceptanceMatrixDigest": "f264985b682ee8f780573790dd7d3563aeb557c9204af56e2039f59ba8d5a731",
+    "effectiveStateDigest": "8afc06a99219e903aa772f5159089dcec6f9254c8fd2041d8d5212eb9b099b5c",
+    "stageRegistryDigest": "99b9129c5f784658de31316fdd4508131d738a15fbd194d1b954e6f0ebe583f9",
+    "leaseReleaseDigest": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795",
+    "protectedWipBeforeDigest": "680246f35b65f98ef17ce823d90b0e982a01528dc21fd64de0cba94e9c87095e",
+    "protectedWipAfterDigest": "95735ffa221cad9d112027d4db1d3879909ba7e0a6a4ac8989b79a8eda0d4f8d",
+    "toolchainBundleSuccessorDigest": "681fb191cc89cc8fdffc205efe5a3225934825f56710acfe7ad0efe6657bd3f1",
+    "wordingHashSuccessorDigest": "a899b5d6c8e0a290085256f939c59220a4f3d9c56e997e007c822c3ac0c274e7"
+  },
+  "predecessors": {
+    "wp502ExternalTerminalReceiptDigest": "9a5b58d2b29336508090d8a5f9e02ee61e4b6e22d7ba5ea137f6b45a7901a687",
+    "wp502ExternalVerificationDigest": "26105a4c0b8aba232eb538fcb21e96eb5b6247b3cd7f26ad481d9b02b4dcea72",
+    "wp502TerminalArchiveDigest": "9062e0851471f0f939214a0adf923f8b5b30d807fb84ea847b46029425e4436e",
+    "wp502RepositoryTerminalReceiptDigest": "f7a5db8361ca32ad027a21da270353d6532eb9c6ab8d336948c03a2a7f26f9de"
+  },
+  "predecessorCorrections": {
+    "pr1776": {
+      "candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f",
+      "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752"
+    },
+    "pr1777": {
+      "candidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596",
+      "mergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"
+    }
+  },
+  "evidenceStampPaths": [
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CONTRACT.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-EXACT-HEAD.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MODEL.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MUTANTS.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-SURVIVOR-AUDIT.json"
+  ],
+  "evidenceStampDigests": [
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS.json",
+      "sha256": "dbf548292850eaedd7c224932b9a92aa435b8a5aaaa294bbee19dad73a4281a4"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-CONTRACT.json",
+      "sha256": "98281c2b0eb05a6d2374719b96c96a92739f0dabb28948709cee5415c27d9579"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-EXACT-HEAD.json",
+      "sha256": "bd30aa2dada4c6a821f7d5ea88fe7c90a6d5acd21dec7de0eb654da44bc96d57"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-INTEGRATION.json",
+      "sha256": "edde74f56499ee0d91cce37358ffad8a533bbc8c0a2392bf2149b1777f9e6361"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MODEL.json",
+      "sha256": "e45e55198fe1bcc58d96121eec67debbdc1767062c9b7d4c9eca6ca9f3bff65e"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-MUTANTS.json",
+      "sha256": "fea93ccb71bbdba43085f8cf0455990eeea340a428ebb884c9025ce25e6a9adb"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-503-ATLAS-SURFACE-SURVIVOR-AUDIT.json",
+      "sha256": "7b1a227ba43d749c6eaaea3279c5bae37bc19ee7757e03245bda03f23ed69e19"
+    }
+  ],
+  "localEvidence": {
+    "focusedTests": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0
+    },
+    "mutants": {
+      "killed": 9,
+      "survived": 0
+    },
+    "largeCorpus": {
+      "sharedRows": 10001
+    },
+    "renderer": {
+      "postures": 3,
+      "views": 3,
+      "sharedSheets": 4,
+      "trackedBundleExact": true
+    },
+    "protectedWip": {
+      "completeDenominator": 252,
+      "presentDenominator": 249,
+      "prunableDenominator": 3,
+      "dirtyDenominator": 7,
+      "entriesExact": true,
+      "protectedDirtySetExact": true
+    }
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 59,
+    "pendingCount": 37
+  },
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS"
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

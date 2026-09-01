@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "POST_AUDIT_TOOLCHAIN_BUNDLE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalContract": {
+    "path": "docs/OPS/R24/CORRECTIVE/POST_AUDIT_CORRECTIONS_CONTRACT_V1.json",
+    "sha256": "90197c119af8bb9923437217a89514524769824d19306cd1fa801e6ca68e2fbe",
+    "editorBundleSha256": "664aa13475592f97d7300ef417794815e5edcc0eee0451b3c1859d7cea41a0b4",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "successor": {
+    "evaluationBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "evaluationBaseTreeSha": "7f38243ced17ee249f0c541004171235a1e14788",
+    "editorSourceSha256": "e3b76b9c23a7dbf318382bed0626090d6be8ae8de478afcffecbf0f13ded374b",
+    "editorBundleSha256": "b0b287b15698df9f7b3fb63215900983c3ec8604177325969cc4cbb0a833d770",
+    "buildCommand": "npm run build:renderer",
+    "buildToCleanCommittedTreeRequired": true
+  },
+  "authority": {
+    "authorityDigest": "fd542b02ccb232cf91ad924bcb7f74ed5cde953cbd1911c305162d50dc2762be",
+    "stageInstanceDigest": "3e99a19fa0874c1aab12af1b2f988d3def3434d27d9baa3c04a36e0a028e8125",
+    "stageAdmissionDigest": "1de86e8b59ef0ec0a421e853e2b447f5112bebce8c7db26f909425734278c12f"
+  },
+  "programDone": false
+}

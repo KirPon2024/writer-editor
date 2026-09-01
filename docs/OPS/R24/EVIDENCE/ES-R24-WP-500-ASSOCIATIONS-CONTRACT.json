@@ -1,0 +1,54 @@
+{
+  "stampId": "ES-R24-WP-500-ASSOCIATIONS-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-500_ASSOCIATIONS",
+  "attemptId": "ATTEMPT-WP500-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP500_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "8fbe5caaeb5ceab50b998c2feb0548075b21e391",
+    "treeSha": "9ef313b3d8d4c7992b1799a9ad79d58fafec0387"
+  },
+  "claim": {
+    "type": "WP500_ASSOCIATIONS_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP500_NODE_AND_ASSOCIATION_SCOPE_SEMANTICS_ONLY_EXACT_WP404_FOUNDATION_AND_WP308_DEPENDENCY_BOUND_NO_PERSISTENCE_NO_RENDERER_NO_PLATFORM_EFFECT_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp500-associations.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-500-ASSOCIATIONS-MODEL"
+    ],
+    "predecessorReceiptDigest": "3de6e7ad6d860faa718bc370d04ae2d8d0d5cf6e08bfbf3cf155fc048fcfa595"
+  },
+  "createdAt": "2026-09-01T06:00:13Z",
+  "actor": "codex/r24-wp500-associations-v1-20260901",
+  "artifact": {
+    "focusedTests": {
+      "passed": 3,
+      "failed": 0,
+      "skipped": 0
+    },
+    "requiredBehaviors": [
+      "BOOK_SCENE_AND_FRAGMENT_SCOPE_INHERITANCE",
+      "STRICT_CLOSED_INPUT_DUPLICATE_AND_STALE_REJECTION",
+      "PROJECTION_AND_QUERY_TAMPER_REJECTION"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

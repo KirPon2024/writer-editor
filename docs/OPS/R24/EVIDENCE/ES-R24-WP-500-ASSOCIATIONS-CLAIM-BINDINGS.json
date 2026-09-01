@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-500-ASSOCIATIONS-CLAIM-BINDINGS",
+  "contourId": "WP-500_ASSOCIATIONS",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "8fbe5caaeb5ceab50b998c2feb0548075b21e391",
+  "originMainSha": "8fbe5caaeb5ceab50b998c2feb0548075b21e391",
+  "generatedAtUtc": "2026-09-01T06:00:13Z",
+  "oracle": "Strict exact-hash WP500 binding; externalSourcePlanDigest=1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a and compiledProgramFileDigest=da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a are distinct immutable roles",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-500-ASSOCIATIONS.json",
+      "sha256": "f892eef01d695b65598c881f208a51940d3dd2eaf80f9eb999eab4842799c314",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-associations-v1.mjs",
+      "sha256": "0b716cf7d07eb6e94a7aaccd3e4a5c0536ef24b61af9415b5f08d4b959f86c47",
+      "terms": [
+        "Pure immutable revision-bound book, scene and fragment association projection and query compiler"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp500-associations.test.js",
+      "sha256": "c7b5619007fcb430da2e525d03c819682018d45c4478f55390ceaa2a8509eb6a",
+      "terms": [
+        "WP500 strict scope, stale identity, duplicate and tamper contract oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp500-associations-integration.test.js",
+      "sha256": "ff4f77605189ef0619fe240e6e86b99a08e7fab6944a2009cde42978940f6681",
+      "terms": [
+        "WP500 real lineage and snapshot integration, differential index and 10000-association large-corpus oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp500-associations-mutants.test.js",
+      "sha256": "19ebb8b0160fde4fae378d4cf90c7831c08581cd81f69aa64eff547966da66b0",
+      "terms": [
+        "Eight-of-eight scope, duplication, digest, index, query and authority mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "sha256": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "terms": [
+        "compiledProgramFileDigest role; distinct from owner-supplied externalSourcePlanDigest"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "source-plan role-separation oracle",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1,
+        "fail": 0
+      },
+      "requiredDisposition": "externalSourcePlanDigest=1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a; compiledProgramFileDigest=da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a; rolesDistinct=true"
+    },
+    {
+      "command": "node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 7,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 8,
+        "survived": 0
+      },
+      "requiredDisposition": "Exact snapshot identity; book, scene and fragment scopes; no scene leakage; range containment; duplicate and tamper rejection; 10000-association bound."
+    },
+    {
+      "command": "GitHub protected candidate and exact implementation postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1798 candidate 124fb01ed3bbee8a1a3055c15cbaf2c364ebb273 merged as 8fbe5caaeb5ceab50b998c2feb0548075b21e391; candidate run 33474292284 and exact postmerge run 33475029444 each passed all 17 required contexts."
+    },
+    {
+      "command": "npm test under Node 22.12.0 and npm 10.9.0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1422,
+        "fail": 0
+      },
+      "requiredDisposition": "Full maintained baseline passed; 64 optional skips are declared and the exhaustive inventory reports zero required or unexplained skips."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1067,
+        "fail": 0
+      },
+      "requiredDisposition": "Maintained RTK denominator passed with zero skips and zero todos."
+    },
+    {
+      "command": "npm run test:r24-e0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 110,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 31,
+        "survived": 0
+      },
+      "requiredDisposition": "E0 exact denominator and all hostile mutants passed."
+    }
+  ],
+  "nonClaims": [
+    "No renderer, product-runtime persistence or platform-effect wiring was added.",
+    "No main-product graph node beyond WP-500 was started.",
+    "No ATLAS_PRODUCT_V33 profile-wide or global scalar PASS is claimed.",
+    "PROGRAM_DONE remains false.",
+    "Correction identity retained: PR 1776 candidate 77354cfe994588dc1771f3eded29d1e7e68d703f merge af0bfb704c13b0195c12b0144415f2e769f99752; PR 1777 candidate bf3d21072879d276ca3489b0bbead780fb39f596 merge 0a8837ae8b0724fa9c258d98281cae693ce0693e.",
+    "This non-recursive closure carrier does not claim its own future protected merge."
+  ]
+}

@@ -3,80 +3,74 @@
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP500_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
-      "sha256": "5f840624d2a5f847e9fb5bd1467e968838dd4833e783066abf67203c1eb49dc6"
-    },
-    {
-      "approvedAtUtc": "2026-09-01T06:00:13Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CTR-R24-WP-500-ASSOCIATIONS.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "f892eef01d695b65598c881f208a51940d3dd2eaf80f9eb999eab4842799c314"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-CLAIM-BINDINGS.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "99f4a3f5c0dd356492f70da77cf67252bfc9862a4b264d1407ccab21320ffb79"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-CONTRACT.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "4fa5255b6e5e139061a02f986e4ab51c33a04bf8b964a43457f3fcb99ec5a8f8"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "4cd069b76b59a9d3663b925b400056a1017bfed9a9694dc3712a8c512165c22a"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-INTEGRATION.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "fab9d4bbd937e201a24cc98dab5d52fceeb78fb12071ad1294e64e5384905fe5"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-MODEL.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "66d1e25528ad5c2f926a781714d47bbb656588951d11242cc92d535db5999fdd"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-MUTANTS.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "4ff8e2ae31b97dcb8564a78fd6444c993f40fcd3a9e856d7ccc3b6b2b5f4d9fe"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-POSTMERGE-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "4fcae72aca57e9287da76d802127324ecbb7464263fc638ab300052a1c056cdf"
     },
     {
       "approvedAtUtc": "2026-09-01T06:00:13Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT.json",
-      "rationale": "Owner-authorized active WP500 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP500 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 63 remains active pending protected closure merge and release.",
       "sha256": "39df46e8a854d46f92ea94873789edf80d7de0271a19b392882f4be0e9be82cf"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
   ],
+  "routingCarrierExemptFromThisPhaseCarrier": "WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "rolesDistinct": true
   },
   "version": "v1.0"

@@ -56,12 +56,15 @@ test('WP-503 protected-WIP before and after carriers preserve the complete priva
 });
 
 test('WP-503 tracked renderer bundle and RELEASE01 successor are explicitly admitted and externally checkable', () => {
-  const instance = load('docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V5.json');
+  const instance = load('docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V6.json');
   assert.ok(instance.operations.modifyPaths.includes('src/renderer/editor.bundle.js'));
   assert.ok(instance.acceptanceSignals.includes('TRACKED_RENDERER_BUNDLE_EXACT_BUILD'));
   assert.ok(instance.acceptanceSignals.includes('POST_AUDIT_TOOLCHAIN_TRACKED_BUNDLE_SUCCESSOR'));
   assert.ok(instance.acceptanceSignals.includes('WP307_EDITOR_WORDING_HASH_SUCCESSOR'));
   assert.ok(instance.acceptanceSignals.includes('RTK_RELEASE01_WORDING_SURFACE_SUCCESSOR'));
+  assert.ok(instance.acceptanceSignals.includes('POST_AUDIT_CERTIFICATION_CHAIN_SUCCESSOR'));
   assert.ok(instance.operations.modifyPaths.includes('test/contracts/rtk-release01-terminal-claims.contract.test.js'));
   assert.ok(instance.operations.createPaths.includes('docs/OPS/R24/CORRECTIVE/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json'));
+  assert.ok(instance.operations.modifyPaths.includes('scripts/ops/r24/corrective/post-audit-certification-set.mjs'));
+  assert.ok(instance.operations.createPaths.includes('docs/OPS/R24/CORRECTIVE/WP503_POST_AUDIT_CERTIFICATION_SUCCESSOR_V1.json'));
 });

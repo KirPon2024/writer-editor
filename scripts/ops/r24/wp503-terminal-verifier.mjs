@@ -8,10 +8,10 @@ const ROOT = 'docs/OPS/R24';
 const C = `${ROOT}/CORRECTIVE`;
 const E = `${ROOT}/EVIDENCE`;
 const PATHS = Object.freeze({
-  authority: `${C}/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V5.json`,
+  authority: `${C}/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V6.json`,
   selection: `${C}/WP503_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json`,
-  instance: `${C}/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V5.json`,
-  admission: `${C}/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V5.json`,
+  instance: `${C}/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V6.json`,
+  admission: `${C}/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V6.json`,
   before: `${C}/WP503_PROTECTED_WIP_BEFORE_V1.json`,
   after: `${C}/WP503_PROTECTED_WIP_AFTER_V1.json`,
   matrix: `${C}/WP503_ACCEPTANCE_MATRIX_V1.json`,
@@ -23,8 +23,11 @@ const PATHS = Object.freeze({
   claims: `${E}/ES-R24-WP-503-ATLAS-SURFACE-CLAIM-BINDINGS.json`,
   toolchainSuccessor: `${C}/POST_AUDIT_TOOLCHAIN_BUNDLE_SUCCESSOR_V1.json`,
   wordingSuccessor: `${C}/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json`,
-  terminalSupplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V1.json`,
+  terminalSupplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V2.json`,
+  predecessorTerminalSupplement: `${C}/WP503_TERMINAL_SUPPLEMENT_V1.json`,
   rtkFailure: `${C}/WP503_LOCAL_RTK_FAILURE_V1.json`,
+  postAuditFailure: `${C}/WP503_LOCAL_POST_AUDIT_FAILURE_V1.json`,
+  postAuditSuccessor: `${C}/WP503_POST_AUDIT_CERTIFICATION_SUCCESSOR_V1.json`,
 });
 const EXTERNAL_SOURCE = '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const COMPILED_PROGRAM = 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
@@ -40,6 +43,9 @@ const V3_ADMISSION = '1de86e8b59ef0ec0a421e853e2b447f5112bebce8c7db26f9094257342
 const V4_AUTHORITY = '4c159e905b4a769f01d387d7e879ff88477038cb5e8c74ba96ddb7fd82fd766c';
 const V4_INSTANCE = '3dd4894bb6121b8dd188412df19ebdb42e6f2f511efc2ff1e2ea75b2f3615cc4';
 const V4_ADMISSION = 'b37ffe11651cfd5639daeb71ccc81ef2e7c6f4cb4fa54decd80f5eb66d3ce04b';
+const V5_AUTHORITY = '0265d35e41a130a63ac03b431f50c02b06bd37d3799f5dcd63d5f5e8791f2ce9';
+const V5_INSTANCE = '28e89223241512edfb2df2d3436f6a74d24fa80bea572ec051da06c7b46bef21';
+const V5_ADMISSION = '5e56705c54871f229791f70ac3831d10dfe75ac3207669ec08e19a8805c35598';
 const WP502_EXTERNAL_RECEIPT = '9a5b58d2b29336508090d8a5f9e02ee61e4b6e22d7ba5ea137f6b45a7901a687';
 const WP502_EXTERNAL_VERIFICATION = '26105a4c0b8aba232eb538fcb21e96eb5b6247b3cd7f26ad481d9b02b4dcea72';
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
@@ -69,7 +75,7 @@ const gitObjectDigest = (revision, file) => {
 export function verifyWp503TerminalCarriers() {
   const authority = read(PATHS.authority), selection = read(PATHS.selection), instance = read(PATHS.instance), admission = read(PATHS.admission);
   const before = read(PATHS.before), after = read(PATHS.after), matrix = read(PATHS.matrix), effective = read(PATHS.effective);
-  const registry = read(PATHS.registry), release = read(PATHS.release), receipt = read(PATHS.receipt), ctr = read(PATHS.ctr), claims = read(PATHS.claims), toolchainSuccessor = read(PATHS.toolchainSuccessor), wordingSuccessor = read(PATHS.wordingSuccessor), terminalSupplement = read(PATHS.terminalSupplement), rtkFailure = read(PATHS.rtkFailure);
+  const registry = read(PATHS.registry), release = read(PATHS.release), receipt = read(PATHS.receipt), ctr = read(PATHS.ctr), claims = read(PATHS.claims), toolchainSuccessor = read(PATHS.toolchainSuccessor), wordingSuccessor = read(PATHS.wordingSuccessor), terminalSupplement = read(PATHS.terminalSupplement), predecessorTerminalSupplement = read(PATHS.predecessorTerminalSupplement), rtkFailure = read(PATHS.rtkFailure), postAuditFailure = read(PATHS.postAuditFailure), postAuditSuccessor = read(PATHS.postAuditSuccessor);
 
   assert(authority.digest === admission.value.authorityDigest, 'E_WP503_AUTHORITY_DIGEST');
   assert(instance.digest === admission.value.stageInstanceDigest, 'E_WP503_INSTANCE_DIGEST');
@@ -77,7 +83,7 @@ export function verifyWp503TerminalCarriers() {
   assert(instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP503_RUNTIME');
   assert(instance.value.baseSha === '3157d84126a76734af50d012b359f7a58b2035fb' && instance.value.treeSha === '7f38243ced17ee249f0c541004171235a1e14788', 'E_WP503_BASE_IDENTITY');
   assert(instance.value.lease.fencingCounter === 66 && instance.value.lease.status === 'ACTIVE' && instance.value.lease.wip === 1, 'E_WP503_ACTIVE_LEASE');
-  for (const value of [authority.value, instance.value, admission.value, selection.value.sourcePlanRoles, matrix.value.sourcePlanRoles, effective.value.sourcePlanRoles, registry.value.sourcePlanRoles, release.value.sourcePlanRoles, receipt.value.sourcePlanRoles, ctr.value.sourcePlanRoles, wordingSuccessor.value.sourcePlanRoles, terminalSupplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
+  for (const value of [authority.value, instance.value, admission.value, selection.value.sourcePlanRoles, matrix.value.sourcePlanRoles, effective.value.sourcePlanRoles, registry.value.sourcePlanRoles, release.value.sourcePlanRoles, receipt.value.sourcePlanRoles, ctr.value.sourcePlanRoles, wordingSuccessor.value.sourcePlanRoles, terminalSupplement.value.sourcePlanRoles, predecessorTerminalSupplement.value.sourcePlanRoles, postAuditFailure.value.sourcePlanRoles, postAuditSuccessor.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
 
   const predecessorById = new Map(instance.value.predecessors.map((entry) => [entry.id, entry]));
   assert(predecessorById.get('WP503_V1_AUTHORITY')?.digest === V1_AUTHORITY, 'E_WP503_V1_AUTHORITY_PREDECESSOR');
@@ -92,6 +98,9 @@ export function verifyWp503TerminalCarriers() {
   assert(predecessorById.get('WP503_V4_AUTHORITY')?.digest === V4_AUTHORITY, 'E_WP503_V4_AUTHORITY_PREDECESSOR');
   assert(predecessorById.get('WP503_V4_STAGE_INSTANCE')?.digest === V4_INSTANCE, 'E_WP503_V4_INSTANCE_PREDECESSOR');
   assert(predecessorById.get('WP503_V4_STAGE_ADMISSION')?.digest === V4_ADMISSION, 'E_WP503_V4_ADMISSION_PREDECESSOR');
+  assert(predecessorById.get('WP503_V5_AUTHORITY')?.digest === V5_AUTHORITY, 'E_WP503_V5_AUTHORITY_PREDECESSOR');
+  assert(predecessorById.get('WP503_V5_STAGE_INSTANCE')?.digest === V5_INSTANCE, 'E_WP503_V5_INSTANCE_PREDECESSOR');
+  assert(predecessorById.get('WP503_V5_STAGE_ADMISSION')?.digest === V5_ADMISSION, 'E_WP503_V5_ADMISSION_PREDECESSOR');
   assert(selection.value.stageId === 'WP-503_ATLAS_SURFACE' && selection.value.exactBase.sha === instance.value.baseSha && selection.value.exactBase.tree === instance.value.treeSha, 'E_WP503_SELECTION_BINDING');
   assert(selection.value.predecessor.externalTerminalReceiptDigest === WP502_EXTERNAL_RECEIPT && selection.value.predecessor.externalVerificationDigest === WP502_EXTERNAL_VERIFICATION, 'E_WP503_SELECTION_PREDECESSOR');
   assert(predecessorById.get('WP502_EXTERNAL_TERMINAL_RECEIPT')?.digest === WP502_EXTERNAL_RECEIPT, 'E_WP503_WP502_EXTERNAL_RECEIPT');
@@ -107,6 +116,9 @@ export function verifyWp503TerminalCarriers() {
   assert(wordingSuccessor.value.historicalRegistry.sha256 === '9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2', 'E_WP503_WORDING_HISTORICAL_BINDING');
   const wordingOverrides = new Map(wordingSuccessor.value.surfaceOverrides.map((surface) => [surface.path, surface.sha256]));
   assert(wordingOverrides.size === 2 && wordingOverrides.get('package.json') === `sha256:${sha256(fs.readFileSync('package.json'))}` && wordingOverrides.get('src/renderer/editor.js') === `sha256:${sha256(fs.readFileSync('src/renderer/editor.js'))}`, 'E_WP503_WORDING_SUCCESSOR_BINDING');
+  assert(instance.value.acceptanceSignals.includes('POST_AUDIT_CERTIFICATION_CHAIN_SUCCESSOR') && instance.value.operations.modifyPaths.includes('scripts/ops/r24/corrective/post-audit-certification-set.mjs') && instance.value.operations.modifyPaths.includes('test/contracts/r24-post-audit-certification-set.contract.test.mjs') && instance.value.operations.createPaths.includes(PATHS.postAuditSuccessor), 'E_WP503_POST_AUDIT_SUCCESSOR_UNADMITTED');
+  assert(postAuditFailure.value.candidateSha === '25910cd47369495d9bdafb2a78db20ac75b78abc' && postAuditFailure.value.rootFailure.code === 'E_WP502_EXCEPTION_UNADMITTED_PATH', 'E_WP503_POST_AUDIT_FAILURE_BINDING');
+  assert(postAuditSuccessor.value.bindings.authorityDigest === authority.digest && postAuditSuccessor.value.bindings.stageInstanceDigest === instance.digest && postAuditSuccessor.value.bindings.stageAdmissionDigest === admission.digest && postAuditSuccessor.value.bindings.failureDigest === postAuditFailure.digest, 'E_WP503_POST_AUDIT_SUCCESSOR_BINDING');
   assert(before.value.schemaVersion === 'YALKEN_PROTECTED_WIP_SNAPSHOT_V2' && after.value.schemaVersion === before.value.schemaVersion, 'E_WP503_WIP_SCHEMA');
   assert(before.value.snapshotSha256 === after.value.snapshotSha256 && before.value.snapshotSha256 === '19dfb5e14c4340fb9cfa918ea18a1e4b7ff66a0062fcf2a0bb10cdc2f7be5b79', 'E_WP503_WIP_SNAPSHOT_DIGEST');
   assert(before.value.completeDenominator === 252 && after.value.completeDenominator === 252 && before.value.presentDenominator === after.value.presentDenominator && before.value.prunableDenominator === after.value.prunableDenominator, 'E_WP503_WIP_DENOMINATOR');
@@ -151,7 +163,7 @@ export function verifyWp503TerminalCarriers() {
   assert(receipt.value.nextGraphNodeStarted === false && receipt.value.nonClaims.includes('NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP503_STARTED'), 'E_WP503_NEXT_NODE_OVERCLAIM');
   assert(rtkFailure.value.candidateSha === 'e17b93766c0abd9d7102881b22b54038efd8fc48' && rtkFailure.value.summary.tests === 1067 && rtkFailure.value.summary.fail === 1 && rtkFailure.value.summary.skipped === 0, 'E_WP503_RTK_FAILURE_BINDING');
   assert(terminalSupplement.value.bindings.authorityDigest === authority.digest && terminalSupplement.value.bindings.stageInstanceDigest === instance.digest && terminalSupplement.value.bindings.stageAdmissionDigest === admission.digest, 'E_WP503_SUPPLEMENT_ADMISSION_BINDING');
-  assert(terminalSupplement.value.bindings.predecessorTerminalReceiptDigest === receipt.digest && terminalSupplement.value.bindings.wordingSuccessorDigest === wordingSuccessor.digest && terminalSupplement.value.bindings.rtkFailureDigest === rtkFailure.digest, 'E_WP503_SUPPLEMENT_CHAIN');
+  assert(terminalSupplement.value.bindings.predecessorTerminalReceiptDigest === receipt.digest && terminalSupplement.value.bindings.predecessorTerminalSupplementDigest === predecessorTerminalSupplement.digest && terminalSupplement.value.bindings.wordingSuccessorDigest === wordingSuccessor.digest && terminalSupplement.value.bindings.rtkFailureDigest === rtkFailure.digest && terminalSupplement.value.bindings.postAuditFailureDigest === postAuditFailure.digest && terminalSupplement.value.bindings.postAuditSuccessorDigest === postAuditSuccessor.digest, 'E_WP503_SUPPLEMENT_CHAIN');
   assert(terminalSupplement.value.bindings.terminalVerifierDigest === sha256(fs.readFileSync('scripts/ops/r24/wp503-terminal-verifier.mjs')), 'E_WP503_SUPPLEMENT_VERIFIER_BINDING');
   assert(terminalSupplement.value.bindings.terminalCarrierTestDigest === sha256(fs.readFileSync('test/contracts/r24-wp503-terminal-carriers.contract.test.mjs')), 'E_WP503_SUPPLEMENT_TEST_BINDING');
   assert(terminalSupplement.value.status === 'CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY' && terminalSupplement.value.programDone === false && terminalSupplement.value.nextGraphNodeStarted === false, 'E_WP503_SUPPLEMENT_STATE');

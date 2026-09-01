@@ -1,0 +1,120 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V4.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "4f61334838e4a494ea4cbfc167f4505558b657f3266d3749001e36bc45dab454"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "09308832b4c8d77a9ad4532b86da3f9df99fa941715e0d9568279e27590d4755"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_CANDIDATE_CI_FAILURE_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "3d933f3dc61c2abed270f8775ca6d2d1105a64f4e844d3b5aa6d5fb09f8a36f7"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "25c0c652a4992bcf2d2263b17f3215c14ca7c6f1a0a4a4aabd413ac581a2fbd7"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "78d40137fc5dcdf85c1cc4de911d8bb3517bb7ed4249827c3aec7e85f84de309"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "f4201ace1d161d6c9331ec41bf6007d48acfb364070b3776902f2ae4a9e2d46e"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "4e66142783984614c3aba97d9496dc61171cbefbf1ce60240bde2d55380493dc"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "0aa76c71369c2b6886762c186f4ea8dbc5be4f5514aa58580f4161eb6f65c769"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "19acf09e3789b02936a7afb2e4ee7619f5bedd3848bc1abee8498adedb563bad"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "714495e775228af4aaebdcfa3098b17906294eae29a333c51b332a44fed4cebe"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP403_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "05e864f1fa58a381d8ab4dfa935e7110981fe4688ccfbedfcbe294fb11f103d2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "79f9f55cb1f3a4e676f04ba25857b8059db6341c5c757446deab17f36df3b692"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "742af638e994e41342059da64d77d15bd83056ccf012fd9260380b2e8066fcaf"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "011af44c0dc7009e0ac9190dfe9cc7326c183ce4a6deb53d2c51db573cfdf5a8"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T00:25:37Z",
+      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "rationale": "Owner-authorized WP403 append-only candidate-CI oracle successor for the exact admitted decision substrate contour and fail-closed post-evaluation chain.",
+      "sha256": "e30ba7bb32ff88a14b6207cc4ec60fe5e02fca117f945e80d784684c09cb9cfa"
+    }
+  ],
+  "evidenceStampIds": [
+    "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT",
+    "WP403_CANDIDATE_CI_FAILURE_V1"
+  ],
+  "phase": "WP403_IMPLEMENTATION_CANDIDATE_EXCEPTION_SUCCESSOR",
+  "sourcePlanRoles": {
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

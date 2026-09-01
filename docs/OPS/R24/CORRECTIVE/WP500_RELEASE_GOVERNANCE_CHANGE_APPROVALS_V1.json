@@ -3,59 +3,53 @@
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP500_RELEASE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
-      "sha256": "57eeb430ed098ea30ccc3f93be21c622721e745a6b8b9116906fe13dbe4d14fa"
-    },
-    {
-      "approvedAtUtc": "2026-09-01T06:31:55Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_ACCEPTANCE_MATRIX_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "eea2a22cca7ee8008ed191b5bbee3e1a40c02b573f0fc4229c030290e30ef503"
     },
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_LEASE_RELEASE_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f"
     },
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_PROTECTED_WIP_AFTER_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "343a76630b68bcecfe18b14e9acc2eb115ef489a77a4007ab18d1ce667cca2fb"
     },
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_EFFECTIVE_STATE_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "d0c7758dea0b10377d270a52f66ce7746ba26774986339dda299ef0eb3d5d009"
     },
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_RECEIPT_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "17d2998d20041005cfa01ef2745599854b20ed9fe28f5ad40dfe590225c19978"
     },
     {
       "approvedAtUtc": "2026-09-01T06:31:55Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CORRECTIVE/WP500_TERMINAL_STAGE_REGISTRY_V1.json",
-      "rationale": "Owner-authorized active WP500 governance route for the exact protected-WIP after snapshot, lease 63 release, terminal acceptance, effective state, stage registry, and non-recursive terminal receipt.",
+      "rationale": "Owner-authorized WP500 release after verified implementation and closure protected merges, exact postmerge CI, and exact privacy-safe protected-WIP comparison.",
       "sha256": "2cd208d318c961339896dfe7f3e7b573804638c9f8fac77694ae40098ecc1fff"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-500-ASSOCIATIONS-SURVIVOR-AUDIT"
   ],
+  "routingCarrierExemptFromThisPhaseCarrier": "WP500_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "rolesDistinct": true
   },
   "version": "v1.0"

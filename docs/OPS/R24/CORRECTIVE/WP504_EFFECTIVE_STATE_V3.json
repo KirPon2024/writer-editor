@@ -10,9 +10,9 @@
   },
   "bindings": {
     "predecessorEffectiveStateDigest": "1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8",
-    "acceptanceMatrixDigest": "7c67efd8c0c81e6ed0dc60033c8fbf3429c1a5eca66ade5ab9a0bb6f87144b15",
-    "stageAdmissionDigest": "5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c",
-    "candidateBoundSuccessorDigest": "90fe695dad63c5ec12c09b632917a89cc8c5d9c974d905cc5dbfdf0ee4538770",
+    "acceptanceMatrixDigest": "5f01fe1cc87757307199f27bbeb8463023790e8300175e2b1708d9f97e28fadb",
+    "stageAdmissionDigest": "7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e",
+    "candidateBoundSuccessorDigest": "c72fa64b4fb8d2ec1872a2b8affac114be905bb1e295935651e94d004d029bb5",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },

@@ -27,10 +27,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
-      "sha256": "c33b2a2b16847c6364d818216a47f201e6e51fb8775f0d3d1872924e298dca71",
+      "sha256": "530b32c86f478e166fd16ca305c425ce0e9a3552f3462386ca4b5e10eb3becfd",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
@@ -69,10 +69,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json",
-      "sha256": "7c67efd8c0c81e6ed0dc60033c8fbf3429c1a5eca66ade5ab9a0bb6f87144b15",
+      "sha256": "5f01fe1cc87757307199f27bbeb8463023790e8300175e2b1708d9f97e28fadb",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V1.json",
@@ -90,10 +90,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json",
-      "sha256": "20091f9d49da5941bafb892e29b0e23199393eabf81321386a82f21f23214149",
+      "sha256": "6c6e14957a34c5288e0d02b9f970c519e5aeea42a66bb8a1f509801f2aa51a39",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V1.json",
@@ -111,10 +111,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json",
-      "sha256": "13a8d4d3ce55ceed20bb8770bbd262893d15ac1398be4cfefe27223db0d9d52b",
+      "sha256": "62dd17f59b567af9099fc3387a8f383937f8504a1283c351b2f89c0a7a9a29e8",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LOCAL_TOOLCHAIN_FAILURE_V1.json",
@@ -129,6 +129,20 @@
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
       "approvedAtUtc": "2026-09-01T22:07:26.225Z",
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V10.json",
+      "sha256": "af59f949d682b00ae4af5f8c63c85a6c9a4203be94f1ecfc03c6e6cbcf22332d",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:24:53.798Z",
+      "rationale": "Owner-authorized bounded WP504 correction, including append-only V9 wording-consumer repair and V10 exact generic SAST command-scope successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V11.json",
+      "sha256": "b8ee91b2a0be340fc4a1a73542e472f714ad411dca34e5ea66bac497e1540f65",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
@@ -201,6 +215,20 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V10.json",
+      "sha256": "34436f282d2cc8ccd73f53423d82d356b9c455494a57a19d54d6cfd51f4346d6",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:24:53.798Z",
+      "rationale": "Owner-authorized bounded WP504 correction, including append-only V9 wording-consumer repair and V10 exact generic SAST command-scope successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V11.json",
+      "sha256": "7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
       "sha256": "2e5c37eff493027e6b059bebef1b06c3b173cf246f0e96174e40a9420d4d9ced",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -264,6 +292,20 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V10.json",
+      "sha256": "d085c43714d70d2c7ea0839a974a4f13dc5cd335146c4523cee9518a5f222008",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:24:53.798Z",
+      "rationale": "Owner-authorized bounded WP504 correction, including append-only V9 wording-consumer repair and V10 exact generic SAST command-scope successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V11.json",
+      "sha256": "624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
       "sha256": "e25e8605426915eaf633b531df3a04ef1bee3575cf59ded3bde3d362c9b77040",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -321,17 +363,17 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json",
-      "sha256": "90fe695dad63c5ec12c09b632917a89cc8c5d9c974d905cc5dbfdf0ee4538770",
+      "sha256": "c72fa64b4fb8d2ec1872a2b8affac114be905bb1e295935651e94d004d029bb5",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json",
-      "sha256": "b25d655c6138f42db176426c9514e5d50827d4a8f22453e1274f40a086c63e6b",
+      "sha256": "23df5a582c7e56aeb745a6b39eabfe8c4675ae497701c637a6ea885ca0d405ab",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1.json",
@@ -377,10 +419,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json",
-      "sha256": "fb0c3e2b032902059425a6d0c7bf811e8e318b7d4cd34d69636ee6aebcccc741",
+      "sha256": "3befd2950588872c355e931cacb6fded88bafbc12c51a3ca203f70d6adbe18d4",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V1.json",
@@ -398,10 +440,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json",
-      "sha256": "5a21a0c9bc9b71b21b4916eeecfa4849ad6131cf67ae3c1981fae14782f6cd84",
+      "sha256": "196d440ba88ce8785c964a0c25f8d15f6bacde82b2619c32b85355c26a5f24f7",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V1.json",
@@ -419,10 +461,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json",
-      "sha256": "a3c932946087c6cd7f5965a97fe6d0db85f67d4ae3531ff20d51e85a2244c5c0",
+      "sha256": "c59a3701d105ee9521766f9603b1a548ea7f0fb22ef9aed9cf6b423aee23f459",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_WP503_HISTORICAL_EVALUATION_FAILURE_V1.json",
@@ -440,10 +482,10 @@
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS.json",
-      "sha256": "763bb1341cbd35e1ac4d7816f8fd807eec465c27395eb1787ab40cb1422064ab",
+      "sha256": "64d570acb06ba46edaac51d3236e67123395f1518f2822705d05d056eb80e454",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:33:19.411Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-DOSSIER-LAYOUT-LINKS-CLAIM-BINDINGS.json",
@@ -461,10 +503,10 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "5b29f010111fe3b3f5afaa0d5e666bd63b9879fa748a7152219901ef07e5acff",
+      "sha256": "56c96e8c8c0751c1603c2cc7e16b7fa9f96632d64d168ba4df25e8000d4f0aad",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-toolchain.mjs",
@@ -482,10 +524,10 @@
     },
     {
       "filePath": "scripts/ops/r24/wp504-terminal-verifier.mjs",
-      "sha256": "7d769e6791d5ec32f278fbffb4fd0bb8c7c5288feb99fab297cbbb90af58bdb3",
+      "sha256": "019246268719645bfae16eba07b96554b3067307c45ce81671680f47a7e0123f",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
+      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
+      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "test/contracts/r24-post-audit-corrections.contract.test.mjs",

@@ -431,6 +431,18 @@ export const WP504_MAIN_PRODUCT_ADMISSION_EXPECTATIONS=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V9.json',instanceDigest:'9a6b546878a6ddf3cdcdc6bf1ecead0c1c2c626b975328f72620eea0654610d0',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json',admissionDigest:'5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c',
     writeSetDigest:'2d2d8b32f25c91be2a298f6a4f5095d5d0ecf15bdb5b4f573a64fa0aa42a9f47',baseSha:'c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0',baseTree:'77f2b4b354e526820d9d47f8c4449cfbc60644fa'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V10.json',authorityDigest:'af59f949d682b00ae4af5f8c63c85a6c9a4203be94f1ecfc03c6e6cbcf22332d',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V10.json',instanceDigest:'d085c43714d70d2c7ea0839a974a4f13dc5cd335146c4523cee9518a5f222008',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V10.json',admissionDigest:'34436f282d2cc8ccd73f53423d82d356b9c455494a57a19d54d6cfd51f4346d6',
+    writeSetDigest:'a19c2fbbe46f207af0018935c2233a7782a6a6a088a9b01b98ce8337fade5ca7',baseSha:'660085face94d748fd3d71c0f666314f6034c721',baseTree:'72bd0e3f20bd305e2cc5c0172b5035117d0b70c9'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V11.json',authorityDigest:'b8ee91b2a0be340fc4a1a73542e472f714ad411dca34e5ea66bac497e1540f65',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V11.json',instanceDigest:'624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V11.json',admissionDigest:'7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e',
+    writeSetDigest:'5aee556b1e4d27ac2c1dd02894b90565c0c9544dc5b0582e0a5d9f9c01358faf',baseSha:'660085face94d748fd3d71c0f666314f6034c721',baseTree:'72bd0e3f20bd305e2cc5c0172b5035117d0b70c9'
   })
 ]);
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');

@@ -12,29 +12,30 @@
     "rolesDistinct": true
   },
   "baseIdentity": {
-    "sha": "c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0",
-    "treeSha": "77f2b4b354e526820d9d47f8c4449cfbc60644fa"
+    "sha": "660085face94d748fd3d71c0f666314f6034c721",
+    "treeSha": "72bd0e3f20bd305e2cc5c0172b5035117d0b70c9"
   },
   "bindings": {
     "predecessorTerminalReceiptDigest": "98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d",
-    "authorityDigest": "ad438abb7b9471ad1fd1d0936b47c587fd962e105673d06c167ab78cf7541892",
-    "stageInstanceDigest": "9a6b546878a6ddf3cdcdc6bf1ecead0c1c2c626b975328f72620eea0654610d0",
-    "stageAdmissionDigest": "5d972effa430f64fcba01311b2c5d8581a8156a43901933f97b72b113094731c",
-    "writeSetDigest": "2d2d8b32f25c91be2a298f6a4f5095d5d0ecf15bdb5b4f573a64fa0aa42a9f47",
-    "commandScopeDigest": "7164473aa1a23f39714a25d7403ef7da79a86ffd0b96f13bb8cc4bd20c29e873",
-    "acceptanceSignalsDigest": "68d1fee10fa5b510e2e7cbc926ebe3efcd9f67a9dcbc8a8b6eccd41b253a5d73",
-    "candidateBoundSuccessorDigest": "90fe695dad63c5ec12c09b632917a89cc8c5d9c974d905cc5dbfdf0ee4538770",
+    "authorityDigest": "b8ee91b2a0be340fc4a1a73542e472f714ad411dca34e5ea66bac497e1540f65",
+    "stageInstanceDigest": "624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e",
+    "stageAdmissionDigest": "7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e",
+    "writeSetDigest": "5aee556b1e4d27ac2c1dd02894b90565c0c9544dc5b0582e0a5d9f9c01358faf",
+    "commandScopeDigest": "aa8e52b9e812d8a1efcf99ed116b9cc400f5c12f2b71adeee523c591fbecb47c",
+    "acceptanceSignalsDigest": "3610130f571f181721f6ceca8cbc5a8b63d837803988c219f17f4629b6c45600",
+    "candidateBoundSuccessorDigest": "c72fa64b4fb8d2ec1872a2b8affac114be905bb1e295935651e94d004d029bb5",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "carrierRegistryDigest": "c33b2a2b16847c6364d818216a47f201e6e51fb8775f0d3d1872924e298dca71",
-    "acceptanceMatrixDigest": "7c67efd8c0c81e6ed0dc60033c8fbf3429c1a5eca66ade5ab9a0bb6f87144b15",
-    "effectiveStateDigest": "20091f9d49da5941bafb892e29b0e23199393eabf81321386a82f21f23214149",
-    "stageRegistryDigest": "fb0c3e2b032902059425a6d0c7bf811e8e318b7d4cd34d69636ee6aebcccc741",
-    "leaseReleaseDigest": "13a8d4d3ce55ceed20bb8770bbd262893d15ac1398be4cfefe27223db0d9d52b",
+    "carrierRegistryDigest": "530b32c86f478e166fd16ca305c425ce0e9a3552f3462386ca4b5e10eb3becfd",
+    "acceptanceMatrixDigest": "5f01fe1cc87757307199f27bbeb8463023790e8300175e2b1708d9f97e28fadb",
+    "effectiveStateDigest": "6c6e14957a34c5288e0d02b9f970c519e5aeea42a66bb8a1f509801f2aa51a39",
+    "stageRegistryDigest": "3befd2950588872c355e931cacb6fded88bafbc12c51a3ca203f70d6adbe18d4",
+    "leaseReleaseDigest": "62dd17f59b567af9099fc3387a8f383937f8504a1283c351b2f89c0a7a9a29e8",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "localEvidence": {
     "postAuditExactRuntimeReplay": {"node": "22.12.0", "npm": "10.9.0", "tests": 63, "passed": 63, "failed": 0, "skipped": 0, "status": "PASS"},
     "testInventory": {"all": 1297, "requiredSkips": 0, "unexplainedSkips": 0, "status": "PASS"},
+    "genericSast": {"command": "npm run security:audit:generic-sast", "findings": 0, "timeouts": 0, "nonTimeoutErrors": 0, "status": "PASS"},
     "cleanTreeFullGateStatus": "REQUIRED_AFTER_SUCCESSOR_COMMIT_NOT_PRECLAIMED"
   },
   "externalDeliveryPredicates": [

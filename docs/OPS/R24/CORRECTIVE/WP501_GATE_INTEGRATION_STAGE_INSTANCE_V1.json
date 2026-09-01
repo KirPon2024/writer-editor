@@ -1,0 +1,187 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-501_TIME_KNOWLEDGE_GATE_INTEGRATION",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP501_GATE_INTEGRATION_SINGLE_TERMINAL_PR_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "4c2376c59af1cd0e62ea2284f07bd1e8434755ee",
+  "branch": "codex/r24-wp501-time-knowledge-v1-20260901",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "4a1ff1f4b285b1f23e8b332547427d8545d2cfbce582ca59671ee3ea9429f59a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "61b437c37deb503d7904272a734511f987ec9a4ca3a448c2c430639db122ac2e"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "bcee44d31ff29c96566fb5d4dec1c335fd5831cb28419c2c252dabd8bad18fc6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP501_TERMINAL_RECEIPT_V1.json",
+      "sha256": "a625f7bafeeb4f412b3e8d77a551f4724035db07ebe5659ed151c1fd0559304e"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "a48c0e0831c1c7f8d8f12007072dd312e042c340ebba7aae5143a4a01f8bceb9"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    {
+      "path": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "sha256": "014d45e741f9793e98c56251795ab516f4de8a093460659eb6aeedb71c77ff94"
+    }
+  ],
+  "acceptanceSignals": [
+    "HOSTILE_UNADMITTED_PATH_REJECTED",
+    "LEASE_64_REMAINS_ACTIVE_WIP_1_UNTIL_EXTERNAL_GATES",
+    "POST_AUDIT_STATIC_PASS",
+    "PROGRAM_DONE_FALSE",
+    "SAME_SINGLE_TERMINAL_PR",
+    "WP500_EXCEPTION_STOPS_AT_WP501_BASE",
+    "WP501_EXCEPTION_COVERS_EXACT_ORIGINAL_WRITE_SET",
+    "WP501_GATE_EXCEPTION_COVERS_EXACT_AMENDMENT_WRITE_SET"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PROTECTED_NORMAL_MERGE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH"
+  ],
+  "predecessors": [
+    {
+      "id": "WP500_LEASE_RELEASE",
+      "digest": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "WP501_MAIN_PRODUCT_STAGE_ADMISSION",
+      "digest": "61b437c37deb503d7904272a734511f987ec9a4ca3a448c2c430639db122ac2e",
+      "status": "ADMITTED"
+    },
+    {
+      "id": "WP501_TERMINAL_RECEIPT",
+      "digest": "a625f7bafeeb4f412b3e8d77a551f4724035db07ebe5659ed151c1fd0559304e",
+      "status": "PRECOMPUTED_CONDITIONAL_TERMINAL_RECEIPT_PENDING_EXTERNAL_GATES"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 64,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "8085f4786f9ef3068cfa8a1566a1aef0b6486e24dc1ecedc9535010de4cd4c8f"
+  },
+  "headSha": "4c2376c59af1cd0e62ea2284f07bd1e8434755ee",
+  "treeSha": "9b6f1a81b26e9f0b1fbed9e2c4ffefdcaeef40bf",
+  "targetRemote": "origin",
+  "operations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP500_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs"
+    ],
+    "modifyPaths": [
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "test/contracts/r24-post-audit-certification-set.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP501_GATE_INTEGRATION_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_GATE_INTEGRATION_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP501_GATE_INTEGRATION_STAGE_INSTANCE_V1.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP501_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "git add -- EXACT_WP501_GATE_INTEGRATION_WRITE_SET",
+    "git commit -m Integrate WP-501 post-audit gate",
+    "git diff --cached --check",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git fetch origin main",
+    "git push origin codex/r24-wp501-time-knowledge-v1-20260901",
+    "git rev-parse HEAD",
+    "git rev-parse HEAD^{tree}",
+    "git status --short --branch",
+    "node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP501_GATE_INTEGRATION_OWNER_AUTHORITY_V1.json --stage-instance WP501_GATE_INTEGRATION_STAGE_INSTANCE_V1.json --stage-admission WP501_GATE_INTEGRATION_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "npm audit --omit=dev --audit-level=high",
+    "npm run agent:guardrails",
+    "npm run build:renderer",
+    "npm run oss:policy",
+    "npm run test:electron",
+    "npm run test:r24-e0",
+    "npm run test:r24-post-audit",
+    "npm run test:rtk",
+    "npm test"
+  ],
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "AUTHORITY_UNAVAILABLE_OR_COMPROMISED",
+    "BASE_HEAD_TREE_OR_DELTA_AMBIGUOUS",
+    "CREDENTIAL_IDENTITY_OR_SECRET_REQUIRED",
+    "DESTRUCTIVE_IRREVERSIBLE_OR_FORCE_ACTION_REQUIRED",
+    "DIRTY_OR_PRESERVED_WIP_WOULD_BE_LOST",
+    "EXACT_WRITE_SET_OR_COMMAND_SCOPE_WOULD_EXPAND",
+    "EXTERNAL_EFFECT_OUTSIDE_ADMITTED_STAGE",
+    "LEASE_FENCE_OR_ONE_WRITER_VIOLATION",
+    "MATERIAL_SEMANTIC_DEVIATION_WITHOUT_OWNER_AMENDMENT",
+    "MODEL_OR_REASONING_RUNTIME_MISMATCH",
+    "ORIGIN_MAIN_DRIFT",
+    "PROGRAM_DONE_ATTEMPT",
+    "SECOND_GRAPH_NODE_ATTEMPT",
+    "SECOND_WRITER_ATTEMPT"
+  ]
+}

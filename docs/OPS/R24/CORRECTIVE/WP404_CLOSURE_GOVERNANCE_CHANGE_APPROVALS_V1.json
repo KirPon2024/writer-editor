@@ -3,80 +3,74 @@
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP404_CLOSURE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
-      "sha256": "6d31afc37d746282e9dd76c731ff517657f296930090e8bb70b122d8437fbe81"
-    },
-    {
-      "approvedAtUtc": "2026-09-01T03:31:16Z",
-      "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/CTR-R24-WP-404-ATLAS-FOUNDATION-CLAIM.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CLAIM-BINDINGS.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "c2fc41a0109a883cb89ff7d6dacf9f651e142f865d1cefd128aea89a477bef82"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "1fc055b26314b187a26de19e19b089e6b834b43a34dc9d0fffe5d85661305a20"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "2bda20dd4fa3604c2f3e11fe0a28a2cead2414574e7e2f2ceced6420d75793e1"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-INTEGRATION.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "0591f5dce9cc07debe6b769c6e27630a5a1fb605a3bef0d183d416c0bb080b83"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "c8cda7a8a6b83c584afe8c723b19dc90335a4526acf070e47235e770320414ba"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MUTANTS.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "46c712ce5591ccad69c43c102091201dd1e2d64133b6ea83b643ac4bb97cec59"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-POSTMERGE-EXACT-HEAD.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "21604ae0b8db9ff8c2569a0e29b30f81415019c15302347a2cc2b4a9f192ff30"
     },
     {
       "approvedAtUtc": "2026-09-01T03:31:16Z",
       "approvedBy": "owner-direct:MAIN_PRODUCT_R24_AUTONOMOUS_RESUME",
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT.json",
-      "rationale": "Owner-authorized active WP404 closure route for the exact non-recursive terminal evidence after implementation merge and exact postmerge CI.",
+      "rationale": "Owner-authorized WP404 append-only closure evidence after normal implementation merge and fresh exact-merge CI; lease 62 remains active pending protected closure merge and release.",
       "sha256": "e01741b5a37d211d178de115138a4a53e2f1672c40e6968a7bfaa42959c04198"
     }
   ],
   "evidenceStampIds": [
     "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-SURVIVOR-AUDIT"
   ],
+  "routingCarrierExemptFromThisPhaseCarrier": "WP404_ACTIVE_GOVERNANCE_CHANGE_APPROVALS_V1.json",
   "sourcePlanRoles": {
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "rolesDistinct": true
   },
   "version": "v1.0"

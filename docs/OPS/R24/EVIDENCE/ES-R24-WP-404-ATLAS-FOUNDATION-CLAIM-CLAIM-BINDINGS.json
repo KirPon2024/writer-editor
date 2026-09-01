@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CLAIM-BINDINGS",
+  "contourId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "evidenceClass": "CONTRACT",
+  "verdict": "MERGED_POSTMERGE_VERIFIED_SURVIVOR_GREEN_NO_PROGRAM_DONE",
+  "headSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+  "originMainSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+  "generatedAtUtc": "2026-09-01T03:31:16Z",
+  "oracle": "Strict exact-hash WP404 binding; externalSourcePlanDigest=1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a and compiledProgramFileDigest=da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a are distinct immutable roles",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CTR-R24-WP-404-ATLAS-FOUNDATION-CLAIM.json",
+      "sha256": "426ca6a507e668344b9be83d5043ff3d43146b1108f0f04bc93d7cab04ad8379",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-foundation-claim-v1.mjs",
+      "sha256": "1185504976e32ab8061356934858301e2e7c30671c088415e67bdefb234a87cb",
+      "terms": [
+        "Pure exact-identity Writer V0 plus complete WP400-WP403 Atlas foundation claim compiler"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp404-atlas-foundation-claim.test.js",
+      "sha256": "fe9dd286b863a496deac3a0b2cdaf370f1072e673e8b49ffd1d63d17ed8e76bf",
+      "terms": [
+        "WP404 strict contract and hostile boundary oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp404-atlas-foundation-claim-integration.test.js",
+      "sha256": "084cd755832e24bba42e8ff942a59b0c88bb174e4cc89757f77718d0d30a7f27",
+      "terms": [
+        "WP404 real predecessor integration, differential digest and 8192-row large-corpus oracle"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp404-atlas-foundation-claim-mutants.test.js",
+      "sha256": "ee3d76d7020eb270bef4c59c70e5fa4e96dde6cd73aef3268ab109c09a0077d2",
+      "terms": [
+        "Nine-of-nine identity, denominator, digest, overclaim and authority mutant oracle"
+      ]
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/R24_CORRECTIVE_PROGRAM_V1_1.json",
+      "sha256": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "terms": [
+        "compiledProgramFileDigest role; distinct from owner-supplied externalSourcePlanDigest"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "source-plan role-separation oracle",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1,
+        "fail": 0
+      },
+      "requiredDisposition": "externalSourcePlanDigest=1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a; compiledProgramFileDigest=da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a; rolesDistinct=true"
+    },
+    {
+      "command": "node --test test/unit/r24-wp404-atlas-foundation-claim.test.js test/unit/r24-wp404-atlas-foundation-claim-integration.test.js test/unit/r24-wp404-atlas-foundation-claim-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 9,
+        "survived": 0
+      },
+      "requiredDisposition": "Exact Writer V0 inheritance; complete WP400, WP401, WP402 and WP403 denominator; digest chain; stale and tamper rejection; claim ceiling; 8192-row bound."
+    },
+    {
+      "command": "GitHub protected candidate and exact implementation postmerge CI",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 34,
+        "fail": 0
+      },
+      "requiredDisposition": "PR 1795 candidate 1daa931f1111f2c44530274400b2a1ce238944b1 merged as 233210ae4cc7a52d158db1a3c312d4f9781913e2; candidate run 33465079765 and exact postmerge run 33465824099 each passed all 17 required contexts."
+    },
+    {
+      "command": "npm test under Node 22.12.0 and npm 10.9.0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1415,
+        "fail": 0
+      },
+      "requiredDisposition": "Full maintained baseline passed; 64 optional skips are declared and the exhaustive inventory reports zero required or unexplained skips."
+    },
+    {
+      "command": "npm run test:rtk",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1067,
+        "fail": 0
+      },
+      "requiredDisposition": "Maintained RTK denominator passed with zero skips and zero todos."
+    },
+    {
+      "command": "npm run test:r24-e0",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 110,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 31,
+        "survived": 0
+      },
+      "requiredDisposition": "E0 exact denominator and all hostile mutants passed."
+    }
+  ],
+  "nonClaims": [
+    "No renderer or product-runtime persistence wiring was added.",
+    "No main-product graph node beyond WP-404 was started.",
+    "No global scalar PASS or cross-profile promotion is claimed.",
+    "PROGRAM_DONE remains false.",
+    "Correction identity retained: PR 1776 candidate 77354cfe994588dc1771f3eded29d1e7e68d703f merge af0bfb704c13b0195c12b0144415f2e769f99752; PR 1777 candidate bf3d21072879d276ca3489b0bbead780fb39f596 merge 0a8837ae8b0724fa9c258d98281cae693ce0693e.",
+    "This non-recursive closure carrier does not claim its own future protected merge."
+  ]
+}

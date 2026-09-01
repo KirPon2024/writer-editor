@@ -1,0 +1,56 @@
+{
+  "stampId": "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+  "attemptId": "ATTEMPT-WP404-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP404_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "233210ae4cc7a52d158db1a3c312d4f9781913e2",
+    "treeSha": "8e1e67b0ed3281ff865fcc420a3be1df91a96445"
+  },
+  "claim": {
+    "type": "WP404_ATLAS_FOUNDATION_CLAIM_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP404_NODE_AND_SELECTED_ATLAS_FOUNDATION_PROFILE_ONLY_WRITER_V0_INHERITED_COMPLETE_WP400_WP403_PROOF_SET_BOUND_NO_GLOBAL_SCALAR_PASS_NO_CROSS_PROFILE_PROMOTION_NO_RUNTIME_PERSISTENCE_NO_RENDERER_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp404-atlas-foundation-claim.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-404-ATLAS-FOUNDATION-CLAIM-MODEL"
+    ],
+    "predecessorReceiptDigest": "21c5ca5a64bca8b5d62a4ad1bde10d60267eb31ade8e555e29747795e3b97301"
+  },
+  "createdAt": "2026-09-01T03:31:16Z",
+  "actor": "codex/r24-wp404-atlas-foundation-claim-v1-20260901",
+  "artifact": {
+    "focusedTests": {
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0
+    },
+    "requiredBehaviors": [
+      "EXACT_WRITER_V0_INHERITANCE_AND_RECEIPT_DIGEST",
+      "COMPLETE_FOUR_NODE_FOUNDATION_DENOMINATOR",
+      "STALE_HEAD_TREE_AND_EVIDENCE_REJECTION",
+      "NO_CROSS_PROFILE_OR_GLOBAL_PROMOTION",
+      "STRICT_CLOSED_INPUT_AND_TAMPER_REJECTION"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

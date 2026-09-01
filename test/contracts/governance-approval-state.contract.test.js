@@ -7,10 +7,9 @@ const crypto = require('node:crypto');
 const { spawnSync } = require('node:child_process');
 
 const SCRIPT_PATH = path.join(process.cwd(), 'scripts/ops/governance-approval-state.mjs');
-const REPO_APPROVALS_PATH = path.join(
-  process.cwd(),
-  'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json',
-);
+const REPO_APPROVALS_REL_PATH = process.env.GOVERNANCE_CHANGE_APPROVALS_PATH
+  || 'docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V4.json';
+const REPO_APPROVALS_PATH = path.join(process.cwd(), REPO_APPROVALS_REL_PATH);
 
 function runState(repoRoot, approvalsPath) {
   return spawnSync(
@@ -43,7 +42,7 @@ function mutateHexSha(hex) {
 }
 
 test('governance approval state: repository registry is valid', () => {
-  const result = runState(process.cwd(), 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json');
+  const result = runState(process.cwd(), REPO_APPROVALS_REL_PATH);
   assert.equal(result.status, 0, `expected pass:\n${result.stdout}\n${result.stderr}`);
   const payload = parseJsonStdout(result);
   assert.equal(payload.tokens.GOVERNANCE_APPROVAL_REGISTRY_VALID_OK, 1);
@@ -104,4 +103,37 @@ test('governance approval state: hash mismatch fails with canonical reason', () 
   assert.notEqual(result.status, 0, 'expected hash mismatch failure');
   assert.equal(payload.tokens.GOVERNANCE_APPROVAL_REGISTRY_VALID_OK, 0);
   assert.equal(payload.failReason, 'E_GOVERNANCE_APPROVAL_INVALID');
+});
+
+test('governance approval state: future-dated approval fails closed', () => {
+  const repoRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'governance-approval-state-future-'));
+  const targetRelPath = 'scripts/ops/test-state.mjs';
+  const targetAbsPath = path.join(repoRoot, targetRelPath);
+  fs.mkdirSync(path.dirname(targetAbsPath), { recursive: true });
+  fs.writeFileSync(targetAbsPath, 'export const ok = true;\n', 'utf8');
+
+  const approvalsRelPath = 'docs/OPS/GOVERNANCE_APPROVALS/GOVERNANCE_CHANGE_APPROVALS.json';
+  const approvalsAbsPath = path.join(repoRoot, approvalsRelPath);
+  fs.mkdirSync(path.dirname(approvalsAbsPath), { recursive: true });
+  fs.writeFileSync(approvalsAbsPath, `${JSON.stringify({
+    version: 'v1.0',
+    approvals: [
+      {
+        filePath: targetRelPath,
+        sha256: sha256File(targetAbsPath),
+        approvedBy: 'contract-test',
+        approvedAtUtc: '2099-01-01T00:00:00.000Z',
+        rationale: 'hostile future UTC fixture',
+      },
+    ],
+  }, null, 2)}\n`, 'utf8');
+
+  const result = runState(repoRoot, approvalsRelPath);
+  const payload = parseJsonStdout(result);
+  fs.rmSync(repoRoot, { recursive: true, force: true });
+
+  assert.notEqual(result.status, 0, 'expected future approval failure');
+  assert.equal(payload.tokens.GOVERNANCE_APPROVAL_REGISTRY_VALID_OK, 0);
+  assert.equal(payload.failReason, 'E_GOVERNANCE_APPROVAL_INVALID');
+  assert.equal(payload.failDetail, 'APPROVAL_APPROVED_AT_FUTURE_0');
 });

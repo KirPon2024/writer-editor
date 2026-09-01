@@ -21,6 +21,9 @@ import {
   WP501_TERMINAL_EXCEPTION_ADMISSION_EXPECTATION,
   WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION,
+  WP503_V6_MAIN_PRODUCT_ADMISSION_EXPECTATION,
+  WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION,
+  WP503_V8_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   createAuditCycle2DurableCarrier,
   createAuditCycleDurableCarrier,
   verifyAuditCycle2DurableCarrier,
@@ -105,7 +108,7 @@ test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP40
   const wp501AuditR2=verifyWp501AuditR2CompatibilityPostEvaluationException({candidateSha:WP501_INVENTORY_FINALIZATION_ADMISSION_EXPECTATION.baseSha});
   const wp501Inventory=verifyWp501InventoryFinalizationPostEvaluationException({candidateSha:WP501_TERMINAL_EXCEPTION_ADMISSION_EXPECTATION.baseSha});
   const wp501Terminal=verifyWp501TerminalExceptionPostEvaluationException({candidateSha:WP502_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha});
-  const wp502=verifyWp502MainProductPostEvaluationException({candidateSha:WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha});
+  const wp502=verifyWp502MainProductPostEvaluationException({candidateSha:WP503_V6_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha});
   const wp503=verifyWp503MainProductPostEvaluationException({candidateSha:'HEAD'});
   const result=verify(file.value,file.fileDigest);
   assert.equal(cycle2.status,'PASS');
@@ -189,6 +192,9 @@ test('post-evaluation bytes require the exact chained audit-cycle-two WP401 WP40
   assert.equal(wp503.stageAdmissionDigest,WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.admissionDigest);
   assert.equal(wp503.failureDigest,WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.failureDigest);
   assert.equal(wp503.writeSetDigest,WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.writeSetDigest);
+  assert.equal(wp503.deltaAdmittedPathDenominator,16);
+  assert.equal(wp503.admittedPathDenominator,102);
+  assert.equal(wp503.predecessor.admittedPathDenominator,94);
   assert.equal(result.auditCycle2PostEvaluationException.status,'PASS');
   assert.equal(result.wp401MainProductPostEvaluationException.status,'PASS');
   assert.equal(result.wp402MainProductPostEvaluationException.status,'PASS');
@@ -227,7 +233,12 @@ test('WP501 audit-R2 compatibility exception rejects an unadmitted future path',
 test('WP501 inventory-finalization exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp501InventoryFinalizationPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP501_INVENTORY_EXCEPTION_UNADMITTED_PATH:package\.json/);});
 test('WP501 terminal exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'package.json\n':Buffer.from('package.json\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp501TerminalExceptionPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP501_TERMINAL_EXCEPTION_UNADMITTED_PATH:package\.json/);});
 test('WP502 successor exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp502MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP502_EXCEPTION_UNADMITTED_PATH:README\.md/);});
-test('WP503 successor exception rejects an unadmitted future path',()=>{const hostileGit=(args,options={})=>args[0]==='diff'?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n')):execFileSync('git',args,options);assert.throws(()=>verifyWp503MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP503_EXCEPTION_UNADMITTED_PATH:README\.md/);});
+test('WP503 test-inventory successor exception rejects an unadmitted future path',()=>{
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP503_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp503MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP503_INVENTORY_UNADMITTED_PATH:README\.md/);
+});
 test('WP501 final carriers reject future chronology pending rows nonzero WIP and provider substitution',()=>{
   const read=(name)=>JSON.parse(fs.readFileSync(`docs/OPS/R24/CORRECTIVE/${name}`));
   const matrix=read('WP501_FINAL_ACCEPTANCE_MATRIX_V1.json'),effective=read('WP501_FINAL_EFFECTIVE_STATE_V1.json'),release=read('WP501_FINAL_LEASE_RELEASE_V1.json'),receipt=read('WP501_FINAL_TERMINAL_RECEIPT_V1.json');

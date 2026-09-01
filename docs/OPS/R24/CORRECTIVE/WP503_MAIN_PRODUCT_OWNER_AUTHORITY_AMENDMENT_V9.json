@@ -1,0 +1,207 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP503_TEST_INVENTORY_SUCCESSOR_V9",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "96cded02b57cf0147ae2d4a063891dd63f0ac212",
+  "baseTree": "3488fd8b7640be57c7c48ee7ba952d75f345f3f3",
+  "branch": "codex/r24-wp503-temporal-evidence-v7-20260901",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "sha256": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"
+    }
+  ],
+  "allowedCommands": [
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json npm test",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run view RUN --json status,conclusion,headSha,event,attempt,jobs",
+    "git add -- EXACT_WP503_AUDIT_R2_REGISTRY_SUCCESSOR_WRITE_SET",
+    "git commit -m Close WP503 test inventory successor",
+    "git diff --cached --check",
+    "git diff --check",
+    "git diff --name-status origin/main",
+    "git fetch origin main",
+    "git push origin codex/r24-wp503-temporal-evidence-v7-20260901",
+    "git rev-parse HEAD",
+    "git rev-parse HEAD^{tree}",
+    "git rev-parse origin/main",
+    "git status --short --branch",
+    "node --test test/contracts/r24-audit-r2-corrections.contract.test.mjs test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+    "node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check",
+    "node scripts/ops/r24/corrective/post-audit-corrections.mjs --check-static",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs writer=WRITER",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json --stage-instance WP503_MAIN_PRODUCT_STAGE_INSTANCE_V9.json --stage-admission WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/wp503-terminal-verifier.mjs --check",
+    "npm audit --omit=dev --audit-level=high",
+    "npm ci --engine-strict",
+    "npm run agent:guardrails",
+    "npm run build:renderer",
+    "npm run oss:policy",
+    "npm run test:electron",
+    "npm run test:r24-e0",
+    "npm run test:r24-wp503",
+    "npm run test:rtk",
+    "npm test"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V17.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_AUDIT_R2_REGISTRY_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V5.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V8.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V8.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V8.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V4.json",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier.mjs"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/wp503-terminal-verifier.mjs",
+      "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "test/contracts/r24-wp503-terminal-carriers.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V18.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V6.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_LOCAL_TEST_INVENTORY_FAILURE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V9.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V9.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V9.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V5.json",
+      "docs/OPS/R24/CORRECTIVE/WP503_TEST_INVENTORY_SUCCESSOR_V1.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "AUDIT_R2_CARRIER_REGISTRY_EXACT_CURRENT_BYTES",
+    "CANDIDATE_CI_FAILURE_BOUND_FAIL_CLOSED",
+    "FUTURE_UTC_APPROVAL_FAIL_CLOSED",
+    "GOVERNANCE_STRICT_PASS",
+    "LEASE_67_RELEASED_WIP_0",
+    "LOCAL_INVENTORY_FAILURE_BOUND_FAIL_CLOSED",
+    "NORMAL_PROTECTED_MERGE",
+    "POSTMERGE_EXACT_HEAD",
+    "POST_AUDIT_CERTIFICATION_CHAIN_PRESERVED",
+    "PROGRAM_DONE_FALSE",
+    "PROTECTED_WIP_UNCHANGED",
+    "SOURCE_PLAN_ROLES_DISTINCT",
+    "TEST_INVENTORY_ZERO_UNEXPLAINED_SKIP"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "NON_DESTRUCTIVE_LOCAL_TOOLCHAIN",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH"
+  ],
+  "predecessors": [
+    {
+      "id": "HISTORICAL_STAGE_ADMISSION_VERIFIER_CONTRACT",
+      "digest": "925b4c23f1cad674720ee6a22fcd74cc2169b16bbc161be5d43535f20dd2ee31",
+      "status": "FIXED_BINDING_PRESERVED"
+    },
+    {
+      "id": "WP503_V8_ACCEPTANCE_SIGNALS",
+      "digest": "b3c9237b0a3ee45869d764d0991783aefdde27b6da29b28182ce6dd2dcfcae6b",
+      "status": "PRESERVED_PREDECESSOR"
+    },
+    {
+      "id": "WP503_V8_AUDIT_R2_REGISTRY_SUCCESSOR",
+      "digest": "2917a339723f77d9de02d409518f3c9b2f640390f5e14517e4663a8edf2b76a5",
+      "status": "PRESERVED_PREDECESSOR"
+    },
+    {
+      "id": "WP503_V8_AUTHORITY",
+      "digest": "cf801d05286366aeae012188cf98a5aaf3c01e0a49cd47864e0490a4269ebd58",
+      "status": "SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR"
+    },
+    {
+      "id": "WP503_V8_COMMAND_SCOPE",
+      "digest": "95ad5fe461e22149e182da07fda067c74b15b0e30724058231a0e4f2ba7524cf",
+      "status": "PRESERVED_PREDECESSOR"
+    },
+    {
+      "id": "WP503_V8_STAGE_ADMISSION",
+      "digest": "32640b6152d3aa2c69eea0b4383e416f50acf081c1ddeba45a3f3db558574e7a",
+      "status": "SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR"
+    },
+    {
+      "id": "WP503_V8_STAGE_INSTANCE",
+      "digest": "d6539526c8948c6a0e0445b56c9606548b19702473a5c4f8b89f57bca56fa6b8",
+      "status": "SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR"
+    },
+    {
+      "id": "WP503_V8_TERMINAL_SUPPLEMENT",
+      "digest": "33f3221c78dad919948b7c4fbdd856c0872496d8e4650b393fdd5ac5d0314389",
+      "status": "SUPERSEDED_BY_APPEND_ONLY_TEST_INVENTORY_SUCCESSOR"
+    },
+    {
+      "id": "WP503_V8_WRITE_SET",
+      "digest": "60eccb80c45fa375a930f7339f2c25ba29479620b77841df7cf41518800eb2be",
+      "status": "PRESERVED_PREDECESSOR"
+    },
+    {
+      "id": "WP503_V8_LOCAL_TEST_INVENTORY_FAILURE",
+      "digest": "9463ff4630877875689853e9999a146d881b437ee3dd4aa97e043cf959b8fd01",
+      "status": "FAIL_E_INVENTORY_DIGEST_MISMATCH"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 67,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "9caae577ab5ff1f0cea7661c74ee8ef19fdf68cdb603e4172ec61293a7c65795"
+  }
+}

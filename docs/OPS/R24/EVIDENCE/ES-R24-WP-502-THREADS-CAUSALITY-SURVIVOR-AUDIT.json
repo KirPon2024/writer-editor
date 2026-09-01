@@ -1,0 +1,51 @@
+{
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-502_THREADS_CAUSALITY",
+  "attemptId": "ATTEMPT-WP502-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP502_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "d76a3e4da899775ae94b9a1ee5ba8aa766e2fb2b",
+    "treeSha": "522a3a18d8d467f1427e928febc7a402fcd2f689"
+  },
+  "createdAt": "2026-09-01T11:30:54.613Z",
+  "actor": "codex/r24-wp502-threads-causality-v1-20260901",
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-502-THREADS-CAUSALITY-SURVIVOR-AUDIT",
+  "claim": {
+    "type": "WP502_POSTMERGE_SURVIVOR_PREDICATE_DECLARATION",
+    "ceiling": "WP502_PREDICATE_DECLARATION_ONLY_FUTURE_EXTERNAL_IDENTITY_NOT_PRECLAIMED",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "SINGLE_TERMINAL_PR_POSTMERGE_SURVIVOR_PREDICATE",
+    "evidenceClass": "CONTRACT",
+    "denominator": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "predecessorReceiptDigest": "f087f11d70cce4a83aa152f09b537fe0240394bcf8f252df62e3b83793d29234",
+    "parentStampIds": [
+      "ES-R24-WP-502-THREADS-CAUSALITY-EXACT-HEAD"
+    ]
+  },
+  "artifact": {
+    "mergeSha": null,
+    "opsVectorCloseRunId": null,
+    "postmergeCiRunId": null,
+    "protectedWipBeforeDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
+    "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b",
+    "protectedWipExact": true,
+    "pendingReason": "PROTECTED_MERGE_OPS_VECTOR_CLOSE_AND_POSTMERGE_CI_ARE_FUTURE_EXTERNAL_IDENTITIES",
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  }
+}

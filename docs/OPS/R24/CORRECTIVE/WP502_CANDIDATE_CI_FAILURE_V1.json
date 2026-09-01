@@ -1,0 +1,51 @@
+{
+  "schemaVersion": "WP502_CANDIDATE_CI_FAILURE_V1",
+  "status": "BOUND_FAILED_CANDIDATE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "provider": "github-actions",
+  "repository": "KirPonomarev/writer-editor",
+  "workflowName": "OSS policy",
+  "workflowPath": ".github/workflows/oss-policy.yml",
+  "runId": 33506532912,
+  "runAttempt": 1,
+  "event": "pull_request",
+  "headBranch": "codex/r24-wp502-threads-causality-v1-20260901",
+  "headSha": "7f74a14f1f8c388fbd11147358fb3fcd18e98bcd",
+  "createdAtUtc": "2026-09-01T12:13:43Z",
+  "startedAtUtc": "2026-09-01T12:13:43Z",
+  "completedAtUtc": "2026-09-01T12:25:05Z",
+  "conclusion": "failure",
+  "rootFailure": {
+    "code": "E_WP501_TERMINAL_EXCEPTION_UNADMITTED_PATH",
+    "path": ".github/workflows/oss-policy.yml",
+    "directFailedJobs": [
+      { "jobId": 99851792786, "name": "ops-vector" },
+      { "jobId": 99851793272, "name": "actual-renderer-build-rtk" },
+      { "jobId": 99851793315, "name": "c1a-hermetic / c1a-hermetic (macos-latest)" },
+      { "jobId": 99851793448, "name": "c1a-hermetic / c1a-hermetic (ubuntu-latest)" },
+      { "jobId": 99851793730, "name": "c1a-hermetic / c1a-hermetic (windows-latest)" }
+    ]
+  },
+  "aggregateFailedJobs": [
+    { "jobId": 99855054701, "name": "merge-gate" },
+    { "jobId": 99855103358, "name": "oss-policy" }
+  ],
+  "successfulJobs": [
+    { "jobId": 99851793076, "name": "oss-policy-core" },
+    { "jobId": 99851793081, "name": "rtk-required / rtk-required" },
+    { "jobId": 99851793165, "name": "privacy-negative" },
+    { "jobId": 99851793182, "name": "live-ruleset-oracle" },
+    { "jobId": 99851793202, "name": "inventory-baseline" },
+    { "jobId": 99851793263, "name": "x1-runtime-parity / x1-runtime-parity (ubuntu-latest)" },
+    { "jobId": 99851793280, "name": "static-security-sast" },
+    { "jobId": 99851793313, "name": "x1-runtime-parity / x1-runtime-parity (windows-latest)" },
+    { "jobId": 99851793329, "name": "e0-mutants" },
+    { "jobId": 99851793332, "name": "x1-runtime-parity / x1-runtime-parity (macos-latest)" }
+  ],
+  "retryPolicy": "NO_IDENTICAL_RETRY_APPEND_ONLY_DIFFERENT_HYPOTHESIS_SUCCESSOR",
+  "programDoneClaimed": false
+}

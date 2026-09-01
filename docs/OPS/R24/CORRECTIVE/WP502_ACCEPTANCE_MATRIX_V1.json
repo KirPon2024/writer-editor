@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "YALKEN_R24_WP502_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-502_THREADS_CAUSALITY",
+  "status": "CONDITIONAL_PASS_PENDING_EXTERNAL_DELIVERY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "stageInstanceDigest": "672f995ba2758e564300ca4aa03fad74efd459e8018ca1716e8a87c5a8d3f729",
+    "stageAdmissionDigest": "60cee6d4232012dc7cd6087a3703f45dce9c3ccf920186d5b2f481e6156c71c8",
+    "acceptanceSignalsDigest": "7c8bcb457b9bbd6de06db4ba7b128f3918e783a564d54dcbe78dfb8dce73af37",
+    "claimBindingDigest": "374f8e8593708e04c39944b3411e221f4dadcc3bf985b25fbc8cce642943e2cb",
+    "protectedWipAfterDigest": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
+  },
+  "rowCount": 22,
+  "localPassedRowCount": 18,
+  "externalPredicateRowCount": 4,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "ALL_REQUIRED_PROFILES_ZERO_SKIP",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS"
+    },
+    {
+      "id": "CLAIM_BINDINGS_DENOMINATOR_COMPLETE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS"
+    },
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "DIFFERENTIAL_ORACLE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-INTEGRATION"
+    },
+    {
+      "id": "EXACT_ATLAS_BOOK_AND_WP501_PROJECTION_BINDING",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-MODEL"
+    },
+    {
+      "id": "EXPLICIT_CAUSAL_RELATION_ONLY_NO_TRANSITIVE_INFERENCE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "FAILED_CANDIDATE_CI_BOUND",
+      "status": "PASS",
+      "evidence": "WP502_CANDIDATE_CI_FAILURE_V1"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS_ALL_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-MUTANTS"
+    },
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD"
+    },
+    {
+      "id": "LARGE_CORPUS_10000_THREADS_AND_EDGES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-INTEGRATION"
+    },
+    {
+      "id": "LEASE_65_RELEASED_WIP_0",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "NORMAL_PROTECTED_MERGE"
+    },
+    {
+      "id": "NO_PERSISTENCE_RENDERER_COMMAND_OR_PLATFORM_EFFECT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-MODEL"
+    },
+    {
+      "id": "OPEN_WORLD_ABSENCE_RETURNS_UNKNOWN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "POSTMERGE_EXACT_HEAD",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE"
+    },
+    {
+      "id": "POST_AUDIT_WP502_EXCEPTION_FAIL_CLOSED",
+      "status": "PASS",
+      "evidence": "WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2"
+    },
+    {
+      "id": "PROTECTED_WIP_UNCHANGED",
+      "status": "PASS",
+      "evidence": "WP502_PROTECTED_WIP_AFTER_V1"
+    },
+    {
+      "id": "STALE_SNAPSHOT_PROJECTION_AND_EVIDENCE_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "STRICT_INPUT_TAMPER_INDEX_AND_DENOMINATOR_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT"
+    },
+    {
+      "id": "SURVIVOR_AUDIT",
+      "status": "REQUIRED_EXTERNAL_PREDICATE",
+      "evidence": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE"
+    },
+    {
+      "id": "WP501_CERTIFIED_PREDECESSOR_BOUND",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-502-THREADS-CAUSALITY-MODEL"
+    }
+  ],
+  "activationRule": "PASS_ONLY_AFTER_ALL_FOUR_EXTERNAL_PREDICATES_ARE_OBSERVED_EXACTLY",
+  "programDone": false
+}

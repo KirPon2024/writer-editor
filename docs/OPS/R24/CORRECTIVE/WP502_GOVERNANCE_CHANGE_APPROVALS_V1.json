@@ -1,0 +1,188 @@
+{
+  "approvals": [
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V10.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "a5c490cac699bb03fe25645a53b70a68b192c565d66ee92b14b9ecf9a6acd55d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "d5749e2609c12b1c389203fc36f369f3623e170c3bfdcd561942adae784af144"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_ACCEPTANCE_MATRIX_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "baf3a18c0a039516258fdae9d7867e60a302d225700887c3dbaaeaec7ab490e5"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_LEASE_RELEASE_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "34dbeabc890fff13011259777eea672fdd24e797f942b7b0133634e02e095e9f"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "799e9b0076ec86115bbe425624eb11d065b945c47f0c7193c0184f8052991d00"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "313c3cb156f8857166051fc0c65a08017b11d494d93b25bb4d19724f5bbe8768"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "67e2d651e11365dca6e506252fea3165ead351389c81a6aef85bd7b0bf6da5c2"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "9d4b205fbd2d45b66c576fd217e221eeabb8f4dc23f91d8a7831bca139a13873"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_PROTECTED_WIP_AFTER_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_PROTECTED_WIP_BEFORE_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "569ec2a9cc9cd02fdece8503b531787b31b48f74752a3c4cbd2e22a1553ffd7b"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "dfa6f8735fa59f133fa7e6fbc5a121ff767c1831954433556c26829a7a3b790d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_RECEIPT_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "05f4bd193a75cc5bb6fab43b7adefdff007a42a92a0ff56e61c843f26720d639"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP502_TERMINAL_STAGE_REGISTRY_V1.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "3c272f4174896dbec7c81251a8882ce38a55833266f12921a021ba0fc7c93b62"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/CTR-R24-WP-502-THREADS-CAUSALITY.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "7d22e5378fbc7e21bbad1a6dcc43a658bdd8620cf6556e6b999ecb9b7c4a0045"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "afdcbea5cce7cb93f206fd96a0fb1bdc55925e00a601742bf9284028800de8e3"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-CONTRACT.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "ffab55f3a8758d2a048394f2fdfb55dd3cb5f85fdf560f2c863ac26009cf00a6"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-EXACT-HEAD.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "66b9f355328cededc1db38721994685fe0cc6cf97912ba7fa3a9bbb14976d78c"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-INTEGRATION.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "355a0652eefa96fed078f2efe41d90cec67181d13fe5fa64b4acac4a0ac0c1d9"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MODEL.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "6f3de0976672cdb68fcc69721bd507f39c29df48e892520a2d28c0df65ef18de"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-MUTANTS.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "917111fce28de61f75438d82a9b1585ee40381a8e3a6966ff18ca8b099ea1a16"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-502-THREADS-CAUSALITY-SURVIVOR-AUDIT.json",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "453e8334b3daa8a9cdd5e0f74ba8fc4b89ce310678d1c4b30a949348e2eda0f8"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "b706a89302d46e51a5290e24dc62fe8e262a9c78c4dfe758fd4fad023e29c4ec"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "scripts/ops/r24/wp502-terminal-verifier.mjs",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "1b97a57a41117db65a10d4a07b11970c51b0ee46260756223ab255712e5f738b"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "4c2a1ee57143603318a012fed3249945b3cce0a7f79787b758f0aa22fb6cc91d"
+    },
+    {
+      "approvedAtUtc": "2026-09-01T11:49:33.002Z",
+      "approvedBy": "owner-direct:SINGLE_TERMINAL_PR_RULE_V1",
+      "filePath": "test/contracts/r24-wp502-terminal-carriers.contract.test.mjs",
+      "rationale": "Owner-authorized WP502 single-terminal-PR contour: exact admitted governance, evidence, test-inventory, conditional terminal, and protected-WIP carrier bytes.",
+      "sha256": "382ef747791b93443774565aca0e69a595db11c5a2d308dbdd54413a9b916ca6"
+    }
+  ],
+  "evidenceStampIds": [
+    "ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "version": "v1.0"
+}

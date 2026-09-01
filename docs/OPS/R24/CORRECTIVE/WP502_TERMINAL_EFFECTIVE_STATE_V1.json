@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "YALKEN_R24_WP502_TERMINAL_EFFECTIVE_STATE_V1",
+  "stageId": "WP-502_THREADS_CAUSALITY",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
+  "evidenceStampId": "ES-R24-WP-502-THREADS-CAUSALITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "acceptanceMatrixDigest": "8a57cf3abe70187ed7b281c500cd2217983bd88c10eaaf87fca1192f781a9fb9",
+    "wp501FinalEffectiveStateDigest": "2d9ef8366bc87918c1be07930603ff443369e7c00a9aa032a9858fc2e00c96eb"
+  },
+  "currentCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 57,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 39
+  },
+  "targetCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 58,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 38
+  },
+  "currentNodeState": "ADMITTED_ACTIVE",
+  "targetNodeState": "DONE",
+  "currentLease": {
+    "fencingCounter": 65,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "targetLease": {
+    "fencingCounter": 65,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "activationRule": "ALL_SINGLE_TERMINAL_PR_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "nextGraphSelection": false,
+  "programDone": false
+}

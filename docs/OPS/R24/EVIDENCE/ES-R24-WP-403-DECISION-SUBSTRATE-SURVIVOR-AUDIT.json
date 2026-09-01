@@ -1,0 +1,114 @@
+{
+  "stampId": "ES-R24-WP-403-DECISION-SUBSTRATE-SURVIVOR-AUDIT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-403_DECISION_SUBSTRATE",
+  "attemptId": "ATTEMPT-WP403-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP403_AUTHORITY_EPOCH_V2",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+    "treeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606"
+  },
+  "claim": {
+    "type": "WP403_EXACT_MAIN_SURVIVOR_AUDIT",
+    "ceiling": "WP403_NODE_ONLY_PROJECTOR_PUBLICATION_BOUND_BOUNDED_DETERMINISTIC_CANDIDATE_QUEUE_EXACT_EVIDENCE_DELTA_APPEND_ONLY_HASH_CHAINED_DECISION_MEMORY_READ_ONLY_REVIEW_CENTER_STALE_IDENTITY_REJECTION_NO_RUNTIME_PERSISTENCE_NO_RENDERER_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Git-object artifact digests and fresh exact-merge focused replay",
+    "evidenceClass": "SURVIVOR_AUDIT",
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-403-DECISION-SUBSTRATE-POSTMERGE-EXACT-HEAD"
+    ],
+    "predecessorReceiptDigest": "369d4657bf5cc3852d969188686018304d5c165a63a55427ed0a4474bbf6387f"
+  },
+  "createdAt": "2026-09-01T01:07:32Z",
+  "actor": "codex/r24-wp403-decision-substrate-v1-20260901",
+  "artifact": {
+    "artifactDigests": [
+      {
+        "path": "src/core/atlas-decision-substrate-v1.mjs",
+        "sha256": "f2406765034e968e9b312e0613d57a9a43ceb22a09f8d9f10902ac4447fc8018"
+      },
+      {
+        "path": "src/core/atlas-projector-kernel-v1.mjs",
+        "sha256": "41edc43884173b2cedf9a77f36b454ec87fc57b0a2cdda39e1fccde555d311c9"
+      },
+      {
+        "path": "test/unit/r24-wp403-decision-substrate.test.js",
+        "sha256": "1204991dcbacaa0598be7f731dca6ae45431dbba794e4b10b0f062ad05347d37"
+      },
+      {
+        "path": "test/unit/r24-wp403-decision-substrate-integration.test.js",
+        "sha256": "5817add80b47b58e2fc73e63d835d78ac328369c83f0387d0da9d181268ca66c"
+      },
+      {
+        "path": "test/unit/r24-wp403-decision-substrate-mutants.test.js",
+        "sha256": "56daa0c03d59dc6fce19b736cddd512cc226d68fd1553d705786a89a83d256d4"
+      }
+    ],
+    "admission": {
+      "authorityDigest": "25c0c652a4992bcf2d2263b17f3215c14ca7c6f1a0a4a4aabd413ac581a2fbd7",
+      "stageInstanceDigest": "714495e775228af4aaebdcfa3098b17906294eae29a333c51b332a44fed4cebe",
+      "stageAdmissionDigest": "0aa76c71369c2b6886762c186f4ea8dbc5be4f5514aa58580f4161eb6f65c769",
+      "writeSetDigest": "13bdbef9e3bcffaeec33f992f5b823b0bf1486d56672b50e4febfb6093cd6805",
+      "commandScopeDigest": "e697c4902d36781d675f34b7524d76d3aeefc68b80699bebab5ae6b3923361ce",
+      "acceptanceSignalsDigest": "be441ceafb09df3079a32f8a4812a689f1c01eeb178496c50353032cf99f4257",
+      "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "candidateCiException": {
+      "failedRunId": 33453952193,
+      "failureCarrierDigest": "3d933f3dc61c2abed270f8775ca6d2d1105a64f4e844d3b5aa6d5fb09f8a36f7",
+      "failedDirectJobs": 5,
+      "failedAggregateJobs": 2,
+      "successfulJobs": 10,
+      "correctedCandidateRunId": 33455684073,
+      "correctedCandidateSha": "1435530b574331aee32cfe1df33b3c02050f2a38",
+      "verdict": "FAIL_CLOSED_CORRECTED_BY_ADMITTED_V2_SUCCESSOR"
+    },
+    "implementationDelta": {
+      "baseSha": "cc69d27d4986e74ed5dcb17bc3f5766c750f62f0",
+      "candidateSha": "1435530b574331aee32cfe1df33b3c02050f2a38",
+      "nameStatusSha256": "1c0bbde99bb2fc906b14abc45d993890676b45364b6ff210279250f76c2e3b1d",
+      "insertions": 1721,
+      "deletions": 26,
+      "changedPathDenominator": 22
+    },
+    "focusedReplay": {
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 9,
+      "mutantsSurvived": 0,
+      "largeCorpusSourceCandidates": 1000,
+      "largeCorpusPublishedQueueCandidates": 128
+    },
+    "survivors": {
+      "artifactDigestMismatches": 0,
+      "staleIdentitiesAccepted": 0,
+      "tamperedPublicationsAccepted": 0,
+      "decisionMemoryRewrites": 0,
+      "postFinalMutations": 0,
+      "sourceMutations": 0,
+      "runtimePersistences": 0,
+      "rendererWirings": 0,
+      "graphAdvances": 0,
+      "programDoneClaims": 0
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

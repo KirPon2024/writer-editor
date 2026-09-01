@@ -1,0 +1,52 @@
+{
+  "stampId": "ES-R24-WP-403-DECISION-SUBSTRATE-EXACT-HEAD",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-403_DECISION_SUBSTRATE",
+  "attemptId": "ATTEMPT-WP403-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP403_AUTHORITY_EPOCH_V2",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+    "treeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606"
+  },
+  "claim": {
+    "type": "WP403_EXACT_IMPLEMENTATION_CANDIDATE_REQUIRED_GATES",
+    "ceiling": "WP403_NODE_ONLY_PROJECTOR_PUBLICATION_BOUND_BOUNDED_DETERMINISTIC_CANDIDATE_QUEUE_EXACT_EVIDENCE_DELTA_APPEND_ONLY_HASH_CHAINED_DECISION_MEMORY_READ_ONLY_REVIEW_CENTER_STALE_IDENTITY_REJECTION_NO_RUNTIME_PERSISTENCE_NO_RENDERER_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "GitHub protected candidate CI run 33455684073",
+    "evidenceClass": "INDEPENDENT_EXACT_HEAD",
+    "denominator": 17,
+    "passed": 17,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-403-DECISION-SUBSTRATE-MUTANTS"
+    ],
+    "predecessorReceiptDigest": "369d4657bf5cc3852d969188686018304d5c165a63a55427ed0a4474bbf6387f"
+  },
+  "createdAt": "2026-09-01T01:07:32Z",
+  "actor": "codex/r24-wp403-decision-substrate-v1-20260901",
+  "artifact": {
+    "runId": 33455684073,
+    "runAttempt": 1,
+    "headSha": "1435530b574331aee32cfe1df33b3c02050f2a38",
+    "treeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606",
+    "conclusion": "SUCCESS",
+    "requiredJobs": 17,
+    "failedJobs": 0,
+    "skippedRequiredJobs": 0,
+    "pr": 1792,
+    "supersededFailedRun": {
+      "runId": 33453952193,
+      "status": "FAIL_CLOSED_CORRECTED_BY_ADMITTED_V2_SUCCESSOR"
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,56 @@
+{
+  "stampId": "ES-R24-WP-403-DECISION-SUBSTRATE-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-403_DECISION_SUBSTRATE",
+  "attemptId": "ATTEMPT-WP403-20260901",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP403_AUTHORITY_EPOCH_V2",
+  "profileId": "ATLAS_FOUNDATION",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "44e49ca4327af75d368ea46957880a7eb85d54ae",
+    "treeSha": "9acdaa527f4bccbba7458bd14cdfae992cacc606"
+  },
+  "claim": {
+    "type": "WP403_BOUNDED_DECISION_SUBSTRATE_MODEL",
+    "ceiling": "WP403_NODE_ONLY_PROJECTOR_PUBLICATION_BOUND_BOUNDED_DETERMINISTIC_CANDIDATE_QUEUE_EXACT_EVIDENCE_DELTA_APPEND_ONLY_HASH_CHAINED_DECISION_MEMORY_READ_ONLY_REVIEW_CENTER_STALE_IDENTITY_REJECTION_NO_RUNTIME_PERSISTENCE_NO_RENDERER_WIRING_NO_GRAPH_ADVANCE_NO_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP403 deterministic bounded decision-substrate model",
+    "evidenceClass": "MODEL",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-402-PROJECTOR-KERNEL-SURVIVOR-AUDIT"
+    ],
+    "predecessorReceiptDigest": "369d4657bf5cc3852d969188686018304d5c165a63a55427ed0a4474bbf6387f"
+  },
+  "createdAt": "2026-09-01T01:07:32Z",
+  "actor": "codex/r24-wp403-decision-substrate-v1-20260901",
+  "artifact": {
+    "modelAssertions": [
+      "Candidates are derived only from verified immutable WP402 projector publications.",
+      "The queue is deterministic, latest-only, bounded to at most 256 candidates, and byte/count guarded.",
+      "EvidenceDelta exactly classifies added, removed, retained and changed evidence.",
+      "Decision Memory is append-only, hash-chained, idempotent and finality-preserving.",
+      "Review Center is an immutable read-only projection with no command authority.",
+      "Stale generation, snapshot and publication identities reject before memory mutation.",
+      "The node adds no runtime persistence, renderer wiring, graph advance or PROGRAM_DONE claim."
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "productSemanticsChangedByClosure": false,
+    "graphAdvance": false,
+    "programDone": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

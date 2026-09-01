@@ -15,22 +15,22 @@ test('remote terminal wrapper binds the verifier tree field exactly',()=>{
 test('the append-only audit-R2 carrier chain passes the static exact-byte check',()=>{
   const result=checkCorrections();
   assert.equal(result.status,'PASS');
-  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V14');
-  assert.equal(result.predecessorCarrierRegistryDigest,'c4391adfe540dfaac47857806dc4f97627506ba196d25dad78f3a91e9d27b168');
+  assert.equal(result.schemaVersion,'AUDIT_R2_CORRECTION_STATIC_CHECK_V15');
+  assert.equal(result.predecessorCarrierRegistryDigest,'7ba08968e97ee07413aa307b8fa64a4a339704ee0627c8d2d4f04e56debba67a');
   assert.equal(result.rootCarrierRegistryDigest,'b1738174bd03f47a25e3bcb2ea68c9bf9f602e761b1c8783cc04a8c54f972f8b');
   assert.equal(result.registeredStages,33);
   assert.equal(result.programDoneClaimed,false);
   assert.equal(result.wp400MutationStarted,false);
 });
-test('audit-R2 registry successor binds distinct source roles and the admitted WP503 wording inventory refresh',()=>{
-  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V14.json');
-  assert.equal(value.predecessor.sha256,'c4391adfe540dfaac47857806dc4f97627506ba196d25dad78f3a91e9d27b168');
-  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP503_WORDING_HASH_TEST_INVENTORY_SUCCESSOR');
+test('audit-R2 registry successor binds distinct source roles and the admitted WP503 RELEASE01 surface refresh',()=>{
+  const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V15.json');
+  assert.equal(value.predecessor.sha256,'7ba08968e97ee07413aa307b8fa64a4a339704ee0627c8d2d4f04e56debba67a');
+  assert.equal(value.predecessor.status,'SUPERSEDED_BY_APPEND_ONLY_WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR');
   assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a');
   assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a');
   assert.notEqual(value.sourcePlanRoles.externalSourcePlanDigest,value.sourcePlanRoles.compiledProgramFileDigest);
-  assert.deepEqual(value.successorScope.replacementPaths,['docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json','scripts/ops/r24/corrective/audit-r2-corrections.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs']);
-  assert.deepEqual(value.successorScope.addedPaths,[]);
+  assert.deepEqual(value.successorScope.replacementPaths,['.github/workflows/oss-policy.yml','docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json','scripts/ops/r24/corrective/audit-r2-corrections.mjs','scripts/ops/r24/wp503-terminal-verifier.mjs','test/contracts/r24-audit-r2-corrections.contract.test.mjs','test/contracts/r24-wp503-terminal-carriers.contract.test.mjs','test/contracts/rtk-release01-terminal-claims.contract.test.js']);
+  assert.deepEqual(value.successorScope.addedPaths,['docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V15.json','docs/OPS/R24/CORRECTIVE/WP503_GOVERNANCE_CHANGE_APPROVALS_V2.json','docs/OPS/R24/CORRECTIVE/WP503_LOCAL_RTK_FAILURE_V1.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V5.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V5.json','docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V5.json','docs/OPS/R24/CORRECTIVE/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json','docs/OPS/R24/CORRECTIVE/WP503_TERMINAL_SUPPLEMENT_V1.json']);
   assert.deepEqual(value.successorScope.removedPaths,[]);
 });
 test('six fixed historical authority sources remain byte-identical',()=>{

@@ -15,6 +15,7 @@ test('WP-503 terminal carriers form an acyclic exact-byte chain with a closed 25
   assert.equal(result.currentLease.wip, 1);
   assert.equal(result.targetLease.status, 'RELEASED');
   assert.equal(result.targetLease.wip, 0);
+  assert.match(result.terminalSupplementDigest, /^[0-9a-f]{64}$/u);
   assert.equal(result.programDone, false);
 });
 
@@ -54,10 +55,13 @@ test('WP-503 protected-WIP before and after carriers preserve the complete priva
   assert.deepEqual(after.protectedDirtySet, before.protectedDirtySet);
 });
 
-test('WP-503 tracked renderer bundle is explicitly admitted and externally checkable', () => {
-  const instance = load('docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V4.json');
+test('WP-503 tracked renderer bundle and RELEASE01 successor are explicitly admitted and externally checkable', () => {
+  const instance = load('docs/OPS/R24/CORRECTIVE/WP503_MAIN_PRODUCT_STAGE_INSTANCE_V5.json');
   assert.ok(instance.operations.modifyPaths.includes('src/renderer/editor.bundle.js'));
   assert.ok(instance.acceptanceSignals.includes('TRACKED_RENDERER_BUNDLE_EXACT_BUILD'));
   assert.ok(instance.acceptanceSignals.includes('POST_AUDIT_TOOLCHAIN_TRACKED_BUNDLE_SUCCESSOR'));
   assert.ok(instance.acceptanceSignals.includes('WP307_EDITOR_WORDING_HASH_SUCCESSOR'));
+  assert.ok(instance.acceptanceSignals.includes('RTK_RELEASE01_WORDING_SURFACE_SUCCESSOR'));
+  assert.ok(instance.operations.modifyPaths.includes('test/contracts/rtk-release01-terminal-claims.contract.test.js'));
+  assert.ok(instance.operations.createPaths.includes('docs/OPS/R24/CORRECTIVE/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json'));
 });

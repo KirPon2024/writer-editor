@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "WP503_LOCAL_RTK_FAILURE_V1",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_WORDING_SURFACE_SUCCESSOR",
+  "stageId": "WP-503_ATLAS_SURFACE",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "candidateSha": "e17b93766c0abd9d7102881b22b54038efd8fc48",
+  "candidateTreeSha": "30af7b8d0c54395fece0502ae165b4295b4fa471",
+  "runtime": {
+    "node": "v22.12.0",
+    "npm": "10.9.0",
+    "model": "gpt-5.6-sol",
+    "reasoningEffort": "xhigh"
+  },
+  "invocation": "npm run test:rtk",
+  "summary": {
+    "tests": 1067,
+    "pass": 1066,
+    "fail": 1,
+    "skipped": 0
+  },
+  "failingTest": "RELEASE01-14-integration-real-registry-binds-all-wording-and-rolls-up",
+  "diagnosis": {
+    "code": "HISTORICAL_WORDING_SURFACE_DIGEST_STALE_AT_CURRENT_CANDIDATE",
+    "historicalRegistryDigest": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "historicalPackageDigest": "sha256:a89e8475a4ae5649cd779d4c6dac39445d2264f2e37a8716fd0d7aed872e4a96",
+    "currentPackageDigest": "sha256:30d99d7c41a256fa58dfd3747bbd2b0a03ffa2217f1de003ff98b888e85edc9f",
+    "historicalEditorDigest": "sha256:5d443aca3c441c831ee9a47a3e7445a836730d0c602cf95136afc76ce47af320",
+    "currentEditorDigest": "sha256:e3b76b9c23a7dbf318382bed0626090d6be8ae8de478afcffecbf0f13ded374b"
+  },
+  "worktreeCleanAtEvaluation": true,
+  "skipOrTodoIntroduced": false,
+  "programDone": false,
+  "nextGraphNodeStarted": false
+}

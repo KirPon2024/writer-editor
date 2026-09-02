@@ -24,6 +24,9 @@ import {
   WP503_V6_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP503_V8_MAIN_PRODUCT_ADMISSION_EXPECTATION,
+  WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION,
+  WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION,
+  WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION,
   createAuditCycle2DurableCarrier,
   createAuditCycleDurableCarrier,
   verifyAuditCycle2DurableCarrier,
@@ -46,6 +49,9 @@ import {
   verifyWp501TerminalExceptionPostEvaluationException,
   verifyWp502MainProductPostEvaluationException,
   verifyWp503MainProductPostEvaluationException,
+  verifyWp702CiMergeRefTestBindingPostEvaluationException,
+  verifyWp702Pk0SecuritySuccessorPostEvaluationException,
+  verifyWp702Wp504HistoricalSurfacePostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FILE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json';
@@ -238,6 +244,42 @@ test('WP503 selection-provenance successor exception rejects an unadmitted futur
     ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
     :execFileSync('git',args,options);
   assert.throws(()=>verifyWp503MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP503_SELECTION_PROVENANCE_UNADMITTED_PATH:README\.md/);
+});
+test('WP702 PK0 security successor binds the exact admitted delta and rejects an unadmitted future path',()=>{
+  const candidateSha=WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.issuedCandidateSha;
+  const result=verifyWp702Pk0SecuritySuccessorPostEvaluationException({candidateSha});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admission.stageAdmissionDigest,WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(result.admittedPathDenominator,9);
+  assert.equal(result.dependencyAdmissionDigest,'97afd3b295dec785d2ba1cb88f4e0e1685e7ca0ac2cedd8c1082f8840d27b685');
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp702Pk0SecuritySuccessorPostEvaluationException({candidateSha,git:hostileGit}),/E_WP702_PK0_SECURITY_EXACT_ADMITTED_DELTA/);
+});
+test('WP702 CI merge-ref successor binds the historical candidate oracle and rejects an unadmitted future path',()=>{
+  const candidateSha=WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.issuedCandidateSha;
+  const result=verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admission.stageAdmissionDigest,WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(result.admittedPathDenominator,8);
+  assert.equal(result.historicalPk0IssuedCandidateSha,WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.issuedCandidateSha);
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha,git:hostileGit}),/E_WP702_CI_MERGE_REF_EXACT_ADMITTED_DELTA/);
+});
+test('WP702 WP504 historical-surface successor binds exact Git objects and rejects an unadmitted future path',()=>{
+  const result=verifyWp702Wp504HistoricalSurfacePostEvaluationException({candidateSha:'HEAD'});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admission.stageAdmissionDigest,WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(result.admittedPathDenominator,10);
+  assert.equal(result.wordingSurfaceEvaluationSha,'faef2f0813e4c8eb4b8703682e417aea72e627de');
+  assert.equal(result.wordingSurfaceEvaluationTree,'b223e12273e9e9c790241125cef9f883239cbb0e');
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp702Wp504HistoricalSurfacePostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP702_WP504_HISTORICAL_SURFACE_EXACT_ADMITTED_DELTA/);
 });
 test('WP501 final carriers reject future chronology pending rows nonzero WIP and provider substitution',()=>{
   const read=(name)=>JSON.parse(fs.readFileSync(`docs/OPS/R24/CORRECTIVE/${name}`));

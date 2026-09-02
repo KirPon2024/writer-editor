@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-702_TEXT_FORMATS",
+  "attemptId": "ATTEMPT-WP702-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP702_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "e5390cb29934322fda18db4de8c8fdb9d71610d1",
+    "treeSha": "364ebcda483fc8680fd77770fcb7461e60d1caa0"
+  },
+  "createdAt": "2026-09-02T16:41:58Z",
+  "actor": "codex/r24-wp702-text-formats-v1-20260902",
+  "stampId": "ES-R24-WP-702-TEXT-FORMATS-INTEGRATION",
+  "claim": {
+    "type": "WP702_TEXT_FORMATS_INTEGRATION",
+    "ceiling": "WP702_NODE_AND_INTERCHANGE_COMMON_PROFILE_ONLY",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test r24-wp702-text-formats-integration.test.js",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-702-TEXT-FORMATS-CONTRACT"
+    ],
+    "predecessorReceiptDigest": "e48d231496fb98916064b7c44abc9a22f3ce932137c95d762a38161b9a6243c2"
+  },
+  "artifact": {
+    "testArtifact": {
+      "path": "test/unit/r24-wp702-text-formats-integration.test.js",
+      "sha256": "e2dabd0465b124d4bd137f9d20e15716c8237960e7dc8bdab2808a7386911032"
+    },
+    "observations": {
+      "wp700EnvelopeRoundtrip": "PASS",
+      "physicalLocalFileRoundtrip": "PASS",
+      "containerCorpusDenominator": 5,
+      "compositionCapabilityDenominator": 16,
+      "compositionFidelityDenominator": 16,
+      "privacyLeakObserved": false,
+      "productOrExternalAuthorityLeakObserved": false
+    },
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  }
+}

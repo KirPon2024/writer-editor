@@ -1,0 +1,40 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-702_TEXT_FORMATS_CI_COMPATIBILITY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP702_CI_COMPATIBILITY_AMENDMENT_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "37a2d24c7e7fbd0b4b84e49cf19d19ecf5fee7d8",
+  "headSha": "37a2d24c7e7fbd0b4b84e49cf19d19ecf5fee7d8",
+  "treeSha": "18afbc34e1d2c6fbc43185c1791bd0e89ec75e0e",
+  "branch": "codex/r24-wp702-text-formats-v1-20260902",
+  "targetRemote": "origin",
+  "fixedBindings": [
+    {"path":"docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json","sha256":"6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"},
+    {"path":"docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json","sha256":"c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"},
+    {"path":"docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json","sha256":"be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"},
+    {"path":"docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json","sha256":"4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json","sha256":"40d39ae31903bf7859b2f301b3aef58ff5acb18308505dea70e28a736e3eeedb"},
+    {"path":"docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json","sha256":"d561943bdb9ede7f0a2c6756ef89fb43165f797964c34712444614fa5aad9d62"},
+    {"path":"scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs","sha256":"b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"},
+    {"path":"scripts/ops/r24/corrective/stage-admission-verifier.mjs","sha256":"82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"}
+  ],
+  "operations": {
+    "readPaths": ["AGENTS.md","CANON.md","docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json","docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json","docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json","docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json","docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json","docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json","docs/OPS/R24/CORRECTIVE/WP701_CARRIER_REGISTRY_V1.json","docs/OPS/R24/CORRECTIVE/WP701_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json","docs/OPS/R24/CORRECTIVE/WP701_TERMINAL_RECEIPT_V1.json","docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json","docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json","docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_INSTANCE_V1.json","docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_RECEIPT_V1.json","docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json","docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json","scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs","scripts/ops/r24/corrective/stage-admission-verifier.mjs"],
+    "modifyPaths": ["docs/OPS/R24/CORRECTIVE/WP702_GOVERNANCE_CHANGE_APPROVALS_V1.json","scripts/ops/r24/corrective/post-audit-certification-set.mjs","test/contracts/r24-wp701-terminal-carriers.contract.test.mjs","test/contracts/r24-wp702-terminal-carriers.contract.test.mjs"],
+    "createPaths": ["docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_OWNER_AUTHORITY_AMENDMENT_V1.json","docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_PROTECTED_WIP_BEFORE_V1.json","docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json","docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_INSTANCE_V1.json"],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": ["npm run agent:preflight -- --declaration /tmp/WP702_CI_COMPATIBILITY_TASK_ARCHITECTURE_DECLARATION_V1.json","node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP702_CI_COMPATIBILITY_OWNER_AUTHORITY_AMENDMENT_V1.json --stage-instance WP702_CI_COMPATIBILITY_STAGE_INSTANCE_V1.json --stage-admission WP702_CI_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST","node --test test/contracts/r24-wp701-terminal-carriers.contract.test.mjs test/contracts/r24-wp702-terminal-carriers.contract.test.mjs","npm run test:r24-post-audit","GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP702_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test","npm run agent:guardrails","git add -- EXACT_WP702_CI_COMPATIBILITY_WRITE_SET","git commit -m Make terminal carrier oracles successor-safe","git push origin codex/r24-wp702-text-formats-v1-20260902","gh pr create","gh pr checks PR --watch","gh pr merge PR --merge"],
+  "acceptanceSignals": ["WP701_REGISTRY_HASHES_EXACT_ISSUED_GIT_OBJECTS","WP702_REGISTRY_HASHES_EXACT_ISSUED_GIT_OBJECTS","LIVE_MUTABLE_FILE_FALLBACK_FORBIDDEN","ORIGINAL_WP702_ADMISSION_VERIFIED_AT_COMMIT_37A2D24C","WP702_CI_COMPATIBILITY_EXACT_EIGHT_PATH_AMENDMENT_VERIFIED","EXTERNAL_SOURCE_AND_COMPILED_PROGRAM_ROLES_DISTINCT","LEASE_76_REMAINS_SINGLE_WRITER_WIP_1_UNTIL_TERMINAL_RELEASE","PROTECTED_EIGHT_DIRTY_WORKTREES_UNCHANGED","PROGRAM_DONE_FALSE"],
+  "authorityCeiling": ["BOUNDED_CI_OPERATION","BOUNDED_REPOSITORY_WRITE","BRANCH_WORKTREE","COMMIT","GITHUB_PR","GITHUB_PROTECTED_MERGE","LOCAL_TEST_BUILD_EVIDENCE","PR_CREATE_OR_UPDATE","PUSH","READ_ONLY_GITHUB_API"],
+  "externalEffects": ["GITHUB_CI","GITHUB_PR","GITHUB_PROTECTED_MERGE","GIT_PUSH"],
+  "predecessors": [{"id":"WP702_MAIN_PRODUCT_STAGE_ADMISSION","digest":"64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b","status":"ADMITTED_AND_COMMITTED"},{"id":"WP702_INITIAL_COMMIT","digest":"37a2d24c7e7fbd0b4b84e49cf19d19ecf5fee7d8","status":"EXACT_BASE"},{"id":"WP701_EXTERNAL_LEASE_RELEASE_DISPOSITION","digest":"5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde","status":"RELEASED_WIP_0"},{"id":"HISTORICAL_STAGE_ADMISSION_VERIFIER_CONTRACT","digest":"925b4c23f1cad674720ee6a22fcd74cc2169b16bbc161be5d43535f20dd2ee31","status":"FIXED_BINDING_PRESERVED"}],
+  "lease": {"fencingCounter":76,"status":"ACTIVE","wip":1,"predecessorReleaseDigest":"5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde"},
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": ["BASE_BRANCH_SCOPE_OR_WORKTREE_AUTHORITY_DRIFT","PROTECTED_WIP_MUTATION","REQUIRED_TEST_CI_OR_PROTECTED_MERGE_FAILURE","SECOND_ACTIVE_WRITER_OR_WIP_GREATER_THAN_ONE","UNADMITTED_PATH_OR_COMMAND"]
+}

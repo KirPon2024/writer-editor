@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_LEASE_RELEASE_V1",
+  "stageId": "WP-702_TEXT_FORMATS",
+  "status": "CONDITIONAL_RELEASE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorReleaseDigest": "5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde",
+    "acceptanceMatrixDigest": "c316410ffaebc07d0431936b3c9cb601c90f9ff1e202f6ea24452a712622eb77",
+    "effectiveStateDigest": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
+    "stageRegistryDigest": "be86a0d0c27ca4b50b67140361b687a55ca8de46c001e486f93d876b64e7744c",
+    "stageAdmissionDigest": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b"
+  },
+  "currentLease": {
+    "fencingCounter": 76,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde"
+  },
+  "targetLease": {
+    "fencingCounter": 76,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "6e5ddbeb56942eefc9ff0f78bed6268d47b50697225059c49b8ff21853349146",
+    "beforeSnapshotDigest": "dd39bce87da9df231435225a3ba416c018e7eba1d0f1b1d19a288aaa85d9a753",
+    "completeDenominator": 258,
+    "presentDenominator": 258,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 8,
+    "protectedDirtySetDenominator": 8,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_FIVE_EXTERNAL_PREDICATES_REQUIRED_LOCAL_GATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

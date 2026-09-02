@@ -32,6 +32,19 @@ test('WP-504 frozen registry is verified from its exact Git object, not mutable 
   );
 });
 
+test('WP-504 frozen wording surfaces are verified from their exact Git objects, not mutable descendant bytes', () => {
+  const wording = load('docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
+  assert.ok(wording.surfaceOverrides.some((surface) => sha256(fs.readFileSync(surface.path)) !== surface.sha256.slice('sha256:'.length)));
+  const result = verifyWp504CandidateBoundSuccessor();
+  assert.equal(result.wordingSurfaceEvaluationSha, 'faef2f0813e4c8eb4b8703682e417aea72e627de');
+  assert.equal(result.wordingSurfaceEvaluationTree, 'b223e12273e9e9c790241125cef9f883239cbb0e');
+  assert.equal(result.wordingSurfaceVerifiedCount, 2);
+  assert.throws(
+    () => verifyWp504CandidateBoundSuccessor({ wordingSurfaceEvaluationSha: 'c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0' }),
+    /E_WP504_V3_WORDING_EVALUATION_OBJECT/u,
+  );
+});
+
 test('WP-504 candidate-bound successor closes the exact 35-row conditional chain', () => {
   const result = verifyWp504CandidateBoundSuccessor();
   assert.equal(result.status, 'PASS');
@@ -46,6 +59,7 @@ test('WP-504 candidate-bound successor closes the exact 35-row conditional chain
   assert.equal(result.carrierRegistryEvaluationSha, '4f484b7ddb0ad2fa78614f930b4a8d8ded60201e');
   assert.equal(result.carrierRegistryEvaluationTree, 'baa79829b5e2363845e826c507cda817e9c4b1f8');
   assert.equal(result.carrierRegistryVerifiedCount, 19);
+  assert.equal(result.wordingSurfaceVerifiedCount, 2);
   assert.equal(result.programDone, false);
 });
 

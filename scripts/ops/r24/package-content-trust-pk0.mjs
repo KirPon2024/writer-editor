@@ -84,6 +84,21 @@ export const POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION = Object.freeze({
   targetPackageManager: 'npm@10.9.0',
 });
 
+export const WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION = Object.freeze({
+  allowedChangedFiles: Object.freeze(['package-lock.json', 'package.json']),
+  authorityDigest: '2e39c0daf84d0ae8907f6c5c74e2ba62d67c475683a657bf019b53f5a36e5c11',
+  baseOverridesDigest: '910915e48486e6cc04d9f42c6c54fabaa4eaa62812b5c1dfde74893eaa4d380e',
+  currentLockSha256: '1bd677ea4c4519ad59c7885cd9b48ec47db82fbad211a64f6330d9cc93c2acf4',
+  currentPackageSha256: 'e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57',
+  ownerAuthorityBindingDigest: 'be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6',
+  schemaVersion: 'YALKEN_R24_WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION_V1',
+  stageAdmissionDigest: '9477e63c1f4437d242b6088e86aff7b0a677590800eacf5344e0ce726021f0af',
+  stageId: 'WP-702_PK0_SECURITY_SUCCESSOR',
+  stageInstanceDigest: '9e73a8bcb148d65c89eb8db7e67ca4490bfb10b63d6fcb71bb5baa37dae00473',
+  status: 'ADMITTED_EXACT_SECURITY_OVERRIDE_SUCCESSOR',
+  targetOverridesDigest: 'e4c9c2405dd67cd97e62a2e6e48bccd0d1c3d890f90d7cd03b6cfc2d3204c229',
+});
+
 function stableJson(value) {
   if (value === null || typeof value !== 'object') return JSON.stringify(value);
   if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`;
@@ -185,7 +200,11 @@ export function validateDependencyMutationAdmission(candidate) {
     && typeof candidate === 'object'
     && !Array.isArray(candidate)
     && hashCanonicalValue(candidate) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION);
-  return c6dValid || postAuditValid;
+  const wp702Valid = candidate
+    && typeof candidate === 'object'
+    && !Array.isArray(candidate)
+    && hashCanonicalValue(candidate) === hashCanonicalValue(WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION);
+  return c6dValid || postAuditValid || wp702Valid;
 }
 
 function isPostAuditToolchainAdmission(candidate) {
@@ -193,6 +212,13 @@ function isPostAuditToolchainAdmission(candidate) {
     && typeof candidate === 'object'
     && !Array.isArray(candidate)
     && hashCanonicalValue(candidate) === hashCanonicalValue(POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION);
+}
+
+function isWp702DependencySecurityAdmission(candidate) {
+  return candidate
+    && typeof candidate === 'object'
+    && !Array.isArray(candidate)
+    && hashCanonicalValue(candidate) === hashCanonicalValue(WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION);
 }
 
 function exactElectronOnlyUpgrade(packageJson, baselinePackageJson) {
@@ -217,6 +243,15 @@ function exactPostAuditToolchainTransition(packageJson, baselinePackageJson) {
     && packageJson?.packageManager === POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.targetPackageManager;
 }
 
+function exactWp702DependencySecurityTransition(packageJson, baselinePackageJson) {
+  return hashCanonicalValue(packageJson?.dependencies || {}) === hashCanonicalValue(baselinePackageJson?.dependencies || {})
+    && hashCanonicalValue(packageJson?.devDependencies || {}) === hashCanonicalValue(baselinePackageJson?.devDependencies || {})
+    && hashCanonicalValue(baselinePackageJson?.overrides || {}) === WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.baseOverridesDigest
+    && hashCanonicalValue(packageJson?.overrides || {}) === WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.targetOverridesDigest
+    && hashCanonicalValue(packageJson?.engines || {}) === hashCanonicalValue(baselinePackageJson?.engines || {})
+    && (packageJson?.packageManager ?? null) === (baselinePackageJson?.packageManager ?? null);
+}
+
 function validatePackageDependencies({
   packageJson,
   baselinePackageJson = null,
@@ -227,6 +262,7 @@ function validatePackageDependencies({
   const changed = new Set(uniqSorted(changedFiles));
   const admissionValid = validateDependencyMutationAdmission(dependencyMutationAdmission);
   const postAuditAdmissionValid = isPostAuditToolchainAdmission(dependencyMutationAdmission);
+  const wp702AdmissionValid = isWp702DependencySecurityAdmission(dependencyMutationAdmission);
   if (changed.has('pnpm-lock.yaml') || changed.has('pnpm-workspace.yaml')) {
     errors.push('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN');
   }
@@ -237,9 +273,13 @@ function validatePackageDependencies({
         || filePath === 'package-lock.json'
         || filePath === 'pnpm-lock.yaml'
         || filePath === 'pnpm-workspace.yaml')
-      && !(postAuditAdmissionValid
-        ? POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.allowedChangedFiles
-        : C6D_DEPENDENCY_MUTATION_ADMISSION.allowedChangedFiles).includes(filePath)
+      && !(
+        postAuditAdmissionValid
+          ? POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION.allowedChangedFiles
+          : wp702AdmissionValid
+            ? WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.allowedChangedFiles
+            : C6D_DEPENDENCY_MUTATION_ADMISSION.allowedChangedFiles
+      ).includes(filePath)
     ));
     if (outsideAdmission.length > 0) errors.push('PK0_DEPENDENCY_ADMISSION_WRITE_SET_EXPANSION');
   }
@@ -253,7 +293,10 @@ function validatePackageDependencies({
         const exactAdmittedToolchainTransition = (key === 'engines' || key === 'packageManager')
           && postAuditAdmissionValid
           && exactPostAuditToolchainTransition(packageJson, baselinePackageJson);
-        if (!exactAdmittedElectronUpgrade && !exactAdmittedToolchainTransition) {
+        const exactAdmittedWp702SecurityTransition = key === 'overrides'
+          && wp702AdmissionValid
+          && exactWp702DependencySecurityTransition(packageJson, baselinePackageJson);
+        if (!exactAdmittedElectronUpgrade && !exactAdmittedToolchainTransition && !exactAdmittedWp702SecurityTransition) {
           errors.push(`PK0_${key.toUpperCase()}_MUTATION_FORBIDDEN`);
         }
       }
@@ -467,9 +510,37 @@ function readPostAuditToolchainAdmission(root) {
   return POST_AUDIT_TOOLCHAIN_MUTATION_ADMISSION;
 }
 
+function readWp702DependencySecurityAdmission(root) {
+  const files = {
+    authority: ['docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_OWNER_AUTHORITY_AMENDMENT_V1.json', WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.authorityDigest],
+    stage: ['docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_INSTANCE_V1.json', WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.stageInstanceDigest],
+    admission: ['docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_ADMISSION_ATTESTATION_V1.json', WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.stageAdmissionDigest],
+  };
+  const values = {};
+  for (const [role, [relativePath, expectedDigest]] of Object.entries(files)) {
+    const absolutePath = path.join(root, relativePath);
+    if (!fs.existsSync(absolutePath)) return null;
+    const bytes = fs.readFileSync(absolutePath);
+    if (crypto.createHash('sha256').update(bytes).digest('hex') !== expectedDigest) return null;
+    values[role] = JSON.parse(bytes.toString('utf8'));
+  }
+  if (values.authority.stageId !== WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.stageId) return null;
+  if (values.stage.stageId !== WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.stageId) return null;
+  if (values.admission.status !== 'ADMITTED') return null;
+  if (values.admission.authorityDigest !== WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.authorityDigest) return null;
+  if (values.admission.stageInstanceDigest !== WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.stageInstanceDigest) return null;
+  for (const [relativePath, expectedDigest] of [
+    ['package.json', WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.currentPackageSha256],
+    ['package-lock.json', WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION.currentLockSha256],
+  ]) {
+    if (crypto.createHash('sha256').update(fs.readFileSync(path.join(root, relativePath))).digest('hex') !== expectedDigest) return null;
+  }
+  return WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION;
+}
+
 export function evaluateRepositoryPackageContentTrust({ repoRoot = process.cwd(), baselinePackageJson = null } = {}) {
   const root = path.resolve(repoRoot);
-  const dependencyMutationAdmission = readPostAuditToolchainAdmission(root) || readC6DDependencyAdmission(root);
+  const dependencyMutationAdmission = readWp702DependencySecurityAdmission(root) || readPostAuditToolchainAdmission(root) || readC6DDependencyAdmission(root);
   return evaluatePackageContentTrust({
     packageJson: readJson(path.join(root, 'package.json')),
     baselinePackageJson: baselinePackageJson || gitShowJson({ cwd: root, revisionPath: 'origin/main:package.json' }),

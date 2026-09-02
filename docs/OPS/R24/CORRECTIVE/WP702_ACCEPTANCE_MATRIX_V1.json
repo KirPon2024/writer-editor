@@ -1,0 +1,111 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-702_TEXT_FORMATS",
+  "status": "CONDITIONAL_PASS_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-02T16:41:58Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "denominator": 18,
+  "localPassCount": 13,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b"
+    },
+    {
+      "id": "EXACT_28_PATH_WRITE_SET",
+      "status": "PASS",
+      "evidence": "26a3fc410b9ae78de715dae8a78137bffc16be11107f4f22bbf952520c71637f"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE",
+      "status": "PASS",
+      "evidence": "6e5ddbeb56942eefc9ff0f78bed6268d47b50697225059c49b8ff21853349146"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "de57730ca4b5b82f59a11a00d0e7fd5a8d1f70a50e52adf5f4ef9dd55cde4870"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "59c5a3db8da74c0c98759b4109f231571b46cc7413348351be3004e7117225f1"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "9974b7f1e05f66f34459364adbf6bd18838b83307ac6002e788933b668d3bdb7"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS",
+      "status": "PASS",
+      "evidence": "edede6fe0bc89618ac32129eed66c9c312c5c599890cae98c75a5fefc4f3cba5"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "08c30056d146eac44feeb9e82ca5ff3100b543b84a555cd6b227ec7e0a09ff32"
+    },
+    {
+      "id": "STRICT_TEXT_BOUNDARY_AND_CONTAINER_REJECTION",
+      "status": "PASS",
+      "evidence": "WP702_FOCUSED_TESTS"
+    },
+    {
+      "id": "TXT_UTF8_NFC_V1_ROUNDTRIP",
+      "status": "PASS",
+      "evidence": "WP702_FOCUSED_TESTS"
+    },
+    {
+      "id": "MARKDOWN_BOUNDED_V1_SECURITY_AND_ROUNDTRIP",
+      "status": "PASS",
+      "evidence": "WP702_FOCUSED_TESTS"
+    },
+    {
+      "id": "NO_PRODUCT_OR_EXTERNAL_EFFECT_AUTHORITY",
+      "status": "PASS",
+      "evidence": "WP702_STATIC_AND_INTEGRATION_ORACLE"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "SCOPE"
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "activationRule": "ALL_LOCAL_REQUIRED_GATES_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "claimCeiling": "NODE_AND_SELECTED_PROFILE_ONLY",
+  "programDone": false
+}

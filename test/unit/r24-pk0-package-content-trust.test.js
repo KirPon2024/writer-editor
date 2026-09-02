@@ -309,3 +309,77 @@ test('PK0 admits only the exact owner-bound post-audit Node and npm successor', 
   assert.equal(crossStageElectronResult.ok, false);
   assert.equal(crossStageElectronResult.error.value.errors.includes('PK0_DEVDEPENDENCIES_MUTATION_FORBIDDEN'), true);
 });
+
+test('PK0 admits only the exact WP702 security override transition and rejects forged or expanded scope', async () => {
+  const module = await loadModule();
+  const baselinePackageJson = packageFixture(module.PK0_REQUIRED_BUILD_FILES);
+  baselinePackageJson.devDependencies.electron = '41.10.3';
+  baselinePackageJson.packageManager = 'npm@10.9.0';
+  baselinePackageJson.engines = { node: '>=22.12.0 <23.0.0', npm: '>=10.9.0 <11.0.0' };
+  baselinePackageJson.overrides = {
+    '@xmldom/xmldom': '0.9.10',
+    'linkify-it': '5.0.2',
+    picomatch: '4.0.4',
+    plist: '3.1.1',
+    tar: '7.5.22',
+  };
+  const packageJson = structuredClone(baselinePackageJson);
+  packageJson.overrides['@xmldom/xmldom'] = '0.9.12';
+  packageJson.overrides['fast-uri'] = '4.1.4';
+
+  const admitted = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package-lock.json', 'package.json'],
+    dependencyMutationAdmission: module.WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(admitted.ok, true, admitted.ok ? '' : JSON.stringify(admitted.error.value.errors));
+  assert.equal(admitted.value.authority.dependencyMutation, false);
+  assert.equal(admitted.value.authority.admittedDependencyAuditException, true);
+
+  const forgedAdmission = structuredClone(module.WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION);
+  forgedAdmission.stageAdmissionDigest = '0'.repeat(64);
+  const forged = module.evaluatePackageContentTrust({
+    packageJson,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package-lock.json', 'package.json'],
+    dependencyMutationAdmission: forgedAdmission,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(forged.ok, false);
+  assert.equal(forged.error.value.errors.includes('PK0_LOCKFILE_OR_WORKSPACE_MUTATION_FORBIDDEN'), true);
+  assert.equal(forged.error.value.errors.includes('PK0_OVERRIDES_MUTATION_FORBIDDEN'), true);
+
+  const expanded = structuredClone(packageJson);
+  expanded.overrides.tar = '7.5.23';
+  const expandedResult = module.evaluatePackageContentTrust({
+    packageJson: expanded,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package-lock.json', 'package.json'],
+    dependencyMutationAdmission: module.WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(expandedResult.ok, false);
+  assert.equal(expandedResult.error.value.errors.includes('PK0_OVERRIDES_MUTATION_FORBIDDEN'), true);
+
+  const dependencyExpansion = structuredClone(packageJson);
+  dependencyExpansion.dependencies.unapproved = '1.0.0';
+  const dependencyExpansionResult = module.evaluatePackageContentTrust({
+    packageJson: dependencyExpansion,
+    baselinePackageJson,
+    trackedFiles: trackedFixture(),
+    changedFiles: ['package-lock.json', 'package.json'],
+    dependencyMutationAdmission: module.WP702_DEPENDENCY_SECURITY_MUTATION_ADMISSION,
+    programDag: programDagFixture(),
+    scientificContracts: scientificContractsFixture(),
+  });
+  assert.equal(dependencyExpansionResult.ok, false);
+  assert.equal(dependencyExpansionResult.error.value.errors.includes('PK0_DEPENDENCIES_MUTATION_FORBIDDEN'), true);
+});

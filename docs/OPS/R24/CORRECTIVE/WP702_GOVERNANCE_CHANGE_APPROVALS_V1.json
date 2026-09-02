@@ -1,0 +1,574 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "e91e2f784412a74fe77157a570db9fae1620bac606d90a9925b0f07fed983426",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "d3f723bd7273d7c26ebc47ec4bcbfe95aae1e683e252c80ed484f9327422b0ae",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Refresh the exact historical-surface-safe certification and WP504 test digests without changing the complete 1327-file denominator or skip policy."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "c316410ffaebc07d0431936b3c9cb601c90f9ff1e202f6ea24452a712622eb77",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CARRIER_REGISTRY_V1.json",
+      "sha256": "08c30056d146eac44feeb9e82ca5ff3100b543b84a555cd6b227ec7e0a09ff32",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "080e063a29aa628d570196856b72ecff34a31512e10cf424e1adeb8d97c278ee",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Append-only admission for exact issued-Git-object terminal carrier verification."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "83699cb85364997ab19a1b2c6a246d8308df309275aa02d4f2c59442d4b21bb2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "c8ca052c59245ab5876ab3140a1b0470a553ea8b4eeabc027c224ca439c9ce41",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Pinned verifier admission for the exact eight-path compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_INSTANCE_V1.json",
+      "sha256": "b97afcca72cc342a09967dd4b77139cba28d8cb2d5e3ee822ba07fc0572adde2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "61fd755780c41735cc68cd0c3abe0ee433b6374986d0024e38e32b8a2ce8b954",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Owner-authorized bounded repair of the historical-candidate unit oracle exposed by candidate CI run 33669278211."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "06c74cf736328b3877a775c9c460653c2319eca3f4d7f764f9aefd4ae0dc83f4",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Privacy-safe exact pre-mutation 258-entry snapshot preserving the same eight protected dirty worktrees."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "0316fc1b9d603bbbde5fc24023253241ad4325912577b2a7e8b96d2f0fb36096",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Pinned verifier admission for the exact eight-path CI merge-ref test-binding successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_STAGE_INSTANCE_V1.json",
+      "sha256": "cfe2fc7592c43220d9b8c4584088c71bc3ff3347f745d7c3a7c0becf4a45edb8",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the CI merge-ref test-binding successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "e16d3e5214698321b331694cc081707d801e7e15da4bf70f1db4685f1e41856b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Bounded ten-path authority for the exact WP504 historical-surface Git-object repair."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f914932b10d3f716f04c6eae447fdf85358e1b702653dffb1697e0257fc95cd8",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Privacy-safe deterministic pre-mutation snapshot for all 258 protected non-task worktrees."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "13d82626dda42a65b2d712fa42e08de9d400e9c859f9637c08deca50721c2466",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Pinned V2 admission for the exact ten-path WP504 historical-surface successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_STAGE_INSTANCE_V1.json",
+      "sha256": "286e25e008219cf822cff37c0d4982399558d3604c77061c19f50757048f6b0a",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the WP504 historical-surface successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_DEPENDENCY_AUDIT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "ed0a56e9ef32610e86ec3276745399ede5763a509923a5325a678d94f5a1a674",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Append-only authority for the exact zero-vulnerability dependency-audit successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_DEPENDENCY_AUDIT_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "1afbad0d632e024662d2355b9478a4b9efeba494913ec168a1764f1490ddf2a1",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the dependency-audit successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_DEPENDENCY_AUDIT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "97afd3b295dec785d2ba1cb88f4e0e1685e7ca0ac2cedd8c1082f8840d27b685",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Pinned verifier admission for the exact eight-path dependency-audit successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_DEPENDENCY_AUDIT_STAGE_INSTANCE_V1.json",
+      "sha256": "ced69867ff47235d4141aec67dcb47143aa4289604ad9cede092af7a5987d002",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the dependency-audit successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EFFECTIVE_STATE_V1.json",
+      "sha256": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EVIDENCE_STAMP_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "665df23bd5b52f787a708df22eefd53632187d2105f282a95d487d76015271b2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:06:47Z",
+      "rationale": "Append-only authority for the exact ClaimBindingV1 schema successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EVIDENCE_STAMP_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "157294608d10b15aed5b284038b82f04c4279c811dc894811c9558b72cd407a6",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:06:47Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the evidence successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EVIDENCE_STAMP_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d53a9a256c4473668e665ed46a555c363d98ec191674799d9c6cdc9508479239",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:06:47Z",
+      "rationale": "Pinned verifier admission for the exact seven-path evidence successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EVIDENCE_STAMP_STAGE_INSTANCE_V1.json",
+      "sha256": "b488dabd14addb9540131263933e0a0e7a42804e49f307c44929f0569e666ceb",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:06:47Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the evidence successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_LEASE_RELEASE_V1.json",
+      "sha256": "78e249d6e285ad5fa9e7815be2d7c4694315640d961560c2a30d73fec62c58c6",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "f1e079bc3921bd7a374b9b4192ecb0005c4d7bd866246cc2417633f746063490",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8a08078421a8a2463ebf0e9388f8bbfb9491c2459ee79468dc42fe6c318f3f09",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "247b02dead1cc7d6f3ef50353fec8ed42fff19a04d54cb570ca99341b47e40a7",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6e5ddbeb56942eefc9ff0f78bed6268d47b50697225059c49b8ff21853349146",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_REBIND_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "f9b1b4f9fb564c79b3afa5ffac4ae1cd52ad8f7f8fa8eb83f7dbc8b835fa81c3",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Append-only authority for the exact RELEASE01 wording-surface rebind."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_REBIND_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "e78ae87f062c7a43f93e417ce234483916eda47476eac4e25b04ad1a784b8347",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the RELEASE01 rebind."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5b930bc187b55c4fbd61c51be9bb0c25c9db7a69885d2d1447d9fcdad9c1fd21",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Pinned verifier admission for the exact nine-path RELEASE01 rebind."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "c79d1187440e0d3a8b698135975350f3fd24588bf929d2f0927c55f6bd2b722b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the RELEASE01 rebind."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "4a09e9235e2d7a4d060552c0028b61c4ec019c0b670d38573d07a07a522c2340",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Append-only exact package wording-surface binding over preserved WP504 evidence."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "e74a36a7c9fdbcfbd499cc58c1ae486660ee28549fc15a913b74e9263adcf023",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Append-only authority for the deterministic tracked renderer bundle produced by the admitted dependency repair."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "ec41a6a908909f16366a8812f5be8c5a354b25403c1c4609d30cf087a51e442c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Exact reference to the complete pre-mutation 258-worktree and eight-dirty protected-WIP baseline."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "a9558a189a150663f71a0fe65df062324c2026f634b15098ab46a0bd81a562eb",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Pinned verifier admission for the exact seven-path generated-artifact successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "2815fbc241411a7dc530d49001fa376820755fa0573fc5d9b4e65a6d4d4e269e",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the generated-artifact successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_STAGE_REGISTRY_V1.json",
+      "sha256": "be86a0d0c27ca4b50b67140361b687a55ca8de46c001e486f93d876b64e7744c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_RECEIPT_V1.json",
+      "sha256": "72d0f298700eb587f7548ae84c05e2c38ed1e116fc59e011638e5ba404aa3caa",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "3a4b507b9b979766d6ee362c6242aaba1d1bb1a87b54af221a03c5e40f2bdd34",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "50d2aa43f7c473c5075adababa14115cbac675fdd295e9a8095ddc1036970ea5",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Append-only authority for the exact deterministic test-inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6df9852d0f166cb065b5cb0cb6a01a4c88794846b44724343736255cd74f5303",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d88180554e5c31d97f17b4f4201f131991af85edc3c30ef337bd155dbe2cb8be",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Pinned verifier admission for the exact seven-path inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_STAGE_INSTANCE_V1.json",
+      "sha256": "1d0813960f148545d2507c11273e8ef04e97f758be020180d780911f57659598",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS.json",
+      "sha256": "924d69c27ce07927b17b1b97344ccaa53d3656af619e03b666ab9dd35d2c3e8d",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-CONTRACT.json",
+      "sha256": "59c5a3db8da74c0c98759b4109f231571b46cc7413348351be3004e7117225f1",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-INTEGRATION.json",
+      "sha256": "9974b7f1e05f66f34459364adbf6bd18838b83307ac6002e788933b668d3bdb7",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MODEL.json",
+      "sha256": "de57730ca4b5b82f59a11a00d0e7fd5a8d1f70a50e52adf5f4ef9dd55cde4870",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MUTANTS.json",
+      "sha256": "edede6fe0bc89618ac32129eed66c9c312c5c599890cae98c75a5fefc4f3cba5",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "package-lock.json",
+      "sha256": "1bd677ea4c4519ad59c7885cd9b48ec47db82fbad211a64f6330d9cc93c2acf4",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Integrity-bound patched versions of existing approved dependency families; zero npm audit findings."
+    },
+    {
+      "filePath": "package.json",
+      "sha256": "e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:19:11Z",
+      "rationale": "Bounded patched overrides for existing approved dependency families; no new direct family."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "2e39c0daf84d0ae8907f6c5c74e2ba62d67c475683a657bf019b53f5a36e5c11",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Append-only authority for the exact WP702 PK0 dependency-security admission successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "51a025ca602fed228278b224168f44cba902fcdc5cf359cf9e864a72560192d9",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Exact reference to the complete pre-mutation 258-worktree and eight-dirty protected-WIP baseline."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9477e63c1f4437d242b6088e86aff7b0a677590800eacf5344e0ce726021f0af",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Pinned verifier admission for the exact nine-path PK0 security successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_INSTANCE_V1.json",
+      "sha256": "9e73a8bcb148d65c89eb8db7e67ca4490bfb10b63d6fcb71bb5baa37dae00473",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the PK0 security successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "3fa86f124a69bf82b9ee6c27d9612e292ed119fb7dcd9c90e9f629f4f60d058f",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Owner-authorized bounded repair of the two stale inventory digests exposed by candidate CI run 33667239367."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "06bb6088e0b657b208b2ccc6cbdefd2513dd000c2720bf41710e21f440c379ba",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Privacy-safe exact pre-mutation 258-entry snapshot preserving the same eight protected dirty worktrees."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2983a44e16adda9987a8b1deb5a665897257a5d5b2546967739461a6c035e988",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Pinned verifier admission for the exact seven-path PK0 inventory refresh successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_STAGE_INSTANCE_V1.json",
+      "sha256": "fb28bc2f783eedb03c9c4f1543628036474611e6fa83f1b2607d21dc0e7b7c58",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the PK0 inventory refresh successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "270526eaadcc65a242f3aa377214c5239fac4e4f8578bf12dfe0d0450b967d37",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:43:54Z",
+      "rationale": "Fail-closed exact-admission chain through the WP504 historical-surface successor, including WP505 V3 artifact evaluation at the next exact admitted checkpoint."
+    },
+    {
+      "filePath": "scripts/ops/r24/wp504-terminal-verifier.mjs",
+      "sha256": "8d2d0e00d9a2a2469c67b6c27ab4f854da58d0d82631c6a2bbdd2b44c76fbc4c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Verify the preserved WP504 wording surfaces from the carrier-declared historical Git evaluation identity with no mutable working-tree fallback."
+    },
+    {
+      "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
+      "sha256": "5ba255b742bc40c915d55ccadc7facfccbf85116e739c645410f21da164537df",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Admit only the already-authorized exact WP702 security override bytes while preserving all PK0 package-content laws."
+    },
+    {
+      "filePath": "src/core/text-formats-v1.mjs",
+      "sha256": "5a2a7e148a341d3c8ef46ea96fd45cbcc40ba45884c7ef162b0eb228b465d386",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "fe74f3e881eb8ea44336202cc8f937a2696ae48bd829aa05e652341cb9682a7b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Deterministic tracked esbuild output for the admitted Tiptap dependency repair; authored renderer source is unchanged."
+    },
+    {
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "sha256": "3bd7f3d2a8d55dc493f23a6e1391c127184b35c5ddf1e3118a5f836e378eb8a5",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Bind the exact WP504 historical-surface successor and retain hostile unadmitted-path rejection."
+    },
+    {
+      "filePath": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs",
+      "sha256": "5d77371de4f485fde77519f0665018440736e50db8c9e91ca197a51af0581f5c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T19:11:16Z",
+      "rationale": "Prove descendant working-tree drift cannot satisfy the WP504 frozen wording-surface oracle and reject the wrong evaluation commit."
+    },
+    {
+      "filePath": "test/unit/r24-pk0-package-content-trust.test.js",
+      "sha256": "5ce03967d03c758c3fde8d2580a55524b7bec461b0554c5aed1c9420f00d6617",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Positive exact transition and forged-admission, override-expansion, and dependency-expansion negatives."
+    },
+    {
+      "filePath": "test/contracts/r24-wp701-terminal-carriers.contract.test.mjs",
+      "sha256": "5f76c4250ca9d558350d6dc3eb0692a3db19f001f308880e607f686782cc170d",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Verify WP701 registry bindings from exact issued Git objects instead of mutable live files."
+    },
+    {
+      "filePath": "test/contracts/r24-wp702-post-audit-compatibility.contract.test.mjs",
+      "sha256": "24d2f0ba37da76758a0c0a38edf66ebbcffa6b54d5194374bb90497492a5dfb4",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/contracts/r24-wp702-terminal-carriers.contract.test.mjs",
+      "sha256": "23eb0839c9767befd5887b01b1e2c4fa30b202ef2bac4e04e87da73b8e9e6300",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "4eff8b8fef1fa6f12f0ba625f1535e6662dd2f3493a1d638768f745a142b2a7f",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:30:56Z",
+      "rationale": "Consume the append-only WP702 successor while continuing to verify its exact WP504 predecessor."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp702-text-formats-fixtures.js",
+      "sha256": "9e8c218c4b749f40272c86d8d17c7ba8bb6b2b9d376594d4c291bc820a70222c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats-integration.test.js",
+      "sha256": "e2dabd0465b124d4bd137f9d20e15716c8237960e7dc8bdab2808a7386911032",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats-mutants.test.js",
+      "sha256": "14aeb6b7380ce84b3ca01f4b2b696a800e1d6b85871eb59b81a0e2334ad5b450",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats.test.js",
+      "sha256": "363aa7a04fc35818fcb4cac544d1d195668c10d5da62790bda6681c93e5fff4c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    }
+  ],
+  "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+  "approvedAtUtc": "2026-09-02T18:50:57Z",
+  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only CI merge-ref test-binding successor; PROGRAM_DONE remains false.",
+  "absoluteExclusions": [
+    "SIGNING",
+    "NOTARIZATION",
+    "PUBLIC_DISTRIBUTION",
+    "PRODUCTION_PUBLIC_RELEASE",
+    "PAYMENTS",
+    "SECRETS",
+    "USER_DOCUMENT_MUTATION",
+    "UNADMITTED_EXTERNAL_PROVIDER_EFFECT",
+    "UNADMITTED_NETWORK_EFFECT"
+  ],
+  "programDone": false
+}

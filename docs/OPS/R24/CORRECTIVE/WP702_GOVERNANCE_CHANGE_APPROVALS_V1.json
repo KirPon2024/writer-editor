@@ -18,10 +18,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "a53f3236b9107e323f41044be86c0e94eebd2775504a5db3ff33e4e02ab23706",
+      "sha256": "68ba43114c880a7316618008c4bd5dc42ef0abcb84678d42cb55cc4f10b6f91f",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T17:30:56Z",
-      "rationale": "Refresh the exact digest of the RELEASE01 consumer without changing its complete 1327-file denominator."
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Refresh the two exact PK0-successor test digests without changing the complete 1327-file denominator or skip policy."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_ACCEPTANCE_MATRIX_V1.json",
@@ -360,11 +360,39 @@
       "rationale": "Exact lease-76 single-writer operation and command scope for the PK0 security successor."
     },
     {
-      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "87f468a294ed09a1ccf480718b7496b45d5d05201742cfa2c72f74ba9f630414",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "3fa86f124a69bf82b9ee6c27d9612e292ed119fb7dcd9c90e9f629f4f60d058f",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T18:05:00Z",
-      "rationale": "Fail-closed exact-admission chain for the renderer and PK0 security successors."
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Owner-authorized bounded repair of the two stale inventory digests exposed by candidate CI run 33667239367."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "06bb6088e0b657b208b2ccc6cbdefd2513dd000c2720bf41710e21f440c379ba",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Privacy-safe exact pre-mutation 258-entry snapshot preserving the same eight protected dirty worktrees."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2983a44e16adda9987a8b1deb5a665897257a5d5b2546967739461a6c035e988",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Pinned verifier admission for the exact seven-path PK0 inventory refresh successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_INVENTORY_REFRESH_STAGE_INSTANCE_V1.json",
+      "sha256": "fb28bc2f783eedb03c9c4f1543628036474611e6fa83f1b2607d21dc0e7b7c58",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the PK0 inventory refresh successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "e71260732cdae06da933c95934028bfd4dec362dfeb629b25e333197bf099d2b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:42:37Z",
+      "rationale": "Fail-closed exact-admission chain through the PK0 inventory refresh successor."
     },
     {
       "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
@@ -459,8 +487,8 @@
     }
   ],
   "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-  "approvedAtUtc": "2026-09-02T17:44:04Z",
-  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only renderer bundle rebind successor; PROGRAM_DONE remains false.",
+  "approvedAtUtc": "2026-09-02T18:42:37Z",
+  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only PK0 inventory refresh successor; PROGRAM_DONE remains false.",
   "absoluteExclusions": [
     "SIGNING",
     "NOTARIZATION",

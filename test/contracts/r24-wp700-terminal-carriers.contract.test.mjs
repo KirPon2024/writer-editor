@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
@@ -14,6 +15,8 @@ const digestFile=(relative)=>sha256(fs.readFileSync(path.join(ROOT,relative)));
 const SOURCE='1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const PROGRAM='da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
 const ISSUE_CEILING_MS=Date.parse('2026-09-02T07:40:00Z');
+const WP700_EVALUATION_SHA='b793f383e1d182fdab00e5e82b1d06feb51393bf';
+const WP700_EVALUATION_TREE='613416033ca626ccc5ea92a4ce0611de59f99331';
 const UTC_KEYS=new Set(['approvedAtUtc','capturedAtUtc','createdAt','generatedAtUtc','observedAtUtc','selectedAtUtc']);
 const assertSourceRoles=(value)=>{assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,SOURCE);assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,PROGRAM);assert.equal(value.sourcePlanRoles.rolesDistinct,true);assert.notEqual(SOURCE,PROGRAM);};
 const assertNoFutureDeclaredUtc=(value,ceilingMs,phase,pathParts=[])=>{
@@ -25,6 +28,7 @@ const assertNoFutureDeclaredUtc=(value,ceilingMs,phase,pathParts=[])=>{
     assertNoFutureDeclaredUtc(entry,ceilingMs,phase,next);
   }
 };
+const digestGitObject=(sha,relative)=>sha256(execFileSync('git',['show',`${sha}:${relative}`],{cwd:ROOT,encoding:null,maxBuffer:16*1024*1024}));
 
 test('WP-700 terminal carriers form one acyclic exact-byte conditional delivery chain',()=>{
   const authority=read(CORRECTIVE,'WP700_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json');
@@ -42,13 +46,21 @@ test('WP-700 terminal carriers form one acyclic exact-byte conditional delivery 
   const approvals=read(CORRECTIVE,'WP700_GOVERNANCE_CHANGE_APPROVALS_V1.json');
   const claimBindings=read(EVIDENCE,'ES-R24-WP-700-INTERCHANGE-IR-CLAIM-BINDINGS.json');
   const evidenceStamps=['MODEL','CONTRACT','INTEGRATION','MUTANTS'].map((kind)=>read(EVIDENCE,`ES-R24-WP-700-INTERCHANGE-IR-${kind}.json`));
-  for(const carrier of [selection,protectedWip,admission,terminal,approvals,claimBindings,...evidenceStamps]){assertNoFutureDeclaredUtc(carrier,ISSUE_CEILING_MS,'ISSUE');assertNoFutureDeclaredUtc(carrier,Date.now(),'VERIFY');}
+  const originalIssueCarriers=[selection,protectedWip,admission,terminal,claimBindings,...evidenceStamps];
+  for(const carrier of originalIssueCarriers){assertNoFutureDeclaredUtc(carrier,ISSUE_CEILING_MS,'ISSUE');assertNoFutureDeclaredUtc(carrier,Date.now(),'VERIFY');}
+  assertNoFutureDeclaredUtc(approvals,Date.now(),'VERIFY');
+  assert.equal(approvals.approvals.some((entry)=>Date.parse(entry.approvedAtUtc)>ISSUE_CEILING_MS),true);
+  const futureApproval=structuredClone(approvals);futureApproval.approvals.at(-1).approvedAtUtc=new Date(Date.now()+60_000).toISOString();
+  assert.throws(()=>assertNoFutureDeclaredUtc(futureApproval,Date.now(),'VERIFY'),/E_WP700_FUTURE_DECLARED_UTC:VERIFY:approvals/u);
   for(const carrier of [registry,acceptance,effective,stageRegistry,lease,terminal,supplement])assertSourceRoles(carrier);
   assert.equal(admission.authorityDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP700_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json'));
   assert.equal(admission.stageInstanceDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP700_MAIN_PRODUCT_STAGE_INSTANCE_V1.json'));
   assert.equal(authority.stageId,'WP-700_INTERCHANGE_IR');
   assert.equal(instance.lease.fencingCounter,73);
-  for(const carrier of registry.carriers)assert.equal(digestFile(carrier.path),carrier.sha256,carrier.path);
+  assert.equal(execFileSync('git',['rev-parse',`${WP700_EVALUATION_SHA}^{tree}`],{cwd:ROOT,encoding:'utf8'}).trim(),WP700_EVALUATION_TREE);
+  for(const carrier of registry.carriers)assert.equal(digestGitObject(WP700_EVALUATION_SHA,carrier.path),carrier.sha256,carrier.path);
+  const evolvedOracle=registry.carriers.find((carrier)=>carrier.path==='test/contracts/r24-wp700-post-audit-compatibility.contract.test.mjs');
+  assert.notEqual(digestFile(evolvedOracle.path),evolvedOracle.sha256);
   assert.equal(acceptance.bindings.carrierRegistryDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP700_CARRIER_REGISTRY_V1.json'));
   assert.equal(effective.bindings.acceptanceMatrixDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP700_ACCEPTANCE_MATRIX_V1.json'));
   assert.equal(stageRegistry.bindings.effectiveStateDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP700_EFFECTIVE_STATE_V1.json'));

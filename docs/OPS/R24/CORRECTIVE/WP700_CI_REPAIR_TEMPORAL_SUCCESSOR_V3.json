@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_TEMPORAL_SUCCESSOR_V3",
+  "status": "CURRENT_APPEND_ONLY_TEMPORAL_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T09:43:41Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseIdentity": {
+    "sha": "3ad5522ae2ad23882cd1d3ada92f683f7bca8208",
+    "treeSha": "f12efb3c5b272a7d52393d9b01f1629909f4d940"
+  },
+  "admission": {
+    "authorityDigest": "0b42d1a4f68b3f664c04b576f456bec9b204075132525226f21d4ccd7658f1a9",
+    "stageInstanceDigest": "5adea0d95851550017c7f3b794134f53aa6c578fffc372ed1764356dcb2ad66a",
+    "stageAdmissionDigest": "5871717549cf0640cf293cd651216eb8fa51c8d1ba7e966c219ff04ca283fb5c",
+    "writeSetDigest": "669a8e3d350702d157d5270f4680969ae431aab0544063cc9661d37f0a418041",
+    "commandScopeDigest": "14ce63d6d02e415a16875438535c40ed33492f34b32ea01460472ef30e2991e5",
+    "acceptanceSignalsDigest": "3e01ce17d21ae1faef28c7ecb174422c38cc2047898addbbcb057fdb8cd2c477",
+    "pathDenominator": 10
+  },
+  "bindings": {
+    "v3CheckpointSha": "3ad5522ae2ad23882cd1d3ada92f683f7bca8208",
+    "v3CheckpointTreeSha": "f12efb3c5b272a7d52393d9b01f1629909f4d940",
+    "v3StageAdmissionDigest": "63e133b951313a4ee4214a5bd2b047c44e029b4413ffff2c5f2633c06652d50b",
+    "v3SuccessorDigest": "9dccf145e7dffd51a1a78d30385caeb094328e16150ed591a81d05a127f19097",
+    "temporalFailureDigest": "a3a6a51db3252187b541f4721c1ed04793b6ce7ffb5fc3fde7d36e8f12f5e63b",
+    "refreshedInventoryDigest": "ea0de2ec5f28464e847d581c8bcba0fcaa9a0958a5a4a71bc0092d044f7d9858",
+    "correctedTerminalTestDigest": "46b15391f32e663a515ea8c91eb2435c07d35be1f8e0a986d060a509cda5fc72"
+  },
+  "temporalOutcome": {
+    "originalIssueCeilingUtc": "2026-09-02T07:40:00Z",
+    "originalCarrierCeilingRetained": true,
+    "successorApprovalsUseVerificationCeiling": true,
+    "hostileFutureApprovalRejected": true,
+    "historicalTimestampRewritten": false
+  },
+  "inventoryOutcome": {
+    "discoveredFileDenominator": 1312,
+    "lateMjsDenominator": 8,
+    "requiredSkips": 0,
+    "unexplainedSkips": 0,
+    "digestMismatchDenominator": 0
+  },
+  "historicalCarrierRewritten": false,
+  "productRuntimeChanged": false,
+  "lease": {
+    "fencingCounter": 73,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "programDone": false
+}

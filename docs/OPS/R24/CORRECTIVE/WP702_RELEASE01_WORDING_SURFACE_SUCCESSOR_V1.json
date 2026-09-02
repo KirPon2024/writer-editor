@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "WP702_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-702_RELEASE01_REBIND_SUCCESSOR",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "74eaaaf4826f4f6f8dade80489579e25b834f37f",
+    "treeSha": "7292b8ba92841c9f382c789bae35760c4ff64f53"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:caecad8ac94a8a362eb3e899d3e668ac70d1be25f7628493655f2e0da3939c56"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "f9b1b4f9fb564c79b3afa5ffac4ae1cd52ad8f7f8fa8eb83f7dbc8b835fa81c3",
+    "stageInstanceDigest": "c79d1187440e0d3a8b698135975350f3fd24588bf929d2f0927c55f6bd2b722b",
+    "stageAdmissionDigest": "5b930bc187b55c4fbd61c51be9bb0c25c9db7a69885d2d1447d9fcdad9c1fd21"
+  },
+  "completeHistoricalRegistryChecksPreserved": true,
+  "programDone": false
+}

@@ -38,6 +38,34 @@
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "080e063a29aa628d570196856b72ecff34a31512e10cf424e1adeb8d97c278ee",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Append-only admission for exact issued-Git-object terminal carrier verification."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "83699cb85364997ab19a1b2c6a246d8308df309275aa02d4f2c59442d4b21bb2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "c8ca052c59245ab5876ab3140a1b0470a553ea8b4eeabc027c224ca439c9ce41",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Pinned verifier admission for the exact eight-path compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_COMPATIBILITY_STAGE_INSTANCE_V1.json",
+      "sha256": "b97afcca72cc342a09967dd4b77139cba28d8cb2d5e3ee822ba07fc0572adde2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the compatibility amendment."
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EFFECTIVE_STATE_V1.json",
       "sha256": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
@@ -144,10 +172,17 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "640cca420bb3d31d5eca1b80e39189140b4d30ea5e987be9ca5060ac9c5a40a8",
+      "sha256": "7be06332ed895009d6163f2850c84dd49bdbfc5363c902e0a987af68c59e79fa",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:41:58Z",
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/contracts/r24-wp701-terminal-carriers.contract.test.mjs",
+      "sha256": "5f76c4250ca9d558350d6dc3eb0692a3db19f001f308880e607f686782cc170d",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:53:42Z",
+      "rationale": "Verify WP701 registry bindings from exact issued Git objects instead of mutable live files."
     },
     {
       "filePath": "src/core/text-formats-v1.mjs",
@@ -165,7 +200,7 @@
     },
     {
       "filePath": "test/contracts/r24-wp702-terminal-carriers.contract.test.mjs",
-      "sha256": "b28313022765fc7a57eb628769d9dd4ba06f9a9168b2832f2a982f869f8639a2",
+      "sha256": "23eb0839c9767befd5887b01b1e2c4fa30b202ef2bac4e04e87da73b8e9e6300",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:41:58Z",
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."

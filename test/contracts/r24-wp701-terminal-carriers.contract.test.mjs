@@ -1,9 +1,15 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import test from 'node:test';
 
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
+const ISSUE_SHA='e5390cb29934322fda18db4de8c8fdb9d71610d1';
+const ISSUE_TREE='364ebcda483fc8680fd77770fcb7461e60d1caa0';
+const git=(...args)=>execFileSync('git',args,{encoding:null,maxBuffer:16*1024*1024});
+const gitText=(...args)=>git(...args).toString('utf8').trim();
+const issuedDigest=(path)=>h(git('show',`${ISSUE_SHA}:${path}`));
 const load=(path)=>{const bytes=fs.readFileSync(path);assert.equal(bytes.at(-1),0x0a);return{bytes,digest:h(bytes),value:JSON.parse(bytes)}};
 const paths={
   acceptance:'docs/OPS/R24/CORRECTIVE/WP701_ACCEPTANCE_MATRIX_V1.json',
@@ -41,7 +47,8 @@ function verifyTerminalSet(values){
   assert.equal(values.registry.verifiedCarrierCount,16);
   assert.equal(values.registry.missingCarrierCount,0);
   assert.equal(values.registry.mismatchedCarrierCount,0);
-  for(const carrier of values.registry.carriers)assert.equal(h(fs.readFileSync(carrier.path)),carrier.sha256,carrier.path);
+  assert.equal(gitText('rev-parse',`${ISSUE_SHA}^{tree}`),ISSUE_TREE);
+  for(const carrier of values.registry.carriers)assert.equal(issuedDigest(carrier.path),carrier.sha256,carrier.path);
   assert.equal(values.lease.currentLease.fencingCounter,75);
   assert.equal(values.lease.currentLease.status,'ACTIVE');
   assert.equal(values.lease.currentLease.wip,1);

@@ -445,10 +445,10 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "baafcccdbbcb82f96178b46298ce22bb9caac6e8289fcb07821aa17fa6616af2",
+      "sha256": "270526eaadcc65a242f3aa377214c5239fac4e4f8578bf12dfe0d0450b967d37",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T19:11:16Z",
-      "rationale": "Fail-closed exact-admission chain through the WP504 historical-surface successor."
+      "approvedAtUtc": "2026-09-02T19:43:54Z",
+      "rationale": "Fail-closed exact-admission chain through the WP504 historical-surface successor, including WP505 V3 artifact evaluation at the next exact admitted checkpoint."
     },
     {
       "filePath": "scripts/ops/r24/wp504-terminal-verifier.mjs",

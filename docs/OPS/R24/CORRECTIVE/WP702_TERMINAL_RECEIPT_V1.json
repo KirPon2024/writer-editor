@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP702_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-702_TEXT_FORMATS",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-02T16:41:58Z",
+  "evidenceStampId": "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseIdentity": {
+    "sha": "e5390cb29934322fda18db4de8c8fdb9d71610d1",
+    "treeSha": "364ebcda483fc8680fd77770fcb7461e60d1caa0"
+  },
+  "bindings": {
+    "selectionReceiptDigest": "8a08078421a8a2463ebf0e9388f8bbfb9491c2459ee79468dc42fe6c318f3f09",
+    "authorityDigest": "f1e079bc3921bd7a374b9b4192ecb0005c4d7bd866246cc2417633f746063490",
+    "stageInstanceDigest": "247b02dead1cc7d6f3ef50353fec8ed42fff19a04d54cb570ca99341b47e40a7",
+    "stageAdmissionDigest": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b",
+    "writeSetDigest": "26a3fc410b9ae78de715dae8a78137bffc16be11107f4f22bbf952520c71637f",
+    "commandScopeDigest": "87b2371239e0118211ee86c961471cfe0160d167c5399d7d760f24d8321ce61b",
+    "acceptanceSignalsDigest": "255adc19b7084c4717389405fcb537d78c6c9f81fd0083fe824d59a4238a9d37",
+    "wp701ExternalTerminalReceiptDigest": "e48d231496fb98916064b7c44abc9a22f3ce932137c95d762a38161b9a6243c2",
+    "wp701ExternalVerificationDigest": "83471ec7f789c10baea1b136274fee1d7120789fe0042bd71724c9d006e0105e",
+    "wp701ExternalDurableCarrierDigest": "f6be98c6c5d2ab111c8e6aa7442c31bcc16862aea65d6a9ab96fc690b4f21c49",
+    "wp701ExternalLeaseReleaseDigest": "5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde",
+    "carrierRegistryDigest": "08c30056d146eac44feeb9e82ca5ff3100b543b84a555cd6b227ec7e0a09ff32",
+    "acceptanceMatrixDigest": "c316410ffaebc07d0431936b3c9cb601c90f9ff1e202f6ea24452a712622eb77",
+    "effectiveStateDigest": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
+    "stageRegistryDigest": "be86a0d0c27ca4b50b67140361b687a55ca8de46c001e486f93d876b64e7744c",
+    "leaseReleaseDigest": "78e249d6e285ad5fa9e7815be2d7c4694315640d961560c2a30d73fec62c58c6"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/text-formats-v1.mjs",
+      "sha256": "5a2a7e148a341d3c8ef46ea96fd45cbcc40ba45884c7ef162b0eb228b465d386"
+    },
+    {
+      "path": "test/fixtures/r24-wp702-text-formats-fixtures.js",
+      "sha256": "9e8c218c4b749f40272c86d8d17c7ba8bb6b2b9d376594d4c291bc820a70222c"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats.test.js",
+      "sha256": "363aa7a04fc35818fcb4cac544d1d195668c10d5da62790bda6681c93e5fff4c"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats-integration.test.js",
+      "sha256": "e2dabd0465b124d4bd137f9d20e15716c8237960e7dc8bdab2808a7386911032"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats-mutants.test.js",
+      "sha256": "14aeb6b7380ce84b3ca01f4b2b696a800e1d6b85871eb59b81a0e2334ad5b450"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp702": {
+      "tests": 17,
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "mutantsKilled": 32,
+      "mutantsSurvived": 0,
+      "status": "PASS"
+    },
+    "postAuditAdmissionChain": {
+      "exactPathDenominator": 28,
+      "status": "PASS_PENDING_TERMINAL_CONTRACT"
+    },
+    "cleanEngineStrictInstall": {
+      "status": "REQUIRED_BEFORE_COMMIT"
+    },
+    "rendererBuild": {
+      "trackedOutputChanged": false,
+      "status": "REQUIRED_BEFORE_COMMIT"
+    },
+    "fullBaseline": {
+      "status": "REQUIRED_BEFORE_COMMIT"
+    },
+    "e0": {
+      "expectedTests": 110,
+      "expectedMutants": 31,
+      "status": "REQUIRED_BEFORE_COMMIT"
+    },
+    "rtk": {
+      "minimumExpectedTests": 1067,
+      "expectedSkips": 0,
+      "status": "REQUIRED_BEFORE_COMMIT"
+    },
+    "securityAndOss": {
+      "status": "REQUIRED_BEFORE_COMMIT"
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 66,
+    "blockedTypedCount": 4,
+    "pendingCount": 29
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_COMMONMARK_OR_GFM_CLAIM",
+    "NO_PRODUCT_MUTATION_COMMAND_PERSISTENCE_RENDERER_RUNTIME_OR_FILE_PROVIDER_AUTHORITY",
+    "NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_PRODUCTION_RELEASE_PAYMENTS_SECRETS_USER_DOCUMENT_MUTATION_OR_UNADMITTED_NETWORK_EXTERNAL_PROVIDER_EFFECT",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "programDone": false
+}

@@ -1,0 +1,84 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_CARRIER_REGISTRY_V1",
+  "stageId": "WP-702_TEXT_FORMATS",
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "evaluationSha": "e5390cb29934322fda18db4de8c8fdb9d71610d1",
+  "evaluationTreeSha": "364ebcda483fc8680fd77770fcb7461e60d1caa0",
+  "carrierDenominator": 16,
+  "verifiedCarrierCount": 16,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8a08078421a8a2463ebf0e9388f8bbfb9491c2459ee79468dc42fe6c318f3f09"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "f1e079bc3921bd7a374b9b4192ecb0005c4d7bd866246cc2417633f746063490"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "247b02dead1cc7d6f3ef50353fec8ed42fff19a04d54cb570ca99341b47e40a7"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP702_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6e5ddbeb56942eefc9ff0f78bed6268d47b50697225059c49b8ff21853349146"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MODEL.json",
+      "sha256": "de57730ca4b5b82f59a11a00d0e7fd5a8d1f70a50e52adf5f4ef9dd55cde4870"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-CONTRACT.json",
+      "sha256": "59c5a3db8da74c0c98759b4109f231571b46cc7413348351be3004e7117225f1"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-INTEGRATION.json",
+      "sha256": "9974b7f1e05f66f34459364adbf6bd18838b83307ac6002e788933b668d3bdb7"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MUTANTS.json",
+      "sha256": "edede6fe0bc89618ac32129eed66c9c312c5c599890cae98c75a5fefc4f3cba5"
+    },
+    {
+      "path": "src/core/text-formats-v1.mjs",
+      "sha256": "5a2a7e148a341d3c8ef46ea96fd45cbcc40ba45884c7ef162b0eb228b465d386"
+    },
+    {
+      "path": "test/fixtures/r24-wp702-text-formats-fixtures.js",
+      "sha256": "9e8c218c4b749f40272c86d8d17c7ba8bb6b2b9d376594d4c291bc820a70222c"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats.test.js",
+      "sha256": "363aa7a04fc35818fcb4cac544d1d195668c10d5da62790bda6681c93e5fff4c"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats-integration.test.js",
+      "sha256": "e2dabd0465b124d4bd137f9d20e15716c8237960e7dc8bdab2808a7386911032"
+    },
+    {
+      "path": "test/unit/r24-wp702-text-formats-mutants.test.js",
+      "sha256": "14aeb6b7380ce84b3ca01f4b2b696a800e1d6b85871eb59b81a0e2334ad5b450"
+    },
+    {
+      "path": "test/contracts/r24-wp702-post-audit-compatibility.contract.test.mjs",
+      "sha256": "24d2f0ba37da76758a0c0a38edf66ebbcffa6b54d5194374bb90497492a5dfb4"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "640cca420bb3d31d5eca1b80e39189140b4d30ea5e987be9ca5060ac9c5a40a8"
+    }
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "currentTreeFallbackAllowed": false,
+  "programDone": false
+}

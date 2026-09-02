@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-702_TEXT_FORMATS",
+  "attemptId": "ATTEMPT-WP702-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP702_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "e5390cb29934322fda18db4de8c8fdb9d71610d1",
+    "treeSha": "364ebcda483fc8680fd77770fcb7461e60d1caa0"
+  },
+  "createdAt": "2026-09-02T16:41:58Z",
+  "actor": "codex/r24-wp702-text-formats-v1-20260902",
+  "stampId": "ES-R24-WP-702-TEXT-FORMATS-MODEL",
+  "claim": {
+    "type": "WP702_TEXT_FORMATS_MODEL",
+    "ceiling": "WP702_NODE_AND_INTERCHANGE_COMMON_PROFILE_ONLY",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP702 deterministic bounded text-format model assertions",
+    "evidenceClass": "MODEL",
+    "denominator": 18,
+    "passed": 18,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-701-PARSER-QUARANTINE-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "e48d231496fb98916064b7c44abc9a22f3ce932137c95d762a38161b9a6243c2"
+  },
+  "artifact": {
+    "implementationArtifact": {
+      "path": "src/core/text-formats-v1.mjs",
+      "sha256": "5a2a7e148a341d3c8ef46ea96fd45cbcc40ba45884c7ef162b0eb228b465d386"
+    },
+    "modelAssertions": [
+      "TWO_EXACT_PROFILE_IDS",
+      "STRICT_BYTE_INPUT_TYPE",
+      "ONE_MIB_BYTE_CEILING",
+      "STRICT_UTF8",
+      "OPTIONAL_BOM_WITH_LOSS",
+      "NFC_REQUIRED",
+      "LF_CANONICALIZATION",
+      "FORBIDDEN_CONTROL_REJECTION",
+      "ARCHIVE_AND_BINARY_PREJECTION_REJECTION",
+      "BOUNDED_MARKDOWN_SECURITY",
+      "IMMUTABLE_WP700_DOCUMENT_IR",
+      "PRIVACY_SAFE_LOSS_LEDGER",
+      "COMPLETE_CAPABILITY_DENOMINATOR",
+      "COMPLETE_FIDELITY_DENOMINATOR",
+      "COMPLETE_IDENTITY_REVALIDATION",
+      "PHYSICAL_BYTE_ROUNDTRIP",
+      "NO_PRODUCT_OR_EXTERNAL_EFFECT_AUTHORITY",
+      "PROGRAM_DONE_FALSE"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "programDone": false
+  }
+}

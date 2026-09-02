@@ -1,0 +1,217 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "e91e2f784412a74fe77157a570db9fae1620bac606d90a9925b0f07fed983426",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "2a331c205e28af30e4a15cc100580e0f8b8721499661b84903815693de810593",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "c316410ffaebc07d0431936b3c9cb601c90f9ff1e202f6ea24452a712622eb77",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CARRIER_REGISTRY_V1.json",
+      "sha256": "08c30056d146eac44feeb9e82ca5ff3100b543b84a555cd6b227ec7e0a09ff32",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EFFECTIVE_STATE_V1.json",
+      "sha256": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_LEASE_RELEASE_V1.json",
+      "sha256": "78e249d6e285ad5fa9e7815be2d7c4694315640d961560c2a30d73fec62c58c6",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "f1e079bc3921bd7a374b9b4192ecb0005c4d7bd866246cc2417633f746063490",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8a08078421a8a2463ebf0e9388f8bbfb9491c2459ee79468dc42fe6c318f3f09",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "247b02dead1cc7d6f3ef50353fec8ed42fff19a04d54cb570ca99341b47e40a7",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6e5ddbeb56942eefc9ff0f78bed6268d47b50697225059c49b8ff21853349146",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_STAGE_REGISTRY_V1.json",
+      "sha256": "be86a0d0c27ca4b50b67140361b687a55ca8de46c001e486f93d876b64e7744c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_RECEIPT_V1.json",
+      "sha256": "72d0f298700eb587f7548ae84c05e2c38ed1e116fc59e011638e5ba404aa3caa",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "3a4b507b9b979766d6ee362c6242aaba1d1bb1a87b54af221a03c5e40f2bdd34",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS.json",
+      "sha256": "3c5a240121144c6c4628d82b3c4a891f54bf8f27fcbe7a1e1ad89658a00dc3a0",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-CONTRACT.json",
+      "sha256": "59c5a3db8da74c0c98759b4109f231571b46cc7413348351be3004e7117225f1",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-INTEGRATION.json",
+      "sha256": "9974b7f1e05f66f34459364adbf6bd18838b83307ac6002e788933b668d3bdb7",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MODEL.json",
+      "sha256": "de57730ca4b5b82f59a11a00d0e7fd5a8d1f70a50e52adf5f4ef9dd55cde4870",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-702-TEXT-FORMATS-MUTANTS.json",
+      "sha256": "edede6fe0bc89618ac32129eed66c9c312c5c599890cae98c75a5fefc4f3cba5",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "640cca420bb3d31d5eca1b80e39189140b4d30ea5e987be9ca5060ac9c5a40a8",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "src/core/text-formats-v1.mjs",
+      "sha256": "5a2a7e148a341d3c8ef46ea96fd45cbcc40ba45884c7ef162b0eb228b465d386",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/contracts/r24-wp702-post-audit-compatibility.contract.test.mjs",
+      "sha256": "24d2f0ba37da76758a0c0a38edf66ebbcffa6b54d5194374bb90497492a5dfb4",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/contracts/r24-wp702-terminal-carriers.contract.test.mjs",
+      "sha256": "b28313022765fc7a57eb628769d9dd4ba06f9a9168b2832f2a982f869f8639a2",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp702-text-formats-fixtures.js",
+      "sha256": "9e8c218c4b749f40272c86d8d17c7ba8bb6b2b9d376594d4c291bc820a70222c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats-integration.test.js",
+      "sha256": "e2dabd0465b124d4bd137f9d20e15716c8237960e7dc8bdab2808a7386911032",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats-mutants.test.js",
+      "sha256": "14aeb6b7380ce84b3ca01f4b2b696a800e1d6b85871eb59b81a0e2334ad5b450",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "test/unit/r24-wp702-text-formats.test.js",
+      "sha256": "363aa7a04fc35818fcb4cac544d1d195668c10d5da62790bda6681c93e5fff4c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:41:58Z",
+      "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    }
+  ],
+  "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+  "approvedAtUtc": "2026-09-02T16:41:58Z",
+  "rationale": "Owner-authorized WP702 bounded TXT and Markdown profile contour for internal protected-repository delivery.",
+  "absoluteExclusions": [
+    "SIGNING",
+    "NOTARIZATION",
+    "PUBLIC_DISTRIBUTION",
+    "PRODUCTION_PUBLIC_RELEASE",
+    "PAYMENTS",
+    "SECRETS",
+    "USER_DOCUMENT_MUTATION",
+    "UNADMITTED_EXTERNAL_PROVIDER_EFFECT",
+    "UNADMITTED_NETWORK_EFFECT"
+  ],
+  "programDone": false
+}

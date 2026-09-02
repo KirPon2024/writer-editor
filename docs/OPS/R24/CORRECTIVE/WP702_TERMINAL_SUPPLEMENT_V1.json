@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-702_TEXT_FORMATS",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "terminalReceiptDigest": "72d0f298700eb587f7548ae84c05e2c38ed1e116fc59e011638e5ba404aa3caa",
+    "authorityDigest": "f1e079bc3921bd7a374b9b4192ecb0005c4d7bd866246cc2417633f746063490",
+    "stageInstanceDigest": "247b02dead1cc7d6f3ef50353fec8ed42fff19a04d54cb570ca99341b47e40a7",
+    "stageAdmissionDigest": "64139cb2444b08ae17310791ae375eb71c797f8e3daebe4990d7cc942985cc8b",
+    "carrierRegistryDigest": "08c30056d146eac44feeb9e82ca5ff3100b543b84a555cd6b227ec7e0a09ff32",
+    "modelEvidenceDigest": "de57730ca4b5b82f59a11a00d0e7fd5a8d1f70a50e52adf5f4ef9dd55cde4870",
+    "contractEvidenceDigest": "59c5a3db8da74c0c98759b4109f231571b46cc7413348351be3004e7117225f1",
+    "integrationEvidenceDigest": "9974b7f1e05f66f34459364adbf6bd18838b83307ac6002e788933b668d3bdb7",
+    "mutantEvidenceDigest": "edede6fe0bc89618ac32129eed66c9c312c5c599890cae98c75a5fefc4f3cba5"
+  },
+  "compatibilityReview": {
+    "wp701MergeSha": "e5390cb29934322fda18db4de8c8fdb9d71610d1",
+    "wp701TreeSha": "364ebcda483fc8680fd77770fcb7461e60d1caa0",
+    "wp701ExternalReceiptDigest": "e48d231496fb98916064b7c44abc9a22f3ce932137c95d762a38161b9a6243c2",
+    "wp701ExternalVerificationDigest": "83471ec7f789c10baea1b136274fee1d7120789fe0042bd71724c9d006e0105e",
+    "wp701LeaseReleaseDispositionDigest": "5d99dad13b1b6b9474a205896b515d89e23b68b0bc2d58c5afc742363bbe3fde",
+    "hostileMutantDenominator": 32,
+    "focusedTestDenominator": 17,
+    "capabilityCellDenominator": 16,
+    "fidelityCellDenominator": 16,
+    "productMutationAuthority": false,
+    "publicReleaseAuthority": false,
+    "externalProviderAuthority": false
+  },
+  "currentLease": {
+    "fencingCounter": 76,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "targetLease": {
+    "fencingCounter": 76,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "INDEPENDENT_EXACT_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

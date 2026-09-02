@@ -10,19 +10,19 @@
   },
   "bindings": {
     "predecessorLeaseReleaseDigest": "bb3bd4dee9e1b8228389adbef9e0777b7b5940d3aea93737e48ef4eb25a1905a",
-    "acceptanceMatrixDigest": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
-    "effectiveStateDigest": "633418c463579834c20ba84a60463fa0068d4acc75f114c3677771bf43a74bb8",
-    "stageRegistryDigest": "186b19a3cc0cd8a62f1beea341e4cd9277e0e7f7196b1dd29ea058d2a319d3e9",
-    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e"
+    "acceptanceMatrixDigest": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+    "effectiveStateDigest": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a",
+    "stageRegistryDigest": "53948866b9cb31bde02ed85e144686421627e1959012827db07d773165ffb272",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935"
   },
   "currentLease": {
-    "fencingCounter": 68,
+    "fencingCounter": 69,
     "status": "ACTIVE",
     "wip": 1,
-    "predecessorReleaseDigest": "65fb353a94ec1e592a3e5161673eabce7f850df9f2a4c2c9151e40963b36f39c"
+    "predecessorReleaseDigest": "11a259b6caf846d24093446f2e8448bceb3c455f01957e19933727f3637030d0"
   },
   "targetLease": {
-    "fencingCounter": 68,
+    "fencingCounter": 69,
     "status": "RELEASED",
     "wip": 0,
     "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
@@ -43,5 +43,11 @@
   },
   "activationCondition": "ALL_FOUR_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
   "nextGraphNodeStarted": false,
-  "programDone": false
+  "programDone": false,
+  "candidateCiFailureBound": {
+    "runId": 33575534193,
+    "headSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "failureDigest": "248b5d474d5fee5be13dde3043cbb82ef6b01bfd3e71eb1266fca65bfab5abdb",
+    "correctedByStageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935"
+  }
 }

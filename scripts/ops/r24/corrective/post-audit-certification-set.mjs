@@ -449,6 +449,12 @@ export const WP504_MAIN_PRODUCT_ADMISSION_EXPECTATIONS=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V12.json',instanceDigest:'406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V12.json',admissionDigest:'1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e',
     writeSetDigest:'ac0046c31bb70d126cde5a08c7aa86e6c86a1161af352249cf30b8d8a25958a1',baseSha:'c8f3d39000b6dccf5954a7e47f1a45e653ca3c41',baseTree:'d75042626d5ef6c5615e6772d4eb859097aef0f0'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V13.json',authorityDigest:'d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V13.json',instanceDigest:'04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V13.json',admissionDigest:'63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935',
+    writeSetDigest:'0dcd54c3a011a3e06bd68ba975efe416092631a64c61792971403b74d05240d6',baseSha:'781cb4c960f3433b820804fab6b21a389fc7f0bc',baseTree:'cc48d1658913bd230d2742b8d38f6a473edd7aab',leaseCounter:69
   })
 ]);
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
@@ -1394,7 +1400,8 @@ export function verifyWp504MainProductPostEvaluationException({candidateSha='HEA
     assert(instance.value.model==='gpt-5.6-sol'&&instance.value.reasoningEffort==='xhigh'&&admission.value.status==='ADMITTED'&&admission.value.decision==='INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR','E_WP504_ADMISSION_RUNTIME');
     for(const value of [authority.value,instance.value,admission.value])assert(value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST&&value.externalSourcePlanDigest!==value.compiledProgramFileDigest,'E_WP504_ADMISSION_SOURCE_ROLES');
     assert(authority.value.baseSha===expectation.baseSha&&authority.value.baseTree===expectation.baseTree&&instance.value.baseSha===expectation.baseSha&&instance.value.headSha===expectation.baseSha&&instance.value.treeSha===expectation.baseTree&&evaluationTree(git,expectation.baseSha)===expectation.baseTree,'E_WP504_ADMISSION_BASE');
-    assert(instance.value.lease?.fencingCounter===68&&instance.value.lease.status==='ACTIVE'&&instance.value.lease.wip===1&&admission.value.lease?.fencingCounter===68&&admission.value.lease.status==='ACTIVE'&&admission.value.lease.wip===1,'E_WP504_ADMISSION_LEASE');
+    const leaseCounter=expectation.leaseCounter??68;
+    assert(instance.value.lease?.fencingCounter===leaseCounter&&instance.value.lease.status==='ACTIVE'&&instance.value.lease.wip===1&&admission.value.lease?.fencingCounter===leaseCounter&&admission.value.lease.status==='ACTIVE'&&admission.value.lease.wip===1,'E_WP504_ADMISSION_LEASE');
     assert(canonicalBytes(authority.value.allowedOperations).equals(canonicalBytes(instance.value.operations)),'E_WP504_ADMISSION_OPERATION_BINDING');
     const operations=instance.value.operations,writeSet={createPaths:operations.createPaths,deletePaths:operations.deletePaths,modifyPaths:operations.modifyPaths,renamePairs:operations.renamePairs};
     assert(h(canonicalBytes(writeSet).subarray(0,-1))===expectation.writeSetDigest&&admission.value.writeSetDigest===expectation.writeSetDigest&&admission.value.authorityDigest===authority.digest&&admission.value.stageInstanceDigest===instance.digest,'E_WP504_ADMISSION_DIGEST_BINDING');

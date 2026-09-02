@@ -2,10 +2,10 @@
   "schemaVersion": "YALKEN_R24_WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1",
   "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
   "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_CANDIDATE_BOUND_SUCCESSOR",
-  "observedAtUtc": "2026-09-01T21:36:14Z",
+  "observedAtUtc": "2026-09-02T00:42:40Z",
   "exactIdentity": {
-    "sha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
-    "tree": "3795971a31469c0e3f31e7a281adeab0a66b5a2b"
+    "sha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "tree": "cc48d1658913bd230d2742b8d38f6a473edd7aab"
   },
   "attempts": [
     {
@@ -63,17 +63,46 @@
       "code": "E_CI_SHALLOW_HISTORY_AND_E_CARRIER_REGISTRY_DIGEST",
       "detail": "CANDIDATE_CI_RUN_33572418979_AT_C8F3D39000B6DCCF5954A7E47F1A45E653CA3C41_FAILED_C1A_HERMETIC_ON_THREE_PLATFORMS_AND_OPS_VECTOR",
       "rootCause": "C1A_CHECKOUT_FETCH_DEPTH_ONE_OMITTED_REQUIRED_HISTORICAL_OBJECTS_AND_THE_V19_VERIFIER_READ_MUTABLE_DESCENDANT_BYTES_FOR_EXPLICIT_SUCCESSOR_REPLACEMENT_PATHS"
+    },
+    {
+      "hypothesis": "HOSTED_ATLAS_EVENT_DENOMINATOR_MATCHES_CURRENT_15_SURFACE_MANIFEST",
+      "result": "FAIL",
+      "code": "ATLAS_P0_04_SURFACE_MANIFEST_DENOMINATOR_14_VS_15",
+      "detail": "CANDIDATE_CI_RUN_33575534193_AT_781CB4C960F3433B820804FAB6B21A389FC7F0BC_FAILED_REQUIRED_RTK_JOB_100078565659_AFTER_MAINTAINED_RTK_PASSED",
+      "rootCause": "HOSTED_ATLAS_EVENT_CONTRACT_RETAINED_PRE_WP504_14_SURFACE_LITERAL_AFTER_THE_ADMITTED_DOSSIER_SURFACE_RAISED_THE_MANIFEST_DENOMINATOR_TO_15"
     }
   ],
-  "failedCommand": "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP504_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+  "failedCommand": "npm run -s test:atlas-event-contract",
   "failedTests": 1,
-  "passedTests": 1472,
-  "skippedTests": 64,
+  "passedTests": 85,
+  "skippedTests": 0,
   "historicalBytesRewritten": false,
   "sourcePlanRoles": {
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
     "rolesDistinct": true
   },
-  "programDone": false
+  "programDone": false,
+  "hostedCandidateCi": {
+    "runId": 33575534193,
+    "headSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "conclusion": "FAILURE",
+    "causalJobId": 100078565659,
+    "derivedFailedJobIds": [
+      100080468694,
+      100080516399
+    ],
+    "causalFailure": "ATLAS_P0_04_SURFACE_MANIFEST_DENOMINATOR_14_VS_15"
+  },
+  "supersededBy": {
+    "authorityDigest": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+    "stageInstanceDigest": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "writeSetDigest": "0dcd54c3a011a3e06bd68ba975efe416092631a64c61792971403b74d05240d6",
+    "lease": {
+      "fencingCounter": 69,
+      "status": "ACTIVE",
+      "wip": 1
+    }
+  }
 }

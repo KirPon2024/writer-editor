@@ -13,16 +13,20 @@
   "failedCount": 0,
   "pendingCount": 0,
   "bindings": {
-    "acceptanceMatrixDigest": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
-    "effectiveStateDigest": "633418c463579834c20ba84a60463fa0068d4acc75f114c3677771bf43a74bb8",
-    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
-    "carrierRegistryDigest": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d"
+    "acceptanceMatrixDigest": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+    "effectiveStateDigest": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "carrierRegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80"
   },
   "stages": [
     {
       "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
       "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
-      "lease": {"fencingCounter": 68, "currentStatus": "ACTIVE", "targetStatus": "RELEASED"}
+      "lease": {
+        "fencingCounter": 69,
+        "currentStatus": "ACTIVE",
+        "targetStatus": "RELEASED"
+      }
     }
   ],
   "nextGraphNodeStarted": false,

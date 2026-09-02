@@ -26,20 +26,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
-      "sha256": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
-      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "9086485ad96f561cde1d7ed5c8660136f169fa28f684191904e3ae97dfa6280b",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:01:05.786Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V1.json",
       "sha256": "d2ec548b06d44942c14474457395a755d3a5370d133a627e4acaf6c9a7ad7091",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -68,13 +54,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json",
-      "sha256": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V1.json",
       "sha256": "df503907ce12e2fd8514763596ed9d615790306d32ed1efc651d0d2dc98bedeb",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -89,13 +68,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json",
-      "sha256": "633418c463579834c20ba84a60463fa0068d4acc75f114c3677771bf43a74bb8",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V1.json",
       "sha256": "3fb562c4e9929aa87975f63774ca4067ae54c9baa9a8a8de0e0c06feb6c99624",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -108,13 +80,6 @@
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
       "approvedAtUtc": "2026-09-01T22:07:26.225Z",
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
-    },
-    {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json",
-      "sha256": "11a259b6caf846d24093446f2e8448bceb3c455f01957e19933727f3637030d0",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LOCAL_TOOLCHAIN_FAILURE_V1.json",
@@ -362,20 +327,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links, append-only candidate-bound post-audit successor, admitted V8 RTK wording-surface repair, and admitted V9 WP307 wording-consumer repair."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json",
-      "sha256": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json",
-      "sha256": "ad5e2bba8598d43768e9f7d0f9fce1a99f9a40ba411343ac6f3ff1fe21fa22f1",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1.json",
       "sha256": "c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -418,13 +369,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json",
-      "sha256": "186b19a3cc0cd8a62f1beea341e4cd9277e0e7f7196b1dd29ea058d2a319d3e9",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V1.json",
       "sha256": "bf52d793fca904143a79e1e866cce1e5f5b05123346ad65d7c679c3be04ef815",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -437,13 +381,6 @@
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
       "approvedAtUtc": "2026-09-01T22:07:26.225Z",
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
-    },
-    {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json",
-      "sha256": "a26d082a3e7f289186ff81a3f01197dddcb16149602bab38c5648db025e93e31",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V1.json",
@@ -460,13 +397,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json",
-      "sha256": "ca35d9da47dc339976fb2fbfd0a472da8f483de5081543c1f63c6e5beb81a175",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP504_WP503_HISTORICAL_EVALUATION_FAILURE_V1.json",
       "sha256": "d3fe794f266a49854e2f67d0420870e9b07290dd6ab886827d07c8e699a7188b",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -479,13 +409,6 @@
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
       "approvedAtUtc": "2026-09-01T22:07:26.225Z",
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
-    },
-    {
-      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS.json",
-      "sha256": "1318da54e7497faa113283536bb8a1b262758c63a52ab00790d741c8a5c179cc",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:33:19.411Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-DOSSIER-LAYOUT-LINKS-CLAIM-BINDINGS.json",
@@ -502,13 +425,6 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "37d1823112f5f3e42987c199e9e29c208500da340982a1fe7e19e1211f3ca3cf",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "scripts/ops/r24/corrective/post-audit-toolchain.mjs",
       "sha256": "cb6fe3b6e1f5b7e41d152faebd1fe02e7c8362053ea6f942f7918079f3a73f00",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
@@ -523,22 +439,8 @@
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
     },
     {
-      "filePath": "scripts/ops/r24/wp504-terminal-verifier.mjs",
-      "sha256": "f27fcff1c8265a7af10c6d03cc62077a8bf27f6f31fec4db7a6041f834782d95",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T23:31:32.584Z",
-      "rationale": "Owner-authorized bounded WP504 correction through append-only V11 exact SAST command and write-set successor."
-    },
-    {
       "filePath": "test/contracts/r24-post-audit-corrections.contract.test.mjs",
       "sha256": "bea7b54bca40afb5f7b29ce18382d94331d97ffc6b8118fb41e2cf4b35d347d5",
-      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
-      "approvedAtUtc": "2026-09-01T22:07:26.225Z",
-      "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
-    },
-    {
-      "filePath": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs",
-      "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8",
       "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
       "approvedAtUtc": "2026-09-01T22:07:26.225Z",
       "rationale": "Owner-authorized bounded WP504 dossier layout links and append-only candidate-bound post-audit successor."
@@ -584,6 +486,132 @@
       "approvedBy": "owner-direct:AUDIT_CYCLE_1_CORRECTION_BRIEF_V1",
       "approvedAtUtc": "2026-09-02T00:08:51Z",
       "rationale": "Owner-authorized hostile historical Git-object verification contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
+      "sha256": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "c78bb1b1e6f4a88f42be5dd8b23755fd45a12b7ae9f52c61a56e3001db306f8f",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_ACCEPTANCE_MATRIX_V3.json",
+      "sha256": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_EFFECTIVE_STATE_V3.json",
+      "sha256": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_LEASE_RELEASE_V3.json",
+      "sha256": "6700ecbb1a5f655cd9a5ab5627f9bfcde1c39841202314db0de426bf34c05092",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V13.json",
+      "sha256": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V13.json",
+      "sha256": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V13.json",
+      "sha256": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json",
+      "sha256": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json",
+      "sha256": "248b5d474d5fee5be13dde3043cbb82ef6b01bfd3e71eb1266fca65bfab5abdb",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_STAGE_REGISTRY_V3.json",
+      "sha256": "53948866b9cb31bde02ed85e144686421627e1959012827db07d773165ffb272",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_RECEIPT_V3.json",
+      "sha256": "89165cba93bd9e5e7ff28838d05d5c1d0beb18a89cede7d96aeecf76b9b0644c",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP504_TERMINAL_SUPPLEMENT_V3.json",
+      "sha256": "22ae0cbb6955961ec8a5143c10b49452654d8ad05ce00c19e48bcf3574bfba4c",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS.json",
+      "sha256": "c71959984e84b1812124f6242379d723f8aa4c8f88db162221137c9004dc48fe",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "75bb8c373dba10c6eed00a9cb29e57a433ff172fcb96341309c75e5bdabbaed8",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "scripts/ops/r24/wp504-terminal-verifier.mjs",
+      "sha256": "b7f845fcc0568df0d47158d3a742a06ee104daa5d0595cb3e65eb5ecf927df82",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs",
+      "sha256": "09a6b8007c2f043727ad1365aada69e48d4667793ae9c16c86d8d5c6b65b3a09",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "sha256": "0cf7ed7a1b0b4b1e55cfa586cfac2c04a88beadbfa84ebd34859abc501314ef4",
+      "approvedBy": "owner-direct:CONTINUOUS_AUTONOMOUS_COMPLETION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T00:42:40Z",
+      "rationale": "Owner-authorized bounded WP504 append-only V13 hosted Atlas event denominator correction after exact candidate CI failure 33575534193."
     }
   ]
 }

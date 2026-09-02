@@ -10,18 +10,36 @@
   },
   "bindings": {
     "predecessorEffectiveStateDigest": "1a91b4141ab7d55d7773326903e5987f3ed479bc29d9c32571459af7d4d665d8",
-    "acceptanceMatrixDigest": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
-    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
-    "candidateBoundSuccessorDigest": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
+    "acceptanceMatrixDigest": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "candidateBoundSuccessorDigest": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
-  "currentCounts": {"BLOCKED_TYPED": 3, "DONE": 59, "INELIGIBLE_OPTIONAL": 10, "PENDING": 37},
-  "targetCounts": {"BLOCKED_TYPED": 3, "DONE": 60, "INELIGIBLE_OPTIONAL": 10, "PENDING": 36},
+  "currentCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 59,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 37
+  },
+  "targetCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 60,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 36
+  },
   "currentNodeState": "ADMITTED_ACTIVE",
   "targetNodeState": "DONE",
-  "currentLease": {"fencingCounter": 68, "status": "ACTIVE", "wip": 1},
-  "targetLease": {"fencingCounter": 68, "status": "RELEASED", "wip": 0},
+  "currentLease": {
+    "fencingCounter": 69,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "targetLease": {
+    "fencingCounter": 69,
+    "status": "RELEASED",
+    "wip": 0
+  },
   "activationRule": "ALL_SINGLE_TERMINAL_PR_EXTERNAL_DELIVERY_PREDICATES_PASS",
   "nextGraphSelection": false,
   "programDone": false

@@ -3,7 +3,7 @@
   "receiptId": "WP504_TERMINAL_RECEIPT_V3",
   "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
   "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
-  "observedAtUtc": "2026-09-01T21:42:00Z",
+  "observedAtUtc": "2026-09-02T00:42:40Z",
   "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
   "repositoryEvidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
   "sourcePlanRoles": {
@@ -12,39 +12,89 @@
     "rolesDistinct": true
   },
   "baseIdentity": {
-    "sha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41",
-    "treeSha": "d75042626d5ef6c5615e6772d4eb859097aef0f0"
+    "sha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "treeSha": "cc48d1658913bd230d2742b8d38f6a473edd7aab"
   },
   "bindings": {
     "predecessorTerminalReceiptDigest": "98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d",
-    "authorityDigest": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706",
-    "stageInstanceDigest": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045",
-    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
-    "writeSetDigest": "ac0046c31bb70d126cde5a08c7aa86e6c86a1161af352249cf30b8d8a25958a1",
-    "commandScopeDigest": "1a208ffeaa54b5e1ebd99ee30d63ea8ab436f0efa7d10e71079abad30311cb16",
-    "acceptanceSignalsDigest": "2927d9b4abc017bf684563046f08ced9b5800ccd3aeb6135565051cbdf7f46bf",
-    "candidateBoundSuccessorDigest": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
+    "authorityDigest": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+    "stageInstanceDigest": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "writeSetDigest": "0dcd54c3a011a3e06bd68ba975efe416092631a64c61792971403b74d05240d6",
+    "commandScopeDigest": "cba99f991db89e926fc37568d44cefd7be9759fb188cf70de56ce90cd86fc134",
+    "acceptanceSignalsDigest": "895e9b29e5390dd14045c1b0e04adb8f46786995e088ce56cd3421bcce9ff6a4",
+    "candidateBoundSuccessorDigest": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "carrierRegistryDigest": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d",
-    "acceptanceMatrixDigest": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
-    "effectiveStateDigest": "633418c463579834c20ba84a60463fa0068d4acc75f114c3677771bf43a74bb8",
-    "stageRegistryDigest": "186b19a3cc0cd8a62f1beea341e4cd9277e0e7f7196b1dd29ea058d2a319d3e9",
-    "leaseReleaseDigest": "11a259b6caf846d24093446f2e8448bceb3c455f01957e19933727f3637030d0",
+    "carrierRegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80",
+    "acceptanceMatrixDigest": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+    "effectiveStateDigest": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a",
+    "stageRegistryDigest": "53948866b9cb31bde02ed85e144686421627e1959012827db07d773165ffb272",
+    "leaseReleaseDigest": "6700ecbb1a5f655cd9a5ab5627f9bfcde1c39841202314db0de426bf34c05092",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "localEvidence": {
-    "postAuditExactRuntimeReplay": {"node": "22.12.0", "npm": "10.9.0", "tests": 63, "passed": 63, "failed": 0, "skipped": 0, "status": "PASS"},
-    "testInventory": {"all": 1297, "requiredSkips": 0, "unexplainedSkips": 0, "status": "PASS"},
-    "genericSast": {"command": "npm run security:audit:generic-sast", "findings": 0, "timeouts": 0, "nonTimeoutErrors": 0, "status": "PASS"},
-    "cleanTreeFullGateStatus": "REQUIRED_AFTER_SUCCESSOR_COMMIT_NOT_PRECLAIMED"
+    "postAuditExactRuntimeReplay": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "tests": 63,
+      "passed": 63,
+      "failed": 0,
+      "skipped": 0,
+      "status": "PASS"
+    },
+    "testInventory": {
+      "all": 1297,
+      "requiredSkips": 0,
+      "unexplainedSkips": 0,
+      "status": "PASS"
+    },
+    "genericSast": {
+      "command": "npm run security:audit:generic-sast",
+      "findings": 0,
+      "timeouts": 0,
+      "nonTimeoutErrors": 0,
+      "status": "PASS"
+    },
+    "cleanTreeFullGateStatus": "REQUIRED_AFTER_SUCCESSOR_COMMIT_NOT_PRECLAIMED",
+    "hostedAtlasSurfaceDenominator": {
+      "failedRunId": 33575534193,
+      "failedHeadSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+      "expectedBefore": 14,
+      "actual": 15,
+      "expectedAfter": 15,
+      "focusedReplay": "PASS_86_OF_86",
+      "status": "PASS"
+    }
   },
   "externalDeliveryPredicates": [
-    {"id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
   ],
-  "activationOutcome": {"nodeState": "DONE", "leaseStatus": "RELEASED", "wip": 0, "doneCount": 60, "pendingCount": 36},
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 60,
+    "pendingCount": 36
+  },
   "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
   "nonClaims": [
     "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",

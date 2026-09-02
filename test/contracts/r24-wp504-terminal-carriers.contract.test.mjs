@@ -19,13 +19,13 @@ test('WP-504 terminal carriers form one acyclic 30-row conditional delivery chai
   assert.equal(result.programDone, false);
 });
 
-test('WP-504 candidate-bound successor closes the exact 34-row conditional chain', () => {
+test('WP-504 candidate-bound successor closes the exact 35-row conditional chain', () => {
   const result = verifyWp504CandidateBoundSuccessor();
   assert.equal(result.status, 'PASS');
   assert.equal(result.schemaVersion, 'YALKEN_R24_WP504_CANDIDATE_BOUND_TERMINAL_VERIFICATION_V1');
-  assert.equal(result.localPassedRows, 30);
+  assert.equal(result.localPassedRows, 31);
   assert.equal(result.externalPredicateRows, 4);
-  assert.equal(result.currentLease.fencingCounter, 68);
+  assert.equal(result.currentLease.fencingCounter, 69);
   assert.equal(result.currentLease.status, 'ACTIVE');
   assert.equal(result.currentLease.wip, 1);
   assert.equal(result.targetLease.status, 'RELEASED');

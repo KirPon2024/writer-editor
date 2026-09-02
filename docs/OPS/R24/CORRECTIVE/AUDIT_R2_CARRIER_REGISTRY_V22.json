@@ -1,7 +1,7 @@
 {
   "schemaVersion": "AUDIT_R2_CARRIER_REGISTRY_V22",
-  "baseSha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41",
-  "baseTreeSha": "d75042626d5ef6c5615e6772d4eb859097aef0f0",
+  "baseSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+  "baseTreeSha": "cc48d1658913bd230d2742b8d38f6a473edd7aab",
   "sourcePlanRoles": {
     "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
     "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
@@ -13,24 +13,142 @@
     "status": "SUPERSEDED_BY_APPEND_ONLY_WP504_CANDIDATE_BOUND_SUCCESSOR"
   },
   "carriers": [
-    {"path": ".github/workflows/r24-c1a-hermetic.yml", "purpose": "FULL_GIT_OBJECT_HISTORY_FOR_HERMETIC_CI", "sha256": "7628b22766ac092d401b9bdb7bfcd205e09875029ee3ee5dbe395e27cc5f0806", "sizeBytes": 2072, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json", "purpose": "COMPLETE_TEST_INVENTORY", "sha256": "9086485ad96f561cde1d7ed5c8660136f169fa28f684191904e3ae97dfa6280b", "sizeBytes": 394924, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json", "purpose": "CORRECTED_WP503_EXTERNAL_IDENTITY", "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e", "sizeBytes": 2674, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V12.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706", "sizeBytes": 9055, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V12.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e", "sizeBytes": 1791, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V12.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045", "sizeBytes": 9361, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json", "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR", "sha256": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00", "sizeBytes": 2656, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json", "purpose": "FAIL_CLOSED_CLEAN_TREE_REPLAY_EVIDENCE", "sha256": "ad5e2bba8598d43768e9f7d0f9fce1a99f9a40ba411343ac6f3ff1fe21fa22f1", "sizeBytes": 4271, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json", "purpose": "APPEND_ONLY_RELEASE01_CURRENT_WORDING_SURFACE_BINDING", "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670", "sizeBytes": 1806, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/corrective/audit-r2-corrections.mjs", "purpose": "HISTORICAL_CARRIER_GIT_OBJECT_ORACLE", "sha256": "c25de635e234646b7fef602662d3ac45e2a4f53dff624987ad60e8b20dd7c57f", "sizeBytes": 17352, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE", "sha256": "37d1823112f5f3e42987c199e9e29c208500da340982a1fe7e19e1211f3ca3cf", "sizeBytes": 228054, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "scripts/ops/r24/wp504-terminal-verifier.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER", "sha256": "f27fcff1c8265a7af10c6d03cc62077a8bf27f6f31fec4db7a6041f834782d95", "sizeBytes": 18992, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "test/contracts/r24-audit-r2-corrections.contract.test.mjs", "purpose": "HISTORICAL_CARRIER_OBJECT_HOSTILE_CONTRACT", "sha256": "9a4668bad66df7ab456fb77ea329fbcce2eb8374c4651d50fedbf1cdf3028f9f", "sizeBytes": 7727, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "test/unit/r24-wp307-writer-local-profile-integration.test.js", "purpose": "WP307_APPEND_ONLY_WORDING_SUCCESSOR_CONSUMER_CONTRACT", "sha256": "f8d0e98eb25f866e212500b8b18ca447bb7c8aa26d62c89a0d823bea9fa4f691", "sizeBytes": 5241, "status": "CANONICAL_BYTES_PRESENT"},
-    {"path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs", "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_CONTRACT", "sha256": "64ec042c833c68aa23d9846f9b9240243d79db40d5af1ebfe0932866b08d77c8", "sizeBytes": 4982, "status": "CANONICAL_BYTES_PRESENT"}
+    {
+      "path": ".github/workflows/r24-c1a-hermetic.yml",
+      "purpose": "FULL_GIT_OBJECT_HISTORY_FOR_HERMETIC_CI",
+      "sha256": "7628b22766ac092d401b9bdb7bfcd205e09875029ee3ee5dbe395e27cc5f0806",
+      "sizeBytes": 2072,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "purpose": "COMPLETE_TEST_INVENTORY",
+      "sha256": "c78bb1b1e6f4a88f42be5dd8b23755fd45a12b7ae9f52c61a56e3001db306f8f",
+      "sizeBytes": 394924,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json",
+      "purpose": "CORRECTED_WP503_EXTERNAL_IDENTITY",
+      "sha256": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
+      "sizeBytes": 2674,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V12.json",
+      "purpose": "APPEND_ONLY_PREDECESSOR_OWNER_AUTHORITY",
+      "sha256": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706",
+      "sizeBytes": 9055,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V12.json",
+      "purpose": "PREDECESSOR_PINNED_STAGE_ADMISSION",
+      "sha256": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
+      "sizeBytes": 1791,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V12.json",
+      "purpose": "PREDECESSOR_EXACT_STAGE_INSTANCE",
+      "sha256": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045",
+      "sizeBytes": 9361,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V13.json",
+      "purpose": "APPEND_ONLY_CURRENT_OWNER_AUTHORITY",
+      "sha256": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+      "sizeBytes": 9185,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V13.json",
+      "purpose": "CURRENT_PINNED_STAGE_ADMISSION",
+      "sha256": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+      "sizeBytes": 1788,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V13.json",
+      "purpose": "CURRENT_EXACT_STAGE_INSTANCE",
+      "sha256": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+      "sizeBytes": 9491,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json",
+      "purpose": "CANDIDATE_BOUND_POST_EVALUATION_SUCCESSOR",
+      "sha256": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
+      "sizeBytes": 2994,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json",
+      "purpose": "FAIL_CLOSED_CLEAN_TREE_AND_HOSTED_CI_EVIDENCE",
+      "sha256": "248b5d474d5fee5be13dde3043cbb82ef6b01bfd3e71eb1266fca65bfab5abdb",
+      "sizeBytes": 5520,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "purpose": "APPEND_ONLY_RELEASE01_CURRENT_WORDING_SURFACE_BINDING",
+      "sha256": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670",
+      "sizeBytes": 1806,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/audit-r2-corrections.mjs",
+      "purpose": "HISTORICAL_CARRIER_GIT_OBJECT_ORACLE",
+      "sha256": "c25de635e234646b7fef602662d3ac45e2a4f53dff624987ad60e8b20dd7c57f",
+      "sizeBytes": 17352,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "purpose": "COMPLETE_WP504_POST_EVALUATION_ADMISSION_ORACLE",
+      "sha256": "75bb8c373dba10c6eed00a9cb29e57a433ff172fcb96341309c75e5bdabbaed8",
+      "sizeBytes": 228891,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "scripts/ops/r24/wp504-terminal-verifier.mjs",
+      "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_VERIFIER",
+      "sha256": "b7f845fcc0568df0d47158d3a742a06ee104daa5d0595cb3e65eb5ecf927df82",
+      "sizeBytes": 18992,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/contracts/r24-audit-r2-corrections.contract.test.mjs",
+      "purpose": "HISTORICAL_CARRIER_OBJECT_HOSTILE_CONTRACT",
+      "sha256": "9a4668bad66df7ab456fb77ea329fbcce2eb8374c4651d50fedbf1cdf3028f9f",
+      "sizeBytes": 7727,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "purpose": "WP307_APPEND_ONLY_WORDING_SUCCESSOR_CONSUMER_CONTRACT",
+      "sha256": "f8d0e98eb25f866e212500b8b18ca447bb7c8aa26d62c89a0d823bea9fa4f691",
+      "sizeBytes": 5241,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/contracts/r24-wp504-terminal-carriers.contract.test.mjs",
+      "purpose": "WP504_CANDIDATE_BOUND_TERMINAL_CONTRACT",
+      "sha256": "09a6b8007c2f043727ad1365aada69e48d4667793ae9c16c86d8d5c6b65b3a09",
+      "sizeBytes": 4982,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/contracts/yalken-atlas-v5-final-audit-p0-04-design-os-binding.contract.test.js",
+      "purpose": "ATLAS_15_SURFACE_DENOMINATOR_CONTRACT",
+      "sha256": "0cf7ed7a1b0b4b1e55cfa586cfac2c04a88beadbfa84ebd34859abc501314ef4",
+      "sizeBytes": 9500,
+      "status": "CANONICAL_BYTES_PRESENT"
+    }
   ],
-  "carrierDenominator": 15,
-  "verifiedCarrierCount": 15,
+  "carrierDenominator": 19,
+  "verifiedCarrierCount": 19,
   "excludedSelfCarriers": [
     "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
     "docs/OPS/R24/CORRECTIVE/WP504_GOVERNANCE_CHANGE_APPROVALS_V1.json",

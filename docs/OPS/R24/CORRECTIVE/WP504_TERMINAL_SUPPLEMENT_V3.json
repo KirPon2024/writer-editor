@@ -11,13 +11,13 @@
   },
   "bindings": {
     "predecessorSupplementDigest": "84222c29b2b00d7e91dca7f86372ddc5ef6babd0f6a499679b42bc65836a4d61",
-    "terminalReceiptDigest": "a26d082a3e7f289186ff81a3f01197dddcb16149602bab38c5648db025e93e31",
-    "authorityDigest": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706",
-    "stageInstanceDigest": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045",
-    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
-    "candidateBoundSuccessorDigest": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
-    "auditR2RegistryDigest": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d",
-    "testInventoryDigest": "9086485ad96f561cde1d7ed5c8660136f169fa28f684191904e3ae97dfa6280b",
+    "terminalReceiptDigest": "89165cba93bd9e5e7ff28838d05d5c1d0beb18a89cede7d96aeecf76b9b0644c",
+    "authorityDigest": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+    "stageInstanceDigest": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "candidateBoundSuccessorDigest": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
+    "auditR2RegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80",
+    "testInventoryDigest": "c78bb1b1e6f4a88f42be5dd8b23755fd45a12b7ae9f52c61a56e3001db306f8f",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
@@ -25,7 +25,7 @@
     "wp503CandidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
     "wp503VerificationSha256": "2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6",
     "wp503DeltaBoundToExactCandidate": true,
-    "wp504AdmissionDenominator": 8,
+    "wp504AdmissionDenominator": 9,
     "wp504V56CheckpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
     "wp504V8BaseSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
     "wp504V9BaseSha": "c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0",
@@ -34,15 +34,41 @@
     "wp504V12BaseSha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41",
     "arbitraryDescendantAccepted": false,
     "mutablePresentTreeFallback": false,
-    "exactRuntimeReplay": "PASS_63_OF_63"
+    "exactRuntimeReplay": "PASS_63_OF_63",
+    "wp504V13BaseSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "hostedAtlasEvent": "PASS_86_OF_86_AFTER_EXACT_FAILED_RUN_33575534193"
   },
-  "currentLease": {"fencingCounter": 68, "status": "ACTIVE", "wip": 1},
-  "targetLease": {"fencingCounter": 68, "status": "RELEASED", "wip": 0},
+  "currentLease": {
+    "fencingCounter": 69,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "targetLease": {
+    "fencingCounter": 69,
+    "status": "RELEASED",
+    "wip": 0
+  },
   "externalDeliveryPredicates": [
-    {"id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
-    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
   ],
   "nextGraphNodeStarted": false,
   "programDone": false

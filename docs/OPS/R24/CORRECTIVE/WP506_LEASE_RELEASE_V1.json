@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_LEASE_RELEASE_V1",
+  "stageId": "WP-506_COUNTERFACTUAL",
+  "status": "CONDITIONAL_RELEASE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {
+    "predecessorExternalLeaseReleaseDispositionDigest": "79402fb995bc809435c887b34ba00e8b29df50b4535ffabe439cd2186b19293d",
+    "acceptanceMatrixDigest": "67e8316233df107b9102d0c20f30abceb1e4058e253e7e2acd3fe9e13b33a305",
+    "effectiveStateDigest": "a6dcb76087ce7fad72586425dfa5c1938304bba6122b7659262a614f5efa421c",
+    "stageRegistryDigest": "7ce52f753fa7620b8d785ae1475d769be28861ed7ba652ce78bc4ff12c679bd5",
+    "stageAdmissionDigest": "6c0b1f4da887f9569368a7143419101ca5147b519d3c683d7146c4af2d10c70f"
+  },
+  "currentLease": {"fencingCounter": 71, "status": "ACTIVE", "wip": 1, "predecessorReleaseDigest": "79402fb995bc809435c887b34ba00e8b29df50b4535ffabe439cd2186b19293d"},
+  "targetLease": {"fencingCounter": 71, "status": "RELEASED", "wip": 0, "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"},
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "1318b61f0a755659d82a9535a086cbcfe18fbf43fe9f21df73d59adb24661a17",
+    "afterAdmissionCarrierDigest": "1318b61f0a755659d82a9535a086cbcfe18fbf43fe9f21df73d59adb24661a17",
+    "beforeSnapshotDigest": "036217094039ac8ff17fe33e49eb916a1723c100277f324b6c54f66259eaf7cb",
+    "afterAdmissionSnapshotDigest": "036217094039ac8ff17fe33e49eb916a1723c100277f324b6c54f66259eaf7cb",
+    "completeDenominator": 253,
+    "presentDenominator": 253,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 7,
+    "entriesExact": true,
+    "protectedDirtySetExact": true,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_FIVE_EXTERNAL_PREDICATES_REQUIRED_LOCAL_GATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

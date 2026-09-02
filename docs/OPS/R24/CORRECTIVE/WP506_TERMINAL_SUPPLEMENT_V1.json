@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-506_COUNTERFACTUAL",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {
+    "terminalReceiptDigest": "f2421b4c018558b8a140755b69f2b7b31c50ae39224a745fb43684a4179de84f",
+    "authorityDigest": "7550c6c28ee00970f57ee3a3191c64ad5acb56289ab8c31bc3b1d59362ea6ccb",
+    "stageInstanceDigest": "90fcfa54a1572d9f0b423b5a4642a443c2a856e44ec3411070f3f796b50fd852",
+    "stageAdmissionDigest": "6c0b1f4da887f9569368a7143419101ca5147b519d3c683d7146c4af2d10c70f",
+    "carrierRegistryDigest": "8b49b16331404fd63bdb970b710057836d54b8450d0a2af7731d04a1f34d3a37",
+    "modelEvidenceDigest": "920c4fe301441fbbf6678fa84e83a6c7c8def9f0250748a9a2a3388cfdadf81b",
+    "contractEvidenceDigest": "5316c4a0578887ceb8269d91535f0f14db0a072298f329c23efe8476392d12b9",
+    "integrationEvidenceDigest": "64398702a732c382eb54b5247547e56bc28ef1961a3c129858474cbbd2244b10",
+    "mutantEvidenceDigest": "9b2cd529d9ea315c1b260f188395933f2e2c55651f200fa5f05166ae53bcdaee"
+  },
+  "compatibilityReview": {
+    "wp505MergeSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8",
+    "wp505TreeSha": "4a3202fe83b0e8dcef56e2008576403730ca4cc1",
+    "wp505ExternalReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b",
+    "wp505ExternalVerificationDigest": "253e71066f35d40b3cd66fd19ca969631cd348afd5ea968be318ed24953dd1ee",
+    "wp505LeaseReleaseDispositionDigest": "79402fb995bc809435c887b34ba00e8b29df50b4535ffabe439cd2186b19293d",
+    "verifiedRegisterRebuild": true,
+    "disposableDerivedBranch": true,
+    "semanticImpactProposal": true,
+    "canonicalApplyCommandCreated": false,
+    "externalAiUsed": false,
+    "productMutationAuthority": false
+  },
+  "currentLease": {"fencingCounter": 71, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 71, "status": "RELEASED", "wip": 0},
+  "externalDeliveryPredicates": [
+    {"id": "INDEPENDENT_EXACT_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

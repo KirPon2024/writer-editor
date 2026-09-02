@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_EFFECTIVE_STATE_V1",
+  "stageId": "WP-506_COUNTERFACTUAL",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
+  "evidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {"selectionReceiptDigest": "fc1a9d2f11a756b349ffc0c6031c621626f6e6db3939a2eeb3758b2dce97ec5a", "acceptanceMatrixDigest": "67e8316233df107b9102d0c20f30abceb1e4058e253e7e2acd3fe9e13b33a305", "stageAdmissionDigest": "6c0b1f4da887f9569368a7143419101ca5147b519d3c683d7146c4af2d10c70f", "wp505ExternalTerminalReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b"},
+  "currentCounts": {"BLOCKED_TYPED": 3, "DONE": 61, "INELIGIBLE_OPTIONAL": 10, "PENDING": 35},
+  "targetCounts": {"BLOCKED_TYPED": 3, "DONE": 62, "INELIGIBLE_OPTIONAL": 10, "PENDING": 34},
+  "currentNodeState": "ADMITTED_ACTIVE",
+  "targetNodeState": "DONE",
+  "currentLease": {"fencingCounter": 71, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 71, "status": "RELEASED", "wip": 0},
+  "activationRule": "ALL_SINGLE_TERMINAL_PR_EXTERNAL_DELIVERY_PREDICATES_AND_REQUIRED_LOCAL_GATES_PASS",
+  "nextGraphSelection": false,
+  "programDone": false
+}

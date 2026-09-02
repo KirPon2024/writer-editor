@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_CARRIER_REGISTRY_V1",
+  "baseSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8",
+  "baseTreeSha": "4a3202fe83b0e8dcef56e2008576403730ca4cc1",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "predecessor": {"stageId": "WP-505_REGISTER_AND_ASK", "externalTerminalReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b", "externalVerificationDigest": "253e71066f35d40b3cd66fd19ca969631cd348afd5ea968be318ed24953dd1ee", "externalDurableCarrierDigest": "f8422722c6dfcdeb172fed4643f79549dce2902d7ad2017d5f61dd01c676b9a6", "status": "EXTERNALLY_VERIFIED_DONE"},
+  "carriers": [
+    {"path": "docs/OPS/R24/CORRECTIVE/WP506_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json", "purpose": "GRAPH_DERIVED_WP506_SELECTION", "sha256": "fc1a9d2f11a756b349ffc0c6031c621626f6e6db3939a2eeb3758b2dce97ec5a", "sizeBytes": 2335, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP506_PROTECTED_WIP_BEFORE_V1.json", "purpose": "PRIVACY_SAFE_PRE_MUTATION_WIP_BINDING", "sha256": "8af883998c925ffdb54aa0520f3f0215ffb4a85d152d37021dc5ddb2865654c8", "sizeBytes": 1484, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP506_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json", "purpose": "APPEND_ONLY_OWNER_AUTHORITY", "sha256": "7550c6c28ee00970f57ee3a3191c64ad5acb56289ab8c31bc3b1d59362ea6ccb", "sizeBytes": 9840, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP506_MAIN_PRODUCT_STAGE_INSTANCE_V1.json", "purpose": "EXACT_STAGE_INSTANCE", "sha256": "90fcfa54a1572d9f0b423b5a4642a443c2a856e44ec3411070f3f796b50fd852", "sizeBytes": 9558, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP506_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json", "purpose": "PINNED_STAGE_ADMISSION", "sha256": "6c0b1f4da887f9569368a7143419101ca5147b519d3c683d7146c4af2d10c70f", "sizeBytes": 1760, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "src/core/atlas-counterfactual-v1.mjs", "purpose": "IMMUTABLE_DISPOSABLE_COUNTERFACTUAL_CORE", "sha256": "88b95acca59fdf0cf50fa2fa8b9fd1c6d72d9332258484b7a6c69b7212220ac7", "sizeBytes": 21907, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/unit/r24-wp506-counterfactual.test.js", "purpose": "WP506_CONTRACT_NEGATIVE_AND_UNIT_ORACLE", "sha256": "23a3ea2a1c0194b9e279046ba9931220224d28e7615d174e054204bcc6ce95e1", "sizeBytes": 8060, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/unit/r24-wp506-counterfactual-integration.test.js", "purpose": "WP506_DIFFERENTIAL_AND_LARGE_CORPUS_ORACLE", "sha256": "774674c34703f16c7a0077d2c8c33e7933af2ae6e398ab2af78e1f8b628114f0", "sizeBytes": 3993, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/unit/r24-wp506-counterfactual-mutants.test.js", "purpose": "WP506_IMPLEMENTATION_MUTANT_ORACLE", "sha256": "8f3fc6626b75f3fe0f78837c887c5a6fa6172db20c4f2e732020b712b9956690", "sizeBytes": 6761, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/contracts/r24-wp506-post-audit-compatibility.contract.test.mjs", "purpose": "WP506_EXACT_ADMISSION_CHAIN_HOSTILE_ORACLE", "sha256": "ac69eeaa29ec972dd94171bdb576e240ccba47344d9c88da884b7806770b159b", "sizeBytes": 3744, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "test/contracts/r24-wp506-terminal-carriers.contract.test.mjs", "purpose": "WP506_ACYCLIC_TERMINAL_CARRIER_AND_FUTURE_UTC_ORACLE", "sha256": "03e95f935ca51f03ed8c4b21490451b3d32835ed8eaa431a69ed4df4be0c2ce2", "sizeBytes": 8208, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": ".github/workflows/oss-policy.yml", "purpose": "REQUIRED_CI_WP505_WP506_AND_CURRENT_GOVERNANCE_APPROVALS", "sha256": "d968431660561e7b14d37b4e58f4b345ee1cd45cbc02216950cc74c8e70805ce", "sizeBytes": 8579, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "purpose": "FAIL_CLOSED_WP506_POST_EVALUATION_ADMISSION_CHAIN", "sha256": "5c2ea04d43a7bf4691f9cbc73e1d79cef10097348cf0f005626e6cbe0b6c10f6", "sizeBytes": 254118, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-506-COUNTERFACTUAL-MODEL.json", "purpose": "WP506_MODEL_EVIDENCE", "sha256": "920c4fe301441fbbf6678fa84e83a6c7c8def9f0250748a9a2a3388cfdadf81b", "sizeBytes": 2876, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-506-COUNTERFACTUAL-CONTRACT.json", "purpose": "WP506_CONTRACT_EVIDENCE", "sha256": "5316c4a0578887ceb8269d91535f0f14db0a072298f329c23efe8476392d12b9", "sizeBytes": 2110, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-506-COUNTERFACTUAL-INTEGRATION.json", "purpose": "WP506_INTEGRATION_EVIDENCE", "sha256": "64398702a732c382eb54b5247547e56bc28ef1961a3c129858474cbbd2244b10", "sizeBytes": 2176, "status": "CANONICAL_BYTES_PRESENT"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-506-COUNTERFACTUAL-MUTANTS.json", "purpose": "WP506_IMPLEMENTATION_MUTANT_EVIDENCE", "sha256": "9b2cd529d9ea315c1b260f188395933f2e2c55651f200fa5f05166ae53bcdaee", "sizeBytes": 1977, "status": "CANONICAL_BYTES_PRESENT"}
+  ],
+  "carrierDenominator": 17,
+  "verifiedCarrierCount": 17,
+  "excludedSelfCarriers": ["docs/OPS/R24/CORRECTIVE/WP506_CARRIER_REGISTRY_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_GOVERNANCE_CHANGE_APPROVALS_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_ACCEPTANCE_MATRIX_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_EFFECTIVE_STATE_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_STAGE_REGISTRY_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_LEASE_RELEASE_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_TERMINAL_RECEIPT_V1.json", "docs/OPS/R24/CORRECTIVE/WP506_TERMINAL_SUPPLEMENT_V1.json", "docs/OPS/R24/EVIDENCE/ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS.json", "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json"],
+  "programDoneClaimed": false,
+  "nextGraphNodeStarted": false
+}

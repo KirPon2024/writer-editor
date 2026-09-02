@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_PROTECTED_WIP_BEFORE_V1",
+  "stageId": "WP-506_COUNTERFACTUAL",
+  "capturedBeforeFirstRepositoryMutation": true,
+  "capturedAtUtc": "2026-09-02T04:40:40Z",
+  "algorithm": {
+    "schemaVersion": "YALKEN_PROTECTED_WIP_SNAPSHOT_V2",
+    "canonicalization": "UTF8_JSON_FIXED_KEY_ORDER_TRAILING_LF",
+    "activeTaskExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "predecessorWriterExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "pathDisclosure": "SHA256_DOMAIN_SEPARATED_IDENTITY_ONLY"
+  },
+  "externalCarrier": {
+    "basename": "WP506_PROTECTED_WIP_BEFORE_V1.json",
+    "sha256": "1318b61f0a755659d82a9535a086cbcfe18fbf43fe9f21df73d59adb24661a17",
+    "snapshotSha256": "036217094039ac8ff17fe33e49eb916a1723c100277f324b6c54f66259eaf7cb"
+  },
+  "denominators": {
+    "complete": 253,
+    "present": 253,
+    "prunable": 0,
+    "dirty": 7
+  },
+  "protectedDirtySet": {
+    "count": 7,
+    "contentDisclosure": "NONE_ONLY_PRIVACY_SAFE_IDENTITIES_AND_DIGESTS_IN_EXTERNAL_CARRIER"
+  },
+  "activeWriter": {
+    "branch": "codex/r24-wp506-counterfactual-v1-20260902",
+    "baseSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8",
+    "cleanBeforeMutation": true
+  },
+  "predecessorWriter": {
+    "headSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8",
+    "clean": true,
+    "detached": true
+  },
+  "t7": {
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "encrypted": true,
+    "locked": false,
+    "writable": true
+  },
+  "programDone": false
+}

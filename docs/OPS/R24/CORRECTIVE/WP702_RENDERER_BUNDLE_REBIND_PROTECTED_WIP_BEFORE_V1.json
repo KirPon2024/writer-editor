@@ -1,0 +1,23 @@
+{
+  "schemaVersion": "YALKEN_PROTECTED_WIP_BASELINE_REFERENCE_V1",
+  "stageId": "WP-702_RENDERER_BUNDLE_REBIND_SUCCESSOR",
+  "disposition": "REUSE_PRE_MUTATION_COMPLETE_SNAPSHOT_BY_EXACT_DIGEST",
+  "referencedCarrier": "docs/OPS/R24/CORRECTIVE/WP702_RELEASE01_REBIND_PROTECTED_WIP_BEFORE_V1.json",
+  "referencedCarrierSha256": "e78ae87f062c7a43f93e417ce234483916eda47476eac4e25b04ad1a784b8347",
+  "referencedSnapshotSha256": "91d45fafd2f783b1b6adbc54fda00a5852ef905459e8398600154dbe945925d0",
+  "completeDenominator": 258,
+  "dirtyDenominator": 8,
+  "activeWriterExcluded": true,
+  "predecessorWriterExcluded": true,
+  "protectedDirtySetReusedWithoutMutation": true,
+  "triggeringBuild": {
+    "baseSha": "d4c352ce0ed318185179096c77448fd94075feec",
+    "baseTree": "21d4812c7622d827d064014f73090fc4dbee2b2e",
+    "packageSha256": "e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57",
+    "packageLockSha256": "1bd677ea4c4519ad59c7885cd9b48ec47db82fbad211a64f6330d9cc93c2acf4",
+    "priorBundleSha256": "52e5e317cb26af3b091292456df0016a54cd1be8ec8f837dafb85d15d0bd9962",
+    "generatedBundleSha256": "fe74f3e881eb8ea44336202cc8f937a2696ae48bd829aa05e652341cb9682a7b",
+    "changedPaths": ["src/renderer/editor.bundle.js"]
+  },
+  "recordedAtUtc": "2026-09-02T17:44:04Z"
+}

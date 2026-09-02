@@ -206,6 +206,34 @@
       "rationale": "Append-only exact package wording-surface binding over preserved WP504 evidence."
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "e74a36a7c9fdbcfbd499cc58c1ae486660ee28549fc15a913b74e9263adcf023",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Append-only authority for the deterministic tracked renderer bundle produced by the admitted dependency repair."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "ec41a6a908909f16366a8812f5be8c5a354b25403c1c4609d30cf087a51e442c",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Exact reference to the complete pre-mutation 258-worktree and eight-dirty protected-WIP baseline."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "a9558a189a150663f71a0fe65df062324c2026f634b15098ab46a0bd81a562eb",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Pinned verifier admission for the exact seven-path generated-artifact successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_RENDERER_BUNDLE_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "2815fbc241411a7dc530d49001fa376820755fa0573fc5d9b4e65a6d4d4e269e",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the generated-artifact successor."
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_STAGE_REGISTRY_V1.json",
       "sha256": "be86a0d0c27ca4b50b67140361b687a55ca8de46c001e486f93d876b64e7744c",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
@@ -305,10 +333,10 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "94661aa594bedb89e5870e6887a2a5f8ec5fa1eabc4093546003cb1d775bc133",
+      "sha256": "280e462978cf64bea6b2edae08d21503ab870194551eab48d26b6c9cfbd64db5",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T17:30:56Z",
-      "rationale": "Fail-closed exact-admission verification for the RELEASE01 rebind successor."
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Fail-closed exact-admission verification for the generated renderer bundle successor."
     },
     {
       "filePath": "src/core/text-formats-v1.mjs",
@@ -316,6 +344,13 @@
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:41:58Z",
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "fe74f3e881eb8ea44336202cc8f937a2696ae48bd829aa05e652341cb9682a7b",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T17:44:04Z",
+      "rationale": "Deterministic tracked esbuild output for the admitted Tiptap dependency repair; authored renderer source is unchanged."
     },
     {
       "filePath": "test/contracts/r24-wp701-terminal-carriers.contract.test.mjs",
@@ -375,8 +410,8 @@
     }
   ],
   "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-  "approvedAtUtc": "2026-09-02T17:30:56Z",
-  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only RELEASE01 rebind successor; PROGRAM_DONE remains false.",
+  "approvedAtUtc": "2026-09-02T17:44:04Z",
+  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only renderer bundle rebind successor; PROGRAM_DONE remains false.",
   "absoluteExclusions": [
     "SIGNING",
     "NOTARIZATION",

@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import crypto from 'node:crypto';
 import fs from 'node:fs';
 import { verifyWp504CandidateBoundSuccessor, verifyWp504TerminalCarriers, verifyWp504TerminalRecord } from '../../scripts/ops/r24/wp504-terminal-verifier.mjs';
 
 const load = (path) => JSON.parse(fs.readFileSync(path, 'utf8'));
+const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 
 test('WP-504 terminal carriers form one acyclic 30-row conditional delivery chain', () => {
   const result = verifyWp504TerminalCarriers();
@@ -19,6 +21,17 @@ test('WP-504 terminal carriers form one acyclic 30-row conditional delivery chai
   assert.equal(result.programDone, false);
 });
 
+test('WP-504 frozen registry is verified from its exact Git object, not mutable descendant bytes', () => {
+  const registry = load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json');
+  const inventory = registry.carriers.find((binding) => binding.path === 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json');
+  assert.notEqual(sha256(fs.readFileSync(inventory.path)), inventory.sha256);
+  assert.equal(verifyWp504CandidateBoundSuccessor().carrierRegistryVerifiedCount, 19);
+  assert.throws(
+    () => verifyWp504CandidateBoundSuccessor({ carrierRegistryEvaluationSha: 'd6c478c1b68a009e01116077a11892b6bf45daf8' }),
+    /E_WP504_V3_CARRIER_REGISTRY_OBJECT/u,
+  );
+});
+
 test('WP-504 candidate-bound successor closes the exact 35-row conditional chain', () => {
   const result = verifyWp504CandidateBoundSuccessor();
   assert.equal(result.status, 'PASS');
@@ -30,6 +43,9 @@ test('WP-504 candidate-bound successor closes the exact 35-row conditional chain
   assert.equal(result.currentLease.wip, 1);
   assert.equal(result.targetLease.status, 'RELEASED');
   assert.equal(result.targetLease.wip, 0);
+  assert.equal(result.carrierRegistryEvaluationSha, '4f484b7ddb0ad2fa78614f930b4a8d8ded60201e');
+  assert.equal(result.carrierRegistryEvaluationTree, 'baa79829b5e2363845e826c507cda817e9c4b1f8');
+  assert.equal(result.carrierRegistryVerifiedCount, 19);
   assert.equal(result.programDone, false);
 });
 

@@ -41,6 +41,8 @@ const P3 = Object.freeze({
 });
 const EXTERNAL_SOURCE = '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const COMPILED_PROGRAM = 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
+const WP504_CARRIER_REGISTRY_EVALUATION_SHA = '4f484b7ddb0ad2fa78614f930b4a8d8ded60201e';
+const WP504_CARRIER_REGISTRY_EVALUATION_TREE = 'baa79829b5e2363845e826c507cda817e9c4b1f8';
 const sha256 = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 const fail = (code, detail = '') => { const error = new Error(detail ? `${code}:${detail}` : code); error.code = code; throw error; };
 const assert = (condition, code, detail = '') => { if (!condition) fail(code, detail); };
@@ -54,10 +56,16 @@ const sourceRolesExact = (value, label) => {
   assert(value?.compiledProgramFileDigest === COMPILED_PROGRAM, 'E_WP504_COMPILED_PROGRAM', label);
   assert(value.externalSourcePlanDigest !== value.compiledProgramFileDigest && value.rolesDistinct !== false, 'E_WP504_SOURCE_ROLES_CONFLATED', label);
 };
-const gitObjectDigest = (commit, file) => {
+const gitObjectBytes = (commit, file) => {
   const result = spawnSync('git', ['show', `${commit}:${file}`], { encoding: null, maxBuffer: 64 * 1024 * 1024 });
   assert(result.status === 0, 'E_WP504_GIT_OBJECT', `${commit}:${file}`);
-  return sha256(result.stdout);
+  return result.stdout;
+};
+const gitObjectDigest = (commit, file) => sha256(gitObjectBytes(commit, file));
+const gitTree = (commit) => {
+  const result = spawnSync('git', ['rev-parse', `${commit}^{tree}`], { encoding: 'utf8', maxBuffer: 1024 * 1024 });
+  assert(result.status === 0, 'E_WP504_GIT_TREE', commit);
+  return result.stdout.trim();
 };
 const artifactPresentNowOrInHistory = (artifact) => {
   if (fs.existsSync(artifact.path) && sha256(fs.readFileSync(artifact.path)) === artifact.sha256) return true;
@@ -115,7 +123,7 @@ export function verifyWp504TerminalCarriers() {
   return { schemaVersion: 'YALKEN_R24_WP504_TERMINAL_CARRIERS_VERIFICATION_V1', status: 'PASS', authorityDigest: authority.digest, stageInstanceDigest: instance.digest, stageAdmissionDigest: admission.digest, acceptanceMatrixDigest: matrix.digest, effectiveStateDigest: effective.digest, stageRegistryDigest: registry.digest, leaseReleaseDigest: release.digest, terminalReceiptDigest: receipt.digest, terminalSupplementDigest: supplement.digest, evidenceStampDigest: evidence.digest, localPassedRows: 26, externalPredicateRows: 4, currentLease: release.value.currentLease, targetLease: release.value.targetLease, programDone: false };
 }
 
-export function verifyWp504CandidateBoundSuccessor() {
+export function verifyWp504CandidateBoundSuccessor({ carrierRegistryEvaluationSha = WP504_CARRIER_REGISTRY_EVALUATION_SHA } = {}) {
   const authority = read(P3.authority), instance = read(P3.instance), admission = read(P3.admission), predecessor = read(P3.predecessor), failure = read(P3.failure), successor = read(P3.successor), wordingSuccessor = read(P3.wordingSuccessor), carrierRegistry = read(P3.carrierRegistry), matrix = read(P3.matrix), effective = read(P3.effective), registry = read(P3.registry), release = read(P3.release), receipt = read(P3.receipt), supplement = read(P3.supplement), evidence = read(P3.evidence);
   assert(authority.digest === admission.value.authorityDigest && instance.digest === admission.value.stageInstanceDigest && admission.digest === successor.value.bindings.stageAdmissionDigest, 'E_WP504_V3_ADMISSION_CHAIN');
   assert(admission.value.writeSetDigest === successor.value.bindings.writeSetDigest && admission.value.commandScopeDigest === successor.value.bindings.commandScopeDigest && admission.value.acceptanceSignalsDigest === successor.value.bindings.acceptanceSignalsDigest, 'E_WP504_V3_SCOPE_CHAIN');
@@ -125,7 +133,12 @@ export function verifyWp504CandidateBoundSuccessor() {
   assert(predecessor.value.supersedes.sha256 === sha256(fs.readFileSync(`${C}/WP503_EXTERNAL_TERMINAL_CLOSURE_V1.json`)) && predecessor.value.correction.historicalBytesRewritten === false, 'E_WP504_V3_PREDECESSOR_SUCCESSOR');
   assert(failure.digest === successor.value.bindings.failureDigest && predecessor.digest === successor.value.bindings.wp503ExternalClosureV2Digest && successor.value.evaluationPolicy.completeWp504AdmissionDenominator === 9 && successor.value.evaluationPolicy.arbitraryDescendantDeltaAccepted === false, 'E_WP504_V3_SUCCESSOR');
   assert(wordingSuccessor.digest === successor.value.bindings.release01WordingSurfaceSuccessorDigest && wordingSuccessor.value.predecessorSuccessor.sha256 === sha256(fs.readFileSync(`${C}/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json`)) && wordingSuccessor.value.surfaceOverrides.every((surface) => surface.sha256 === `sha256:${sha256(fs.readFileSync(surface.path))}`), 'E_WP504_V3_WORDING_SUCCESSOR');
-  assert(carrierRegistry.value.carriers.length === carrierRegistry.value.carrierDenominator && carrierRegistry.value.carriers.every((binding) => sha256(fs.readFileSync(binding.path)) === binding.sha256), 'E_WP504_V3_CARRIER_REGISTRY');
+  assert(carrierRegistryEvaluationSha === WP504_CARRIER_REGISTRY_EVALUATION_SHA && gitTree(carrierRegistryEvaluationSha) === WP504_CARRIER_REGISTRY_EVALUATION_TREE, 'E_WP504_V3_CARRIER_REGISTRY_OBJECT', carrierRegistryEvaluationSha);
+  assert(carrierRegistry.value.carriers.length === carrierRegistry.value.carrierDenominator && carrierRegistry.value.verifiedCarrierCount === carrierRegistry.value.carrierDenominator && carrierRegistry.value.carrierDenominator === 19, 'E_WP504_V3_CARRIER_REGISTRY_DENOMINATOR');
+  for (const binding of carrierRegistry.value.carriers) {
+    const bytes = gitObjectBytes(carrierRegistryEvaluationSha, binding.path);
+    assert(sha256(bytes) === binding.sha256 && bytes.length === binding.sizeBytes, 'E_WP504_V3_CARRIER_REGISTRY_OBJECT_BINDING', binding.path);
+  }
   verifyWp504TerminalRecord(matrix.value);
   assert(matrix.digest === effective.value.bindings.acceptanceMatrixDigest && matrix.digest === registry.value.bindings.acceptanceMatrixDigest && matrix.digest === release.value.bindings.acceptanceMatrixDigest && matrix.digest === receipt.value.bindings.acceptanceMatrixDigest, 'E_WP504_V3_MATRIX_CHAIN');
   assert(effective.digest === registry.value.bindings.effectiveStateDigest && effective.digest === release.value.bindings.effectiveStateDigest && effective.digest === receipt.value.bindings.effectiveStateDigest, 'E_WP504_V3_EFFECTIVE_CHAIN');
@@ -138,7 +151,7 @@ export function verifyWp504CandidateBoundSuccessor() {
   assert(release.value.currentLease.fencingCounter === 69 && release.value.currentLease.status === 'ACTIVE' && release.value.currentLease.wip === 1 && release.value.targetLease.status === 'RELEASED' && release.value.targetLease.wip === 0, 'E_WP504_V3_LEASE');
   for (const value of [predecessor.value, failure.value, successor.value, wordingSuccessor.value, carrierRegistry.value, matrix.value, effective.value, registry.value, release.value, receipt.value, supplement.value]) assert(value.programDone === false || value.programDoneClaimed === false, 'E_WP504_V3_PROGRAM_DONE');
   assert(!Object.hasOwn(evidence.value, 'programDone') && evidence.value.nonClaims?.includes('PROGRAM_DONE_FALSE'), 'E_WP504_V3_EVIDENCE_PROGRAM_DONE');
-  return { schemaVersion: 'YALKEN_R24_WP504_CANDIDATE_BOUND_TERMINAL_VERIFICATION_V1', status: 'PASS', authorityDigest: authority.digest, stageInstanceDigest: instance.digest, stageAdmissionDigest: admission.digest, predecessorClosureDigest: predecessor.digest, failureDigest: failure.digest, successorDigest: successor.digest, carrierRegistryDigest: carrierRegistry.digest, acceptanceMatrixDigest: matrix.digest, effectiveStateDigest: effective.digest, stageRegistryDigest: registry.digest, leaseReleaseDigest: release.digest, terminalReceiptDigest: receipt.digest, terminalSupplementDigest: supplement.digest, evidenceStampDigest: evidence.digest, localPassedRows: 31, externalPredicateRows: 4, currentLease: release.value.currentLease, targetLease: release.value.targetLease, programDone: false };
+  return { schemaVersion: 'YALKEN_R24_WP504_CANDIDATE_BOUND_TERMINAL_VERIFICATION_V1', status: 'PASS', authorityDigest: authority.digest, stageInstanceDigest: instance.digest, stageAdmissionDigest: admission.digest, predecessorClosureDigest: predecessor.digest, failureDigest: failure.digest, successorDigest: successor.digest, carrierRegistryDigest: carrierRegistry.digest, carrierRegistryEvaluationSha, carrierRegistryEvaluationTree: WP504_CARRIER_REGISTRY_EVALUATION_TREE, carrierRegistryVerifiedCount: carrierRegistry.value.carrierDenominator, acceptanceMatrixDigest: matrix.digest, effectiveStateDigest: effective.digest, stageRegistryDigest: registry.digest, leaseReleaseDigest: release.digest, terminalReceiptDigest: receipt.digest, terminalSupplementDigest: supplement.digest, evidenceStampDigest: evidence.digest, localPassedRows: 31, externalPredicateRows: 4, currentLease: release.value.currentLease, targetLease: release.value.targetLease, programDone: false };
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

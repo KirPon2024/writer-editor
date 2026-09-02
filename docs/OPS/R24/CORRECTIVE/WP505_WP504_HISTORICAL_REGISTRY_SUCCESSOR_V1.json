@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_WP504_HISTORICAL_REGISTRY_SUCCESSOR_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T03:35:00Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "admission": {
+    "authorityDigest": "302108e52971c606d9f2b6dbd4e735123d68f8f71637ee55626eb9eeb76e0861",
+    "stageInstanceDigest": "62b280771d88b19f277532f100c40948ced0763279fa1a8629e9274ae8220099",
+    "stageAdmissionDigest": "63bfd09705f5b87b4dc16203974151fcaa06a45ebe4489f36a3436391cd3d539",
+    "writeSetDigest": "7e8c1fad7c64d4876a7d3e1d16af9f649367cc4c29ff75323c833ce6a1c39150",
+    "commandScopeDigest": "32d7990717041a693c77434b2d1cc7df91a5bbc4954702fb2904ed253e2a1bf1",
+    "acceptanceSignalsDigest": "a56468866669bf0f44b0111f63e7a9279960696113e5129d4f869bfb78c35894"
+  },
+  "bindings": {
+    "failureDigest": "0f3560d82ac1d8840333dc2e0786980c7cebc6bb36dbb652d573968a49624030",
+    "predecessorSuccessorDigest": "063e39546feb69a9910ec9058d65e8f0d9d59c308f38b8651cb7413c90cba36a",
+    "wp505V2AuthorityDigest": "33c73eff3b4af698e857c78b32d2b08567e3b05bad64f3ac5f58558aeb87e473",
+    "wp505V2StageInstanceDigest": "1aa7c212927a7d4cafc52b3a0f3b47eddc324f68063ea7a6c2787d42dd2ce196",
+    "wp505V2StageAdmissionDigest": "9adb35158b2c173ac9b4a7a8347c10cd41cba455cd6f34ba6494e434dd096438",
+    "wp505V2WriteSetDigest": "5ab8d9247b0dc4c063be78a4b9deae6682fa38542f11b43b13ed6bb6bee4e79c",
+    "carrierRegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80",
+    "postAuditCertificationVerifierDigest": "44240e4556a206d7a64a0c9e904f2ecb6f4493e7bc6b4cdcba315f95450acdc8",
+    "wp504TerminalVerifierDigest": "21fe707dc8db321cfd802b443c5284df209efc31ebff8ca9548804ba94457e5b",
+    "wp504HostileContractTestDigest": "35377e04571f737de66d33b0ce9444b869d07488e9773738378dc21bb9d96cd2",
+    "wp505HostileContractTestDigest": "c1322f89ecdfc2b51ba2e65a9c632f268f5eb6daaef74e83617ec79dc86a8969",
+    "testInventoryDigest": "fc10241d8d78b506f2bc9eb911c1fe2880c912127737ea0c716f3c154b1641ff"
+  },
+  "evaluationPolicy": {
+    "wp505V2CandidateSha": "d6c478c1b68a009e01116077a11892b6bf45daf8",
+    "wp505V2CandidateTree": "6a01627cfdde93525fabba246b09a10a7a07e9fc",
+    "wp505V3BaseSha": "d6c478c1b68a009e01116077a11892b6bf45daf8",
+    "wp505V3BaseTree": "6a01627cfdde93525fabba246b09a10a7a07e9fc",
+    "v2ChangedPathDenominator": 10,
+    "v3ChangedPathDenominator": 11,
+    "completeAdmissionDenominator": 3,
+    "carrierRegistryEvaluationSha": "4f484b7ddb0ad2fa78614f930b4a8d8ded60201e",
+    "carrierRegistryEvaluationTree": "baa79829b5e2363845e826c507cda817e9c4b1f8",
+    "carrierDenominator": 19,
+    "currentFilesystemFallbackAllowed": false,
+    "historicalDeltaDerivedFromExactGitObjects": true,
+    "arbitraryDescendantDeltaAccepted": false,
+    "mutableWorkingTreeUsedForHistoricalClaim": false
+  },
+  "hostedCandidateFailure": {
+    "pullRequest": 1808,
+    "runId": 33586007176,
+    "attempt": 1,
+    "headSha": "d6c478c1b68a009e01116077a11892b6bf45daf8",
+    "conclusion": "FAILURE",
+    "causalFailureDenominator": 1,
+    "derivedFailureDenominator": 2,
+    "exactCauseBound": true
+  },
+  "historicalWp504BytesRewritten": false,
+  "productRuntimeBytesChangedBySuccessor": false,
+  "lease": {
+    "fencingCounter": 70,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "programDone": false
+}

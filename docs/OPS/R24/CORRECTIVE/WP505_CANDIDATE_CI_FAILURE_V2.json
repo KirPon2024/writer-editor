@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_CANDIDATE_CI_FAILURE_V2",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_HISTORICAL_REGISTRY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T03:22:55Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "exactCandidate": {
+    "sha": "d6c478c1b68a009e01116077a11892b6bf45daf8",
+    "tree": "6a01627cfdde93525fabba246b09a10a7a07e9fc",
+    "pullRequest": 1808,
+    "runId": 33586007176,
+    "attempt": 1,
+    "conclusion": "FAILURE"
+  },
+  "causalFailure": {
+    "jobId": 100110181374,
+    "job": "inventory-baseline",
+    "command": "npm run test:r24-wp504",
+    "code": "E_WP504_V3_CARRIER_REGISTRY",
+    "failedTest": "WP-504 candidate-bound successor closes the exact 35-row conditional chain",
+    "passedTestsInWp504Lane": 21,
+    "failedTestsInWp504Lane": 1
+  },
+  "derivedFailures": [
+    {"jobId":100112249958,"job":"merge-gate","cause":"INVENTORY_BASELINE_FAILED"},
+    {"jobId":100112281869,"job":"oss-policy","cause":"MERGE_GATE_FAILED"}
+  ],
+  "successfulRequiredEvidence": {
+    "actualRendererBuildRtkJobId": 100110181319,
+    "actualRendererBuildRtkStatus": "SUCCESS",
+    "rtkRequiredJobId": 100110181389,
+    "rtkRequiredStatus": "SUCCESS",
+    "e0MutantsStatus": "SUCCESS",
+    "opsVectorStatus": "SUCCESS",
+    "liveRulesetOracleStatus": "SUCCESS",
+    "staticSecuritySastStatus": "SUCCESS",
+    "privacyNegativeStatus": "SUCCESS",
+    "c1aHermetic": "SUCCESS_3_OF_3",
+    "x1PlatformParity": "SUCCESS_3_OF_3",
+    "ossPolicyCoreStatus": "SUCCESS"
+  },
+  "rootCause": {
+    "classification": "WP504_HISTORICAL_CARRIER_REGISTRY_COMPARED_TO_MUTABLE_DESCENDANT_BYTES",
+    "registryPath": "docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V22.json",
+    "registryGitObjectSha": "4f484b7ddb0ad2fa78614f930b4a8d8ded60201e",
+    "registryGitObjectTree": "baa79829b5e2363845e826c507cda817e9c4b1f8",
+    "mismatchedCurrentDescendantPaths": [
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs"
+    ],
+    "historicalRegistryBytesWrong": false,
+    "wp504ProductBytesWrong": false,
+    "requiredRepair": "VERIFY_ALL_19_V22_CARRIERS_FROM_EXACT_WP504_GIT_OBJECT_WITH_COMPLETE_DENOMINATOR_AND_HOSTILE_CURRENT_DESCENDANT_TEST"
+  },
+  "lease": {"fencingCounter":70,"status":"ACTIVE","wip":1},
+  "programDone": false
+}

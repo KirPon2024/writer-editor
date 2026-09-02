@@ -1,0 +1,138 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_CARRIER_REGISTRY_V1",
+  "baseSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+  "baseTreeSha": "baa79829b5e2363845e826c507cda817e9c4b1f8",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessor": {
+    "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+    "externalTerminalReceiptDigest": "021acab8bd8a4d17194ef942fe33f966e698969a36b2e3914702b79884fac296",
+    "externalVerificationDigest": "8e04aaef386231b744d6ce94bebabdade1f24df24dcc9100af78225299b25899",
+    "status": "EXTERNALLY_VERIFIED_DONE"
+  },
+  "carriers": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "purpose": "GRAPH_DERIVED_WP505_SELECTION",
+      "sha256": "d4ec72e3f8599af12daef9cf9326baeaa3159e4e4bfe41e4cb2440a58a36156d",
+      "sizeBytes": 2243,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP505_PROTECTED_WIP_BEFORE_V1.json",
+      "purpose": "PRIVACY_SAFE_PRE_MUTATION_WIP_BINDING",
+      "sha256": "9eb3c15b32de8164dce20cd91226adb5f93a69799861a3c05f2b3534da9d7700",
+      "sizeBytes": 1484,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "purpose": "APPEND_ONLY_OWNER_AUTHORITY",
+      "sha256": "94b48066c0e90561040fa1049fa188b2c3aa8175f5e65c57d693dc438873b1c0",
+      "sizeBytes": 9003,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "purpose": "EXACT_STAGE_INSTANCE",
+      "sha256": "c0ea6ff4fdf73ae5a9db4a912951fe0ba3cdbc436886326a9548a04c1b8e9d15",
+      "sizeBytes": 9309,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "purpose": "PINNED_STAGE_ADMISSION",
+      "sha256": "2c182cb6762bbbcb5d7b9d43c6e061ff5449c0603330ea970a56c2a60a94d7c0",
+      "sizeBytes": 1762,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "src/core/atlas-register-ask-v1.mjs",
+      "purpose": "IMMUTABLE_REGISTER_AND_BOUNDED_QUERY_IR_CORE",
+      "sha256": "3e52581a777e958a5035f8052bab4b1ceb9cd6288af4107d34873dfd0ceb9552",
+      "sizeBytes": 23212,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "src/renderer/atlasRegisterAskPresentationModel.mjs",
+      "purpose": "READ_ONLY_REGISTER_ASK_PRESENTATION_ADAPTER",
+      "sha256": "ba23874fa4be655ceb2d144990f4f50f85ed70582a3113ab3b375b89b99867b0",
+      "sizeBytes": 4118,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask.test.js",
+      "purpose": "WP505_CONTRACT_NEGATIVE_AND_UNIT_ORACLE",
+      "sha256": "f0a5254397294b3ac281094cab7f9e56fe208d0820b98477b2cb7fb0e83b40d3",
+      "sizeBytes": 9021,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask-integration.test.js",
+      "purpose": "WP504_INTEGRATION_DIFFERENTIAL_PRESENTATION_AND_LARGE_CORPUS_ORACLE",
+      "sha256": "4b675e8e7f25bc556df3fb37858f1f648c43650036eb69955b04a4500858aa2a",
+      "sizeBytes": 5708,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask-mutants.test.js",
+      "purpose": "WP505_IMPLEMENTATION_MUTANT_ORACLE",
+      "sha256": "e952bd22bdd0fb8bba61ee9619c2205e437d891815b774f626eb98b56addca7d",
+      "sizeBytes": 8597,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "test/contracts/r24-wp505-terminal-carriers.contract.test.mjs",
+      "purpose": "WP505_ACYCLIC_TERMINAL_AND_HOSTILE_CONTRACT",
+      "sha256": "9fd61d9092adb5b983739b5a53ea4289d8bf57219f4147287005a0201b31a7f0",
+      "sizeBytes": 6700,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-505-REGISTER-ASK-MODEL.json",
+      "purpose": "WP505_MODEL_EVIDENCE",
+      "sha256": "6c3c82bb2a4f236ecdbab64e46fb4f33855fcd0d1669c078c31d7a3d4e1a402a",
+      "sizeBytes": 3332,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-505-REGISTER-ASK-CONTRACT.json",
+      "purpose": "WP505_CONTRACT_EVIDENCE",
+      "sha256": "f875d102b2ba05111db0f35668a2e343ac79444871a9b1352c0adb2d9d0a3fc1",
+      "sizeBytes": 2295,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-505-REGISTER-ASK-INTEGRATION.json",
+      "purpose": "WP505_INTEGRATION_EVIDENCE",
+      "sha256": "bd7ae8bb794aafa2faccbf37931a014b9189ec3bf895a1ec1753966dc36e5495",
+      "sizeBytes": 2421,
+      "status": "CANONICAL_BYTES_PRESENT"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-505-REGISTER-ASK-MUTANTS.json",
+      "purpose": "WP505_IMPLEMENTATION_MUTANT_EVIDENCE",
+      "sha256": "38740145792b801a76baf2e8c8c9c7c4004928fa030636157dc4a3cfac8692bb",
+      "sizeBytes": 2104,
+      "status": "CANONICAL_BYTES_PRESENT"
+    }
+  ],
+  "carrierDenominator": 15,
+  "verifiedCarrierCount": 15,
+  "excludedSelfCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP505_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP505_TERMINAL_SUPPLEMENT_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS.json"
+  ],
+  "programDoneClaimed": false,
+  "nextGraphNodeStarted": false
+}

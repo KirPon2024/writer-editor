@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_CANDIDATE_CI_FAILURE_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_POST_AUDIT_COMPATIBILITY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T02:56:10Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "exactCandidate": {
+    "sha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "tree": "fa08a7571bce5f5ea5e90a32c0d57a9915e130a5",
+    "pullRequest": 1808,
+    "runId": 33584273368,
+    "attempt": 1,
+    "conclusion": "FAILURE"
+  },
+  "causalFailures": [
+    {"jobId":100105002578,"job":"inventory-baseline","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"},
+    {"jobId":100105002707,"job":"actual-renderer-build-rtk","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"},
+    {"jobId":100105002720,"job":"ops-vector","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"},
+    {"jobId":100105002781,"job":"c1a-hermetic-macos","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"},
+    {"jobId":100105002822,"job":"c1a-hermetic-ubuntu","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"},
+    {"jobId":100105002884,"job":"c1a-hermetic-windows","code":"E_WP504_SUCCESSOR_UNADMITTED_PATH","detail":"docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json"}
+  ],
+  "derivedFailures": [
+    {"jobId":100106883510,"job":"merge-gate","cause":"FAILED_REQUIRED_DEPENDENCIES"},
+    {"jobId":100106912333,"job":"oss-policy","cause":"MERGE_GATE_FAILED"}
+  ],
+  "successfulRequiredEvidence": {
+    "rtkRequiredJobId": 100105002816,
+    "rtkRequiredStatus": "SUCCESS",
+    "e0MutantsJobId": 100105002825,
+    "e0MutantsStatus": "SUCCESS",
+    "liveRulesetOracleJobId": 100105002686,
+    "liveRulesetOracleStatus": "SUCCESS",
+    "staticSecuritySastJobId": 100105002655,
+    "staticSecuritySastStatus": "SUCCESS",
+    "privacyNegativeJobId": 100105002840,
+    "privacyNegativeStatus": "SUCCESS",
+    "x1PlatformParity": "SUCCESS_3_OF_3",
+    "ossPolicyCoreJobId": 100105002737,
+    "ossPolicyCoreStatus": "SUCCESS"
+  },
+  "rootCause": {
+    "classification": "POST_AUDIT_CERTIFICATION_CHAIN_STOPPED_AT_WP504",
+    "verifierPath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+    "historicalWp504BytesRewritten": false,
+    "wp505ProductBytesRejected": false,
+    "requiredRepair": "ADMIT_EXACT_WP505_V1_CANDIDATE_AND_APPEND_ONLY_V2_COMPATIBILITY_DELTA_THEN_SELECT_WP505_GOVERNANCE_APPROVALS_IN_REQUIRED_CI"
+  },
+  "lease": {"fencingCounter":70,"status":"ACTIVE","wip":1},
+  "programDone": false
+}

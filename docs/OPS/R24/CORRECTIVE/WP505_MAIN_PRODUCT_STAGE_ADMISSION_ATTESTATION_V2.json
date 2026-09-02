@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "STAGE_ADMISSION_ATTESTATION_V2",
+  "attestationType": "PINNED_STAGE_ADMISSION",
+  "status": "ADMITTED",
+  "decision": "INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP505_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V2",
+  "authorityDigest": "33c73eff3b4af698e857c78b32d2b08567e3b05bad64f3ac5f58558aeb87e473",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "stageInstanceDigest": "1aa7c212927a7d4cafc52b3a0f3b47eddc324f68063ea7a6c2787d42dd2ce196",
+  "writeSetDigest": "5ab8d9247b0dc4c063be78a4b9deae6682fa38542f11b43b13ed6bb6bee4e79c",
+  "commandScopeDigest": "845a163aaed8aeac2fa0b37942056ebefe34ffff303e25a989e5cf989f11ccba",
+  "acceptanceSignalsDigest": "0849991eefb5026baba1e08485aa1f6aef993b003be0ea443115923d961ae306",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "exactIdentity": {
+    "baseSha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "headSha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "treeSha": "fa08a7571bce5f5ea5e90a32c0d57a9915e130a5",
+    "branch": "codex/r24-wp505-register-ask-v1-20260902",
+    "targetRemote": "origin"
+  },
+  "lease": {
+    "fencingCounter": 70,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "ee469e4a70fbaf7701ab110e94da4e8e3f6632a98d69e55280a81abe388b7156"
+  },
+  "observedAtUtc": "2026-09-02T02:56:10Z"
+}

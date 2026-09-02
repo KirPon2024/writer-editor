@@ -1,0 +1,56 @@
+{
+  "stampId": "ES-R24-WP-505-REGISTER-ASK-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-505_REGISTER_AND_ASK",
+  "attemptId": "ATTEMPT-WP505-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP505_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "treeSha": "baa79829b5e2363845e826c507cda817e9c4b1f8"
+  },
+  "claim": {
+    "type": "WP505_REGISTER_AND_QUERY_IR_ACCEPTANCE_CONTRACT",
+    "ceiling": "WP505_NODE_AND_REGISTER_QUERY_IR_ONLY_WP504_PREDECESSOR_BOUND_NO_PERSISTENCE_COMMAND_NETWORK_EXTERNAL_AI_GRAPH_ADVANCE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "node --test test/unit/r24-wp505-register-ask.test.js",
+    "evidenceClass": "CONTRACT",
+    "denominator": 5,
+    "passed": 5,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-505-REGISTER-ASK-MODEL"
+    ],
+    "predecessorReceiptDigest": "021acab8bd8a4d17194ef942fe33f966e698969a36b2e3914702b79884fac296"
+  },
+  "createdAt": "2026-09-02T02:08:43Z",
+  "actor": "codex/r24-wp505-register-ask-v1-20260902",
+  "artifact": {
+    "evaluationMode": "EXACT_WORKTREE_BYTES_WITH_SEPARATE_EXTERNAL_EXACT_HEAD_REQUIRED",
+    "testArtifact": {
+      "path": "test/unit/r24-wp505-register-ask.test.js",
+      "sha256": "f0a5254397294b3ac281094cab7f9e56fe208d0820b98477b2cb7fb0e83b40d3"
+    },
+    "requiredBehaviors": [
+      "AUTHORED_COMPUTED_ROLE_SEPARATION_AND_COMPLETE_DENOMINATOR",
+      "BOUNDED_QUERY_IR_RESULT_EVIDENCE_AND_IDENTITY_BINDING",
+      "STALE_FUTURE_MISSING_DUPLICATE_AND_FORGED_COMPUTED_REJECTION",
+      "UNKNOWN_NONCANONICAL_DUPLICATE_AND_OVERSIZED_QUERY_REJECTION",
+      "ACCESSOR_SYMBOL_SPARSE_ARRAY_AND_TAMPER_REJECTION"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    }
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

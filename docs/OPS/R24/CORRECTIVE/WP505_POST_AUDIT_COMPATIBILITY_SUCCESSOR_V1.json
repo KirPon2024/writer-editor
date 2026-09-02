@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T02:56:10Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "admission": {
+    "authorityDigest": "33c73eff3b4af698e857c78b32d2b08567e3b05bad64f3ac5f58558aeb87e473",
+    "stageInstanceDigest": "1aa7c212927a7d4cafc52b3a0f3b47eddc324f68063ea7a6c2787d42dd2ce196",
+    "stageAdmissionDigest": "9adb35158b2c173ac9b4a7a8347c10cd41cba455cd6f34ba6494e434dd096438",
+    "writeSetDigest": "5ab8d9247b0dc4c063be78a4b9deae6682fa38542f11b43b13ed6bb6bee4e79c",
+    "commandScopeDigest": "845a163aaed8aeac2fa0b37942056ebefe34ffff303e25a989e5cf989f11ccba",
+    "acceptanceSignalsDigest": "0849991eefb5026baba1e08485aa1f6aef993b003be0ea443115923d961ae306"
+  },
+  "bindings": {
+    "failureDigest": "5eea887866e24a6e450a9c523079d1b2f4f3aeb7ac3b16c9ed0b5b39c1ecb769",
+    "wp505V1AuthorityDigest": "94b48066c0e90561040fa1049fa188b2c3aa8175f5e65c57d693dc438873b1c0",
+    "wp505V1StageInstanceDigest": "c0ea6ff4fdf73ae5a9db4a912951fe0ba3cdbc436886326a9548a04c1b8e9d15",
+    "wp505V1StageAdmissionDigest": "2c182cb6762bbbcb5d7b9d43c6e061ff5449c0603330ea970a56c2a60a94d7c0",
+    "wp505V1WriteSetDigest": "3327541fb4da3c878a016d9cce6e59991c90e40459f65765f64843ac12498a15",
+    "postAuditCertificationVerifierDigest": "5c920f025e4b252911a30769c642dfe3e01986ab07e31510b813f5fdddbaa346",
+    "requiredWorkflowDigest": "1741230dac2e1fc5f8300be2a8d38c3d9ca4c095e4f2a749169334913fcb62fa",
+    "hostileContractTestDigest": "14a3dac1aaa6eb928b10711969518ef800add1805deb448641a4010b95710089",
+    "testInventoryDigest": "6a6bef8ac26e46a55cf25b2ed517fee44d2aa7861eef498bdd0045e1671ce1c7"
+  },
+  "evaluationPolicy": {
+    "wp505V1BaseSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "wp505V1BaseTree": "baa79829b5e2363845e826c507cda817e9c4b1f8",
+    "wp505V1CandidateSha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "wp505V1CandidateTree": "fa08a7571bce5f5ea5e90a32c0d57a9915e130a5",
+    "wp505V2BaseSha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "wp505V2BaseTree": "fa08a7571bce5f5ea5e90a32c0d57a9915e130a5",
+    "v1ChangedPathDenominator": 25,
+    "v2ChangedPathDenominator": 10,
+    "completeAdmissionDenominator": 2,
+    "historicalDeltaDerivedFromExactGitObjects": true,
+    "arbitraryDescendantDeltaAccepted": false,
+    "mutableWorkingTreeUsedForHistoricalClaim": false
+  },
+  "hostedCandidateFailure": {
+    "pullRequest": 1808,
+    "runId": 33584273368,
+    "attempt": 1,
+    "headSha": "e42e92ba73168b9b8105651729752eec7d2b65ad",
+    "conclusion": "FAILURE",
+    "causalFailureDenominator": 6,
+    "derivedFailureDenominator": 2,
+    "exactCauseBound": true
+  },
+  "historicalWp504BytesRewritten": false,
+  "productRuntimeBytesChangedBySuccessor": false,
+  "lease": {"fencingCounter":70,"status":"ACTIVE","wip":1},
+  "programDone": false
+}

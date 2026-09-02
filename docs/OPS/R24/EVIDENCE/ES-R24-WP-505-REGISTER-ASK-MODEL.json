@@ -1,0 +1,69 @@
+{
+  "stampId": "ES-R24-WP-505-REGISTER-ASK-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-505_REGISTER_AND_ASK",
+  "attemptId": "ATTEMPT-WP505-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP505_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "treeSha": "baa79829b5e2363845e826c507cda817e9c4b1f8"
+  },
+  "claim": {
+    "type": "WP505_BOUNDED_ATLAS_REGISTER_ASK_MODEL",
+    "ceiling": "WP505_NODE_AND_REGISTER_QUERY_IR_ONLY_WP504_PREDECESSOR_BOUND_NO_PERSISTENCE_COMMAND_NETWORK_EXTERNAL_AI_GRAPH_ADVANCE_OR_PROGRAM_DONE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP505 immutable authored-computed register and bounded Query-IR model assertions",
+    "evidenceClass": "MODEL",
+    "denominator": 10,
+    "passed": 10,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-504-DOSSIER-LAYOUT-LINKS-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "021acab8bd8a4d17194ef942fe33f966e698969a36b2e3914702b79884fac296"
+  },
+  "createdAt": "2026-09-02T02:08:43Z",
+  "actor": "codex/r24-wp505-register-ask-v1-20260902",
+  "artifact": {
+    "evaluationMode": "EXACT_WORKTREE_BYTES_WITH_SEPARATE_EXTERNAL_EXACT_HEAD_REQUIRED",
+    "implementationArtifacts": [
+      {
+        "path": "src/core/atlas-register-ask-v1.mjs",
+        "sha256": "3e52581a777e958a5035f8052bab4b1ceb9cd6288af4107d34873dfd0ceb9552"
+      },
+      {
+        "path": "src/renderer/atlasRegisterAskPresentationModel.mjs",
+        "sha256": "ba23874fa4be655ceb2d144990f4f50f85ed70582a3113ab3b375b89b99867b0"
+      }
+    ],
+    "modelAssertions": [
+      "Authored entries are caller-authored inputs and can never claim computed origin or reserved computed identity.",
+      "Computed entries are derived one-for-one from the complete exact WP504 dossier denominator.",
+      "Authored and computed records remain visibly and structurally distinct in every projection and result.",
+      "Authored evidence references must exist in the exact WP504 evidence universe.",
+      "Every projection binds project revision snapshot generation shared row set and predecessor projection digests.",
+      "Query IR admits only seven typed fields three typed operators three order fields and a bounded result limit.",
+      "Ask Atlas performs deterministic local filtering and returns exact register records rather than synthesized truth.",
+      "Projection and result digests are independently recomputable and tamper-evident.",
+      "The feature manifest grants no mutation persistence renderer wiring network external AI or platform effect authority.",
+      "The node is bounded to WP505 and makes no graph advance or PROGRAM_DONE claim."
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "graphAdvance": false,
+    "programDone": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

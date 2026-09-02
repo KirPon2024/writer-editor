@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "YALKEN_R24_MAIN_PRODUCT_SELECTION_RECEIPT_V2",
+  "stageId": "WP-701_PARSER_QUARANTINE",
+  "decision": "SELECTED_AND_ADMITTED",
+  "selectedAtUtc": "2026-09-02T13:58:52Z",
+  "selectionObservation": "FRESH_POST_WP507_EXTERNAL_TERMINAL_EFFECTIVE_GRAPH_REPLAY",
+  "exactBase": {
+    "sha": "68bfe2062ccb263fa3d1603c8e228508c547957b",
+    "tree": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09",
+    "branch": "codex/r24-wp701-parser-quarantine-v1-20260902"
+  },
+  "program": {
+    "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "nodeCount": 109,
+    "schedulerGraphDigest": "6d68ccb113349bb31af10636f088534ed973445301552a708dfe9dac6a037fae"
+  },
+  "graph": {
+    "stateRevision": 284,
+    "fencingCounter": 75,
+    "stateDigest": "77e085a385090bfd3f1704869d0809ddcf990337ba94f4ee0e5f2bc09b4e1770",
+    "contourStatesDigest": "bc45c3e13e9ee56ac9954b8c444f69215776147d077b2b00d8fae177c85a5616",
+    "effectiveCountsBefore": {
+      "BLOCKED_TYPED": 4,
+      "DONE": 64,
+      "INELIGIBLE_OPTIONAL": 10,
+      "PENDING": 31
+    },
+    "readySet": [
+      "WP-600_FEATURESPEC_QUERY_IR",
+      "WP-701_PARSER_QUARANTINE"
+    ],
+    "selectedId": "WP-701_PARSER_QUARANTINE",
+    "selectionReason": "DETERMINISTIC_INTERCHANGE_PROFILE_CONTINUATION_AFTER_WP700_AND_WP507_EXTERNAL_TERMINAL",
+    "higherPriorityGraphReadyNode": null
+  },
+  "selectedNode": {
+    "id": "WP-701_PARSER_QUARANTINE",
+    "outcome": "Archive/XML/OOXML containment, resource budgets and loss ledger",
+    "profile": "INTERCHANGE_COMMON",
+    "mutationAuthority": "INTERCHANGE_COMMON_BOUNDED_CONTOUR",
+    "stateOwner": "INTERCHANGE_ADAPTER_AUTHORITY",
+    "ownerGate": null
+  },
+  "admission": {
+    "authorityDigest": "9334bf7b5cc9a17fe6daa96147595510b270748725d1a128069c7acd1e0de95b",
+    "stageInstanceDigest": "61b28fed30b12a8e1a994c1c4290bc40fc805cd0dafd10274d25ce98ab7a890f",
+    "stageAdmissionDigest": "1e766ec3f88f74046442146bb866f1395831c0fbd01362135b3d863c160edca8",
+    "writeSetDigest": "45040fb75b84b828e0519d0d8122ff6ef0d3fdf670fbefcdf3e21a5bd7ac484a",
+    "commandScopeDigest": "3c7b2f6d6c6cb568757d9a19af9ed2b9d0034fe38ee3a39038f9e9c54a36db56",
+    "acceptanceSignalsDigest": "302c20fcd5802c9ba3db081a48f91de91daa42b30fd2267ad7401f73eaec3a55"
+  },
+  "predecessors": {
+    "wp700": {
+      "mergeSha": "99e7cd23862796256a69ef38c4e4f987d57f12aa",
+      "treeSha": "8faf35f0a7bec3efc6446405141ee02d139b8a94",
+      "externalTerminalReceiptDigest": "0b177b801ba0ec5a209f7fc05b3965aab88ccc0e524b517056946ee829f663ee",
+      "externalVerificationDigest": "a8b983eb6146e30c29b8804f01c3ee15e1302b0b25269d202286074d1f12f398",
+      "externalDurableCarrierDigest": "67203615666a35663e5307b764e42650dfad587db1185fa1f7bc4b7bbb099d80",
+      "externalLeaseReleaseDigest": "fff4c4d09edb854dfc7852ab4f0ee83ee956e23ecebb497a203b257e44207373",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    "wp507": {
+      "mergeSha": "68bfe2062ccb263fa3d1603c8e228508c547957b",
+      "treeSha": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09",
+      "externalTerminalReceiptDigest": "b3eb36efc4993281d66235d23ec2f02bb2ebd8707e10bf7de052ebaeb064078d",
+      "externalVerificationDigest": "29337cfd48bde25b4ab3c1215e8044e360869c0ad85e90dc03ef33772e8e86b4",
+      "externalDurableCarrierDigest": "54525cc8847ac045b10f35ed206215c30c527879f2923f9dfc671b538949fc31",
+      "externalLeaseReleaseDigest": "e018bd09360a1fda8981f8681f1869f50f625b668f835b289e0ec1398792e658",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    }
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "protectedWipBefore": {
+    "carrierDigest": "1f412eea6efcbd6ea4dafbbfee6769740e775cdaab4cbb08a82b3ef3498bbdad",
+    "snapshotDigest": "91d03b10e27f849e19cbe8bb68ccedff270e3a63ca1196a36a330a1c01f031f4",
+    "completeDenominator": 257,
+    "dirtyDenominator": 8
+  },
+  "lease": {
+    "fencingCounter": 75,
+    "predecessorReleaseDigest": "e018bd09360a1fda8981f8681f1869f50f625b668f835b289e0ec1398792e658",
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

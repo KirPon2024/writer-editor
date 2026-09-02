@@ -1,0 +1,67 @@
+{
+  "schemaVersion": "YALKEN_R24_WP701_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP701_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-701_PARSER_QUARANTINE",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-02T14:23:51Z",
+  "evidenceStampId": "ES-R24-WP-701-PARSER-QUARANTINE-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-701-PARSER-QUARANTINE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "baseIdentity": {"sha": "68bfe2062ccb263fa3d1603c8e228508c547957b", "treeSha": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09"},
+  "bindings": {
+    "selectionReceiptDigest": "4e04ae5c32775a1f92c7d3aa522979fb27f66cc0c157ce5875a7301fae4a41c3",
+    "authorityDigest": "9334bf7b5cc9a17fe6daa96147595510b270748725d1a128069c7acd1e0de95b",
+    "stageInstanceDigest": "61b28fed30b12a8e1a994c1c4290bc40fc805cd0dafd10274d25ce98ab7a890f",
+    "stageAdmissionDigest": "1e766ec3f88f74046442146bb866f1395831c0fbd01362135b3d863c160edca8",
+    "writeSetDigest": "45040fb75b84b828e0519d0d8122ff6ef0d3fdf670fbefcdf3e21a5bd7ac484a",
+    "commandScopeDigest": "3c7b2f6d6c6cb568757d9a19af9ed2b9d0034fe38ee3a39038f9e9c54a36db56",
+    "acceptanceSignalsDigest": "302c20fcd5802c9ba3db081a48f91de91daa42b30fd2267ad7401f73eaec3a55",
+    "wp700ExternalTerminalReceiptDigest": "0b177b801ba0ec5a209f7fc05b3965aab88ccc0e524b517056946ee829f663ee",
+    "wp700ExternalVerificationDigest": "a8b983eb6146e30c29b8804f01c3ee15e1302b0b25269d202286074d1f12f398",
+    "wp700ExternalDurableCarrierDigest": "67203615666a35663e5307b764e42650dfad587db1185fa1f7bc4b7bbb099d80",
+    "wp507ExternalTerminalReceiptDigest": "b3eb36efc4993281d66235d23ec2f02bb2ebd8707e10bf7de052ebaeb064078d",
+    "wp507ExternalVerificationDigest": "29337cfd48bde25b4ab3c1215e8044e360869c0ad85e90dc03ef33772e8e86b4",
+    "wp507ExternalDurableCarrierDigest": "54525cc8847ac045b10f35ed206215c30c527879f2923f9dfc671b538949fc31",
+    "wp507ExternalLeaseReleaseDigest": "e018bd09360a1fda8981f8681f1869f50f625b668f835b289e0ec1398792e658",
+    "carrierRegistryDigest": "2bf94454f1a37a9c86c863bbd715d9a84617ff0386c20c6fbbfc3c78622aef33",
+    "acceptanceMatrixDigest": "38ae631afd6a4fd06bd594842d86b34169fb4792a34640325dec800d9ed32497",
+    "effectiveStateDigest": "205ecd6b98d31454c8e31dc9787bf2c5d30994d6af21c6abf21bedaf453e4f02",
+    "stageRegistryDigest": "2e652f4c4d2e8d1124472aa43c5dbdb1927e064c96e997a5c88e22928a9cc8f7",
+    "leaseReleaseDigest": "1550cd977490f267b4193264a186a30a52719e014629328ae5b6fbf3e91a88a6"
+  },
+  "implementationArtifacts": [
+    {"path": "src/core/parser-quarantine-v1.mjs", "sha256": "d8e431f17009a23e4e8908817bdf39b7d286b0397152cc2786f2c8939accbc79"},
+    {"path": "test/fixtures/r24-wp701-parser-quarantine-fixtures.js", "sha256": "8232f2f9ed58c4a6194ef59a689c2313685cbca24dd42c38dd667feb3f20f466"},
+    {"path": "test/unit/r24-wp701-parser-quarantine.test.js", "sha256": "1f3dfd38622330b9a1ab2693baa5d55ebc418683d8b6ae5c2e2f19f6bcf41e20"},
+    {"path": "test/unit/r24-wp701-parser-quarantine-integration.test.js", "sha256": "c61c1318ce004ad6493f5bba257a14527e2ce226c11644e70e280a12e003fc4b"},
+    {"path": "test/unit/r24-wp701-parser-quarantine-mutants.test.js", "sha256": "69cc4806896352d704f12781df4f561c14a2dbe26152c9bbab57da2794e34289"}
+  ],
+  "localEvidence": {
+    "focusedWp701": {"tests": 20, "passed": 20, "failed": 0, "skipped": 0, "mutantsKilled": 44, "mutantsSurvived": 0, "status": "PASS"},
+    "postAuditAdmissionChain": {"exactPathDenominator": 28, "status": "PASS_PENDING_TERMINAL_CONTRACT"},
+    "cleanEngineStrictInstall": {"status": "REQUIRED_BEFORE_COMMIT"},
+    "rendererBuild": {"trackedOutputChanged": false, "status": "REQUIRED_BEFORE_COMMIT"},
+    "fullBaseline": {"status": "REQUIRED_BEFORE_COMMIT"},
+    "e0": {"expectedTests": 110, "expectedMutants": 31, "status": "REQUIRED_BEFORE_COMMIT"},
+    "rtk": {"minimumExpectedTests": 1067, "expectedSkips": 0, "status": "REQUIRED_BEFORE_COMMIT"},
+    "securityAndOss": {"status": "REQUIRED_BEFORE_COMMIT"}
+  },
+  "externalDeliveryPredicates": [
+    {"id": "INDEPENDENT_EXACT_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+  ],
+  "activationOutcome": {"nodeState": "DONE", "leaseStatus": "RELEASED", "wip": 0, "doneCount": 65, "blockedTypedCount": 4, "pendingCount": 30},
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_PRODUCTION_RELEASE_PAYMENTS_SECRETS_USER_DOCUMENT_MUTATION_OR_UNADMITTED_NETWORK_EXTERNAL_PROVIDER_EFFECT",
+    "NO_PRODUCT_MUTATION_COMMAND_PERSISTENCE_RENDERER_OR_RUNTIME_WIRING",
+    "NO_WP702_OR_OTHER_NEXT_GRAPH_NODE_STARTED",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS"
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

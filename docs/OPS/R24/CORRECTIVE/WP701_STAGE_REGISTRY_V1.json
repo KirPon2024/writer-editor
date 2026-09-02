@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "YALKEN_R24_WP701_STAGE_REGISTRY_V1",
+  "stageId": "WP-701_PARSER_QUARANTINE",
+  "status": "ADMITTED_ACTIVE_PENDING_EXTERNAL_DELIVERY",
+  "authorityId": "WP701_MAIN_PRODUCT_OWNER_AUTHORITY_V1",
+  "authorityDigest": "9334bf7b5cc9a17fe6daa96147595510b270748725d1a128069c7acd1e0de95b",
+  "stageInstanceDigest": "61b28fed30b12a8e1a994c1c4290bc40fc805cd0dafd10274d25ce98ab7a890f",
+  "stageAdmissionDigest": "1e766ec3f88f74046442146bb866f1395831c0fbd01362135b3d863c160edca8",
+  "writeSetDigest": "45040fb75b84b828e0519d0d8122ff6ef0d3fdf670fbefcdf3e21a5bd7ac484a",
+  "commandScopeDigest": "3c7b2f6d6c6cb568757d9a19af9ed2b9d0034fe38ee3a39038f9e9c54a36db56",
+  "acceptanceSignalsDigest": "302c20fcd5802c9ba3db081a48f91de91daa42b30fd2267ad7401f73eaec3a55",
+  "baseSha": "68bfe2062ccb263fa3d1603c8e228508c547957b",
+  "baseTree": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09",
+  "lease": {"fencingCounter": 75, "status": "ACTIVE", "wip": 1, "predecessorReleaseDigest": "e018bd09360a1fda8981f8681f1869f50f625b668f835b289e0ec1398792e658"},
+  "targetTransition": {"nodeState": "DONE", "leaseStatus": "RELEASED", "wip": 0},
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "programDone": false
+}

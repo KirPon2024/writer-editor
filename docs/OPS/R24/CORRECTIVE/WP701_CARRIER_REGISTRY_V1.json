@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "YALKEN_R24_WP701_CARRIER_REGISTRY_V1",
+  "stageId": "WP-701_PARSER_QUARANTINE",
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "evaluationSha": "68bfe2062ccb263fa3d1603c8e228508c547957b",
+  "evaluationTreeSha": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09",
+  "carrierDenominator": 16,
+  "verifiedCarrierCount": 16,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {"path": "docs/OPS/R24/CORRECTIVE/WP701_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json", "sha256": "4e04ae5c32775a1f92c7d3aa522979fb27f66cc0c157ce5875a7301fae4a41c3"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP701_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json", "sha256": "9334bf7b5cc9a17fe6daa96147595510b270748725d1a128069c7acd1e0de95b"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP701_MAIN_PRODUCT_STAGE_INSTANCE_V1.json", "sha256": "61b28fed30b12a8e1a994c1c4290bc40fc805cd0dafd10274d25ce98ab7a890f"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP701_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json", "sha256": "1e766ec3f88f74046442146bb866f1395831c0fbd01362135b3d863c160edca8"},
+    {"path": "docs/OPS/R24/CORRECTIVE/WP701_PROTECTED_WIP_BEFORE_V1.json", "sha256": "1f412eea6efcbd6ea4dafbbfee6769740e775cdaab4cbb08a82b3ef3498bbdad"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-701-PARSER-QUARANTINE-MODEL.json", "sha256": "469f53f4a26d2e0836c204a53aed104951c689679b3c72a6bf7149f948aa3630"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-701-PARSER-QUARANTINE-CONTRACT.json", "sha256": "dff2e1618f0e2973aa3b0f748a80aabe1283ad5fc690ec664316545d916f53c0"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-701-PARSER-QUARANTINE-INTEGRATION.json", "sha256": "dde6a70cd5ce69ceb52f1712cadbee912d88ddd96a6cb755dd1a736cc2eb4c18"},
+    {"path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-701-PARSER-QUARANTINE-MUTANTS.json", "sha256": "4d38584dd889a01364c30bb3bdedb99b526d062e3f4f0ac8651da7bfdd38a287"},
+    {"path": "src/core/parser-quarantine-v1.mjs", "sha256": "d8e431f17009a23e4e8908817bdf39b7d286b0397152cc2786f2c8939accbc79"},
+    {"path": "test/fixtures/r24-wp701-parser-quarantine-fixtures.js", "sha256": "8232f2f9ed58c4a6194ef59a689c2313685cbca24dd42c38dd667feb3f20f466"},
+    {"path": "test/unit/r24-wp701-parser-quarantine.test.js", "sha256": "1f3dfd38622330b9a1ab2693baa5d55ebc418683d8b6ae5c2e2f19f6bcf41e20"},
+    {"path": "test/unit/r24-wp701-parser-quarantine-integration.test.js", "sha256": "c61c1318ce004ad6493f5bba257a14527e2ce226c11644e70e280a12e003fc4b"},
+    {"path": "test/unit/r24-wp701-parser-quarantine-mutants.test.js", "sha256": "69cc4806896352d704f12781df4f561c14a2dbe26152c9bbab57da2794e34289"},
+    {"path": "test/contracts/r24-wp701-post-audit-compatibility.contract.test.mjs", "sha256": "dcd2337821b4d50801d6194b3fa4c71f8064074b648c0cd3f71499611c0747e6"},
+    {"path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs", "sha256": "81ed8ae0efa0724fa018d68729bd91a8cdca9f1a0e3a190f1ffced3dc2445d40"}
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "currentTreeFallbackAllowed": false,
+  "programDone": false
+}

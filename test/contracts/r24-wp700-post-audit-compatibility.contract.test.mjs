@@ -4,8 +4,10 @@ import fs from 'node:fs';
 import test from 'node:test';
 import {
   WP700_CI_REPAIR_ADMISSION_EXPECTATION,
+  WP700_CI_REPAIR_INVENTORY_ADMISSION_EXPECTATION,
   WP700_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   verifyWp700CiRepairPostEvaluationException,
+  verifyWp700CiRepairInventorySuccessor,
   verifyWp700MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
@@ -18,6 +20,10 @@ const repairOperations=read(WP700_CI_REPAIR_ADMISSION_EXPECTATION.instancePath).
 const REPAIR_ADMITTED=[...repairOperations.modifyPaths,...repairOperations.createPaths,...repairOperations.deletePaths,...repairOperations.renamePairs.flatMap((pair)=>[pair.from,pair.to])].sort();
 const REPAIR_FINAL_SHA='f711f711f711f711f711f711f711f711f711f711';
 const REPAIR_FINAL_TREE='a711a711a711a711a711a711a711a711a711a711';
+const inventoryOperations=read(WP700_CI_REPAIR_INVENTORY_ADMISSION_EXPECTATION.instancePath).operations;
+const INVENTORY_ADMITTED=[...inventoryOperations.modifyPaths,...inventoryOperations.createPaths,...inventoryOperations.deletePaths,...inventoryOperations.renamePairs.flatMap((pair)=>[pair.from,pair.to])].sort();
+const INVENTORY_FINAL_SHA='f722f722f722f722f722f722f722f722f722f722';
+const INVENTORY_FINAL_TREE='a722a722a722a722a722a722a722a722a722a722';
 const response=(value,encoding)=>{const text=String(value).endsWith('\n')?String(value):`${value}\n`;return encoding==='utf8'?text:Buffer.from(text);};
 
 function fakeGit({changedPaths=ADMITTED,baseTreeDrift=false,missingArtifact=null}={}){
@@ -60,6 +66,26 @@ function repairFakeGit({changedPaths=REPAIR_ADMITTED,baseTreeDrift=false,histori
       }
       if(artifactPath===missingArtifact)throw new Error('MISSING');
       const bytes=fs.readFileSync(artifactPath);
+      return encoding==='utf8'?bytes.toString('utf8'):bytes;
+    }
+    throw new Error(`UNEXPECTED_GIT:${args.join(' ')}`);
+  };
+}
+
+function inventoryFakeGit({changedPaths=INVENTORY_ADMITTED,baseTreeDrift=false,inventoryMutant=false,missingArtifact=null}={}){
+  return (args,{encoding=null}={})=>{
+    if(args[0]==='rev-parse'){
+      if(args[1]==='HEAD')return response(INVENTORY_FINAL_SHA,encoding);
+      if(args[1]===`${WP700_CI_REPAIR_INVENTORY_ADMISSION_EXPECTATION.baseSha}^{tree}`)return response(baseTreeDrift?'b'.repeat(40):WP700_CI_REPAIR_INVENTORY_ADMISSION_EXPECTATION.baseTree,encoding);
+      if(args[1]===`${INVENTORY_FINAL_SHA}^{tree}`)return response(INVENTORY_FINAL_TREE,encoding);
+      return response(args[1].replace(/\^\{tree\}$/u,''),encoding);
+    }
+    if(args[0]==='merge-base'&&args[1]==='--is-ancestor')return Buffer.alloc(0);
+    if(args[0]==='diff'&&args[1]==='--name-only')return response(changedPaths.join('\n'),encoding);
+    if(args[0]==='show'){
+      const separator=args[1].indexOf(':'),artifactPath=args[1].slice(separator+1);
+      if(artifactPath===missingArtifact)throw new Error('MISSING');
+      const bytes=inventoryMutant&&artifactPath==='docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json'?Buffer.from('{}\n'):fs.readFileSync(artifactPath);
       return encoding==='utf8'?bytes.toString('utf8'):bytes;
     }
     throw new Error(`UNEXPECTED_GIT:${args.join(' ')}`);
@@ -130,4 +156,29 @@ test('WP700 CI repair oracle rejects missing historical objects and mutable-curr
 
 test('WP700 CI repair oracle requires every admitted successor artifact',()=>{
   assert.throws(()=>verifyWp700CiRepairPostEvaluationException({git:repairFakeGit({missingArtifact:'docs/OPS/R24/CORRECTIVE/WP700_CI_REPAIR_SUCCESSOR_V1.json'})}),/E_WP700_CI_REPAIR_REQUIRED_ARTIFACT/u);
+});
+
+test('WP700 inventory successor binds the exact nine-path V3 delta and complete refreshed inventory',()=>{
+  const result=verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit()});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.baseSha,WP700_CI_REPAIR_INVENTORY_ADMISSION_EXPECTATION.baseSha);
+  assert.equal(result.candidateSha,INVENTORY_FINAL_SHA);
+  assert.equal(result.candidateTree,INVENTORY_FINAL_TREE);
+  assert.equal(result.admittedPathDenominator,9);
+  assert.equal(result.changedPathDenominator,9);
+  assert.equal(result.inventoryFileDenominator,1312);
+  assert.equal(result.requiredSkips,0);
+  assert.equal(result.unexplainedSkips,0);
+  assert.deepEqual(result.changedPaths,INVENTORY_ADMITTED);
+});
+
+test('WP700 inventory successor rejects future and omitted paths',()=>{
+  assert.throws(()=>verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit({changedPaths:[...INVENTORY_ADMITTED,'src/main.js'].sort()})}),/E_WP700_CI_INVENTORY_EXACT_ADMITTED_DELTA/u);
+  assert.throws(()=>verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit({changedPaths:INVENTORY_ADMITTED.slice(1)})}),/E_WP700_CI_INVENTORY_EXACT_ADMITTED_DELTA/u);
+});
+
+test('WP700 inventory successor rejects base drift stale inventory and missing carriers',()=>{
+  assert.throws(()=>verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit({baseTreeDrift:true})}),/E_WP700_CI_INVENTORY_ADMISSION_BASE/u);
+  assert.throws(()=>verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit({inventoryMutant:true})}),/E_WP700_CI_INVENTORY_DIGEST/u);
+  assert.throws(()=>verifyWp700CiRepairInventorySuccessor({git:inventoryFakeGit({missingArtifact:'docs/OPS/R24/CORRECTIVE/WP700_CI_REPAIR_INVENTORY_SUCCESSOR_V2.json'})}),/E_WP700_CI_INVENTORY_REQUIRED_ARTIFACT/u);
 });

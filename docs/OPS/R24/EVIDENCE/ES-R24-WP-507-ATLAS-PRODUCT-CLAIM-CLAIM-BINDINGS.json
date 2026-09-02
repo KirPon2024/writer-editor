@@ -1,0 +1,196 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-507-ATLAS-PRODUCT-CLAIM-CLAIM-BINDINGS",
+  "contourId": "WP-507_ATLAS_PRODUCT_CLAIM",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "99e7cd23862796256a69ef38c4e4f987d57f12aa",
+  "originMainSha": "99e7cd23862796256a69ef38c4e4f987d57f12aa",
+  "generatedAtUtc": "2026-09-02T11:28:00Z",
+  "oracle": "WP507 successor exact local worktree-byte binding at admitted base; candidate protected merge postmerge final protected-WIP snapshot and external terminal provider identities remain explicit unclaimed external predicates",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_SELECTION_RECEIPT_V2.json",
+      "sha256": "e72b4e95103e6c877dee101677f335ab50c51cbf6b35cc053c2714f1ad632063",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V2.json",
+      "sha256": "50589301f581f46c867581344ac685769bf3336762d62e8c07e70a49b7089ab0",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "0bf2fab515a5f6ae87531f377f972414c1909ce971e96620b1854e6593628aa9",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "40d39ae31903bf7859b2f301b3aef58ff5acb18308505dea70e28a736e3eeedb",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_PROTECTED_WIP_BEFORE_V2.json",
+      "sha256": "a5f782d8f6ca7e270ca35b22add08eb28362787f3e95725bf4a091095cbfc629",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_CARRIER_REGISTRY_V2.json",
+      "sha256": "85e5049d6c15a3694b52520e9d02aa190e028be65cb308d6c5a0a2291380c2a6",
+      "claimTerms": [
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_ACCEPTANCE_MATRIX_V2.json",
+      "sha256": "3c845d2b078f73b460e333efd47e246329ef31a2d5682ecf8293378a5fb98b5b",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_EFFECTIVE_STATE_V2.json",
+      "sha256": "2602463ecec6bf9b2848947e26d3f52e841a57e9389bba3ec4f2c2ec9f88b5f2",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_STAGE_REGISTRY_V2.json",
+      "sha256": "ecf68cea27341f92d9cd732675db30027df37f8006d3cfaf87634323ccf07e05",
+      "claimTerms": [
+        "READY"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_LEASE_RELEASE_V2.json",
+      "sha256": "eb050f4581ce6b89e24805fe4696660c32bcc6726e60dd8c04f17e64a89f0273",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json",
+      "sha256": "d561943bdb9ede7f0a2c6756ef89fb43165f797964c34712444614fa5aad9d62",
+      "claimTerms": [
+        "SAFE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_SUPPLEMENT_V2.json",
+      "sha256": "fab212ebbeb685fb1b610d58aad521d3ea6fcd259aaa8b0838f7ef86c174bf54",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/OWNER_GATE_DECISIONS/ATLAS_PROFILE_RELEASE_PERMIT_WP507_ATLAS_PRODUCT_CLAIM_SUCCESSOR_V2.json",
+      "sha256": "8006dab30a5ac323b707bd09dc85aa917056f089131cfa1baf79f5e11e6a8724",
+      "claimTerms": [
+        "READY"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-product-claim-v1.mjs",
+      "sha256": "84400bc2e15ca00c530ff6b6c8f7988aaf0c458646df2f2956e945121314a5a3",
+      "terms": [
+        "EIGHT_NODE_FOUR_ASSURANCE_PACKAGE",
+        "PURE_LOCAL",
+        "ABSOLUTE_EXCLUSIONS"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp507-atlas-product-claim.test.js",
+      "sha256": "6252db6fa30ec00d2f50d69379e97f56496e4ae7ae34534a82d994834dec6f3e",
+      "terms": [
+        "CONTRACT_NEGATIVE_UNIT"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp507-atlas-product-claim-integration.test.js",
+      "sha256": "ded00218e613d7ff70834f8f719a78427597e1507ab4475489295979c8bbee28",
+      "terms": [
+        "LARGE_CORPUS_DIFFERENTIAL"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp507-atlas-product-claim-mutants.test.js",
+      "sha256": "eb78afd50ba58ec935f22934279e71054892cbdc4898b7fefe74b66f230cc940",
+      "terms": [
+        "HOSTILE_MUTANTS"
+      ]
+    },
+    {
+      "path": "test/contracts/r24-wp507-post-audit-compatibility.contract.test.mjs",
+      "sha256": "87bc206f9821435d56c30c2731e5c4f13c4b0104a09fa9b92f3e20c2ba22051f",
+      "terms": [
+        "EXACT_ADMISSION_CHAIN_HOSTILE"
+      ]
+    },
+    {
+      "path": "test/contracts/r24-wp507-terminal-carriers.contract.test.mjs",
+      "sha256": "43c763fb83aacef3e436ef509af8aa42bb5f32b304dc922c86db4362d368dec5",
+      "terms": [
+        "TERMINAL_CARRIER_HOSTILE"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "WP507 focused unit integration and mutant tests",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      },
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    },
+    {
+      "command": "WP507 eight-thousand-one-hundred-ninety-two-row bounded corpus",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1,
+        "fail": 0
+      }
+    },
+    {
+      "command": "pinned StageAdmissionVerifier V2 exact-base replay",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 1,
+        "fail": 0
+      }
+    },
+    {
+      "command": "WP507 post-audit and terminal hostile contracts",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 8,
+        "fail": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_PRODUCTION_RELEASE_PAYMENTS_SECRETS_USER_DOCUMENT_MUTATION_OR_UNADMITTED_NETWORK_EXTERNAL_PROVIDER_EFFECT",
+    "NO_PRODUCT_MUTATION_COMMAND_PERSISTENCE_OR_RENDERER_WIRING",
+    "NO_WP507_GRAPH_COMPLETION_BEFORE_EXTERNAL_TERMINAL_PROOF",
+    "WP507_HISTORICAL_TYPED_BLOCKER_NOT_RETROACTIVELY_CHANGED",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

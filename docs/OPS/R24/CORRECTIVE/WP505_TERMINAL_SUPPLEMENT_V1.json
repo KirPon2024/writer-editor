@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "terminalReceiptDigest": "7b4b1b080f76b0e2ce05198efba1da465e1508c56bb3f3c151286e41144c251e",
+    "authorityDigest": "94b48066c0e90561040fa1049fa188b2c3aa8175f5e65c57d693dc438873b1c0",
+    "stageInstanceDigest": "c0ea6ff4fdf73ae5a9db4a912951fe0ba3cdbc436886326a9548a04c1b8e9d15",
+    "stageAdmissionDigest": "2c182cb6762bbbcb5d7b9d43c6e061ff5449c0603330ea970a56c2a60a94d7c0",
+    "carrierRegistryDigest": "a334dea316bdd9cdb4db2666497780a74f93e7d28aec3dae7e48903a53d65e51",
+    "modelEvidenceDigest": "6c3c82bb2a4f236ecdbab64e46fb4f33855fcd0d1669c078c31d7a3d4e1a402a",
+    "contractEvidenceDigest": "f875d102b2ba05111db0f35668a2e343ac79444871a9b1352c0adb2d9d0a3fc1",
+    "integrationEvidenceDigest": "bd7ae8bb794aafa2faccbf37931a014b9189ec3bf895a1ec1753966dc36e5495",
+    "mutantEvidenceDigest": "38740145792b801a76baf2e8c8c9c7c4004928fa030636157dc4a3cfac8692bb"
+  },
+  "compatibilityReview": {
+    "wp504MergeSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "wp504TreeSha": "baa79829b5e2363845e826c507cda817e9c4b1f8",
+    "wp504ExternalReceiptDigest": "021acab8bd8a4d17194ef942fe33f966e698969a36b2e3914702b79884fac296",
+    "wp504ExternalVerificationDigest": "8e04aaef386231b744d6ce94bebabdade1f24df24dcc9100af78225299b25899",
+    "wp504LeaseReleaseDispositionDigest": "ee469e4a70fbaf7701ab110e94da4e8e3f6632a98d69e55280a81abe388b7156",
+    "authoredComputedRolesDistinct": true,
+    "completeComputedDossierDenominator": true,
+    "boundedQueryIr": true,
+    "externalAiUsed": false,
+    "productMutationAuthority": false
+  },
+  "currentLease": { "fencingCounter": 70, "status": "ACTIVE", "wip": 1 },
+  "targetLease": { "fencingCounter": 70, "status": "RELEASED", "wip": 0 },
+  "externalDeliveryPredicates": [
+    { "id": "INDEPENDENT_EXACT_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null },
+    { "id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null },
+    { "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null },
+    { "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null },
+    { "id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null }
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

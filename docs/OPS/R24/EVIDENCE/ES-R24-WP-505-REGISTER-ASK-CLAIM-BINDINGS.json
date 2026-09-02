@@ -1,0 +1,147 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS",
+  "contourId": "WP-505_REGISTER_AND_ASK",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+  "originMainSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+  "generatedAtUtc": "2026-09-02T02:17:09Z",
+  "oracle": "WP505 exact local worktree-byte claim binding at admitted base; candidate, protected merge, postmerge, final protected-WIP snapshot and external terminal provider identities remain explicit unclaimed external predicates",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "d4ec72e3f8599af12daef9cf9326baeaa3159e4e4bfe41e4cb2440a58a36156d",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "94b48066c0e90561040fa1049fa188b2c3aa8175f5e65c57d693dc438873b1c0",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "c0ea6ff4fdf73ae5a9db4a912951fe0ba3cdbc436886326a9548a04c1b8e9d15",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2c182cb6762bbbcb5d7b9d43c6e061ff5449c0603330ea970a56c2a60a94d7c0",
+      "claimTerms": ["PASS"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "9eb3c15b32de8164dce20cd91226adb5f93a69799861a3c05f2b3534da9d7700",
+      "claimTerms": ["PASS"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_CARRIER_REGISTRY_V1.json",
+      "sha256": "a334dea316bdd9cdb4db2666497780a74f93e7d28aec3dae7e48903a53d65e51",
+      "claimTerms": ["COMPLETE"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "02d08469756d3529021757167af1d9f690367a1c62550be5a94bf596005ec0d7",
+      "claimTerms": ["PASS"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_EFFECTIVE_STATE_V1.json",
+      "sha256": "7a97fe11ab750b5b0bd1b9b1138745cf1feca149ffcc9f29b65ccfd7f05ad32f",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_STAGE_REGISTRY_V1.json",
+      "sha256": "ec0826d9490b1c517a053c40913947650d8b3687cebd61acf9fea0fc4344b701",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_LEASE_RELEASE_V1.json",
+      "sha256": "ca5ab0298736a4dc794fbaa1230288c5990424dce609994ba8cb5ebd36c171f8",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_TERMINAL_RECEIPT_V1.json",
+      "sha256": "7b4b1b080f76b0e2ce05198efba1da465e1508c56bb3f3c151286e41144c251e",
+      "claimTerms": ["READY"]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP505_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "782356202487189098c7ecf96df03749bf73d43d95bbea7ab464511e202368b1",
+      "claimTerms": ["PASS"]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/atlas-register-ask-v1.mjs",
+      "sha256": "3e52581a777e958a5035f8052bab4b1ceb9cd6288af4107d34873dfd0ceb9552",
+      "terms": ["IMMUTABLE_REGISTER_COMPILER", "CLOSED_QUERY_IR", "LOCAL_DETERMINISTIC_ASK"]
+    },
+    {
+      "path": "src/renderer/atlasRegisterAskPresentationModel.mjs",
+      "sha256": "ba23874fa4be655ceb2d144990f4f50f85ed70582a3113ab3b375b89b99867b0",
+      "terms": ["READ_ONLY_PRESENTATION_MODEL"]
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask.test.js",
+      "sha256": "f0a5254397294b3ac281094cab7f9e56fe208d0820b98477b2cb7fb0e83b40d3",
+      "terms": ["FOCUSED_CONTRACT_TESTS"]
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask-integration.test.js",
+      "sha256": "4b675e8e7f25bc556df3fb37858f1f648c43650036eb69955b04a4500858aa2a",
+      "terms": ["INTEGRATION_AND_LARGE_CORPUS_TESTS"]
+    },
+    {
+      "path": "test/unit/r24-wp505-register-ask-mutants.test.js",
+      "sha256": "e952bd22bdd0fb8bba61ee9619c2205e437d891815b774f626eb98b56addca7d",
+      "terms": ["HOSTILE_MUTANT_TESTS"]
+    },
+    {
+      "path": "test/contracts/r24-wp505-terminal-carriers.contract.test.mjs",
+      "sha256": "9fd61d9092adb5b983739b5a53ea4289d8bf57219f4147287005a0201b31a7f0",
+      "terms": ["TERMINAL_CARRIER_CONTRACT_TESTS"]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "WP505 focused unit and integration tests",
+      "verdict": "PASS",
+      "tests": {"pass": 10, "fail": 0}
+    },
+    {
+      "command": "WP505 hostile mutants",
+      "verdict": "PASS",
+      "mutants": {"killed": 9, "survived": 0}
+    },
+    {
+      "command": "WP505 ten-thousand-entry bounded corpus",
+      "verdict": "PASS",
+      "tests": {"pass": 1, "fail": 0},
+      "requiredDisposition": "Ten thousand immutable register entries evaluated locally with twenty deterministic matches inside the twenty-second bound"
+    },
+    {
+      "command": "post-audit certification replay",
+      "verdict": "PASS",
+      "tests": {"pass": 63, "fail": 0}
+    },
+    {
+      "command": "WP503 and WP504 predecessor replay",
+      "verdict": "PASS",
+      "tests": {"pass": 48, "fail": 0}
+    },
+    {
+      "command": "Atlas graph and event-contract replay",
+      "verdict": "PASS",
+      "tests": {"pass": 105, "fail": 0}
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_PRODUCT_PERSISTENCE_COMMAND_OR_PLATFORM_EFFECT",
+    "NO_NETWORK_OR_EXTERNAL_AI_RUNTIME",
+    "NO_WP505_GRAPH_COMPLETION_BEFORE_EXTERNAL_TERMINAL_PROOF",
+    "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS",
+    "EXTERNAL_SOURCE_PLAN_DIGEST_DISTINCT_FROM_COMPILED_PROGRAM_FILE_DIGEST",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

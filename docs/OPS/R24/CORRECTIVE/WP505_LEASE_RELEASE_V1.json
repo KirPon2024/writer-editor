@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_LEASE_RELEASE_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "status": "CONDITIONAL_RELEASE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorExternalLeaseReleaseDispositionDigest": "ee469e4a70fbaf7701ab110e94da4e8e3f6632a98d69e55280a81abe388b7156",
+    "acceptanceMatrixDigest": "02d08469756d3529021757167af1d9f690367a1c62550be5a94bf596005ec0d7",
+    "effectiveStateDigest": "7a97fe11ab750b5b0bd1b9b1138745cf1feca149ffcc9f29b65ccfd7f05ad32f",
+    "stageRegistryDigest": "ec0826d9490b1c517a053c40913947650d8b3687cebd61acf9fea0fc4344b701",
+    "stageAdmissionDigest": "2c182cb6762bbbcb5d7b9d43c6e061ff5449c0603330ea970a56c2a60a94d7c0"
+  },
+  "currentLease": {
+    "fencingCounter": 70,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "ee469e4a70fbaf7701ab110e94da4e8e3f6632a98d69e55280a81abe388b7156"
+  },
+  "targetLease": {
+    "fencingCounter": 70,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "4e416e38e44eab8496097aee7fc039e29f9bc322f7fb7954780a713502d48b57",
+    "afterAdmissionCarrierDigest": "4e416e38e44eab8496097aee7fc039e29f9bc322f7fb7954780a713502d48b57",
+    "beforeSnapshotDigest": "e5812799be242f106e1ed7ffcfbd1dffa2f1d85ebb6bd40729dc449551f08056",
+    "afterAdmissionSnapshotDigest": "e5812799be242f106e1ed7ffcfbd1dffa2f1d85ebb6bd40729dc449551f08056",
+    "completeDenominator": 252,
+    "presentDenominator": 252,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 7,
+    "entriesExact": true,
+    "protectedDirtySetExact": true,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_FIVE_EXTERNAL_PREDICATES_REQUIRED_LOCAL_GATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP505_PROTECTED_WIP_BEFORE_V1",
+  "stageId": "WP-505_REGISTER_AND_ASK",
+  "capturedBeforeFirstRepositoryMutation": true,
+  "capturedAtUtc": "2026-09-02T01:54:45Z",
+  "algorithm": {
+    "schemaVersion": "YALKEN_PROTECTED_WIP_SNAPSHOT_V2",
+    "canonicalization": "UTF8_JSON_FIXED_KEY_ORDER_TRAILING_LF",
+    "activeTaskExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "predecessorWriterExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "pathDisclosure": "SHA256_DOMAIN_SEPARATED_IDENTITY_ONLY"
+  },
+  "externalCarrier": {
+    "basename": "WP505_PROTECTED_WIP_BEFORE_V1.json",
+    "sha256": "4e416e38e44eab8496097aee7fc039e29f9bc322f7fb7954780a713502d48b57",
+    "snapshotSha256": "e5812799be242f106e1ed7ffcfbd1dffa2f1d85ebb6bd40729dc449551f08056"
+  },
+  "denominators": {
+    "complete": 252,
+    "present": 252,
+    "prunable": 0,
+    "dirty": 7
+  },
+  "protectedDirtySet": {
+    "count": 7,
+    "contentDisclosure": "NONE_ONLY_PRIVACY_SAFE_IDENTITIES_AND_DIGESTS_IN_EXTERNAL_CARRIER"
+  },
+  "activeWriter": {
+    "branch": "codex/r24-wp505-register-ask-v1-20260902",
+    "baseSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "cleanBeforeMutation": true
+  },
+  "predecessorWriter": {
+    "headSha": "00bc11fba71ae9a5eddb382d7a81d97fe34dc7f6",
+    "clean": true,
+    "detached": true
+  },
+  "t7": {
+    "uuid": "D1F2E2C1-3210-4A39-A4E0-0AA0AD5110E2",
+    "encrypted": true,
+    "locked": false,
+    "writable": true
+  },
+  "programDone": false
+}

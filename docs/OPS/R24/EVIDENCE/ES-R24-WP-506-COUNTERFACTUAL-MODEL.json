@@ -1,0 +1,34 @@
+{
+  "stampId": "ES-R24-WP-506-COUNTERFACTUAL-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-506_COUNTERFACTUAL",
+  "attemptId": "ATTEMPT-WP506-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP506_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {"canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex", "originUrl": "https://github.com/KirPonomarev/writer-editor.git", "headSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8", "treeSha": "4a3202fe83b0e8dcef56e2008576403730ca4cc1"},
+  "claim": {"type": "WP506_BOUNDED_ATLAS_COUNTERFACTUAL_MODEL", "ceiling": "WP506_NODE_AND_DISPOSABLE_DERIVED_PROPOSAL_ONLY_WP505_PREDECESSOR_BOUND_NO_APPLY_PERSISTENCE_RENDERER_COMMAND_NETWORK_EXTERNAL_AI_GRAPH_ADVANCE_OR_PROGRAM_DONE", "verdict": "PASS"},
+  "test": {"oracleId": "WP506 immutable disposable branch and semantic impact model assertions", "evidenceClass": "MODEL", "denominator": 10, "passed": 10, "failed": 0, "skipped": 0, "exitCode": 0},
+  "causal": {"parentStampIds": ["ES-R24-WP-505-REGISTER-ASK-CLAIM-BINDINGS"], "predecessorReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b"},
+  "createdAt": "2026-09-02T05:00:00Z",
+  "actor": "codex/r24-wp506-counterfactual-v1-20260902",
+  "artifact": {
+    "evaluationMode": "EXACT_WORKTREE_BYTES_WITH_SEPARATE_EXTERNAL_EXACT_HEAD_REQUIRED",
+    "implementationArtifacts": [{"path": "src/core/atlas-counterfactual-v1.mjs", "sha256": "88b95acca59fdf0cf50fa2fa8b9fd1c6d72d9332258484b7a6c69b7212220ac7"}],
+    "modelAssertions": [
+      "The verified WP505 register and its exact rebuild input are read-only authoritative inputs.",
+      "ADD REPLACE and REMOVE operations exist only inside one disposable derived branch.",
+      "Every operation is evidence-bound bounded canonically ordered and conflict-free.",
+      "Branch entries and semantic impacts have complete recomputable denominators and digests.",
+      "Empty operations produce an explicit no-change proposal without synthetic truth.",
+      "Stale future missing conflicting non-material and tampered inputs fail closed.",
+      "The differential oracle rebuilds branch and proposal from exact inputs.",
+      "Legitimate NFC Unicode is preserved without granting path or command authority.",
+      "The feature manifest grants no apply product mutation persistence renderer network external AI or effect authority.",
+      "The node is bounded to WP506 and makes no graph advance or PROGRAM_DONE claim."
+    ],
+    "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+    "graphAdvance": false,
+    "programDone": false
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

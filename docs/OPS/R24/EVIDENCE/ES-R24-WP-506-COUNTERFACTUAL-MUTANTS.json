@@ -1,0 +1,22 @@
+{
+  "stampId": "ES-R24-WP-506-COUNTERFACTUAL-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-506_COUNTERFACTUAL",
+  "attemptId": "ATTEMPT-WP506-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP506_AUTHORITY_EPOCH_V1",
+  "profileId": "ATLAS_PRODUCT_V33",
+  "repo": {"canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex", "originUrl": "https://github.com/KirPonomarev/writer-editor.git", "headSha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8", "treeSha": "4a3202fe83b0e8dcef56e2008576403730ca4cc1"},
+  "claim": {"type": "WP506_IMPLEMENTATION_MUTANTS", "ceiling": "WP506_NODE_AND_DISPOSABLE_DERIVED_PROPOSAL_ONLY_WP505_PREDECESSOR_BOUND_NO_APPLY_PERSISTENCE_RENDERER_COMMAND_NETWORK_EXTERNAL_AI_GRAPH_ADVANCE_OR_PROGRAM_DONE", "verdict": "PASS"},
+  "test": {"oracleId": "test/unit/r24-wp506-counterfactual-mutants.test.js mutation receipt", "evidenceClass": "IMPLEMENTATION_MUTANTS", "denominator": 10, "passed": 10, "failed": 0, "skipped": 0, "exitCode": 0},
+  "causal": {"parentStampIds": ["ES-R24-WP-506-COUNTERFACTUAL-INTEGRATION"], "predecessorReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b"},
+  "createdAt": "2026-09-02T05:00:00Z",
+  "actor": "codex/r24-wp506-counterfactual-v1-20260902",
+  "artifact": {
+    "evaluationMode": "EXACT_WORKTREE_BYTES_WITH_SEPARATE_EXTERNAL_EXACT_HEAD_REQUIRED",
+    "testArtifact": {"path": "test/unit/r24-wp506-counterfactual-mutants.test.js", "sha256": "8f3fc6626b75f3fe0f78837c887c5a6fa6172db20c4f2e732020b712b9956690"},
+    "mutationReceipt": {"total": 10, "killed": 10, "survived": [], "score": 1},
+    "requiredInvariantMutantsSurvived": 0,
+    "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true}
+  },
+  "schemaVersion": "EvidenceStampV2"
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "YALKEN_R24_WP506_TERMINAL_RECEIPT_V1",
+  "receiptId": "WP506_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-506_COUNTERFACTUAL",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "observedAtUtc": "2026-09-02T05:03:00Z",
+  "evidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "baseIdentity": {"sha": "d8e577b0fd74b376e34f9b313475a0d4bc7c63c8", "treeSha": "4a3202fe83b0e8dcef56e2008576403730ca4cc1"},
+  "bindings": {
+    "selectionReceiptDigest": "fc1a9d2f11a756b349ffc0c6031c621626f6e6db3939a2eeb3758b2dce97ec5a",
+    "authorityDigest": "7550c6c28ee00970f57ee3a3191c64ad5acb56289ab8c31bc3b1d59362ea6ccb",
+    "stageInstanceDigest": "90fcfa54a1572d9f0b423b5a4642a443c2a856e44ec3411070f3f796b50fd852",
+    "stageAdmissionDigest": "6c0b1f4da887f9569368a7143419101ca5147b519d3c683d7146c4af2d10c70f",
+    "writeSetDigest": "f029b321a0a4f85025cca9e2224607a1a8d0ffc1b96cb50162313c95cec9c5e3",
+    "commandScopeDigest": "d24ba1eec0b6994d8ed1091da0d6df4ebd4cbfbbb4d0aedebabe089f4f6371b9",
+    "acceptanceSignalsDigest": "229475800919b826ce91ad3cd80430ee1f0edb606beaae349c18a3f2a497363d",
+    "wp505ExternalTerminalReceiptDigest": "408f2d2cb7fd404b8f449c847a3dd306102dfa36b9a602efd188967c21cb817b",
+    "wp505ExternalVerificationDigest": "253e71066f35d40b3cd66fd19ca969631cd348afd5ea968be318ed24953dd1ee",
+    "wp505ExternalDurableCarrierDigest": "f8422722c6dfcdeb172fed4643f79549dce2902d7ad2017d5f61dd01c676b9a6",
+    "carrierRegistryDigest": "8b49b16331404fd63bdb970b710057836d54b8450d0a2af7731d04a1f34d3a37",
+    "acceptanceMatrixDigest": "67e8316233df107b9102d0c20f30abceb1e4058e253e7e2acd3fe9e13b33a305",
+    "effectiveStateDigest": "a6dcb76087ce7fad72586425dfa5c1938304bba6122b7659262a614f5efa421c",
+    "stageRegistryDigest": "7ce52f753fa7620b8d785ae1475d769be28861ed7ba652ce78bc4ff12c679bd5",
+    "leaseReleaseDigest": "81b5b848b571782aeff7d7a21f82b513ebbe2541cda0ddce066826208d42dd93"
+  },
+  "implementationArtifacts": [
+    {"path": "src/core/atlas-counterfactual-v1.mjs", "sha256": "88b95acca59fdf0cf50fa2fa8b9fd1c6d72d9332258484b7a6c69b7212220ac7"},
+    {"path": "test/unit/r24-wp506-counterfactual.test.js", "sha256": "23a3ea2a1c0194b9e279046ba9931220224d28e7615d174e054204bcc6ce95e1"},
+    {"path": "test/unit/r24-wp506-counterfactual-integration.test.js", "sha256": "774674c34703f16c7a0077d2c8c33e7933af2ae6e398ab2af78e1f8b628114f0"},
+    {"path": "test/unit/r24-wp506-counterfactual-mutants.test.js", "sha256": "8f3fc6626b75f3fe0f78837c887c5a6fa6172db20c4f2e732020b712b9956690"}
+  ],
+  "localEvidence": {
+    "focusedWp506": {"semanticTests": 10, "semanticPassed": 10, "semanticFailed": 0, "semanticSkipped": 0, "mutantsKilled": 10, "mutantsSurvived": 0, "terminalAndAdmissionContractTests": 9, "status": "PASS"},
+    "largeCorpus": {"operations": 2000, "elapsedBoundMs": 20000, "observedBelowMs": 1000, "status": "PASS"},
+    "postAuditAdmissionChain": {"exactPathDenominator": 27, "hostileTests": 4, "status": "PASS"},
+    "cleanEngineStrictInstall": {"status": "REQUIRED_BEFORE_COMMIT"},
+    "rendererBuild": {"trackedOutputChanged": false, "status": "REQUIRED_BEFORE_COMMIT"},
+    "fullBaseline": {"status": "REQUIRED_BEFORE_COMMIT"},
+    "e0": {"expectedTests": 110, "expectedMutants": 31, "status": "REQUIRED_BEFORE_COMMIT"},
+    "rtk": {"expectedTests": 1067, "expectedSkips": 0, "status": "REQUIRED_BEFORE_COMMIT"},
+    "securityAndOss": {"status": "REQUIRED_BEFORE_COMMIT"},
+    "requiredBeforeCommit": ["CURRENT_TEST_INVENTORY_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS", "GOVERNANCE_STRICT", "AGENT_GUARDRAILS", "CLEAN_TREE_FINAL_DIFF"]
+  },
+  "externalDeliveryPredicates": [
+    {"id": "INDEPENDENT_EXACT_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+  ],
+  "activationOutcome": {"nodeState": "DONE", "leaseStatus": "RELEASED", "wip": 0, "doneCount": 62, "pendingCount": 34},
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nonClaims": ["NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED", "NO_CANONICAL_RETCON_APPLY_COMMAND", "NO_PRODUCT_PERSISTENCE_COMMAND_RENDERER_OR_PLATFORM_EFFECT", "NO_NETWORK_OR_EXTERNAL_AI_RUNTIME", "NO_MAIN_PRODUCT_GRAPH_NODE_AFTER_WP506_STARTED", "NO_PROFILE_WIDE_OR_PROGRAM_WIDE_PASS"],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

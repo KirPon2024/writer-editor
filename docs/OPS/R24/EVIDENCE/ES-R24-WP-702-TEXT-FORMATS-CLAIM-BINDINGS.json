@@ -184,11 +184,6 @@
       }
     }
   ],
-  "sourcePlanRoles": {
-    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
-    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
-    "rolesDistinct": true
-  },
   "nonClaims": [
     "NO_FUTURE_EXTERNAL_PROVIDER_IDENTITY_PRECLAIMED",
     "NO_SIGNING_NOTARIZATION_PUBLIC_DISTRIBUTION_PRODUCTION_RELEASE_PAYMENTS_SECRETS_USER_DOCUMENT_MUTATION_OR_UNADMITTED_NETWORK_EXTERNAL_PROVIDER_EFFECT",

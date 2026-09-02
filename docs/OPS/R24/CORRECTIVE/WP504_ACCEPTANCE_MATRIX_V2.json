@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_ACCEPTANCE_MATRIX_V2",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_PASS_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "bindings": {
+    "predecessorAcceptanceMatrixDigest": "24f9e2dc3ee58b53460d1811b0610167a66fdfb8e872d28444cf4f7f0e059b7d",
+    "authorityDigest": "04d0909273767307fb8a0de07c987bbe34c7a01dffef037383c3eb22b6db6e3d",
+    "stageInstanceDigest": "3153c0156d9abf3b4d13ff646f02a73bdc7a1b334bd0bb7b322d7d2f5863dd28",
+    "stageAdmissionDigest": "0693491d2e2b41acb07fd6db7ac838166a61c3079b5c12e959857c0b615255bd",
+    "compatibilitySuccessorDigest": "c26c6548f86a1e790f5fc982b7712be55269fe6cfab27cd155c7999eccab5614",
+    "carrierRegistryDigest": "15d33b32e84235ee9f6d20f35121931cbde9b44c52c7a01a28b83325c1de5e62"
+  },
+  "rowCount": 32,
+  "inheritedRowCount": 30,
+  "additionalRowCount": 2,
+  "localPassedRowCount": 28,
+  "externalPredicateRowCount": 4,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "inheritedRows": {"source":"WP504_ACCEPTANCE_MATRIX_V1","digest":"24f9e2dc3ee58b53460d1811b0610167a66fdfb8e872d28444cf4f7f0e059b7d","rowCount":30,"localPass":26,"externalPredicates":4,"status":"EXACT_PREDECESSOR_ROWS_PRESERVED"},
+  "additionalRows": [
+    {"id":"WP503_SELECTION_SUCCESSOR_GIT_OBJECT_ONLY","status":"PASS","evaluationSha":"b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719"},
+    {"id":"WP504_HISTORICAL_TOOLCHAIN_BUNDLE_GIT_OBJECT_ONLY","status":"PASS","buildBaseSha":"3157d84126a76734af50d012b359f7a58b2035fb","artifactSha":"e17b93766c0abd9d7102881b22b54038efd8fc48"}
+  ],
+  "activationRule": "PASS_ONLY_AFTER_ALL_FOUR_EXTERNAL_PREDICATES_ARE_OBSERVED_EXACTLY",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

@@ -112,6 +112,7 @@
     "test:r24-wp203": "node --test test/unit/r24-wp203-storage-selection.test.js test/unit/r24-wp203-storage-selection-integration.test.js test/unit/r24-wp203-storage-selection-mutants.test.js",
     "test:r24-wp204": "node --test test/unit/r24-wp204-lifecycle-recovery.test.js test/unit/r24-wp204-lifecycle-recovery-physics.test.js test/unit/r24-wp204-lifecycle-recovery-mutants.test.js",
     "test:r24-wp503": "node --test test/unit/r24-wp503-atlas-surface.test.js test/unit/r24-wp503-atlas-surface-integration.test.js test/unit/r24-wp503-atlas-surface-mutants.test.js test/contracts/r24-wp503-terminal-carriers.contract.test.mjs",
+    "test:r24-wp504": "node --test test/unit/r24-wp504-dossier-layout-links.test.js test/unit/r24-wp504-dossier-layout-links-integration.test.js test/unit/r24-wp504-dossier-layout-links-mutants.test.js test/contracts/r24-wp504-terminal-carriers.contract.test.mjs",
     "test:r24-a0": "node --test test/unit/r24-a0-atlas-incremental-equivalence.test.js test/unit/r24-a0-atlas-physics.test.js test/unit/r24-a0-atlas-mutants.test.js",
     "test:r24-v1": "node --test test/unit/r24-v1-atlas-claim-compiler.test.js test/unit/r24-v1-atlas-claim-mutants.test.js",
     "test:r24-a1": "node --test test/unit/r24-a1-optional-relation-vocabulary.test.js test/unit/r24-a1-relation-vocabulary-integration.test.js test/unit/r24-a1-relation-vocabulary-mutants.test.js",

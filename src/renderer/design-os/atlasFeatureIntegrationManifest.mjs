@@ -105,6 +105,17 @@ const ATLAS_SURFACE_CONTRIBUTIONS = Object.freeze([
     capabilityIds: [],
   },
   {
+    surfaceKey: 'workspaceDossier',
+    surfaceId: 'surface.atlas.workspace.dossier',
+    queryRegistryKey: 'ATLAS_OVERVIEW',
+    providerId: 'query.atlasOverview',
+    slotId: 'workspace.write.atlas.dossier',
+    hostKind: 'writeWorkspace',
+    stateClass: 'DERIVED_STATE',
+    commandIds: [],
+    capabilityIds: ['cap.atlas.dossier.read', 'cap.atlas.evidence.navigate'],
+  },
+  {
     surfaceKey: 'entity',
     surfaceId: 'surface.atlas.entityDossier',
     queryRegistryKey: 'ATLAS_ENTITY_DOSSIER',
@@ -204,7 +215,7 @@ export const ATLAS_DESIGN_OS_ALLOWED_SLOT_IDS = Object.freeze([
 export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
   schemaVersion: ATLAS_FEATURE_INTEGRATION_MANIFEST_SCHEMA_VERSION,
   featureId: 'yalken.atlasAndManualMap.v5',
-  featureVersion: '5.1.0-wp503',
+  featureVersion: '5.2.0-wp504',
   domainOwner: 'Product Core',
   authoritativeData: [
     'atlas.author.v1',
@@ -216,6 +227,7 @@ export const YALKEN_ATLAS_FEATURE_INTEGRATION_MANIFEST_V1 = Object.freeze({
     'derived.manualMap.workbench.v1',
     'derived.projectionInspector.v1',
     'yalken.r24.atlasSurface.v1',
+    'yalken.r24.atlasDossierLayoutLinks.v1',
   ],
   commandIds: Object.freeze([...new Set(ATLAS_SURFACE_CONTRIBUTIONS.flatMap((surface) => surface.commandIds))]),
   queryIds: Object.freeze([...new Set(ATLAS_SURFACE_CONTRIBUTIONS.map((surface) => surface.providerId))]),

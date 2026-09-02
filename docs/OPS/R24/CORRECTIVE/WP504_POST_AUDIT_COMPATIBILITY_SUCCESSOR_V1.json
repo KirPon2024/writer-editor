@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "WP504_POST_AUDIT_COMPATIBILITY_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "evidenceStampId": "ES-R24-WP-504-POST-AUDIT-COMPATIBILITY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "admission": {
+    "authorityDigest": "04d0909273767307fb8a0de07c987bbe34c7a01dffef037383c3eb22b6db6e3d",
+    "stageInstanceDigest": "3153c0156d9abf3b4d13ff646f02a73bdc7a1b334bd0bb7b322d7d2f5863dd28",
+    "stageAdmissionDigest": "0693491d2e2b41acb07fd6db7ac838166a61c3079b5c12e959857c0b615255bd",
+    "writeSetDigest": "2a64a960f90762b958c4d91100df46f5582d7a0e05e2ca5cd7ea2c1ac6078cc2",
+    "commandScopeDigest": "f82762dc49c1ffa3e28d7197798059854df0d695c3e671aef87e3b78fe2af3e5",
+    "acceptanceSignalsDigest": "0d696bf646d3a44151473414dcded65326ffd8f333b39244e44be8dc6d9209a4"
+  },
+  "bindings": {
+    "failureDigest": "71a3b5a154c6e48c0f7475464d1e6a34da00acc75f086261df62b344da59b57a",
+    "postAuditToolchainVerifierDigest": "cb6fe3b6e1f5b7e41d152faebd1fe02e7c8362053ea6f942f7918079f3a73f00",
+    "postAuditCertificationVerifierDigest": "e5ae1ff80ef224b5013ef5f19cf1cfacfe3036ef4982146a5be8018317571ba6",
+    "postAuditContractTestDigest": "bea7b54bca40afb5f7b29ce18382d94331d97ffc6b8118fb41e2cf4b35d347d5",
+    "testInventoryDigest": "281448595d3be609b2fb1615c7d565e337373e1ffd82bb0f7f0ad0b74857c5bf"
+  },
+  "gitObjectOracle": {
+    "toolchainBuildBaseSha": "3157d84126a76734af50d012b359f7a58b2035fb",
+    "toolchainBuildBaseTree": "7f38243ced17ee249f0c541004171235a1e14788",
+    "toolchainArtifactSha": "e17b93766c0abd9d7102881b22b54038efd8fc48",
+    "toolchainArtifactTree": "30af7b8d0c54395fece0502ae165b4295b4fa471",
+    "toolchainEditorBundleDigest": "b0b287b15698df9f7b3fb63215900983c3ec8604177325969cc4cbb0a833d770",
+    "wp503SelectionArtifactSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "wp503AuditRegistryDigest": "afa7a51abf8a0e52ae6c6c6277a70b37337969fa50878bd089ffdd2a587197db",
+    "wp503TestInventoryDigest": "cc66cf3541462e9ebed74a2ec11c06a84b39013a63454a81f6f9368bf8ecbcb5",
+    "mutableCurrentTreeFallbackAllowed": false
+  },
+  "exactRuntimeReplay": {"node":"22.12.0","npm":"10.9.0","tests":63,"passed":63,"failed":0,"skipped":0,"todo":0,"status":"PASS"},
+  "historicalBytesRewritten": false,
+  "productBytesChangedBySuccessor": false,
+  "programDone": false,
+  "mainProductGraphNodeStarted": false
+}

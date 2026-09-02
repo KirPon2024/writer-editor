@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import crypto from 'node:crypto';
 import { canonicalBytes } from '../../scripts/ops/r24/corrective/canonical-json.mjs';
-import { buildRemoteTerminalExpected, checkCorrections } from '../../scripts/ops/r24/corrective/audit-r2-corrections.mjs';
+import { buildRemoteTerminalExpected, checkCorrections, resolveCarrierBytes } from '../../scripts/ops/r24/corrective/audit-r2-corrections.mjs';
 
 const load=(path)=>JSON.parse(fs.readFileSync(path,'utf8'));
 const hash=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');
@@ -21,6 +21,24 @@ test('the append-only audit-R2 carrier chain passes the static exact-byte check'
   assert.equal(result.registeredStages,33);
   assert.equal(result.programDoneClaimed,false);
   assert.equal(result.wp400MutationStarted,false);
+});
+test('historical successor bindings read exact candidate Git objects instead of mutable future bytes',()=>{
+  const registry=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V19.json');
+  const carrier=registry.carriers.find((item)=>item.path.endsWith('/C1B_TEST_INVENTORY_V1.json'));
+  const calls=[];
+  const historical=Buffer.from('historical-candidate-bytes');
+  const bytes=resolveCarrierBytes(registry,carrier,{
+    successorEvaluationSha:'b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719',
+    readCurrent:()=>{ throw new Error('mutable current bytes must not be read'); },
+    readHistorical:(sha,path)=>{ calls.push({sha,path}); return historical; },
+  });
+  assert.equal(bytes,historical);
+  assert.deepEqual(calls,[{sha:'b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719',path:carrier.path}]);
+});
+test('historical successor bindings fail closed without an exact evaluation SHA',()=>{
+  const registry=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V19.json');
+  const carrier=registry.carriers.find((item)=>item.path.endsWith('/C1B_TEST_INVENTORY_V1.json'));
+  assert.throws(()=>resolveCarrierBytes(registry,carrier,{successorEvaluationSha:'future'}),(error)=>error.code==='E_CARRIER_REGISTRY_SUCCESSOR_EVALUATION');
 });
 test('audit-R2 registry successor binds distinct source roles and the admitted WP503 selection-provenance repair',()=>{
   const value=load('docs/OPS/R24/CORRECTIVE/AUDIT_R2_CARRIER_REGISTRY_V19.json');

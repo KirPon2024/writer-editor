@@ -1,0 +1,209 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_ACCEPTANCE_MATRIX_V3",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CONDITIONAL_PASS_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "bindings": {
+    "predecessorAcceptanceMatrixDigest": "a904d297efb87043140efc337828a211af8556976b793e05cc250b6b545837c0",
+    "authorityDigest": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+    "stageInstanceDigest": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "candidateBoundSuccessorDigest": "201a81f0f6449059fde0e03235f759fc2dd9093e90ebb01751d044b476314b34",
+    "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
+    "carrierRegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80",
+    "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
+  },
+  "rowCount": 35,
+  "inheritedRowCount": 32,
+  "additionalRowCount": 3,
+  "localPassedRowCount": 31,
+  "externalPredicateRowCount": 4,
+  "failedRowCount": 0,
+  "pendingRowCount": 0,
+  "rows": [
+    {
+      "id": "SOURCE_PLAN_ROLES_DISTINCT",
+      "status": "PASS"
+    },
+    {
+      "id": "WP503_EXTERNAL_TERMINAL_CLOSURE_BOUND",
+      "status": "PASS"
+    },
+    {
+      "id": "WP503_HISTORICAL_EVALUATION_GIT_OBJECT_ONLY",
+      "status": "PASS"
+    },
+    {
+      "id": "ALL_EVIDENCE_EXACT_AND_COMPLETE_DENOMINATOR",
+      "status": "PASS"
+    },
+    {
+      "id": "REVISION_SNAPSHOT_GENERATION_IDENTITY_BOUND",
+      "status": "PASS"
+    },
+    {
+      "id": "EXACT_TYPED_DEEP_LINKS_READ_ONLY",
+      "status": "PASS"
+    },
+    {
+      "id": "LOD_SURVIVOR_POSITIONS_STABLE",
+      "status": "PASS"
+    },
+    {
+      "id": "GRAPH_LIST_TABLE_DOSSIER_PARITY",
+      "status": "PASS"
+    },
+    {
+      "id": "STALE_PROJECTION_AND_LINKS_REJECTED",
+      "status": "PASS"
+    },
+    {
+      "id": "HOSTILE_MUTANTS_ALL_KILLED",
+      "status": "PASS"
+    },
+    {
+      "id": "LEGITIMATE_UNICODE_PRESERVED",
+      "status": "PASS"
+    },
+    {
+      "id": "ACCESSOR_SYMBOL_SPARSE_ARRAY_REJECTED",
+      "status": "PASS"
+    },
+    {
+      "id": "LARGE_CORPUS_BUDGET",
+      "status": "PASS"
+    },
+    {
+      "id": "KEYBOARD_FOCUS_AND_TEXTUAL_PARITY",
+      "status": "PASS"
+    },
+    {
+      "id": "RESPONSIVE_ZERO_HORIZONTAL_OVERFLOW",
+      "status": "PASS"
+    },
+    {
+      "id": "DARK_THEME_MUTED_TEXT_READABLE",
+      "status": "PASS"
+    },
+    {
+      "id": "DESIGN_OS_SURFACE_AND_SLOT_BOUND",
+      "status": "PASS"
+    },
+    {
+      "id": "TRACKED_RENDERER_BUNDLE_EXACT_BUILD",
+      "status": "PASS"
+    },
+    {
+      "id": "NODE22_ENGINE_STRICT_CLEAN_INSTALL",
+      "status": "PASS"
+    },
+    {
+      "id": "WP503_FULL_PREDECESSOR_REPLAY",
+      "status": "PASS"
+    },
+    {
+      "id": "PROTECTED_SEVEN_DIRTY_WORKTREES_UNCHANGED",
+      "status": "PASS"
+    },
+    {
+      "id": "COMPLETE_WORKTREE_DENOMINATOR_UNCHANGED",
+      "status": "PASS"
+    },
+    {
+      "id": "TEST_INVENTORY_ZERO_UNEXPLAINED_SKIP",
+      "status": "PASS"
+    },
+    {
+      "id": "GOVERNANCE_STRICT_PASS",
+      "status": "PASS"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS"
+    },
+    {
+      "id": "REPOSITORY_CLAIM_BINDING_EVIDENCE",
+      "status": "PASS"
+    },
+    {
+      "id": "WP503_SELECTION_SUCCESSOR_GIT_OBJECT_ONLY",
+      "status": "PASS"
+    },
+    {
+      "id": "WP504_HISTORICAL_TOOLCHAIN_BUNDLE_GIT_OBJECT_ONLY",
+      "status": "PASS"
+    },
+    {
+      "id": "WP503_EXTERNAL_RECEIPT_IDENTITY_EXACT",
+      "status": "PASS"
+    },
+    {
+      "id": "WP504_COMPLETE_ADMISSION_CHAIN_CANDIDATE_BOUND",
+      "status": "PASS",
+      "admissionDenominator": 9,
+      "latestBaseSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc"
+    },
+    {
+      "id": "HOSTED_ATLAS_SURFACE_DENOMINATOR_FAILURE_BOUND_AND_CORRECTED",
+      "status": "PASS",
+      "failedRunId": 33575534193,
+      "failedHeadSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+      "before": 14,
+      "after": 15,
+      "focusedReplay": "PASS_86_OF_86"
+    },
+    {
+      "id": "CANDIDATE_CI_GREEN_AT_EXACT_PR_HEAD",
+      "status": "REQUIRED_EXTERNAL_PREDICATE"
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_EXTERNAL_PREDICATE"
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_EXTERNAL_PREDICATE"
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE",
+      "status": "REQUIRED_EXTERNAL_PREDICATE"
+    }
+  ],
+  "inheritedRows": {
+    "source": "WP504_ACCEPTANCE_MATRIX_V2",
+    "digest": "a904d297efb87043140efc337828a211af8556976b793e05cc250b6b545837c0",
+    "rowCount": 32,
+    "localPass": 28,
+    "externalPredicates": 4,
+    "status": "EXACT_PREDECESSOR_DENOMINATOR_PRESERVED"
+  },
+  "additionalRows": [
+    {
+      "id": "WP503_EXTERNAL_RECEIPT_IDENTITY_EXACT",
+      "status": "PASS"
+    },
+    {
+      "id": "WP504_COMPLETE_ADMISSION_CHAIN_CANDIDATE_BOUND",
+      "status": "PASS",
+      "admissionDenominator": 9,
+      "latestBaseSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc"
+    },
+    {
+      "id": "HOSTED_ATLAS_SURFACE_DENOMINATOR_FAILURE_BOUND_AND_CORRECTED",
+      "status": "PASS",
+      "failedRunId": 33575534193,
+      "failedHeadSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+      "before": 14,
+      "after": 15,
+      "focusedReplay": "PASS_86_OF_86"
+    }
+  ],
+  "activationRule": "PASS_ONLY_AFTER_ALL_FOUR_EXTERNAL_PREDICATES_ARE_OBSERVED_EXACTLY",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

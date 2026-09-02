@@ -22,6 +22,7 @@ const PATHS = Object.freeze({
   requirements: `${ROOT}/AUDIT_R2_ACCEPTANCE_REQUIREMENTS_V1.json`,
   round1: `${ROOT}/AUDIT_R2_ROUND1_RECEIPT_STATUS_V1.json`,
   stage: `${ROOT}/AUDIT_R2_FINAL_CORRECTION_STAGE_INSTANCE_V1.json`,
+  wp503Closure: `${ROOT}/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json`,
   wp400: `${ROOT}/AUDIT_R2_WP400_CARRIER_STATUS_V1.json`,
 });
 const run = (program, args, options = {}) => {
@@ -32,6 +33,17 @@ const run = (program, args, options = {}) => {
 const git = (args) => run('git', args);
 const ghJson = (args) => JSON.parse(run('gh', args));
 const read = (file) => readCanonicalJson(file);
+
+export function resolveCarrierBytes(carrierRegistry, carrier, { readCurrent = (file) => fs.readFileSync(file), readHistorical = (sha, file) => {
+  const result = spawnSync('git', ['show', `${sha}:${file}`], { encoding:null, maxBuffer:64*1024*1024 });
+  assert(result.status === 0 && !result.error && Buffer.isBuffer(result.stdout), 'E_CARRIER_REGISTRY_HISTORICAL_OBJECT', `${sha}:${file}:${String(result.stderr ?? '')}`);
+  return result.stdout;
+}, successorEvaluationSha } = {}) {
+  const replacementPaths = new Set(carrierRegistry.successorScope.replacementPaths);
+  if (!replacementPaths.has(carrier.path)) return readCurrent(carrier.path);
+  assert(typeof successorEvaluationSha === 'string' && /^[0-9a-f]{40}$/.test(successorEvaluationSha), 'E_CARRIER_REGISTRY_SUCCESSOR_EVALUATION', String(successorEvaluationSha));
+  return readHistorical(successorEvaluationSha, carrier.path);
+}
 
 export function checkCorrections(root = process.cwd()) {
   const stage = read(PATHS.stage);
@@ -72,9 +84,12 @@ export function checkCorrections(root = process.cwd()) {
   assertExactJson(rootCarrierRegistry.value.carriers.map((item)=>item.path),historicalExpectedPaths,'E_CARRIER_REGISTRY_HISTORICAL_SET','paths');
   const expectedCarrierPaths = predecessorCarrierRegistry.value.carriers.map((item)=>item.path);
   assertExactJson(carrierRegistry.carriers.map((item)=>item.path), expectedCarrierPaths, 'E_CARRIER_REGISTRY_SET', 'paths');
+  const wp503ClosureBytes = fs.readFileSync(PATHS.wp503Closure);
+  const wp503Closure = { digest:sha256(wp503ClosureBytes), value:JSON.parse(wp503ClosureBytes) };
+  assert(wp503Closure.digest === '9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e' && wp503Closure.value.delivery.candidateSha === 'b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719', 'E_CARRIER_REGISTRY_SUCCESSOR_EVALUATION', wp503Closure.digest);
   for (const carrier of carrierRegistry.carriers) {
     assertClosedObject(carrier, ['path','purpose','sha256','sizeBytes','status'], ['path','purpose','sha256','sizeBytes','status'], `carrier.${carrier?.path}`);
-    const bytes = fs.readFileSync(carrier.path);
+    const bytes = resolveCarrierBytes(carrierRegistry, carrier, { successorEvaluationSha:wp503Closure.value.delivery.candidateSha });
     assert(carrier.status === 'CANONICAL_BYTES_PRESENT' && carrier.sha256 === sha256(bytes) && carrier.sizeBytes === bytes.length, 'E_CARRIER_REGISTRY_DIGEST', carrier.path);
   }
   assertExactJson(carrierRegistry.excludedSelfCarriers, [PATHS.carrierRegistry,PATHS.predecessorCarrierRegistry,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V17.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V16.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V15.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V14.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V13.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V12.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V11.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V10.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V9.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V8.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V7.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V6.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V5.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V4.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V3.json`,`${ROOT}/AUDIT_R2_CARRIER_REGISTRY_V2.json`,PATHS.rootCarrierRegistry,`${ROOT}/C1C_GOVERNANCE_CHANGE_APPROVALS_V1.json`], 'E_CARRIER_REGISTRY_EXCLUSIONS', 'excludedSelfCarriers');

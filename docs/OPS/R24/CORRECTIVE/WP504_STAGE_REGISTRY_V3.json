@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_STAGE_REGISTRY_V3",
+  "status": "CONDITIONAL_CERTIFIED_DONE",
+  "evidenceStampId": "ES-R24-WP-504-CANDIDATE-BOUND-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessorRegistryDigest": "3834b9d3a5fe7ba621a2cc0e8e1a215156c1f71aa7bf98abbbe9b15590c39f60",
+  "stageCount": 1,
+  "conditionalCertifiedDoneCount": 1,
+  "failedCount": 0,
+  "pendingCount": 0,
+  "bindings": {
+    "acceptanceMatrixDigest": "d21606d8d771d87999ed0c80d1c0ac019fa6960baeb4b6b810c49bd06ab8c870",
+    "effectiveStateDigest": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "carrierRegistryDigest": "ee0037a81a930ed698d2bb5cd413ac2c00cd0835fe6dbb4b75e856f6f1fadb80"
+  },
+  "stages": [
+    {
+      "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+      "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
+      "lease": {
+        "fencingCounter": 69,
+        "currentStatus": "ACTIVE",
+        "targetStatus": "RELEASED"
+      }
+    }
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

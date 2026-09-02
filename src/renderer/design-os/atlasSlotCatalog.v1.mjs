@@ -7,6 +7,7 @@ export const ATLAS_DESIGN_OS_SLOT_CATALOG_V1 = Object.freeze([
   ['projection', 'surface.atlas.projectionInspector', 'query.projectionInspector', 'rightRail.context.atlas.projectionInspector', 'rightRail'],
   ['overview', 'surface.atlas.overview', 'query.atlasOverview', 'rightRail.context.atlas.overview', 'rightRail'],
   ['workspace', 'surface.atlas.workspace', 'query.atlasOverview', 'workspace.write.atlas', 'writeWorkspace'],
+  ['workspaceDossier', 'surface.atlas.workspace.dossier', 'query.atlasOverview', 'workspace.write.atlas.dossier', 'writeWorkspace'],
   ['entity', 'surface.atlas.entityDossier', 'query.atlasEntityDossier', 'rightRail.context.atlas.entityDossier', 'rightRail'],
   ['relation', 'surface.atlas.relationDossier', 'query.atlasRelationDossier', 'rightRail.context.atlas.relationDossier', 'rightRail'],
   ['matrices', 'surface.atlas.matrices', 'query.atlasMatrices', 'rightRail.context.atlas.matrices', 'rightRail'],

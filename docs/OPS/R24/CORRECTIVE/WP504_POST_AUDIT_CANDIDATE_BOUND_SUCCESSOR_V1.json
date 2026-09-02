@@ -1,0 +1,59 @@
+{
+  "schemaVersion": "YALKEN_R24_WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1",
+  "stageId": "WP-504_DOSSIER_LAYOUT_LINKS",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T00:42:40Z",
+  "bindings": {
+    "authorityDigest": "d692f2d7f42e1591c55b9156008d4ea408d45eb05abff0952448c98bb5e194b8",
+    "stageInstanceDigest": "04fa3a9d25396cc11786d11fb7e382a7dcc326c893a2db7e0c80f14a599a4296",
+    "stageAdmissionDigest": "63ec28253f2e9636f212f9d7def202a5aedff304d923e3df327028d9dad20935",
+    "writeSetDigest": "0dcd54c3a011a3e06bd68ba975efe416092631a64c61792971403b74d05240d6",
+    "commandScopeDigest": "cba99f991db89e926fc37568d44cefd7be9759fb188cf70de56ce90cd86fc134",
+    "acceptanceSignalsDigest": "895e9b29e5390dd14045c1b0e04adb8f46786995e088ce56cd3421bcce9ff6a4",
+    "failureDigest": "248b5d474d5fee5be13dde3043cbb82ef6b01bfd3e71eb1266fca65bfab5abdb",
+    "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
+    "postAuditCertificationVerifierDigest": "75bb8c373dba10c6eed00a9cb29e57a433ff172fcb96341309c75e5bdabbaed8",
+    "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
+  },
+  "evaluationPolicy": {
+    "wp503BaseSha": "f2848a044b1f37c95463ffca341058f7ea33da49",
+    "wp503CandidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719",
+    "wp504BaseSha": "38a495f5beca286f134e20a991cb69dc19e6379f",
+    "wp504V56CheckpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440",
+    "wp504V8BaseSha": "faef2f0813e4c8eb4b8703682e417aea72e627de",
+    "wp504V9BaseSha": "c0b32b36fe0e46b26e0278c8df4f07ffbb6450e0",
+    "wp504V10BaseSha": "660085face94d748fd3d71c0f666314f6034c721",
+    "wp504V11BaseSha": "660085face94d748fd3d71c0f666314f6034c721",
+    "wp504V12BaseSha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41",
+    "historicalDeltaDerivedFromExactGitObjects": true,
+    "arbitraryDescendantDeltaAccepted": false,
+    "completeWp504AdmissionDenominator": 9,
+    "mutableWorkingTreeUsedForHistoricalClaim": false,
+    "wp504V13BaseSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc"
+  },
+  "executedEvidence": {
+    "command": "npm run -s test:atlas-event-contract",
+    "node": "26.7.0",
+    "tests": 86,
+    "passed": 86,
+    "failed": 0,
+    "skipped": 0,
+    "status": "PASS"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalBytesRewritten": false,
+  "nextGraphNodeStarted": false,
+  "programDone": false,
+  "hostedCandidateFailure": {
+    "runId": 33575534193,
+    "headSha": "781cb4c960f3433b820804fab6b21a389fc7f0bc",
+    "failureDigest": "248b5d474d5fee5be13dde3043cbb82ef6b01bfd3e71eb1266fca65bfab5abdb",
+    "exactCauseBound": true,
+    "localExactReproduction": "FAIL_85_OF_86",
+    "correctedFocusedReplay": "PASS_86_OF_86"
+  }
+}

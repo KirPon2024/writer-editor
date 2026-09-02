@@ -26,6 +26,7 @@ import {
   WP503_V8_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION,
   WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION,
+  WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION,
   createAuditCycle2DurableCarrier,
   createAuditCycleDurableCarrier,
   verifyAuditCycle2DurableCarrier,
@@ -50,6 +51,7 @@ import {
   verifyWp503MainProductPostEvaluationException,
   verifyWp702CiMergeRefTestBindingPostEvaluationException,
   verifyWp702Pk0SecuritySuccessorPostEvaluationException,
+  verifyWp702Wp504HistoricalSurfacePostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FILE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json';
@@ -265,6 +267,18 @@ test('WP702 CI merge-ref successor binds the historical candidate oracle and rej
     ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
     :execFileSync('git',args,options);
   assert.throws(()=>verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP702_CI_MERGE_REF_EXACT_ADMITTED_DELTA/);
+});
+test('WP702 WP504 historical-surface successor binds exact Git objects and rejects an unadmitted future path',()=>{
+  const result=verifyWp702Wp504HistoricalSurfacePostEvaluationException({candidateSha:'HEAD'});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admission.stageAdmissionDigest,WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(result.admittedPathDenominator,10);
+  assert.equal(result.wordingSurfaceEvaluationSha,'faef2f0813e4c8eb4b8703682e417aea72e627de');
+  assert.equal(result.wordingSurfaceEvaluationTree,'b223e12273e9e9c790241125cef9f883239cbb0e');
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_WP504_HISTORICAL_SURFACE_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp702Wp504HistoricalSurfacePostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP702_WP504_HISTORICAL_SURFACE_EXACT_ADMITTED_DELTA/);
 });
 test('WP501 final carriers reject future chronology pending rows nonzero WIP and provider substitution',()=>{
   const read=(name)=>JSON.parse(fs.readFileSync(`docs/OPS/R24/CORRECTIVE/${name}`));

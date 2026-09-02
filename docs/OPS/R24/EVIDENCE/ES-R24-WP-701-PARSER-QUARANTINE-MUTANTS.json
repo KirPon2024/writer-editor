@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-701-PARSER-QUARANTINE-MUTANTS",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-701_PARSER_QUARANTINE",
+  "attemptId": "ATTEMPT-WP701-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP701_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {"canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex", "originUrl": "https://github.com/KirPonomarev/writer-editor.git", "headSha": "68bfe2062ccb263fa3d1603c8e228508c547957b", "treeSha": "4cdbcd7aa5f25b800eebada0319a94c6180cbc09"},
+  "claim": {"type": "WP701_IMPLEMENTATION_MUTANTS", "ceiling": "WP701_NODE_AND_INTERCHANGE_COMMON_PROFILE_ONLY", "verdict": "PASS"},
+  "test": {"oracleId": "r24-wp701-parser-quarantine-mutants.test.js mutation receipt", "evidenceClass": "IMPLEMENTATION_MUTANTS", "denominator": 44, "passed": 44, "failed": 0, "skipped": 0, "exitCode": 0},
+  "causal": {"parentStampIds": ["ES-R24-WP-701-PARSER-QUARANTINE-INTEGRATION"], "predecessorReceiptDigest": "b3eb36efc4993281d66235d23ec2f02bb2ebd8707e10bf7de052ebaeb064078d"},
+  "createdAt": "2026-09-02T14:23:51Z",
+  "actor": "codex/r24-wp701-parser-quarantine-v1-20260902",
+  "artifact": {
+    "testArtifact": {"path": "test/unit/r24-wp701-parser-quarantine-mutants.test.js", "sha256": "69cc4806896352d704f12781df4f561c14a2dbe26152c9bbab57da2794e34289"},
+    "mutationReceipt": {"total": 44, "killed": 44, "survived": [], "score": 1},
+    "requiredInvariantMutantsSurvived": 0,
+    "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true}
+  }
+}

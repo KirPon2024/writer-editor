@@ -1,0 +1,200 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "contourId": "WP-600_FEATURESPEC_QUERY_IR",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+  "originMainSha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+  "generatedAtUtc": "2026-09-02T22:09:44.464Z",
+  "oracle": "Exact admitted worktree-byte bindings only; base SHA identifies admission and does not claim new bytes were in the base Git tree; required gates and external delivery remain unclaimed predicates",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "e98d225105bc29e30004b8e43a7377c54c12ac2c44201a70fd3641b8edfb0c31",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "4e8a16fa95ce3e9dcfb1ed24fd0da384a516d179eb16742cfd57a23e37995780",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "33365121fcdc9bdcc447fe7672f08c06f80ed9d869493ba5deb53ef32db731f9",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "5c9e3c24de9dcc056b8f43de09e2fbe92b01b5252824e0e4f1d076d5fa3b656e",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "1b6fb6a72fd2aaa5c0762e2e0974ef6f460ca4ec194acf4ea6bd2b40612971af",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_WP702_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "1556ca00f408de4604f3d95fed64071ac1a77d20783290d1450907eeacf1d13c",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_CARRIER_REGISTRY_V1.json",
+      "sha256": "8b0c7001241beb8ce0af1e21bc06fdb5bea13ce07a5c479c02e8f01da76acc76",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "b3ef51f09861954cde8ee93d18f7ee131c29a33edff313cad628d45341cb1ded",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_EFFECTIVE_STATE_V1.json",
+      "sha256": "7b9cac599dc52423263d62a3a2a5b2eeda747cd7713ac84a1cff55b4260209ca",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_STAGE_REGISTRY_V1.json",
+      "sha256": "e25c9f652a02778e038f1cc8802a7081e8ed18abd124b142f6dfea36da6f1ff5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_LEASE_RELEASE_V1.json",
+      "sha256": "35cda4a2904414556d42c3b1ad6813a0de74121101eae07843be2c36ad597def",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e685e0fc57317ec33800f02e5661621c426ff9775a220d9bddb12dd40a122c88",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "57e5ca01c5b66c89021d36b6ab980f729cb546e7b27a3b72c17ff3e9bc816ea0",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/frozen-feature-spec-query-ir-v1.mjs",
+      "sha256": "7797cf6bdc4abb63a6b337f9daf14760875cfd33f241e3775034eaaa64e5e4ac",
+      "terms": [
+        "WP600_FROZEN_FEATURESPEC_TYPED_QUERY_IR_LOCAL_DERIVED_ONLY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp600-featurespec-query-ir-fixtures.js",
+      "sha256": "572994f287a32458e9455b08f730f043c34ac8332384c06974eb1c921d05e6d2",
+      "terms": [
+        "WP600_FROZEN_FEATURESPEC_TYPED_QUERY_IR_LOCAL_DERIVED_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir.test.js",
+      "sha256": "ebf0858f2c2b4c4712691819b6b2b5a8c27d1b76c51a41c3a2b6e0a779385799",
+      "terms": [
+        "WP600_FROZEN_FEATURESPEC_TYPED_QUERY_IR_LOCAL_DERIVED_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir-integration.test.js",
+      "sha256": "d11af26e7c3a5dd20c47673fe7467fd9264732912c63bd8046264470b1ff9907",
+      "terms": [
+        "WP600_FROZEN_FEATURESPEC_TYPED_QUERY_IR_LOCAL_DERIVED_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir-mutants.test.js",
+      "sha256": "a04154dd6b5c278b56d3461e429b3b87d22a09dedd24cbc8f99b2608c5958658",
+      "terms": [
+        "WP600_FROZEN_FEATURESPEC_TYPED_QUERY_IR_LOCAL_DERIVED_ONLY"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_BASE_TREE_CONTENT_CLAIM_FOR_NEW_ADMITTED_WORKTREE_BYTES",
+    "NO_RUNTIME_REGISTRY_OR_PRODUCT_MUTATION_AUTHORITY",
+    "NO_WP600_DONE_BEFORE_REQUIRED_GATES_AND_EXTERNAL_TERMINAL_PROOF",
+    "EXTERNAL_SOURCE_PLAN_DIGEST:1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "COMPILED_PROGRAM_FILE_DIGEST:da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "SOURCE_AND_COMPILED_DIGEST_ROLES_DISTINCT",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

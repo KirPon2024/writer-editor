@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "YALKEN_R24_WP600_LEASE_RELEASE_V1",
+  "stageId": "WP-600_FEATURESPEC_QUERY_IR",
+  "evidenceStampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "89bdd6d6a56c859792bb0cb77d1aa43cd6552807b658a5a759f0838d5b3a2c50",
+    "acceptanceMatrixDigest": "b3ef51f09861954cde8ee93d18f7ee131c29a33edff313cad628d45341cb1ded",
+    "effectiveStateDigest": "7b9cac599dc52423263d62a3a2a5b2eeda747cd7713ac84a1cff55b4260209ca",
+    "stageRegistryDigest": "e25c9f652a02778e038f1cc8802a7081e8ed18abd124b142f6dfea36da6f1ff5",
+    "stageAdmissionDigest": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6"
+  },
+  "currentLease": {
+    "fencingCounter": 77,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "89bdd6d6a56c859792bb0cb77d1aa43cd6552807b658a5a759f0838d5b3a2c50"
+  },
+  "targetLease": {
+    "fencingCounter": 77,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "5c9e3c24de9dcc056b8f43de09e2fbe92b01b5252824e0e4f1d076d5fa3b656e",
+    "beforeSnapshotDigest": "2da860da650701e9c137ae4d57e6f7e3699d3fcb5160f72df56c8d6b58c79e11",
+    "completeDenominator": 259,
+    "presentDenominator": 259,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 8,
+    "protectedDirtySetDenominator": 8,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_AND_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

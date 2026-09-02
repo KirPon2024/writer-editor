@@ -1,0 +1,294 @@
+{
+  "schemaVersion": "YALKEN_R24_WP702_EFFECTIVE_GRAPH_PROJECTION_V1",
+  "algorithm": "EXACT_GIT_BOUND_C9_COMPLETE_STATE_PLUS_16_ADMITTED_NODE_OUTCOMES_V1",
+  "evaluationSha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+  "evaluationTree": "c884a8c06b6d68ef040dd150af3986cb222b2ec2",
+  "programFileSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseStateCarrierSha256": "027ab9944b4e3a3ad8109c8c69cd318b57c21982b3468b5ce88a6221940eea23",
+  "baseStatesDigest": "d364bf424fa000ee59a2bf55f317e258edeb0de6eae332528172506d050b63ec",
+  "activationWitness": {
+    "wp507ExternalTerminalSha256": "b3eb36efc4993281d66235d23ec2f02bb2ebd8707e10bf7de052ebaeb064078d",
+    "wp507SeparateVerificationSha256": "29337cfd48bde25b4ab3c1215e8044e360869c0ad85e90dc03ef33772e8e86b4",
+    "wp701ExternalTerminalSha256": "e48d231496fb98916064b7c44abc9a22f3ce932137c95d762a38161b9a6243c2",
+    "currentWp702Delivery": "EXACT_PR1813_CANDIDATE_OPS_POSTMERGE_AND_LOCAL_GATES"
+  },
+  "scope": "RECONSTRUCT_ADMITTED_EFFECTIVE_NODE_STATES_NOT_RECERTIFY_ALL_HISTORICAL_ARTIFACTS",
+  "overlayDenominator": 16,
+  "overlays": [
+    {
+      "nodeId": "WP-400_ANCHOR_LINEAGE",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP400_TERMINAL_CLOSURE_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "1e23d7eae55b658a68f93893c11d01069c3f04427c0a6ece9214bb6e3e2bff0d"
+    },
+    {
+      "nodeId": "WP-401_BOOK_SNAPSHOT",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP401_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "43b9c5de6777321efdce2c457a2b562e084b4a7d12d9d8e925d473fc3ca13122"
+    },
+    {
+      "nodeId": "WP-402_PROJECTOR_KERNEL",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP402_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "84339e1787b1ec68d9cfd89b3fb8a111d3fb88ace172ac04a07af6c98740570e"
+    },
+    {
+      "nodeId": "WP-403_DECISION_SUBSTRATE",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP403_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "8f5498e68447a573b419fce7295721458f8a1c8649ce5e0ad2f0d75e4e13098d"
+    },
+    {
+      "nodeId": "WP-404_ATLAS_FOUNDATION_CLAIM",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP404_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "3fde4ab0b8ad3372ebe0e92d64bb5f20d145367d9c227ab8740e0d11a1e3baa9"
+    },
+    {
+      "nodeId": "WP-500_ASSOCIATIONS",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP500_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "d0c7758dea0b10377d270a52f66ce7746ba26774986339dda299ef0eb3d5d009"
+    },
+    {
+      "nodeId": "WP-501_TIME_KNOWLEDGE",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP501_FINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "2d9ef8366bc87918c1be07930603ff443369e7c00a9aa032a9858fc2e00c96eb"
+    },
+    {
+      "nodeId": "WP-502_THREADS_CAUSALITY",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP502_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "53d1c4d533c834e3f6cd7ba2d48a27c979879f986d1a7b1f5eea366c1556c86b"
+    },
+    {
+      "nodeId": "WP-503_ATLAS_SURFACE",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP503_TERMINAL_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "8afc06a99219e903aa772f5159089dcec6f9254c8fd2041d8d5212eb9b099b5c"
+    },
+    {
+      "nodeId": "WP-504_DOSSIER_LAYOUT_LINKS",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP504_EFFECTIVE_STATE_V3.json",
+      "sourceSha256": "5bf764a1c9f9c57153243077ab3e0d294841a9013eed85b728e8247522d2623a"
+    },
+    {
+      "nodeId": "WP-505_REGISTER_AND_ASK",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP505_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "7a97fe11ab750b5b0bd1b9b1138745cf1feca149ffcc9f29b65ccfd7f05ad32f"
+    },
+    {
+      "nodeId": "WP-506_COUNTERFACTUAL",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP506_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "a6dcb76087ce7fad72586425dfa5c1938304bba6122b7659262a614f5efa421c"
+    },
+    {
+      "nodeId": "WP-507_ATLAS_PRODUCT_CLAIM",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP507_EFFECTIVE_STATE_V2.json",
+      "sourceSha256": "2602463ecec6bf9b2848947e26d3f52e841a57e9389bba3ec4f2c2ec9f88b5f2"
+    },
+    {
+      "nodeId": "WP-700_INTERCHANGE_IR",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP700_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "0038c6fdddbf0ad40fde2c9bfc20512a751a827b676766ed08250e62b0a190ca"
+    },
+    {
+      "nodeId": "WP-701_PARSER_QUARANTINE",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP701_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "205ecd6b98d31454c8e31dc9787bf2c5d30994d6af21c6abf21bedaf453e4f02"
+    },
+    {
+      "nodeId": "WP-702_TEXT_FORMATS",
+      "fromBaseline": "PENDING",
+      "effectiveState": "DONE",
+      "sourceBasename": "WP702_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491"
+    }
+  ],
+  "states": {
+    "A0_ATLAS_INCREMENTAL_EQUIVALENCE": "DONE",
+    "A1_OPTIONAL_RELATION_VOCABULARY": "INELIGIBLE_OPTIONAL",
+    "E0_RUNNER_SAFETY_QUARANTINE": "DONE",
+    "ENT0_ENTITLEMENT_CONFORMANCE": "DONE",
+    "F0_WRITER_REFINEMENT_CONFORMANCE": "DONE",
+    "K0_COMMAND_PROTOCOL": "DONE",
+    "K1_AUTHORITY_DECOMPOSITION": "DONE",
+    "P0_AUTOSAVE_GENERATION": "DONE",
+    "P1_DIRTY_ADMISSION_ACK": "DONE",
+    "P2_DURABLE_SAVE_COORDINATOR": "DONE",
+    "P3_TRANSACTIONAL_PROJECT_COMMIT": "DONE",
+    "PK0_PACKAGE_CONTENT_TRUST": "DONE",
+    "PK1_RELEASE_SECURITY_PHYSICAL": "BLOCKED_TYPED",
+    "Q0_TOOLCHAIN_HYGIENE": "DONE",
+    "R0_REVISION_ALGEBRA": "DONE",
+    "R1_SHADOW_PROJECT_AUTHORITY_CELL": "DONE",
+    "R24C0_SEMANTIC_PACKAGE_CLOSURE": "DONE",
+    "R2_STORAGE_BAKEOFF": "DONE",
+    "R3_DURABLE_RECOVERY_LEDGER": "DONE",
+    "R4_TRANSACTIONAL_INBOX_OUTBOX": "DONE",
+    "R5_LIFECYCLE_EXTERNAL_CONFLICT": "DONE",
+    "R6_MIGRATION_HISTORY_BACKUP_GC": "DONE",
+    "S0_IPC_CALLER_IDENTITY": "DONE",
+    "S1_IPC_ENVELOPE_BUDGETS": "DONE",
+    "SEC0_PATH_CAPABILITY": "DONE",
+    "T0_TEXT_COORDINATE_ALGEBRA": "DONE",
+    "T1_ANCHOR_LINEAGE": "DONE",
+    "V0_WRITER_CLAIM_COMPILER": "DONE",
+    "V1_ATLAS_CLAIM_COMPILER": "DONE",
+    "V2_WORD_CLAIM_COMPILER": "BLOCKED_TYPED",
+    "V3_PACKAGE_CLAIM_COMPILER": "BLOCKED_TYPED",
+    "W0_WORD_PHYSICAL_RECERTIFICATION": "DONE",
+    "WP-1000_ADVANCED_TEXT": "INELIGIBLE_OPTIONAL",
+    "WP-1001_WINDOWS_PROFILE": "INELIGIBLE_OPTIONAL",
+    "WP-1002_LINUX_PROFILE": "INELIGIBLE_OPTIONAL",
+    "WP-1003_SERIES_CANON": "INELIGIBLE_OPTIONAL",
+    "WP-1004_COLLABORATION": "INELIGIBLE_OPTIONAL",
+    "WP-1005_OPTIONAL_AI": "INELIGIBLE_OPTIONAL",
+    "WP-1006_RESEARCH_CITATIONS": "INELIGIBLE_OPTIONAL",
+    "WP-1007_TTS_MOBILE_CAPTURE": "INELIGIBLE_OPTIONAL",
+    "WP-1008_BUSINESS_HELP": "INELIGIBLE_OPTIONAL",
+    "WP-100_GENERATION_ADMISSION": "DONE",
+    "WP-101_IPC_ADMISSION": "DONE",
+    "WP-102_OPERATION_PROTOCOL": "DONE",
+    "WP-103_REVISION_PRODUCT_ORDER": "DONE",
+    "WP-104_BOUNDARY_FALSIFICATION": "DONE",
+    "WP-200_DURABLE_SAVE": "DONE",
+    "WP-201_PROJECT_TRANSACTION": "DONE",
+    "WP-202_LEGACY_STRANGLER": "DONE",
+    "WP-203_STORAGE_SELECTION": "DONE",
+    "WP-204_LIFECYCLE_RECOVERY": "DONE",
+    "WP-205_PATH_AND_TEXT": "DONE",
+    "WP-206_SAFE_ENTITLEMENT_BASELINE": "DONE",
+    "WP-207_WRITER_REFINEMENT": "DONE",
+    "WP-300_WRITER_HOME": "DONE",
+    "WP-301_AUTHORING_SURFACES": "DONE",
+    "WP-302_SESSION_CONTINUITY": "DONE",
+    "WP-303_DESIGN_OS_CUSTOMIZATION": "DONE",
+    "WP-304_A11Y_PERFORMANCE": "DONE",
+    "WP-305_MINIMUM_INTERCHANGE": "DONE",
+    "WP-306_LOCAL_HISTORY_RECOVERY_UI": "DONE",
+    "WP-307_WRITER_LOCAL_PROFILE": "DONE",
+    "WP-308_BRAND_BASELINE": "DONE",
+    "WP-400_ANCHOR_LINEAGE": "DONE",
+    "WP-401_BOOK_SNAPSHOT": "DONE",
+    "WP-402_PROJECTOR_KERNEL": "DONE",
+    "WP-403_DECISION_SUBSTRATE": "DONE",
+    "WP-404_ATLAS_FOUNDATION_CLAIM": "DONE",
+    "WP-500_ASSOCIATIONS": "DONE",
+    "WP-501_TIME_KNOWLEDGE": "DONE",
+    "WP-502_THREADS_CAUSALITY": "DONE",
+    "WP-503_ATLAS_SURFACE": "DONE",
+    "WP-504_DOSSIER_LAYOUT_LINKS": "DONE",
+    "WP-505_REGISTER_AND_ASK": "DONE",
+    "WP-506_COUNTERFACTUAL": "DONE",
+    "WP-507_ATLAS_PRODUCT_CLAIM": "DONE",
+    "WP-600_FEATURESPEC_QUERY_IR": "PENDING",
+    "WP-601_LOCAL_AUTOMATION": "PENDING",
+    "WP-602_PROPOSAL_WORKFLOW": "PENDING",
+    "WP-603_WSE_STATE_EVIDENCE": "PENDING",
+    "WP-604_WSE_THREADS_EXPLANATION": "PENDING",
+    "WP-605_WSE_REVISION_TIME_OBJECT": "PENDING",
+    "WP-606_WSE_SERIES_MULTI_LAYER": "PENDING",
+    "WP-607_WSE_CLAIMS": "PENDING",
+    "WP-700_INTERCHANGE_IR": "DONE",
+    "WP-701_PARSER_QUARANTINE": "DONE",
+    "WP-702_TEXT_FORMATS": "DONE",
+    "WP-703_DOCX_PROFILE": "PENDING",
+    "WP-704_PDF_ARCHIVE_REVIEW": "PENDING",
+    "WP-705_NEGOTIATION_CORPUS": "PENDING",
+    "WP-706_WORD_REPORT": "PENDING",
+    "WP-707_WORD_APPLY": "PENDING",
+    "WP-708_GOOGLE_PROVIDER": "PENDING",
+    "WP-709_MIXED_CHAINS": "PENDING",
+    "WP-710_EVIDENCE_CAPSULE_EXPORT": "PENDING",
+    "WP-800_PULSE_POLICY_CODEC": "PENDING",
+    "WP-801_PULSE_LEDGER": "PENDING",
+    "WP-802_PULSE_FORMULAS": "PENDING",
+    "WP-803_DESCRIPTIVE_HISTORY": "PENDING",
+    "WP-804_PULSE_PRIVACY": "PENDING",
+    "WP-805_LOCAL_HISTORY": "PENDING",
+    "WP-806_PULSE_CLAIM": "PENDING",
+    "WP-900_BBR_POLICY": "PENDING",
+    "WP-901_BBR_RESTORE": "PENDING",
+    "WP-902_ENTITLEMENT_PRODUCT": "PENDING",
+    "WP-903_BRAND_RELEASE": "PENDING",
+    "WP-904_PACKAGE_CONTENT": "PENDING",
+    "WP-905_PACKAGE_PHYSICAL": "PENDING",
+    "WP-906_RELEASE_VERDICT": "PENDING"
+  },
+  "statesDigest": "4a430cde8a661d15e7cc67839e3cfd6506028e51bb8d4df3e319138867dda0d6",
+  "completeDenominator": 109,
+  "counts": {
+    "DONE": 66,
+    "INELIGIBLE_OPTIONAL": 10,
+    "BLOCKED_TYPED": 3,
+    "PENDING": 30
+  },
+  "supersedesCountsOnly": [
+    {
+      "basename": "WP701_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "205ecd6b98d31454c8e31dc9787bf2c5d30994d6af21c6abf21bedaf453e4f02",
+      "priorTarget": {
+        "BLOCKED_TYPED": 4,
+        "DONE": 65,
+        "INELIGIBLE_OPTIONAL": 10,
+        "PENDING": 30
+      },
+      "correctTarget": {
+        "BLOCKED_TYPED": 3,
+        "DONE": 65,
+        "INELIGIBLE_OPTIONAL": 10,
+        "PENDING": 31
+      }
+    },
+    {
+      "basename": "WP702_EFFECTIVE_STATE_V1.json",
+      "sourceSha256": "5e1856bcffde51343e33742100070dee8bfbe518dc59bdb8e182c569b30ef491",
+      "priorTarget": {
+        "BLOCKED_TYPED": 4,
+        "DONE": 66,
+        "INELIGIBLE_OPTIONAL": 10,
+        "PENDING": 29
+      },
+      "correctTarget": {
+        "BLOCKED_TYPED": 3,
+        "DONE": 66,
+        "INELIGIBLE_OPTIONAL": 10,
+        "PENDING": 30
+      }
+    },
+    {
+      "basename": "WP702_TEXT_FORMATS_TERMINAL_RECEIPT_V1.json",
+      "sourceSha256": "82b6d74fd3c4f56a143555b6f9c8e9dcf164d85fab543fa7eb3216c351ffcf89",
+      "disposition": "REJECTED_UNVERIFIED_ISSUANCE_WITH_INHERITED_COUNT_ERROR"
+    }
+  ],
+  "reason": "WP507_TYPED_BLOCKER_WAS_CLEARED_BY_ITS_VERIFIED_OWNER_GATE_SUCCESSOR_NOT_A_NEW_PENDING_TO_DONE_NODE",
+  "historicalBytesPreserved": true,
+  "noRepositoryMutation": true,
+  "noNewGraphNodeStarted": true,
+  "programDone": false
+}

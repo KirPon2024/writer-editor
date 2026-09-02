@@ -1,0 +1,54 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T08:47:18Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseIdentity": {
+    "sha": "b793f383e1d182fdab00e5e82b1d06feb51393bf",
+    "treeSha": "613416033ca626ccc5ea92a4ce0611de59f99331"
+  },
+  "admission": {
+    "authorityDigest": "928c4b254a90395ba4beaa2465210125a00c4426548b1ce8179404eb8b49ce3f",
+    "stageInstanceDigest": "7cf4948dbe353d9920b4f50eb657e5aa3591345cdfdfd5efe4216d16c5be2074",
+    "stageAdmissionDigest": "791d50a0608bdae5a6735942b26659dd38cfa6f1fe38240ad66f1f05bcfd58af",
+    "writeSetDigest": "869a1969ffbbf8e23521dfafb1a4f67941a4a6488016354c3edb5a953a8001de",
+    "commandScopeDigest": "633839ab3884822af969e36a2012d31ee6da4e2082a4abb25a3e9b8cb5d3773d",
+    "acceptanceSignalsDigest": "d4509ce6aa1e6b98bece1a2f0775c625493014f8f1563e160a2c8fea1a1e9c44",
+    "pathDenominator": 9
+  },
+  "failureBinding": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP700_CI_REPAIR_FAILURE_V1.json",
+    "sha256": "cab2604a298a0870828673e07e9c721a7ec6af57a503e566505bbee22c6c944b"
+  },
+  "historicalOracle": {
+    "registryPath": "docs/OPS/R24/CORRECTIVE/WP506_CARRIER_REGISTRY_V1.json",
+    "registrySha256": "8b49b16331404fd63bdb970b710057836d54b8450d0a2af7731d04a1f34d3a37",
+    "evaluationSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870",
+    "evaluationTreeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650",
+    "carrierDenominator": 17,
+    "artifactLookup": "READ_ONLY_GIT_SHOW_AT_FIXED_EVALUATION_SHA",
+    "currentTreeFallbackAllowed": false,
+    "workflowPath": ".github/workflows/oss-policy.yml",
+    "declaredWorkflowDigest": "d968431660561e7b14d37b4e58f4b345ee1cd45cbc02216950cc74c8e70805ce"
+  },
+  "correctedTest": {
+    "path": "test/contracts/r24-wp506-terminal-carriers.contract.test.mjs",
+    "sha256": "e22a55482aa5faf951e8f99aa54ad411965396c500702a4343debe35bd56378d",
+    "focusedExecuted": 4,
+    "focusedGreen": 4,
+    "focusedFailed": 0
+  },
+  "predecessorPullRequestIdentity": {
+    "pr1776": {"candidateSha": "77354cfe994588dc1771f3eded29d1e7e68d703f", "mergeSha": "af0bfb704c13b0195c12b0144415f2e769f99752"},
+    "pr1777": {"candidateSha": "bf3d21072879d276ca3489b0bbead780fb39f596", "mergeSha": "0a8837ae8b0724fa9c258d98281cae693ce0693e"}
+  },
+  "failedWp700Candidate": {"pullRequestNumber": 1810, "candidateSha": "b793f383e1d182fdab00e5e82b1d06feb51393bf", "workflowRunId": 33609013782, "primaryFailedJobId": 100179536069},
+  "historicalCarrierRewritten": false,
+  "productRuntimeChanged": false,
+  "lease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "programDone": false
+}

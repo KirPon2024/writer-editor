@@ -18,10 +18,10 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "68ba43114c880a7316618008c4bd5dc42ef0abcb84678d42cb55cc4f10b6f91f",
+      "sha256": "6be8e6d0369332b3d123183ab2221325bb0d7f1fd7b60b2c09bac8b14b4889bd",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T18:42:37Z",
-      "rationale": "Refresh the two exact PK0-successor test digests without changing the complete 1327-file denominator or skip policy."
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Refresh the exact merge-ref-safe certification test digest without changing the complete 1327-file denominator or skip policy."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_ACCEPTANCE_MATRIX_V1.json",
@@ -64,6 +64,34 @@
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:53:42Z",
       "rationale": "Exact lease-76 single-writer operation and command scope for the compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "61fd755780c41735cc68cd0c3abe0ee433b6374986d0024e38e32b8a2ce8b954",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Owner-authorized bounded repair of the historical-candidate unit oracle exposed by candidate CI run 33669278211."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "06c74cf736328b3877a775c9c460653c2319eca3f4d7f764f9aefd4ae0dc83f4",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Privacy-safe exact pre-mutation 258-entry snapshot preserving the same eight protected dirty worktrees."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "0316fc1b9d603bbbde5fc24023253241ad4325912577b2a7e8b96d2f0fb36096",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Pinned verifier admission for the exact eight-path CI merge-ref test-binding successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_CI_MERGE_REF_TEST_BINDING_STAGE_INSTANCE_V1.json",
+      "sha256": "cfe2fc7592c43220d9b8c4584088c71bc3ff3347f745d7c3a7c0becf4a45edb8",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the CI merge-ref test-binding successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_DEPENDENCY_AUDIT_OWNER_AUTHORITY_AMENDMENT_V1.json",
@@ -389,10 +417,10 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "e71260732cdae06da933c95934028bfd4dec362dfeb629b25e333197bf099d2b",
+      "sha256": "3e3e4823e5a91b8f2683664b49f7bd529ef05933eeb3be55cbba234fbb18e522",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T18:42:37Z",
-      "rationale": "Fail-closed exact-admission chain through the PK0 inventory refresh successor."
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Fail-closed exact-admission chain through the CI merge-ref test-binding successor."
     },
     {
       "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
@@ -417,10 +445,10 @@
     },
     {
       "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
-      "sha256": "128aaa7c324ffeae67f259b7b4e8bde93852232e5b3177dea0db3736164fa9da",
+      "sha256": "dff44015d50012db78c517019059a89e4288d1610664bfb38cf50e8368406cd3",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T18:05:00Z",
-      "rationale": "Exact successor-chain proof and hostile unadmitted-path rejection for the PK0 security admission."
+      "approvedAtUtc": "2026-09-02T18:50:57Z",
+      "rationale": "Pin the historical PK0 verifier to its issued candidate, bind the exact eight-path successor, and retain hostile unadmitted-path rejection."
     },
     {
       "filePath": "test/unit/r24-pk0-package-content-trust.test.js",
@@ -487,8 +515,8 @@
     }
   ],
   "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-  "approvedAtUtc": "2026-09-02T18:42:37Z",
-  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only PK0 inventory refresh successor; PROGRAM_DONE remains false.",
+  "approvedAtUtc": "2026-09-02T18:50:57Z",
+  "rationale": "Owner-authorized WP702 bounded delivery including the exact append-only CI merge-ref test-binding successor; PROGRAM_DONE remains false.",
   "absoluteExclusions": [
     "SIGNING",
     "NOTARIZATION",

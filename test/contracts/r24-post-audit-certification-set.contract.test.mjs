@@ -24,6 +24,7 @@ import {
   WP503_V6_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP503_V7_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   WP503_V8_MAIN_PRODUCT_ADMISSION_EXPECTATION,
+  WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION,
   createAuditCycle2DurableCarrier,
   createAuditCycleDurableCarrier,
   verifyAuditCycle2DurableCarrier,
@@ -46,6 +47,7 @@ import {
   verifyWp501TerminalExceptionPostEvaluationException,
   verifyWp502MainProductPostEvaluationException,
   verifyWp503MainProductPostEvaluationException,
+  verifyWp702Pk0SecuritySuccessorPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FILE='docs/OPS/R24/CORRECTIVE/POST_AUDIT_CURRENT_CERTIFICATION_SET_V2.json';
@@ -238,6 +240,17 @@ test('WP503 selection-provenance successor exception rejects an unadmitted futur
     ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
     :execFileSync('git',args,options);
   assert.throws(()=>verifyWp503MainProductPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP503_SELECTION_PROVENANCE_UNADMITTED_PATH:README\.md/);
+});
+test('WP702 PK0 security successor binds the exact admitted delta and rejects an unadmitted future path',()=>{
+  const result=verifyWp702Pk0SecuritySuccessorPostEvaluationException({candidateSha:'HEAD'});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admission.stageAdmissionDigest,WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.admissionDigest);
+  assert.equal(result.admittedPathDenominator,9);
+  assert.equal(result.dependencyAdmissionDigest,'97afd3b295dec785d2ba1cb88f4e0e1685e7ca0ac2cedd8c1082f8840d27b685');
+  const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_PK0_SECURITY_SUCCESSOR_ADMISSION_EXPECTATION.baseSha}..`)
+    ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
+    :execFileSync('git',args,options);
+  assert.throws(()=>verifyWp702Pk0SecuritySuccessorPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP702_PK0_SECURITY_EXACT_ADMITTED_DELTA/);
 });
 test('WP501 final carriers reject future chronology pending rows nonzero WIP and provider substitution',()=>{
   const read=(name)=>JSON.parse(fs.readFileSync(`docs/OPS/R24/CORRECTIVE/${name}`));

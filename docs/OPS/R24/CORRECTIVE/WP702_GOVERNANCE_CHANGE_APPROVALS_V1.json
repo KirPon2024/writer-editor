@@ -332,11 +332,46 @@
       "rationale": "Bounded patched overrides for existing approved dependency families; no new direct family."
     },
     {
-      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "280e462978cf64bea6b2edae08d21503ab870194551eab48d26b6c9cfbd64db5",
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "2e39c0daf84d0ae8907f6c5c74e2ba62d67c475683a657bf019b53f5a36e5c11",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
-      "approvedAtUtc": "2026-09-02T17:44:04Z",
-      "rationale": "Fail-closed exact-admission verification for the generated renderer bundle successor."
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Append-only authority for the exact WP702 PK0 dependency-security admission successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "51a025ca602fed228278b224168f44cba902fcdc5cf359cf9e864a72560192d9",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Exact reference to the complete pre-mutation 258-worktree and eight-dirty protected-WIP baseline."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9477e63c1f4437d242b6088e86aff7b0a677590800eacf5344e0ce726021f0af",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Pinned verifier admission for the exact nine-path PK0 security successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_PK0_SECURITY_SUCCESSOR_STAGE_INSTANCE_V1.json",
+      "sha256": "9e73a8bcb148d65c89eb8db7e67ca4490bfb10b63d6fcb71bb5baa37dae00473",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the PK0 security successor."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "87f468a294ed09a1ccf480718b7496b45d5d05201742cfa2c72f74ba9f630414",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Fail-closed exact-admission chain for the renderer and PK0 security successors."
+    },
+    {
+      "filePath": "scripts/ops/r24/package-content-trust-pk0.mjs",
+      "sha256": "5ba255b742bc40c915d55ccadc7facfccbf85116e739c645410f21da164537df",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Admit only the already-authorized exact WP702 security override bytes while preserving all PK0 package-content laws."
     },
     {
       "filePath": "src/core/text-formats-v1.mjs",
@@ -351,6 +386,20 @@
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T17:44:04Z",
       "rationale": "Deterministic tracked esbuild output for the admitted Tiptap dependency repair; authored renderer source is unchanged."
+    },
+    {
+      "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
+      "sha256": "128aaa7c324ffeae67f259b7b4e8bde93852232e5b3177dea0db3736164fa9da",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Exact successor-chain proof and hostile unadmitted-path rejection for the PK0 security admission."
+    },
+    {
+      "filePath": "test/unit/r24-pk0-package-content-trust.test.js",
+      "sha256": "5ce03967d03c758c3fde8d2580a55524b7bec461b0554c5aed1c9420f00d6617",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T18:05:00Z",
+      "rationale": "Positive exact transition and forged-admission, override-expansion, and dependency-expansion negatives."
     },
     {
       "filePath": "test/contracts/r24-wp701-terminal-carriers.contract.test.mjs",

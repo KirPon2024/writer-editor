@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_PROTECTED_WIP_BEFORE_V1",
+  "stageId": "WP-700_INTERCHANGE_IR",
+  "capturedBeforeFirstRepositoryMutation": true,
+  "capturedAtUtc": "2026-09-02T07:01:56Z",
+  "algorithm": {
+    "schemaVersion": "YALKEN_PROTECTED_WIP_SNAPSHOT_V2",
+    "canonicalization": "UTF8_JSON_FIXED_KEY_ORDER_TRAILING_LF",
+    "activeTaskExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "predecessorWriterExclusion": "EXACT_REGISTERED_WORKTREE_PATH",
+    "pathDisclosure": "SHA256_DOMAIN_SEPARATED_IDENTITY_ONLY"
+  },
+  "externalCarrier": {
+    "basename": "WP700_PROTECTED_WIP_BEFORE_V1.json",
+    "sha256": "dd9682e7a9f45e4bd1e37d5856ee72d9ce6a5b821b750f1fa16071747b3c2a34",
+    "snapshotSha256": "1c71c1ce52e75353fa787a9fe06782cc436e4c8bc038a31c2ad6abfa1a6fbfe3"
+  },
+  "denominators": {"complete": 255, "present": 255, "prunable": 0, "dirty": 7},
+  "excludedTaskRoles": ["activeWriter", "predecessorWriter"],
+  "protectedDirtySet": [
+    {"pathIdentitySha256": "1f1a302748910b29441a265520403eef7919bb9257d333795ecb58830c68a3b2", "head": "14af53dddf10db14859e9e9ae417fd4374fc9a54", "statusByteLength": 403, "statusSha256": "d14a707284e68276fa6123a4856d1ec55d9c3fd6932cca63d727dad8f16c17eb"},
+    {"pathIdentitySha256": "2806e25b7878fa3103e6e15b25cb73c1c5fc92de2cc15d197e1bef5cc74a906f", "head": "33b924d6a62b9ce5c35de3eebff789941524b55e", "statusByteLength": 426, "statusSha256": "ea4d54694846b484402652b9f45e9a86321d69b3f1db2e2773eb308c80d965f4"},
+    {"pathIdentitySha256": "290c5fdfb316bfb374ec2f6cb551377b869d5034ddf75499906c91b7e7b5b777", "head": "62df8ac34b2980a6f12934cafb4f5b478fef33d4", "statusByteLength": 440, "statusSha256": "ba45c507950c2488acaa0aa2c7892ef9707510ced9d9b3d1d4957b2ca39383ec"},
+    {"pathIdentitySha256": "35cf04c85d1129a00529ce35df54a480fba55b0442ba87ead271bedc3a65f308", "head": "7dabc48f28f7e621292a0ccab2519511ae580fa4", "statusByteLength": 309, "statusSha256": "0c4cb4f5b75d41b4938f34181092f3daeaa0f41102137ee025e0c4137293ff66"},
+    {"pathIdentitySha256": "3d26bc62c498cf7b452651d0b92e87eefcf1e051ad1406e0cad246ebdd21a97e", "head": "09c2ed9e4356a194550ee5c5344d09bdabc81889", "statusByteLength": 205, "statusSha256": "6a7e9f292813d7347afd2f630531149098ef84a6d997d141198b9fece2ecbdf7"},
+    {"pathIdentitySha256": "969a60ad44bdb363e8d04051348a4894be704ede54369eff5d95350c86d2a906", "head": "a9908db387f540dfee206ba57fa62c0744b88918", "statusByteLength": 530, "statusSha256": "02f85e62892566cb88e0eef563129efb93499e483e96b266cda60c627b279046"},
+    {"pathIdentitySha256": "f337add86252d8cd3e86d71bb91fe879d019151b212c20d12eb4ef9ea0a23ada", "head": "0bb87ae9ce95300e86e3ffd70f8ca6850f014004", "statusByteLength": 577, "statusSha256": "d49d38fbad271f36cfd85306cf0b858e624dd9036a6c488c7066674d8299de56"}
+  ],
+  "entriesExact": true,
+  "protectedDirtySetExact": true,
+  "programDone": false
+}

@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-700_INTERCHANGE_IR",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-700-INTERCHANGE-IR-CLAIM-BINDINGS",
+  "repositoryEvidenceStampId": "ES-R24-WP-700-INTERCHANGE-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {
+    "terminalReceiptDigest": "9fda3bccb33bc779a2968095d828635372e99cf5d7519e4b36293f957185cdb4",
+    "authorityDigest": "ce667020ca460f56f1bac15081c3ff5a6a85a143e30a2be5ef9d13d20db9e1fe",
+    "stageInstanceDigest": "362a850e9b706aa9c922a547608bcc1c0187892ab592385401b33aa34913e613",
+    "stageAdmissionDigest": "5e8c6c665d6be16b6be10182066907f70a04ea3a3103048c210c34107532db99",
+    "carrierRegistryDigest": "d6812fbc4b094d10e5ad049274cb6ca6b2e20e284e39898eabf322df129f782b",
+    "modelEvidenceDigest": "eecb0ec82465df6f6322ff04cbdddcc0bfcc56d537d7c0fb386e22d438fdacfe",
+    "contractEvidenceDigest": "dde0284b4e3e988af57eab3f2a57375cfb7a6300b0488b96abc8ea9e920ffa47",
+    "integrationEvidenceDigest": "900fe69a8119f5d66aa963a4bfe359c7e1cf32b24b91bf02539f86082575665e",
+    "mutantEvidenceDigest": "a330b4624bfab2d78238928c6898e80aac479f47f307eeff4073b0b6e10682f3"
+  },
+  "compatibilityReview": {
+    "wp506MergeSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870",
+    "wp506TreeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650",
+    "wp506ExternalReceiptDigest": "82ed0fb1ee8568dd9afd826b66df595217f8af6b042efd46e2388f5d1e1972fd",
+    "wp506ExternalVerificationDigest": "17a8b806ee5f4a9f8c315b9d8739c263d9effc69a3552b46c803df101494857c",
+    "wp506LeaseReleaseDispositionDigest": "ab84fc91b7a8f29c04f793959294a8451ba61e3cb4cddcfcf9d4735d4c44a5ad",
+    "wp507TypedBlockerReceiptDigest": "3bbf1aed02fc0e504e41e51525bcb0169f8b855123ec792058e94712bf5b65bc",
+    "wp507HistoricalBlockerRetconned": false,
+    "irFamilyMemberCount": 4,
+    "capabilityCellDenominator": 8,
+    "fidelityDimensionDenominator": 8,
+    "importExportRuntimeChanged": false,
+    "productMutationAuthority": false,
+    "externalProviderAuthority": false
+  },
+  "currentLease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 73, "status": "RELEASED", "wip": 0},
+  "externalDeliveryPredicates": [
+    {"id": "INDEPENDENT_EXACT_HEAD", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "NORMAL_PROTECTED_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "OPS_VECTOR_CLOSE_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "EXACT_POSTMERGE_CI_GREEN_AT_EXACT_MERGE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null},
+    {"id": "FINAL_PROTECTED_WIP_AND_LEASE_RELEASE", "status": "REQUIRED_NOT_PRECLAIMED", "providerIdentity": null}
+  ],
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

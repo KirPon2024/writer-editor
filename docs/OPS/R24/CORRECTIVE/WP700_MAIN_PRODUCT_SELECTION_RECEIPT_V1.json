@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "YALKEN_R24_MAIN_PRODUCT_SELECTION_RECEIPT_V2",
+  "stageId": "WP-700_INTERCHANGE_IR",
+  "decision": "SELECTED_AND_ADMITTED",
+  "selectedAtUtc": "2026-09-02T07:02:10Z",
+  "selectionObservation": "FRESH_POST_WP506_EXTERNAL_TERMINAL_AND_WP507_TYPED_BLOCKER_GRAPH_REPLAY",
+  "exactBase": {
+    "sha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870",
+    "tree": "2b2f28a20094fcb551717acb515e7fc5fcc94650",
+    "branch": "codex/r24-wp700-interchange-ir-v1-20260902"
+  },
+  "program": {
+    "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+    "nodeCount": 109,
+    "schedulerGraphDigest": "6d68ccb113349bb31af10636f088534ed973445301552a708dfe9dac6a037fae"
+  },
+  "graph": {
+    "effectiveCountsBefore": {"BLOCKED_TYPED": 4, "DONE": 62, "INELIGIBLE_OPTIONAL": 10, "PENDING": 33},
+    "readySet": ["WP-700_INTERCHANGE_IR"],
+    "selectedId": "WP-700_INTERCHANGE_IR",
+    "selectionReason": "SOLE_DEPENDENCY_CLOSED_GRAPH_READY_NODE_AFTER_WP507_TYPED_BLOCKER",
+    "higherPriorityGraphReadyNode": null
+  },
+  "selectedNode": {
+    "id": "WP-700_INTERCHANGE_IR",
+    "outcome": "Versioned IR family, capability and fidelity algebra",
+    "profile": "INTERCHANGE_COMMON",
+    "mutationAuthority": "INTERCHANGE_COMMON_BOUNDED_CONTOUR",
+    "stateOwner": "INTERCHANGE_ADAPTER_AUTHORITY",
+    "ownerGate": null
+  },
+  "predecessors": {
+    "wp506": {
+      "mergeSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870",
+      "treeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650",
+      "externalTerminalReceiptDigest": "82ed0fb1ee8568dd9afd826b66df595217f8af6b042efd46e2388f5d1e1972fd",
+      "externalVerificationDigest": "17a8b806ee5f4a9f8c315b9d8739c263d9effc69a3552b46c803df101494857c",
+      "externalDurableCarrierDigest": "c39a80aaeba42d643e54f8ea8fa64b67cbbd2af5c8aaaf17dbdb552a294d52a2",
+      "externalLeaseReleaseDigest": "ab84fc91b7a8f29c04f793959294a8451ba61e3cb4cddcfcf9d4735d4c44a5ad",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    "wp507": {
+      "typedBlockerReceiptDigest": "3bbf1aed02fc0e504e41e51525bcb0169f8b855123ec792058e94712bf5b65bc",
+      "leaseReleaseDigest": "e35c45974a9904f4fe8e754c3f541cbaa788ad154ff01a952a3fe733c703f63b",
+      "historicalDisposition": "BLOCKED_TYPED_PRESERVED",
+      "futureOwnerDecisionNotAppliedToHistoricalReceipt": true
+    }
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "lease": {"fencingCounter": 73, "predecessorReleaseDigest": "e35c45974a9904f4fe8e754c3f541cbaa788ad154ff01a952a3fe733c703f63b", "status": "ACTIVE", "wip": 1},
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

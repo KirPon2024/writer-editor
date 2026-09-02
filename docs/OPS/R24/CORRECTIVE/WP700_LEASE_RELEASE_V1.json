@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_LEASE_RELEASE_V1",
+  "stageId": "WP-700_INTERCHANGE_IR",
+  "status": "CONDITIONAL_RELEASE_PENDING_EXTERNAL_DELIVERY",
+  "evidenceStampId": "ES-R24-WP-700-INTERCHANGE-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {
+    "predecessorReleaseDigest": "e35c45974a9904f4fe8e754c3f541cbaa788ad154ff01a952a3fe733c703f63b",
+    "acceptanceMatrixDigest": "9b1039aafbb2210104ed24c126163f8299f4326318270c2a05675b067a255dee",
+    "effectiveStateDigest": "ee48b53cdcc17adf1bf03f8b7cc649a657e516e9873460664c3083ff17a8385d",
+    "stageRegistryDigest": "6e120913367e8779f1d9a290949ccc76192feaac8ee42cfeb485c11009574006",
+    "stageAdmissionDigest": "5e8c6c665d6be16b6be10182066907f70a04ea3a3103048c210c34107532db99"
+  },
+  "currentLease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1, "predecessorReleaseDigest": "e35c45974a9904f4fe8e754c3f541cbaa788ad154ff01a952a3fe733c703f63b"},
+  "targetLease": {"fencingCounter": 73, "status": "RELEASED", "wip": 0, "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"},
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "dd9682e7a9f45e4bd1e37d5856ee72d9ce6a5b821b750f1fa16071747b3c2a34",
+    "afterAdmissionCarrierDigest": "dd9682e7a9f45e4bd1e37d5856ee72d9ce6a5b821b750f1fa16071747b3c2a34",
+    "beforeSnapshotDigest": "1c71c1ce52e75353fa787a9fe06782cc436e4c8bc038a31c2ad6abfa1a6fbfe3",
+    "afterAdmissionSnapshotDigest": "1c71c1ce52e75353fa787a9fe06782cc436e4c8bc038a31c2ad6abfa1a6fbfe3",
+    "completeDenominator": 255,
+    "presentDenominator": 255,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 7,
+    "entriesExact": true,
+    "protectedDirtySetExact": true,
+    "finalSnapshotRequired": true
+  },
+  "activationCondition": "ALL_FIVE_EXTERNAL_PREDICATES_REQUIRED_LOCAL_GATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false,
+  "programDone": false
+}

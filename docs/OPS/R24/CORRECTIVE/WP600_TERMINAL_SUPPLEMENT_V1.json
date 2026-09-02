@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "YALKEN_R24_WP600_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-600_FEATURESPEC_QUERY_IR",
+  "evidenceStampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "repositoryEvidenceStampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "bindings": {
+    "terminalReceiptDigest": "e685e0fc57317ec33800f02e5661621c426ff9775a220d9bddb12dd40a122c88",
+    "authorityDigest": "4e8a16fa95ce3e9dcfb1ed24fd0da384a516d179eb16742cfd57a23e37995780",
+    "stageInstanceDigest": "33365121fcdc9bdcc447fe7672f08c06f80ed9d869493ba5deb53ef32db731f9",
+    "stageAdmissionDigest": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6",
+    "writeSetDigest": "b571e7a4b0f5f792f996be5bed19480700e4cd28af7fe0741f60909dbbc6ee14",
+    "commandScopeDigest": "97884c708487bb1914d08eacc99ce8b453972a4b16ad1585b45813db0335e8aa",
+    "acceptanceSignalsDigest": "11501c77505ca8e2a81055210b8c1e0609299a7ef069dc0b82e2e245614827ad",
+    "selectionReceiptDigest": "e98d225105bc29e30004b8e43a7377c54c12ac2c44201a70fd3641b8edfb0c31",
+    "wp702TerminalPredecessorDigest": "1556ca00f408de4604f3d95fed64071ac1a77d20783290d1450907eeacf1d13c",
+    "effectiveGraphBaselineDigest": "1b6fb6a72fd2aaa5c0762e2e0974ef6f460ca4ec194acf4ea6bd2b40612971af",
+    "modelEvidenceDigest": "64a3a89c13e9c69604323d6b2ef941e34891b5d26eee317d8e23afdb8fb4c818",
+    "contractEvidenceDigest": "5b341b8ad352adafc03daae379b8c1d5861f4e5772a0aba926165668f2504574",
+    "integrationEvidenceDigest": "8627b9ebe4cefcb91ccd97359875eef6ad78839b5f8fd2a5850077b34a8b392a",
+    "mutantsEvidenceDigest": "a9e6c50c17a9daa3cc464377aa09bb414ae38b8005889708dd1befe3e8010f0d"
+  },
+  "compatibilityReview": {
+    "wp702MergeSha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+    "wp702TreeSha": "c884a8c06b6d68ef040dd150af3986cb222b2ec2",
+    "wp702ExternalTerminalReceiptDigest": "0c3f966b35d0453f75b3048689df8d35178f27710cccc4f03675ca06a774e90b",
+    "typedRelationDenominator": 22,
+    "differentialCaseDenominator": 288,
+    "implementationMutantDenominator": 16,
+    "sourceWords": 160000,
+    "associationDenominator": 10000,
+    "productMutationAuthority": false,
+    "runtimeRegistryAuthority": false
+  },
+  "currentLease": {
+    "fencingCounter": 77,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "89bdd6d6a56c859792bb0cb77d1aa43cd6552807b658a5a759f0838d5b3a2c50"
+  },
+  "targetLease": {
+    "fencingCounter": 77,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false
+}

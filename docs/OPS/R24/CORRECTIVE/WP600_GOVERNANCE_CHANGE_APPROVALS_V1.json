@@ -1,0 +1,216 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "59fa98a72670019430471a6602101bb4137980a68f45328fb85e7ceb86327ab6",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "d42783ed7189a78ece1a45d69ebbdecfe8c420bfb396d4cac889b0d356f458ea",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "95ff828dcbb8295532302fe6fe5a14dc80befc33bc7ba03df78f494baa2f61c4",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "b3ef51f09861954cde8ee93d18f7ee131c29a33edff313cad628d45341cb1ded",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_CARRIER_REGISTRY_V1.json",
+      "sha256": "8b0c7001241beb8ce0af1e21bc06fdb5bea13ce07a5c479c02e8f01da76acc76",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "1b6fb6a72fd2aaa5c0762e2e0974ef6f460ca4ec194acf4ea6bd2b40612971af",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_EFFECTIVE_STATE_V1.json",
+      "sha256": "7b9cac599dc52423263d62a3a2a5b2eeda747cd7713ac84a1cff55b4260209ca",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_LEASE_RELEASE_V1.json",
+      "sha256": "35cda4a2904414556d42c3b1ad6813a0de74121101eae07843be2c36ad597def",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "4e8a16fa95ce3e9dcfb1ed24fd0da384a516d179eb16742cfd57a23e37995780",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "e98d225105bc29e30004b8e43a7377c54c12ac2c44201a70fd3641b8edfb0c31",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "33365121fcdc9bdcc447fe7672f08c06f80ed9d869493ba5deb53ef32db731f9",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "5c9e3c24de9dcc056b8f43de09e2fbe92b01b5252824e0e4f1d076d5fa3b656e",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_STAGE_REGISTRY_V1.json",
+      "sha256": "e25c9f652a02778e038f1cc8802a7081e8ed18abd124b142f6dfea36da6f1ff5",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e685e0fc57317ec33800f02e5661621c426ff9775a220d9bddb12dd40a122c88",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "57e5ca01c5b66c89021d36b6ab980f729cb546e7b27a3b72c17ff3e9bc816ea0",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP600_WP702_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "1556ca00f408de4604f3d95fed64071ac1a77d20783290d1450907eeacf1d13c",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS.json",
+      "sha256": "5e8007a30fc8c22c248488a57e4d0ca23c3e809eb4a0f7d726be24950ce48075",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-600-FEATURESPEC-QUERY-IR-CONTRACT.json",
+      "sha256": "5b341b8ad352adafc03daae379b8c1d5861f4e5772a0aba926165668f2504574",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-600-FEATURESPEC-QUERY-IR-INTEGRATION.json",
+      "sha256": "8627b9ebe4cefcb91ccd97359875eef6ad78839b5f8fd2a5850077b34a8b392a",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-600-FEATURESPEC-QUERY-IR-MODEL.json",
+      "sha256": "64a3a89c13e9c69604323d6b2ef941e34891b5d26eee317d8e23afdb8fb4c818",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-600-FEATURESPEC-QUERY-IR-MUTANTS.json",
+      "sha256": "a9e6c50c17a9daa3cc464377aa09bb414ae38b8005889708dd1befe3e8010f0d",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "src/core/frozen-feature-spec-query-ir-v1.mjs",
+      "sha256": "7797cf6bdc4abb63a6b337f9daf14760875cfd33f241e3775034eaaa64e5e4ac",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp600-post-audit-compatibility.contract.test.mjs",
+      "sha256": "3c2590ecc5fa20f2edbd9b3adba0a720594c7cbd4f29b66d45f94a19f9563868",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp600-terminal-carriers.contract.test.mjs",
+      "sha256": "41eed79653a534176e6c66c23801038a682147cd36e2697a6495fab30dc6116b",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp600-featurespec-query-ir-fixtures.js",
+      "sha256": "572994f287a32458e9455b08f730f043c34ac8332384c06974eb1c921d05e6d2",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp600-featurespec-query-ir-integration.test.js",
+      "sha256": "d11af26e7c3a5dd20c47673fe7467fd9264732912c63bd8046264470b1ff9907",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp600-featurespec-query-ir-mutants.test.js",
+      "sha256": "a04154dd6b5c278b56d3461e429b3b87d22a09dedd24cbc8f99b2608c5958658",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp600-featurespec-query-ir.test.js",
+      "sha256": "ebf0858f2c2b4c4712691819b6b2b5a8c27d1b76c51a41c3a2b6e0a779385799",
+      "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T21:11:07.000Z",
+      "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."
+    }
+  ]
+}

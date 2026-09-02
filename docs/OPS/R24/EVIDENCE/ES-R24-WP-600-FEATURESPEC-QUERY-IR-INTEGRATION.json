@@ -1,0 +1,75 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-600_FEATURESPEC_QUERY_IR",
+  "attemptId": "ATTEMPT-WP600-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP600_AUTHORITY_EPOCH_V1",
+  "profileId": "WSE_OPTIONAL_MODULES",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+    "treeSha": "c884a8c06b6d68ef040dd150af3986cb222b2ec2"
+  },
+  "createdAt": "2026-09-02T22:09:44.464Z",
+  "actor": "codex/r24-wp600-featurespec-query-ir-v1-20260902",
+  "stampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-INTEGRATION",
+  "claim": {
+    "type": "WP600_FEATURESPEC_QUERY_IR_INTEGRATION",
+    "ceiling": "WP600_NODE_ONLY_NOT_WSE_MODULE_OR_PROFILE_COMPLETION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP600 direct Atlas adapter differential, stale and large-corpus tests",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-507-ATLAS-PRODUCT-CLAIM-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "0c3f966b35d0453f75b3048689df8d35178f27710cccc4f03675ca06a774e90b"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/frozen-feature-spec-query-ir-v1.mjs",
+        "sha256": "7797cf6bdc4abb63a6b337f9daf14760875cfd33f241e3775034eaaa64e5e4ac"
+      },
+      {
+        "path": "test/fixtures/r24-wp600-featurespec-query-ir-fixtures.js",
+        "sha256": "572994f287a32458e9455b08f730f043c34ac8332384c06974eb1c921d05e6d2"
+      },
+      {
+        "path": "test/unit/r24-wp600-featurespec-query-ir.test.js",
+        "sha256": "ebf0858f2c2b4c4712691819b6b2b5a8c27d1b76c51a41c3a2b6e0a779385799"
+      },
+      {
+        "path": "test/unit/r24-wp600-featurespec-query-ir-integration.test.js",
+        "sha256": "d11af26e7c3a5dd20c47673fe7467fd9264732912c63bd8046264470b1ff9907"
+      },
+      {
+        "path": "test/unit/r24-wp600-featurespec-query-ir-mutants.test.js",
+        "sha256": "a04154dd6b5c278b56d3461e429b3b87d22a09dedd24cbc8f99b2608c5958658"
+      }
+    ],
+    "observations": [
+      "288_INDEPENDENT_DIFFERENTIAL_CASES",
+      "STALE_AND_DIRECTION_REJECTION",
+      "160000_SYNTHETIC_SOURCE_WORDS_10000_ASSOCIATIONS_128_RESULTS"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "providerCandidateAndPostmergeEvidenceRequired": true,
+    "programDone": false
+  }
+}

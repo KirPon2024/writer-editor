@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "YALKEN_R24_WP600_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-600_FEATURESPEC_QUERY_IR",
+  "evidenceStampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP600_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-02T22:09:44.464Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-600-FEATURESPEC-QUERY-IR-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "c3ff80a478ff75a23b87ef0bb4ce48049af4e46e",
+    "treeSha": "c884a8c06b6d68ef040dd150af3986cb222b2ec2"
+  },
+  "bindings": {
+    "authorityDigest": "4e8a16fa95ce3e9dcfb1ed24fd0da384a516d179eb16742cfd57a23e37995780",
+    "stageInstanceDigest": "33365121fcdc9bdcc447fe7672f08c06f80ed9d869493ba5deb53ef32db731f9",
+    "stageAdmissionDigest": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6",
+    "writeSetDigest": "b571e7a4b0f5f792f996be5bed19480700e4cd28af7fe0741f60909dbbc6ee14",
+    "commandScopeDigest": "97884c708487bb1914d08eacc99ce8b453972a4b16ad1585b45813db0335e8aa",
+    "acceptanceSignalsDigest": "11501c77505ca8e2a81055210b8c1e0609299a7ef069dc0b82e2e245614827ad",
+    "selectionReceiptDigest": "e98d225105bc29e30004b8e43a7377c54c12ac2c44201a70fd3641b8edfb0c31",
+    "wp702TerminalPredecessorDigest": "1556ca00f408de4604f3d95fed64071ac1a77d20783290d1450907eeacf1d13c",
+    "effectiveGraphBaselineDigest": "1b6fb6a72fd2aaa5c0762e2e0974ef6f460ca4ec194acf4ea6bd2b40612971af",
+    "carrierRegistryDigest": "8b0c7001241beb8ce0af1e21bc06fdb5bea13ce07a5c479c02e8f01da76acc76",
+    "acceptanceMatrixDigest": "b3ef51f09861954cde8ee93d18f7ee131c29a33edff313cad628d45341cb1ded",
+    "effectiveStateDigest": "7b9cac599dc52423263d62a3a2a5b2eeda747cd7713ac84a1cff55b4260209ca",
+    "stageRegistryDigest": "e25c9f652a02778e038f1cc8802a7081e8ed18abd124b142f6dfea36da6f1ff5",
+    "leaseReleaseDigest": "35cda4a2904414556d42c3b1ad6813a0de74121101eae07843be2c36ad597def"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/frozen-feature-spec-query-ir-v1.mjs",
+      "sha256": "7797cf6bdc4abb63a6b337f9daf14760875cfd33f241e3775034eaaa64e5e4ac"
+    },
+    {
+      "path": "test/fixtures/r24-wp600-featurespec-query-ir-fixtures.js",
+      "sha256": "572994f287a32458e9455b08f730f043c34ac8332384c06974eb1c921d05e6d2"
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir.test.js",
+      "sha256": "ebf0858f2c2b4c4712691819b6b2b5a8c27d1b76c51a41c3a2b6e0a779385799"
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir-integration.test.js",
+      "sha256": "d11af26e7c3a5dd20c47673fe7467fd9264732912c63bd8046264470b1ff9907"
+    },
+    {
+      "path": "test/unit/r24-wp600-featurespec-query-ir-mutants.test.js",
+      "sha256": "a04154dd6b5c278b56d3461e429b3b87d22a09dedd24cbc8f99b2608c5958658"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp600": {
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "implementationMutants": 16,
+      "mutantsKilled": 16,
+      "mutantsSurvived": 0,
+      "differentialCases": 288,
+      "status": "PASS"
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "installedPackages": 358,
+      "vulnerabilities": 0,
+      "status": "PASS",
+      "priorCompatibleRangeInstall": "22.23.2_NOT_EXACT_PIN"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_ON_CLEAN_LOCAL_CANDIDATE_BEFORE_PUSH_AND_IN_EXACT_CI",
+      "unpublishedCandidateCommitIsNotDelivery": true,
+      "historicalRtkDirtyScopeGuardsPreserved": true
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 67,
+    "blockedTypedCount": 3,
+    "pendingCount": 29,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_RUNTIME_REGISTRY_OR_PLUGIN_AUTHORITY",
+    "NO_WSE_MODULE_IMPLEMENTATION_OR_PROFILE_WIDE_COMPLETION",
+    "NO_USER_DOCUMENT_SIGNING_RELEASE_PAYMENT_SECRET_OR_UNADMITTED_PROVIDER_EFFECT"
+  ]
+}

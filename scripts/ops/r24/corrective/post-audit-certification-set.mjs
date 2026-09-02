@@ -443,6 +443,12 @@ export const WP504_MAIN_PRODUCT_ADMISSION_EXPECTATIONS=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V11.json',instanceDigest:'624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V11.json',admissionDigest:'7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e',
     writeSetDigest:'5aee556b1e4d27ac2c1dd02894b90565c0c9544dc5b0582e0a5d9f9c01358faf',baseSha:'660085face94d748fd3d71c0f666314f6034c721',baseTree:'72bd0e3f20bd305e2cc5c0172b5035117d0b70c9'
+  }),
+  Object.freeze({
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V12.json',authorityDigest:'ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V12.json',instanceDigest:'406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V12.json',admissionDigest:'1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e',
+    writeSetDigest:'ac0046c31bb70d126cde5a08c7aa86e6c86a1161af352249cf30b8d8a25958a1',baseSha:'c8f3d39000b6dccf5954a7e47f1a45e653ca3c41',baseTree:'d75042626d5ef6c5615e6772d4eb859097aef0f0'
   })
 ]);
 const h=(bytes)=>crypto.createHash('sha256').update(bytes).digest('hex');

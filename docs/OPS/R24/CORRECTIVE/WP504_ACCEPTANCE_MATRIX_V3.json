@@ -10,12 +10,12 @@
   },
   "bindings": {
     "predecessorAcceptanceMatrixDigest": "a904d297efb87043140efc337828a211af8556976b793e05cc250b6b545837c0",
-    "authorityDigest": "b8ee91b2a0be340fc4a1a73542e472f714ad411dca34e5ea66bac497e1540f65",
-    "stageInstanceDigest": "624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e",
-    "stageAdmissionDigest": "7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e",
-    "candidateBoundSuccessorDigest": "c72fa64b4fb8d2ec1872a2b8affac114be905bb1e295935651e94d004d029bb5",
+    "authorityDigest": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706",
+    "stageInstanceDigest": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045",
+    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
+    "candidateBoundSuccessorDigest": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "carrierRegistryDigest": "530b32c86f478e166fd16ca305c425ce0e9a3552f3462386ca4b5e10eb3becfd",
+    "carrierRegistryDigest": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "rowCount": 34,
@@ -71,7 +71,7 @@
   },
   "additionalRows": [
     {"id": "WP503_EXTERNAL_RECEIPT_IDENTITY_EXACT", "status": "PASS", "candidateSha": "b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719", "verificationSha256": "2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6"},
-    {"id": "WP504_COMPLETE_ADMISSION_CHAIN_CANDIDATE_BOUND", "status": "PASS", "admissionDenominator": 7, "checkpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440", "latestBaseSha": "660085face94d748fd3d71c0f666314f6034c721"}
+    {"id": "WP504_COMPLETE_ADMISSION_CHAIN_CANDIDATE_BOUND", "status": "PASS", "admissionDenominator": 8, "checkpointSha": "02dd018ec5e8c1cb3c11cfc3ccce6ead67dfa440", "latestBaseSha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41"}
   ],
   "activationRule": "PASS_ONLY_AFTER_ALL_FOUR_EXTERNAL_PREDICATES_ARE_OBSERVED_EXACTLY",
   "nextGraphNodeStarted": false,

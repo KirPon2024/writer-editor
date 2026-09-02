@@ -12,24 +12,24 @@
     "rolesDistinct": true
   },
   "baseIdentity": {
-    "sha": "660085face94d748fd3d71c0f666314f6034c721",
-    "treeSha": "72bd0e3f20bd305e2cc5c0172b5035117d0b70c9"
+    "sha": "c8f3d39000b6dccf5954a7e47f1a45e653ca3c41",
+    "treeSha": "d75042626d5ef6c5615e6772d4eb859097aef0f0"
   },
   "bindings": {
     "predecessorTerminalReceiptDigest": "98caaafe9032c37c5ea37d38ef8262aa5fe8d497c0f0bc293f67981d3110614d",
-    "authorityDigest": "b8ee91b2a0be340fc4a1a73542e472f714ad411dca34e5ea66bac497e1540f65",
-    "stageInstanceDigest": "624efff645d4f11db38f2b2a565dbc28bd5f7d5ce4c613324c091af71dce993e",
-    "stageAdmissionDigest": "7703034ce1518c274825fd4eaa59a1bc2bf3982e362e6b1e6f334ba4539c259e",
-    "writeSetDigest": "5aee556b1e4d27ac2c1dd02894b90565c0c9544dc5b0582e0a5d9f9c01358faf",
-    "commandScopeDigest": "aa8e52b9e812d8a1efcf99ed116b9cc400f5c12f2b71adeee523c591fbecb47c",
-    "acceptanceSignalsDigest": "3610130f571f181721f6ceca8cbc5a8b63d837803988c219f17f4629b6c45600",
-    "candidateBoundSuccessorDigest": "c72fa64b4fb8d2ec1872a2b8affac114be905bb1e295935651e94d004d029bb5",
+    "authorityDigest": "ced5beb8d0e5218e25f5b37ea1f32ad0025d51d7faf34a9743ea8dc073c0e706",
+    "stageInstanceDigest": "406a943f5451d3c5f697ddd203786c8ecbb80c98e74db7d717d288f700169045",
+    "stageAdmissionDigest": "1c1b2d425abc8ae3c35d23b031048c45f5b04540e57d8f43b5c941c5539cb05e",
+    "writeSetDigest": "ac0046c31bb70d126cde5a08c7aa86e6c86a1161af352249cf30b8d8a25958a1",
+    "commandScopeDigest": "1a208ffeaa54b5e1ebd99ee30d63ea8ab436f0efa7d10e71079abad30311cb16",
+    "acceptanceSignalsDigest": "2927d9b4abc017bf684563046f08ced9b5800ccd3aeb6135565051cbdf7f46bf",
+    "candidateBoundSuccessorDigest": "0ea80c78952a24a260ad84ea3d021cb365e273b9f0cfdc188999a43b3762fd00",
     "wp503ExternalClosureV2Digest": "9a61133d7afdced43e6d72b5a366d2d9c3f7c1a4070fd23ee08596657351da5e",
-    "carrierRegistryDigest": "530b32c86f478e166fd16ca305c425ce0e9a3552f3462386ca4b5e10eb3becfd",
-    "acceptanceMatrixDigest": "5f01fe1cc87757307199f27bbeb8463023790e8300175e2b1708d9f97e28fadb",
-    "effectiveStateDigest": "6c6e14957a34c5288e0d02b9f970c519e5aeea42a66bb8a1f509801f2aa51a39",
-    "stageRegistryDigest": "3befd2950588872c355e931cacb6fded88bafbc12c51a3ca203f70d6adbe18d4",
-    "leaseReleaseDigest": "62dd17f59b567af9099fc3387a8f383937f8504a1283c351b2f89c0a7a9a29e8",
+    "carrierRegistryDigest": "0d3af62decc115b64b064570c6588946d724b19e879ded8f418854820292d45d",
+    "acceptanceMatrixDigest": "83a0efa5770f617acf3035c1b01f206304c093bc58466d86d92622fc43d324d5",
+    "effectiveStateDigest": "633418c463579834c20ba84a60463fa0068d4acc75f114c3677771bf43a74bb8",
+    "stageRegistryDigest": "186b19a3cc0cd8a62f1beea341e4cd9277e0e7f7196b1dd29ea058d2a319d3e9",
+    "leaseReleaseDigest": "11a259b6caf846d24093446f2e8448bceb3c455f01957e19933727f3637030d0",
     "release01WordingSurfaceSuccessorDigest": "2b3821f7a47c72fc40d141cacbd0c2b6e80f853b7d6bb287dbd62dfc78cba670"
   },
   "localEvidence": {

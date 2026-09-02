@@ -23,9 +23,9 @@ const P = Object.freeze({
   evidence: 'docs/OPS/R24/EVIDENCE/ES-R24-WP-504-DOSSIER-LAYOUT-LINKS-CLAIM-BINDINGS.json',
 });
 const P3 = Object.freeze({
-  authority: `${C}/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V11.json`,
-  instance: `${C}/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V11.json`,
-  admission: `${C}/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V11.json`,
+  authority: `${C}/WP504_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V12.json`,
+  instance: `${C}/WP504_MAIN_PRODUCT_STAGE_INSTANCE_V12.json`,
+  admission: `${C}/WP504_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V12.json`,
   predecessor: `${C}/WP503_EXTERNAL_TERMINAL_CLOSURE_V2.json`,
   failure: `${C}/WP504_POST_AUDIT_CLEAN_TREE_FAILURE_V1.json`,
   successor: `${C}/WP504_POST_AUDIT_CANDIDATE_BOUND_SUCCESSOR_V1.json`,
@@ -119,11 +119,11 @@ export function verifyWp504CandidateBoundSuccessor() {
   const authority = read(P3.authority), instance = read(P3.instance), admission = read(P3.admission), predecessor = read(P3.predecessor), failure = read(P3.failure), successor = read(P3.successor), wordingSuccessor = read(P3.wordingSuccessor), carrierRegistry = read(P3.carrierRegistry), matrix = read(P3.matrix), effective = read(P3.effective), registry = read(P3.registry), release = read(P3.release), receipt = read(P3.receipt), supplement = read(P3.supplement), evidence = read(P3.evidence);
   assert(authority.digest === admission.value.authorityDigest && instance.digest === admission.value.stageInstanceDigest && admission.digest === successor.value.bindings.stageAdmissionDigest, 'E_WP504_V3_ADMISSION_CHAIN');
   assert(admission.value.writeSetDigest === successor.value.bindings.writeSetDigest && admission.value.commandScopeDigest === successor.value.bindings.commandScopeDigest && admission.value.acceptanceSignalsDigest === successor.value.bindings.acceptanceSignalsDigest, 'E_WP504_V3_SCOPE_CHAIN');
-  assert(instance.value.baseSha === '660085face94d748fd3d71c0f666314f6034c721' && instance.value.treeSha === '72bd0e3f20bd305e2cc5c0172b5035117d0b70c9' && instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP504_V3_IDENTITY');
+  assert(instance.value.baseSha === 'c8f3d39000b6dccf5954a7e47f1a45e653ca3c41' && instance.value.treeSha === 'd75042626d5ef6c5615e6772d4eb859097aef0f0' && instance.value.model === 'gpt-5.6-sol' && instance.value.reasoningEffort === 'xhigh', 'E_WP504_V3_IDENTITY');
   for (const value of [authority.value, instance.value, admission.value, predecessor.value.sourcePlanRoles, failure.value.sourcePlanRoles, successor.value.sourcePlanRoles, wordingSuccessor.value.sourcePlanRoles, matrix.value.sourcePlanRoles, effective.value.sourcePlanRoles, registry.value.sourcePlanRoles, release.value.sourcePlanRoles, receipt.value.sourcePlanRoles, supplement.value.sourcePlanRoles]) sourceRolesExact(value, value.schemaVersion);
   assert(predecessor.value.delivery.candidateSha === 'b95b9b66ebf3b9602a8b9f2f9265ca3df2bf6719' && predecessor.value.externalTerminal.verificationSha256 === '2c8c30f4598c16e272e1e77b947513c9d47751165b4b886e236a82c7c963b8e6', 'E_WP504_V3_PREDECESSOR_IDENTITY');
   assert(predecessor.value.supersedes.sha256 === sha256(fs.readFileSync(`${C}/WP503_EXTERNAL_TERMINAL_CLOSURE_V1.json`)) && predecessor.value.correction.historicalBytesRewritten === false, 'E_WP504_V3_PREDECESSOR_SUCCESSOR');
-  assert(failure.digest === successor.value.bindings.failureDigest && predecessor.digest === successor.value.bindings.wp503ExternalClosureV2Digest && successor.value.evaluationPolicy.completeWp504AdmissionDenominator === 7 && successor.value.evaluationPolicy.arbitraryDescendantDeltaAccepted === false, 'E_WP504_V3_SUCCESSOR');
+  assert(failure.digest === successor.value.bindings.failureDigest && predecessor.digest === successor.value.bindings.wp503ExternalClosureV2Digest && successor.value.evaluationPolicy.completeWp504AdmissionDenominator === 8 && successor.value.evaluationPolicy.arbitraryDescendantDeltaAccepted === false, 'E_WP504_V3_SUCCESSOR');
   assert(wordingSuccessor.digest === successor.value.bindings.release01WordingSurfaceSuccessorDigest && wordingSuccessor.value.predecessorSuccessor.sha256 === sha256(fs.readFileSync(`${C}/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json`)) && wordingSuccessor.value.surfaceOverrides.every((surface) => surface.sha256 === `sha256:${sha256(fs.readFileSync(surface.path))}`), 'E_WP504_V3_WORDING_SUCCESSOR');
   assert(carrierRegistry.value.carriers.length === carrierRegistry.value.carrierDenominator && carrierRegistry.value.carriers.every((binding) => sha256(fs.readFileSync(binding.path)) === binding.sha256), 'E_WP504_V3_CARRIER_REGISTRY');
   verifyWp504TerminalRecord(matrix.value);

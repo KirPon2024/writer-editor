@@ -18,7 +18,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "2a331c205e28af30e4a15cc100580e0f8b8721499661b84903815693de810593",
+      "sha256": "08f2d9a3d38726d7f1d77931d44d9ef2c57a916254b3bc772abf5953a156a9ad",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:41:58Z",
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."
@@ -64,6 +64,34 @@
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:53:42Z",
       "rationale": "Exact lease-76 single-writer operation and command scope for the compatibility amendment."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "50d2aa43f7c473c5075adababa14115cbac675fdd295e9a8095ddc1036970ea5",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Append-only authority for the exact deterministic test-inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6df9852d0f166cb065b5cb0cb6a01a4c88794846b44724343736255cd74f5303",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Fresh privacy-safe protected-WIP baseline captured before the inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d88180554e5c31d97f17b4f4201f131991af85edc3c30ef337bd155dbe2cb8be",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Pinned verifier admission for the exact seven-path inventory successor."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP702_TEST_INVENTORY_STAGE_INSTANCE_V1.json",
+      "sha256": "1d0813960f148545d2507c11273e8ef04e97f758be020180d780911f57659598",
+      "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
+      "approvedAtUtc": "2026-09-02T16:59:45Z",
+      "rationale": "Exact lease-76 single-writer operation and command scope for the inventory successor."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP702_EFFECTIVE_STATE_V1.json",
@@ -172,7 +200,7 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "7be06332ed895009d6163f2850c84dd49bdbfc5363c902e0a987af68c59e79fa",
+      "sha256": "0ff1f581425fdb14d7fffe2c1c141143b751cd789da11bc2c2d6827545e5df40",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T16:41:58Z",
       "rationale": "Owner-authorized WP702 bounded internal protected-repository contour."

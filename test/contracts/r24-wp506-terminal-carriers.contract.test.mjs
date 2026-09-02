@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
 
 const ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'..','..');
@@ -13,9 +14,13 @@ const read=(base,name)=>JSON.parse(fs.readFileSync(path.join(base,name),'utf8'))
 const digestFile=(relative)=>sha256(fs.readFileSync(path.join(ROOT,relative)));
 const SOURCE='1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a';
 const PROGRAM='da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a';
+const WP506_EVALUATION_SHA='1efda2e9a5e7c08361a55921e1069bd00bfdc870';
+const WP506_EVALUATION_TREE='2b2f28a20094fcb551717acb515e7fc5fcc94650';
 const ISSUE_CEILING_MS=Date.parse('2026-09-02T05:05:00Z');
 const UTC_KEYS=new Set(['approvedAtUtc','capturedAtUtc','createdAt','generatedAtUtc','observedAtUtc','selectedAtUtc']);
 const assertSourceRoles=(value)=>{assert.equal(value.sourcePlanRoles.externalSourcePlanDigest,SOURCE);assert.equal(value.sourcePlanRoles.compiledProgramFileDigest,PROGRAM);assert.equal(value.sourcePlanRoles.rolesDistinct,true);assert.notEqual(SOURCE,PROGRAM);};
+const gitBytes=(args)=>execFileSync('git',args,{cwd:ROOT,encoding:null,maxBuffer:16*1024*1024});
+const digestGitObject=(relative)=>sha256(gitBytes(['show',`${WP506_EVALUATION_SHA}:${relative}`]));
 const assertNoFutureDeclaredUtc=(value,ceilingMs,phase,pathParts=[])=>{
   if(Array.isArray(value)){value.forEach((entry,index)=>assertNoFutureDeclaredUtc(entry,ceilingMs,phase,[...pathParts,index]));return;}
   if(!value||typeof value!=='object')return;
@@ -53,7 +58,8 @@ test('WP-506 terminal carriers form one acyclic exact-byte conditional delivery 
   assert.equal(admission.stageInstanceDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP506_MAIN_PRODUCT_STAGE_INSTANCE_V1.json'));
   assert.equal(authority.stageId,'WP-506_COUNTERFACTUAL');
   assert.equal(instance.lease.fencingCounter,71);
-  for(const carrier of registry.carriers)assert.equal(digestFile(carrier.path),carrier.sha256,carrier.path);
+  assert.equal(String(gitBytes(['rev-parse',`${WP506_EVALUATION_SHA}^{tree}`])).trim(),WP506_EVALUATION_TREE);
+  for(const carrier of registry.carriers)assert.equal(digestGitObject(carrier.path),carrier.sha256,carrier.path);
   assert.equal(acceptance.bindings.carrierRegistryDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP506_CARRIER_REGISTRY_V1.json'));
   assert.equal(effective.bindings.acceptanceMatrixDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP506_ACCEPTANCE_MATRIX_V1.json'));
   assert.equal(stageRegistry.bindings.effectiveStateDigest,digestFile('docs/OPS/R24/CORRECTIVE/WP506_EFFECTIVE_STATE_V1.json'));

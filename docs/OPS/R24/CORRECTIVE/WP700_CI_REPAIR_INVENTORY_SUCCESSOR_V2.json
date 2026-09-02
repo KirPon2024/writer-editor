@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_INVENTORY_SUCCESSOR_V2",
+  "status": "CURRENT_APPEND_ONLY_INVENTORY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T09:05:28Z",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "baseIdentity": {"sha": "7ddc7bbe55d6c7a7c138a3fc4c326d85e67a955b", "treeSha": "9a58c853aa303ed10145536c084f152cd00799d0"},
+  "admission": {
+    "authorityDigest": "33a0c8b3f063a35a4ec1ed3b2598bb4922f85eb361da439b0cd50058e27499a9",
+    "stageInstanceDigest": "73c1136fccada7db8a7572b00a0e3fba570271e97233149f9e3c2986c91f49e3",
+    "stageAdmissionDigest": "63e133b951313a4ee4214a5bd2b047c44e029b4413ffff2c5f2633c06652d50b",
+    "writeSetDigest": "9c6498fdc602d951d50b6f61167aab871334139f619d995491beed2a8feb67a9",
+    "commandScopeDigest": "5ee13f5f4f7774c3347bfa4c24463f6dc2d0abedd6b94d3773df9bf38b0e9186",
+    "acceptanceSignalsDigest": "4b0d1899f7ffaab4cdfa6ad0196dc7913aa35e109a8d97e8c32239046267c834",
+    "pathDenominator": 9
+  },
+  "bindings": {
+    "v2CheckpointSha": "7ddc7bbe55d6c7a7c138a3fc4c326d85e67a955b",
+    "v2CheckpointTreeSha": "9a58c853aa303ed10145536c084f152cd00799d0",
+    "v2StageAdmissionDigest": "791d50a0608bdae5a6735942b26659dd38cfa6f1fe38240ad66f1f05bcfd58af",
+    "v2SuccessorDigest": "4a6135dd69dd4729a8cad052585ebf57c6dd17b6a0f1a46f4bd4b8d40c2a68ff",
+    "inventoryDiscoveryDigest": "41b217c61e59c8c8dec388f251bd8949342054a839149f4192435265a348ed7b",
+    "refreshedInventoryDigest": "f20646d8a3f541fbc77cb3551902eb7a40038dfa2586d91834ad8fe01aa235c4"
+  },
+  "inventoryOutcome": {"discoveredFileDenominator": 1312, "lateMjsDenominator": 8, "requiredSkips": 0, "unexplainedSkips": 0, "digestMismatchDenominator": 0},
+  "historicalCarrierRewritten": false,
+  "productRuntimeChanged": false,
+  "lease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "programDone": false
+}

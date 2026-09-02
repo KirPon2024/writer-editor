@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-700-INTERCHANGE-IR-MODEL",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-700_INTERCHANGE_IR",
+  "attemptId": "ATTEMPT-WP700-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP700_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {"canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex", "originUrl": "https://github.com/KirPonomarev/writer-editor.git", "headSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870", "treeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650"},
+  "claim": {"type": "WP700_VERSIONED_INTERCHANGE_IR_MODEL", "ceiling": "WP700_NODE_AND_INTERCHANGE_COMMON_PROFILE_ONLY_NO_RUNTIME_IMPORT_EXPORT_STORAGE_RENDERER_PROVIDER_NETWORK_OR_PROGRAM_DONE", "verdict": "PASS"},
+  "test": {"oracleId": "WP700 versioned IR family capability and fidelity model assertions", "evidenceClass": "MODEL", "denominator": 12, "passed": 12, "failed": 0, "skipped": 0, "exitCode": 0},
+  "causal": {"parentStampIds": ["ES-R24-WP-506-COUNTERFACTUAL-CLAIM-BINDINGS"], "predecessorReceiptDigest": "82ed0fb1ee8568dd9afd826b66df595217f8af6b042efd46e2388f5d1e1972fd"},
+  "createdAt": "2026-09-02T07:26:00Z",
+  "actor": "codex/r24-wp700-interchange-ir-v1-20260902",
+  "artifact": {
+    "implementationArtifact": {"path": "src/core/interchange-ir-v1.mjs", "sha256": "b0221bb8a5771e0e08273fefb7726c998a2078c6f534ae7a6209c84bca53401d"},
+    "modelAssertions": ["EXACT_FOUR_MEMBER_VERSIONED_FAMILY", "CLOSED_SCHEMA_ENVELOPE", "IMMUTABLE_REVISION_IDENTITY", "CANONICAL_UTF8_PHYSICAL_BYTES", "SHA256_BODY_AND_ENVELOPE_BINDING", "STRICT_JSON_SUBSET", "BOUNDED_DEPTH_NODES_STRINGS_AND_BYTES", "WEAKEST_REQUIRED_CAPABILITY_MEET", "COMPLETE_DIMENSION_FIDELITY_MEET", "COMMUTATIVE_DETERMINISTIC_COMPOSITION", "NO_IO_OR_MUTATION_AUTHORITY", "PROGRAM_DONE_FALSE"],
+    "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+    "wp507TypedBlockerReceiptDigest": "3bbf1aed02fc0e504e41e51525bcb0169f8b855123ec792058e94712bf5b65bc",
+    "programDone": false
+  }
+}

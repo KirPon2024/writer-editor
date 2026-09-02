@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_FAILURE_V1",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_SUCCESSOR",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "failedCandidate": {
+    "pullRequestNumber": 1810,
+    "candidateSha": "b793f383e1d182fdab00e5e82b1d06feb51393bf",
+    "candidateTreeSha": "613416033ca626ccc5ea92a4ce0611de59f99331",
+    "workflowRunId": 33609013782,
+    "workflowName": "OSS policy",
+    "event": "pull_request",
+    "conclusion": "failure",
+    "primaryFailedJobName": "inventory-baseline",
+    "primaryFailedJobId": 100179536069,
+    "derivativeFailedJobs": [
+      {"name": "merge-gate", "jobId": 100182343237},
+      {"name": "oss-policy", "jobId": 100182382825}
+    ]
+  },
+  "failureEvidence": {
+    "testPath": "test/contracts/r24-wp506-terminal-carriers.contract.test.mjs",
+    "registryPath": "docs/OPS/R24/CORRECTIVE/WP506_CARRIER_REGISTRY_V1.json",
+    "artifactPath": ".github/workflows/oss-policy.yml",
+    "historicalEvaluationSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870",
+    "historicalEvaluationTreeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650",
+    "declaredHistoricalArtifactDigest": "d968431660561e7b14d37b4e58f4b345ee1cd45cbc02216950cc74c8e70805ce",
+    "historicalGitObjectArtifactDigest": "d968431660561e7b14d37b4e58f4b345ee1cd45cbc02216950cc74c8e70805ce",
+    "failedMutableCandidateArtifactDigest": "48ab1553faf22d77424fd2b697af2501e9a03229f03628d6e9cb94696ca1bf65",
+    "relevantSubsuiteExecuted": 74,
+    "relevantSubsuiteGreen": 73,
+    "relevantSubsuiteFailed": 1
+  },
+  "rootCause": "HISTORICAL_REGISTRY_ASSERTION_READ_MUTABLE_CURRENT_WORKTREE_INSTEAD_OF_THE_DECLARED_HISTORICAL_GIT_OBJECT",
+  "successorLaw": "HASH_EVERY_WP506_REGISTRY_CARRIER_FROM_THE_FIXED_HISTORICAL_EVALUATION_SHA_AND_FAIL_CLOSED_WITHOUT_CURRENT_TREE_FALLBACK",
+  "historicalCarrierRewritten": false,
+  "lease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "programDone": false
+}

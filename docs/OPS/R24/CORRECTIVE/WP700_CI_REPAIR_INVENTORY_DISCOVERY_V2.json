@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_INVENTORY_DISCOVERY_V2",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_INVENTORY_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T09:05:28Z",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "v2Checkpoint": {"sha": "7ddc7bbe55d6c7a7c138a3fc4c326d85e67a955b", "treeSha": "9a58c853aa303ed10145536c084f152cd00799d0"},
+  "inventory": {
+    "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "predecessorSha256": "c8f26449d7ebf049d3cf9fed46f4fbbc7b10c24c7ed812041d624dcfee7a4763",
+    "discoveredFileDenominator": 1312,
+    "requiredSkips": 0,
+    "unexplainedSkips": 0,
+    "mismatchDenominator": 2,
+    "mismatches": [
+      {"path": "test/contracts/r24-wp506-terminal-carriers.contract.test.mjs", "inventorySha256": "03e95f935ca51f03ed8c4b21490451b3d32835ed8eaa431a69ed4df4be0c2ce2", "actualSha256": "e22a55482aa5faf951e8f99aa54ad411965396c500702a4343debe35bd56378d"},
+      {"path": "test/contracts/r24-wp700-post-audit-compatibility.contract.test.mjs", "inventorySha256": "454351e84ca389ba8e1b1c96b6a7a7b0a1d6e3875fb53ac762a681a9eb6ba4d4", "actualSha256": "b6f8b789a572f86348f8c85d30ee856c2f8e9c9fc97d9e7d89ca15d0f5aa9d58"}
+    ]
+  },
+  "scopeDecision": "PRESERVE_V2_BYTES_AND_ADMIT_ONE_EXACT_NINE_PATH_INVENTORY_SUCCESSOR",
+  "historicalCarrierRewritten": false,
+  "productRuntimeChanged": false,
+  "lease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "programDone": false
+}

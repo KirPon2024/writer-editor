@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "stampId": "ES-R24-WP-700-INTERCHANGE-IR-CONTRACT",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-700_INTERCHANGE_IR",
+  "attemptId": "ATTEMPT-WP700-20260902",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP700_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {"canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex", "originUrl": "https://github.com/KirPonomarev/writer-editor.git", "headSha": "1efda2e9a5e7c08361a55921e1069bd00bfdc870", "treeSha": "2b2f28a20094fcb551717acb515e7fc5fcc94650"},
+  "claim": {"type": "WP700_INTERCHANGE_IR_ACCEPTANCE_CONTRACT", "ceiling": "WP700_NODE_AND_INTERCHANGE_COMMON_PROFILE_ONLY", "verdict": "PASS"},
+  "test": {"oracleId": "node --test r24-wp700-interchange-ir.test.js", "evidenceClass": "CONTRACT", "denominator": 7, "passed": 7, "failed": 0, "skipped": 0, "exitCode": 0},
+  "causal": {"parentStampIds": ["ES-R24-WP-700-INTERCHANGE-IR-MODEL"], "predecessorReceiptDigest": "82ed0fb1ee8568dd9afd826b66df595217f8af6b042efd46e2388f5d1e1972fd"},
+  "createdAt": "2026-09-02T07:26:00Z",
+  "actor": "codex/r24-wp700-interchange-ir-v1-20260902",
+  "artifact": {
+    "testArtifact": {"path": "test/unit/r24-wp700-interchange-ir.test.js", "sha256": "af4943112c8e8c80feccb6ac36e1d33230e1c158cf2c37a8c7bb271f1ed47558"},
+    "requiredBehaviors": ["FOUR_VERSIONED_FAMILIES", "CANONICAL_ROUNDTRIP", "PHYSICAL_UTF8_BYTES", "TAMPER_AND_VERSION_REJECTION", "EXACT_IDENTITY", "EXOTIC_AND_UNSAFE_OBJECT_REJECTION", "RESOURCE_BUDGETS"],
+    "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true}
+  }
+}

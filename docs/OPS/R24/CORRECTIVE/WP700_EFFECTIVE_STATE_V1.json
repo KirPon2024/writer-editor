@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_EFFECTIVE_STATE_V1",
+  "stageId": "WP-700_INTERCHANGE_IR",
+  "status": "CONDITIONAL_CERTIFIED_DONE_PENDING_EXTERNAL_PREDICATES",
+  "evidenceStampId": "ES-R24-WP-700-INTERCHANGE-IR-CLAIM-BINDINGS",
+  "sourcePlanRoles": {"externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a", "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a", "rolesDistinct": true},
+  "bindings": {
+    "selectionReceiptDigest": "bddd64ac2d048ccb1da47fc5b6e243b3d82e17a025a21c7e17bdcf82b41cd365",
+    "acceptanceMatrixDigest": "ba140ec0b9fa0e9f30e3b9bb4356828f1e4c5bc3e2214a53fcf60c440c76c7d8",
+    "stageAdmissionDigest": "5e8c6c665d6be16b6be10182066907f70a04ea3a3103048c210c34107532db99",
+    "wp506ExternalTerminalReceiptDigest": "82ed0fb1ee8568dd9afd826b66df595217f8af6b042efd46e2388f5d1e1972fd",
+    "wp507TypedBlockerReceiptDigest": "3bbf1aed02fc0e504e41e51525bcb0169f8b855123ec792058e94712bf5b65bc"
+  },
+  "currentCounts": {"BLOCKED_TYPED": 4, "DONE": 62, "INELIGIBLE_OPTIONAL": 10, "PENDING": 33},
+  "targetCounts": {"BLOCKED_TYPED": 4, "DONE": 63, "INELIGIBLE_OPTIONAL": 10, "PENDING": 32},
+  "currentNodeState": "ADMITTED_ACTIVE",
+  "targetNodeState": "DONE",
+  "currentLease": {"fencingCounter": 73, "status": "ACTIVE", "wip": 1},
+  "targetLease": {"fencingCounter": 73, "status": "RELEASED", "wip": 0},
+  "wp507Disposition": "HISTORICAL_BLOCKED_TYPED_UNCHANGED_DURING_ACTIVE_WP700_CONTOUR",
+  "activationRule": "ALL_SINGLE_TERMINAL_PR_EXTERNAL_DELIVERY_PREDICATES_AND_REQUIRED_LOCAL_GATES_PASS",
+  "nextGraphSelection": false,
+  "programDone": false
+}

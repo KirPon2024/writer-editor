@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "YALKEN_R24_WP700_CI_REPAIR_TEMPORAL_FAILURE_V3",
+  "status": "FAIL_CLOSED_SUPERSEDED_BY_APPEND_ONLY_TEMPORAL_SUCCESSOR",
+  "observedAtUtc": "2026-09-02T09:43:41Z",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "failedCandidate": {
+    "pullRequestNumber": 1810,
+    "candidateSha": "3ad5522ae2ad23882cd1d3ada92f683f7bca8208",
+    "candidateTreeSha": "f12efb3c5b272a7d52393d9b01f1629909f4d940",
+    "workflowRunId": 33614707857,
+    "failedJobId": 100197753257,
+    "failedStepNumber": 15,
+    "workflowConclusionAfterFailClosedCancellation": "cancelled"
+  },
+  "failureEvidence": {
+    "errorCode": "E_WP700_FUTURE_DECLARED_UTC",
+    "errorPath": "ISSUE:approvals.1.approvedAtUtc",
+    "originalIssueCeilingUtc": "2026-09-02T07:40:00Z",
+    "legitimateSuccessorApprovalUtc": "2026-09-02T09:12:00Z",
+    "rootCause": "THE_ORIGINAL_ISSUANCE_CEILING_WAS_INCORRECTLY_APPLIED_TO_LATER_APPEND_ONLY_SUCCESSOR_APPROVALS",
+    "correctPolicy": "ORIGINAL_CARRIER_TIMESTAMPS_MUST_NOT_POSTDATE_ORIGINAL_ISSUANCE_AND_ALL_SUCCESSOR_APPROVAL_TIMESTAMPS_MUST_NOT_POSTDATE_CURRENT_VERIFICATION"
+  },
+  "v3Checkpoint": {
+    "sha": "3ad5522ae2ad23882cd1d3ada92f683f7bca8208",
+    "treeSha": "f12efb3c5b272a7d52393d9b01f1629909f4d940",
+    "stageAdmissionDigest": "63e133b951313a4ee4214a5bd2b047c44e029b4413ffff2c5f2633c06652d50b",
+    "successorDigest": "9dccf145e7dffd51a1a78d30385caeb094328e16150ed591a81d05a127f19097"
+  },
+  "historicalCarrierRewritten": false,
+  "productRuntimeChanged": false,
+  "lease": {
+    "fencingCounter": 73,
+    "status": "ACTIVE",
+    "wip": 1
+  },
+  "programDone": false
+}

@@ -18,7 +18,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "d42783ed7189a78ece1a45d69ebbdecfe8c420bfb396d4cac889b0d356f458ea",
+      "sha256": "d455e6dfe5d46c6f0063c328f3832e678ce819c645c9d1c4b5d354ca6d56cea1",
       "approvedBy": "owner-direct:YALKEN_R24_WP600_STANDING_BOUNDED_CONTINUATION_AUTHORITY",
       "approvedAtUtc": "2026-09-02T21:11:07.000Z",
       "rationale": "Exact fence-77 admitted WP600 FeatureSpec Query IR implementation, focused verification, historical-prefix compatibility and conditional single-PR terminal carriers. No runtime registry, unrelated worktree, user document, release or provider authority."

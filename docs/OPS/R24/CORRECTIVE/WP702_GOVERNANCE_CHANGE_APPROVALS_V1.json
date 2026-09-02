@@ -18,7 +18,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "38c2e2c15637d6252a87c81bd773aa01457294e80d0700afdec1c1b88d294564",
+      "sha256": "d3f723bd7273d7c26ebc47ec4bcbfe95aae1e683e252c80ed484f9327422b0ae",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T19:11:16Z",
       "rationale": "Refresh the exact historical-surface-safe certification and WP504 test digests without changing the complete 1327-file denominator or skip policy."
@@ -445,7 +445,7 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "99f0149171e7ad9a67cf6e60c8c3d04b6646ce036d211df2f92a06aedfb01c92",
+      "sha256": "baafcccdbbcb82f96178b46298ce22bb9caac6e8289fcb07821aa17fa6616af2",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T19:11:16Z",
       "rationale": "Fail-closed exact-admission chain through the WP504 historical-surface successor."
@@ -480,7 +480,7 @@
     },
     {
       "filePath": "test/contracts/r24-post-audit-certification-set.contract.test.mjs",
-      "sha256": "4fe2626a71ad75a925a28a1ac89999f9a75b0330f3aca8c300faa2f0b00ec7a7",
+      "sha256": "3bd7f3d2a8d55dc493f23a6e1391c127184b35c5ddf1e3118a5f836e378eb8a5",
       "approvedBy": "owner-direct:WP702_CONTINUOUS_AUTONOMOUS_AUTHORITY",
       "approvedAtUtc": "2026-09-02T19:11:16Z",
       "rationale": "Bind the exact WP504 historical-surface successor and retain hostile unadmitted-path rejection."

@@ -258,7 +258,8 @@ test('WP702 PK0 security successor binds the exact admitted delta and rejects an
   assert.throws(()=>verifyWp702Pk0SecuritySuccessorPostEvaluationException({candidateSha,git:hostileGit}),/E_WP702_PK0_SECURITY_EXACT_ADMITTED_DELTA/);
 });
 test('WP702 CI merge-ref successor binds the historical candidate oracle and rejects an unadmitted future path',()=>{
-  const result=verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha:'HEAD'});
+  const candidateSha=WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.issuedCandidateSha;
+  const result=verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha});
   assert.equal(result.status,'PASS');
   assert.equal(result.admission.stageAdmissionDigest,WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.admissionDigest);
   assert.equal(result.admittedPathDenominator,8);
@@ -266,7 +267,7 @@ test('WP702 CI merge-ref successor binds the historical candidate oracle and rej
   const hostileGit=(args,options={})=>args[0]==='diff'&&String(args[2]).startsWith(`${WP702_CI_MERGE_REF_TEST_BINDING_ADMISSION_EXPECTATION.baseSha}..`)
     ?(options.encoding==='utf8'?'README.md\n':Buffer.from('README.md\n'))
     :execFileSync('git',args,options);
-  assert.throws(()=>verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha:'HEAD',git:hostileGit}),/E_WP702_CI_MERGE_REF_EXACT_ADMITTED_DELTA/);
+  assert.throws(()=>verifyWp702CiMergeRefTestBindingPostEvaluationException({candidateSha,git:hostileGit}),/E_WP702_CI_MERGE_REF_EXACT_ADMITTED_DELTA/);
 });
 test('WP702 WP504 historical-surface successor binds exact Git objects and rejects an unadmitted future path',()=>{
   const result=verifyWp702Wp504HistoricalSurfacePostEvaluationException({candidateSha:'HEAD'});

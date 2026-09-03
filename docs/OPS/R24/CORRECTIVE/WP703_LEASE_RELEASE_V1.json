@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "YALKEN_R24_WP703_LEASE_RELEASE_V1",
+  "stageId": "WP-703_DOCX_PROFILE",
+  "evidenceStampId": "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "eee881e38c39fdabfac38f9d512a762d834544c2371e1c50e874c5b4d0afd6c0",
+    "acceptanceMatrixDigest": "ce30c53e3c633f1f04c7b5369ac939dc94875d172327cc860a61bac52e882b6d",
+    "effectiveStateDigest": "8d8c26a6f0041702ad218e0323840d2254d36fd245fe18f43f8a2b9ae208ad16",
+    "stageRegistryDigest": "073c7985701f7cb79f5383f17643e9b2925bbac3606083be656f76695fdb7465",
+    "stageAdmissionDigest": "84e06d35a017e74812641d92d2f079b4426e68376072ed9e2f2f867536a0b31d",
+    "correctionCarrierDigest": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b"
+  },
+  "currentLease": {
+    "fencingCounter": 78,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "eee881e38c39fdabfac38f9d512a762d834544c2371e1c50e874c5b4d0afd6c0"
+  },
+  "targetLease": {
+    "fencingCounter": 78,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b",
+    "beforeRawFileDigest": "90a596913a461de3edcee2b081efe0f3f4c6bba963fc17a3d30df6b4e4881ee0",
+    "beforeSnapshotDigest": "6ea8f1b8e1151c26a6d653a648c432a2ce39aa32a8f34569487ee34d7da491f3",
+    "completeDenominator": 261,
+    "presentDenominator": 261,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 9,
+    "protectedDirtySetDenominator": 9,
+    "unrelatedDirtyDenominator": 8,
+    "frozenOwnedDirtyDenominator": 1,
+    "frozenOriginalFileDenominator": 8,
+    "finalSnapshotRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_AND_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

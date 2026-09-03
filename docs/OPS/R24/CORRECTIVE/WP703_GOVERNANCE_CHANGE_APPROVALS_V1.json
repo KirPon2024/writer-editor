@@ -1,0 +1,244 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "c3ab5ed29cf4d2047d4f1b4362dd70d6b359e1ab4e05c31c961bc02ebee49227",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "7f315e0a188cabc597d60f5e11180ed7bde828d1d495b88e27d73e0b47859d0f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "ce30c53e3c633f1f04c7b5369ac939dc94875d172327cc860a61bac52e882b6d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_ADMISSION_PATH_CORRECTION_V1.json",
+      "sha256": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_CARRIER_REGISTRY_V1.json",
+      "sha256": "b75acaec7511af03290a745458ee533c17fb7bd4bed4345e5a7ef3a54829b703",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "0264cc4d8177ea495730a567210786c8222611da79e9d85c0b418c9f4e3903e5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_EFFECTIVE_STATE_V1.json",
+      "sha256": "8d8c26a6f0041702ad218e0323840d2254d36fd245fe18f43f8a2b9ae208ad16",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_LEASE_RELEASE_V1.json",
+      "sha256": "41235b35317fd319238e64a3435ae371f198c65e24f18a3e902549da6aae3d41",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "ebe0cb273186af33832437a419faba6d1efaadda11ffb6e59275c99d7a0c0a1a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "607b23ff04c556502184fff788cd8b208a1d18dc3f9d8597a5cd0b1463193935",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "b5ea8e54a3c76dd1989ddc3088719386459935e75cfcfe62626cd1621cf52333",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "4c84bd927d109e3881da7367179f5b35d61eb4ac799d4ec1429e40a15fba75c9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "84e06d35a017e74812641d92d2f079b4426e68376072ed9e2f2f867536a0b31d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "2813f4d51ade52143d5ebe1466af9bfb3acab9a1b608c6d32ac81ca30fa4b011",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "b3c9096180fc66b4472766ea9fdbbfa549a6a43098aa7b5a32c48fda0812c7f2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "2ac1fe57c0847bb91359e5d3223247e12d461db50624a3a9c684f49822e0b63d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_STAGE_REGISTRY_V1.json",
+      "sha256": "073c7985701f7cb79f5383f17643e9b2925bbac3606083be656f76695fdb7465",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_TERMINAL_RECEIPT_V1.json",
+      "sha256": "6339b994e99aae6f346aa0dd198a8694b329a52e7d5c5db85abeee527cb97baa",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "188c954085028e78959e7e855f0c5e37606aca5633f05eeda12a0642c6bb250f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP703_WP600_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "fdc15c7d36b3d45b5dc87fab4c322f5428ebe45d273fb899f7e041838b350895",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS.json",
+      "sha256": "82f1e92a55570f31bb04049efe5bfaa87f3c4ce4bf16cb8f7196fd6adc589143",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-CONTRACT.json",
+      "sha256": "78fbaf73223067c2754d15755331256430b9d2a6cf62f459e0f3fe60cb4fe84c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-INTEGRATION.json",
+      "sha256": "e86f161a969fb3dbe9a5f81a66e80e530a9627dd257de87853b6d2dd86e85c18",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-MODEL.json",
+      "sha256": "44e3079a015bf22be63bb737d934038be045949687465e9ed2aa2bd6ad9e6074",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-MUTANTS.json",
+      "sha256": "98a1b134d189bb2ff5bc072d13a33301e0a7218471886738cf972e6b44e8b022",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "cb0dd0c57acdc017fa7509eb4d8e913721c43caf5ef9a1ec12f7241cc847019a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "src/core/docx-profile-v1.mjs",
+      "sha256": "b5ff11cfa35d1744cd923dee3f63e35fc267a1108d4e3d49276cd89f9de56d3c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp703-post-audit-compatibility.contract.test.mjs",
+      "sha256": "77e073538b2e5a4cb317250d14ac141ef15692f9d2a17df83ee0c58d24e9ff41",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp703-terminal-carriers.contract.test.mjs",
+      "sha256": "0fb5f8839cf4834601081dc45bb442891680711cabe8c62b69188caad3d475a5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp703-docx-profile-fixtures.js",
+      "sha256": "1d805a92e4fa9852274a626dce741f90a60c086e0f311a388a39a99ea713b6b4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp703-docx-profile-integration.test.js",
+      "sha256": "e91f0cc86bfa5e6be62124b379151078145f244dcdc95c2086568ed87469bbf0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp703-docx-profile-mutants.test.js",
+      "sha256": "596f2923c2f89b651c9a49378647d9ffe90b4634b500f48c6243b5ec91e7f9b7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp703-docx-profile.test.js",
+      "sha256": "a44d7bd1f7190aec4cc5efe35af8374396e6d19097142ba462d5993be5e8199c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-02T23:35:07.470Z",
+      "rationale": "Exact fence-78 corrected admitted WP703 bounded DOCX semantic profile, focused verification and conditional single-PR terminal carriers. Preserve frozen V1 mismatch evidence without retroactive admission. No Word, provider, user-document, unrelated-worktree, release or other graph-node authority."
+    }
+  ]
+}

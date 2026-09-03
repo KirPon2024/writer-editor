@@ -1,0 +1,276 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-703_DOCX_PROFILE",
+  "attemptId": "ATTEMPT-WP703-SCOPE-CORRECTION-20260902",
+  "authorityEpoch": "YALKEN_R24_WP703_CORRECTED_AUTHORITY_EPOCH_V2",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "48dfd205f3d368e2b8035210fa15037cc2ed4af9",
+    "treeSha": "ee4353f39b7d6f40ad9e99270641fb54aeda65a2"
+  },
+  "createdAt": "2026-09-03T00:11:01.040Z",
+  "actor": "codex/r24-wp703-docx-profile-scope-correction-v1-20260902",
+  "stampId": "ES-R24-WP-703-DOCX-PROFILE-MODEL",
+  "claim": {
+    "type": "WP703_DOCX_PROFILE_MODEL",
+    "ceiling": "WP703_BOUNDED_NODE_ONLY_NOT_PHYSICAL_WORD_OR_PROVIDER_QUALIFICATION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "WP703 immutable DOCUMENT IR complete semantic denominator",
+    "evidenceClass": "MODEL",
+    "denominator": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-702-TEXT-FORMATS-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "024e8b8cb2a85e89ce8ecdb4cbf04087e2089d6ce14cd699ee5ac6bc49664750"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/docx-profile-v1.mjs",
+        "sha256": "b5ff11cfa35d1744cd923dee3f63e35fc267a1108d4e3d49276cd89f9de56d3c"
+      },
+      {
+        "path": "test/fixtures/r24-wp703-docx-profile-fixtures.js",
+        "sha256": "1d805a92e4fa9852274a626dce741f90a60c086e0f311a388a39a99ea713b6b4"
+      },
+      {
+        "path": "test/unit/r24-wp703-docx-profile.test.js",
+        "sha256": "a44d7bd1f7190aec4cc5efe35af8374396e6d19097142ba462d5993be5e8199c"
+      },
+      {
+        "path": "test/unit/r24-wp703-docx-profile-integration.test.js",
+        "sha256": "e91f0cc86bfa5e6be62124b379151078145f244dcdc95c2086568ed87469bbf0"
+      },
+      {
+        "path": "test/unit/r24-wp703-docx-profile-mutants.test.js",
+        "sha256": "596f2923c2f89b651c9a49378647d9ffe90b4634b500f48c6243b5ec91e7f9b7"
+      }
+    ],
+    "observations": [
+      "BOUNDED_DECLARED_DOCUMENT_MODEL",
+      "COMPLETE_FIELD_DENOMINATOR",
+      "NO_PRODUCT_MUTATION"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "rawEvidence": {
+      "basename": "WP703_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "2a618172ebd2cd7e640850a5e44f7efc16f500ad426771cb0e1e7fc62db475b1",
+      "byteLength": 4022,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test test/unit/r24-wp703-docx-profile.test.js test/unit/r24-wp703-docx-profile-integration.test.js test/unit/r24-wp703-docx-profile-mutants.test.js"
+    },
+    "testEnvelope": {
+      "schemaVersion": "WP703_TEST_ASSURANCE_ENVELOPE_V1",
+      "riskClasses": [
+        "T2_STATE_OR_AUTHORITY",
+        "T3_SECURITY_OR_PARSER",
+        "T4_INTERCHANGE_OR_PROVIDER"
+      ],
+      "profileId": "INTERCHANGE_COMMON",
+      "candidateIdentityRole": "ADMISSION_BASE_PLUS_EXACT_IMPLEMENTATION_ARTIFACTS; FINAL_CANDIDATE_AND_MERGE_BOUND_EXTERNALLY",
+      "dimensions": [
+        {
+          "id": "functional-semantics",
+          "disposition": "REQUIRED",
+          "oracle": "LOCKED_DOM_FULL_FIELD_DIFFERENTIAL",
+          "positiveDenominator": 960,
+          "negativeDenominator": 10
+        },
+        {
+          "id": "negative-admission-denial",
+          "disposition": "REQUIRED",
+          "oracle": "UNIT_CLOSED_PROFILE_AND_CORRECTED_ADMISSION_CONTRACT",
+          "positiveDenominator": 2,
+          "negativeDenominator": 10
+        },
+        {
+          "id": "boundary-malformed",
+          "disposition": "REQUIRED",
+          "oracle": "UNIT_XML_ZIP_AND_RESOURCE_BOUNDARIES",
+          "positiveDenominator": 2,
+          "negativeDenominator": 8
+        },
+        {
+          "id": "state-transition-transaction",
+          "disposition": "REQUIRED",
+          "oracle": "IMMUTABLE_IR_IMPORT_EXPORT_REJECT_STATE_NO_CANONICAL_TRANSACTION",
+          "positiveDenominator": 2,
+          "negativeDenominator": 4
+        },
+        {
+          "id": "concurrency-reordering-idempotency",
+          "disposition": "REQUIRED",
+          "oracle": "FIVE_LEXICAL_VARIANTS_THREE_ROUNDS_AND_ISOLATED_OUTPUT_BUFFERS",
+          "positiveDenominator": 15,
+          "negativeDenominator": 1
+        },
+        {
+          "id": "crash-fault-killpoint-physical-interruption",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "Production write set adds a synchronous pure in-memory query; it has no process, durable write, transaction commit, async callback or physical-app publication phase. Synthetic file I/O is test-only and grants no product persistence claim."
+        },
+        {
+          "id": "security-capability-privacy",
+          "disposition": "REQUIRED",
+          "oracle": "QUARANTINE_NAMESPACE_RELATIONSHIP_ACCESSOR_PROXY_SHARED_BUFFER_AND_NO_AUTHORITY",
+          "positiveDenominator": 2,
+          "negativeDenominator": 12
+        },
+        {
+          "id": "unicode-ime-i18n-coordinates",
+          "disposition": "REQUIRED",
+          "oracle": "NFC_MIXED_SCRIPT_RTL_TURKISH_ZWJ_UTF16_ENTITY_TAPE; NO_IME_SURFACE_CHANGE",
+          "positiveDenominator": 960,
+          "negativeDenominator": 4
+        },
+        {
+          "id": "performance-resource-cancellation-liveness",
+          "disposition": "REQUIRED",
+          "oracle": "FIVE_MEASURED_LARGE_DOC_SAMPLES_AND_HARD_RESOURCE_REJECTIONS; SYNCHRONOUS_NO_CANCELLABLE_JOB",
+          "positiveDenominator": 5,
+          "negativeDenominator": 5
+        },
+        {
+          "id": "accessibility-keyboard-focus-reflow-graph-parity",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "No renderer, product surface, focus, keyboard, layout or graph presentation path is in the exact write set."
+        },
+        {
+          "id": "compatibility-version-migration-downgrade",
+          "disposition": "REQUIRED",
+          "oracle": "WP700_IR_ROUNDTRIP_AND_WP702_CROSS_FORMAT_REFUSAL",
+          "positiveDenominator": 1,
+          "negativeDenominator": 1
+        },
+        {
+          "id": "observability-receipt-provenance-claim-ceiling",
+          "disposition": "REQUIRED",
+          "oracle": "COMPLETE_TAPE_SOURCE_REVALIDATION_LOSS_AND_CONDITIONAL_TERMINAL",
+          "positiveDenominator": 2,
+          "negativeDenominator": 13
+        },
+        {
+          "id": "mutation-oracle-quality",
+          "disposition": "REQUIRED",
+          "oracle": "ACTUAL_SOURCE_MUTATION_IMPORTS_WITH_ASSERTION_ONLY_KILLS",
+          "positiveDenominator": 18,
+          "negativeDenominator": 18
+        },
+        {
+          "id": "postmerge-survivor-cleanup",
+          "disposition": "REQUIRED",
+          "oracle": "REQUIRED_EXACT_CANDIDATE_MERGE_CI_TERMINAL_AND_FRESH_WIP_SNAPSHOT",
+          "positiveDenominator": 1,
+          "negativeDenominator": 16,
+          "status": "REQUIRED_NOT_PRECLAIMED"
+        }
+      ],
+      "dimensionDenominator": 14,
+      "deterministicCampaign": {
+        "generatorVersion": "WP703_DOCX_CARTESIAN_V1",
+        "seed": "EXHAUSTIVE_4_ALIGNMENTS_10_OUTLINES_8_MARK_SETS_3_TEXT_CLASSES",
+        "caseDenominator": 960,
+        "fieldComparisonDenominator": 7680,
+        "fixtureSha256": "1d805a92e4fa9852274a626dce741f90a60c086e0f311a388a39a99ea713b6b4",
+        "randomCampaignClaim": false
+      },
+      "performance": {
+        "workload": {
+          "paragraphs": 96,
+          "runs": 192,
+          "textBytes": 196608,
+          "semanticFields": 1057
+        },
+        "warmupSamples": 1,
+        "measuredSamples": 5,
+        "p50Ms": 91.22450000000003,
+        "p95Ms": 95.35166700000013,
+        "maxMs": 95.35166700000013,
+        "maxRssKiB": 197344,
+        "maxRoundtripMs": 10000,
+        "maxRssBudgetKiB": 524288,
+        "cancellation": "NOT_APPLICABLE_SYNCHRONOUS_PURE_QUERY_NO_JOB_OR_PUBLICATION_PHASE"
+      },
+      "physicalProfiles": [
+        {
+          "id": "LOCAL_SYNTHETIC_FILE_DOCX_BOUNDED",
+          "status": "EXECUTED",
+          "existingUserDocumentAccess": false
+        },
+        {
+          "id": "WORD_REPORT_AND_SAFE_APPLY",
+          "status": "OUT_OF_SCOPE_UNQUALIFIED",
+          "reason": "Separate WP706 and WP707 physical profiles; no Word process or user file access."
+        },
+        {
+          "id": "GOOGLE_AND_MIXED_PROVIDER_CHAINS",
+          "status": "OUT_OF_SCOPE_UNQUALIFIED",
+          "reason": "Separate WP708 and WP709 nodes; no provider access."
+        }
+      ],
+      "ciLanes": [
+        "BASELINE_REQUIRED",
+        "INTERCHANGE_RISK"
+      ],
+      "requiredCandidateSpecificGovernanceGates": true,
+      "rawEvidence": {
+        "basename": "WP703_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "2a618172ebd2cd7e640850a5e44f7efc16f500ad426771cb0e1e7fc62db475b1",
+        "byteLength": 4022,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 14,
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp703-docx-profile.test.js test/unit/r24-wp703-docx-profile-integration.test.js test/unit/r24-wp703-docx-profile-mutants.test.js"
+      },
+      "claimCeiling": "BOUNDED_DOCX_SEMANTIC_PROFILE_ONLY_NOT_WORD_GOOGLE_LAYOUT_OR_RAW_PACKAGE_BYTE_FIDELITY"
+    },
+    "independentOracle": {
+      "name": "@xmldom/xmldom",
+      "version": "0.9.12",
+      "alreadyLocked": true,
+      "dependencyChange": false,
+      "productionImport": false
+    },
+    "sealedSources": [
+      {
+        "basename": "13_TEST_ASSURANCE_AND_INTERCHANGE_QUALIFICATION_LAW_R2_3.md",
+        "byteLength": 18743,
+        "sha256": "04d8cb8b59f4289e6bbfc010c10e406ecc60eb3ab9edd7aef8fa1ed11fcbc1fb"
+      },
+      {
+        "basename": "INTERCHANGE_QUALIFICATION_MATRIX_R2_3.json",
+        "byteLength": 4921,
+        "sha256": "69a81ee971aeac6a284a0a8fa9482de47be7db34ec583569d4d0292e109d09f4"
+      }
+    ],
+    "providerCandidateAndPostmergeEvidenceRequired": true,
+    "programDone": false
+  }
+}

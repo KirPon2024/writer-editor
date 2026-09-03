@@ -1,0 +1,301 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP703_DOCX_PROFILE_PATH_CORRECTION_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "48dfd205f3d368e2b8035210fa15037cc2ed4af9",
+  "baseTree": "ee4353f39b7d6f40ad9e99270641fb54aeda65a2",
+  "branch": "codex/r24-wp703-docx-profile-scope-correction-v1-20260902",
+  "stageId": "WP-703_DOCX_PROFILE",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json",
+      "sha256": "d561943bdb9ede7f0a2c6756ef89fb43165f797964c34712444614fa5aad9d62"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "40d39ae31903bf7859b2f301b3aef58ff5acb18308505dea70e28a736e3eeedb"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "sha256": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e685e0fc57317ec33800f02e5661621c426ff9775a220d9bddb12dd40a122c88"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:preflight -- --declaration /tmp/WP703_TASK_ARCHITECTURE_DECLARATION_V2.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority WP703_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json --stage-instance WP703_MAIN_PRODUCT_STAGE_INSTANCE_V2.json --stage-admission WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node --test test/unit/r24-wp703-docx-profile.test.js test/unit/r24-wp703-docx-profile-integration.test.js test/unit/r24-wp703-docx-profile-mutants.test.js test/contracts/r24-wp703-terminal-carriers.contract.test.mjs test/contracts/r24-wp703-post-audit-compatibility.contract.test.mjs",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "npm run r24:test-inventory",
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP703_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP703_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:atlas-graph",
+    "npm run test:atlas-event-contract",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP703_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "npm run agent:guardrails",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_WP703_WRITE_SET",
+    "git commit -m Implement WP703 bounded DOCX profile",
+    "git fetch origin main",
+    "git merge --ff-only origin/main",
+    "git push origin codex/r24-wp703-docx-profile-scope-correction-v1-20260902",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh workflow run ops-vector-close.yml",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs --output=WP703_AFTER activeWriter=WRITER predecessorWriter=PREDECESSOR",
+    "node /tmp/WP703_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP703_EXTERNAL_TERMINAL_V1.mjs --verify",
+    "npm run test:platform-parity",
+    "node --test test/unit/docx-min-builder.test.js",
+    "node --test test/unit/r24-wp700-interchange-ir.test.js test/unit/r24-wp701-parser-quarantine.test.js test/unit/r24-wp702-text-formats.test.js"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "docs/OPS/R24/CORRECTIVE/C9_MAIN_PRODUCT_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+      "package.json",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "src/core/interchange-ir-v1.mjs",
+      "src/core/parser-quarantine-v1.mjs",
+      "src/core/text-formats-v1.mjs",
+      "src/export/docx/docxMinBuilder.js",
+      "src/io/revisionBridge/reviewTransportPackageParserV2.mjs",
+      "test/fixtures/r24-wp701-parser-quarantine-fixtures.js",
+      "test/unit/docx-min-builder.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP703_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_ADMISSION_PATH_CORRECTION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_TERMINAL_SUPPLEMENT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_WP600_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-703-DOCX-PROFILE-MUTANTS.json",
+      "src/core/docx-profile-v1.mjs",
+      "test/contracts/r24-wp703-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp703-terminal-carriers.contract.test.mjs",
+      "test/fixtures/r24-wp703-docx-profile-fixtures.js",
+      "test/unit/r24-wp703-docx-profile-integration.test.js",
+      "test/unit/r24-wp703-docx-profile-mutants.test.js",
+      "test/unit/r24-wp703-docx-profile.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "BOUNDED_DOCX_SEMANTIC_PROFILE_COMPOSES_THROUGH_WP700_IR_AND_WP701_QUARANTINE",
+    "PARAGRAPH_ORDER_ALIGNMENT_OUTLINE_AND_RUN_TEXT_BOLD_ITALIC_UNDERLINE_PRESERVED",
+    "STRICT_NAMESPACE_RELATIONSHIP_CONTENT_TYPE_AND_PART_ALLOWLIST",
+    "UNSUPPORTED_OR_ACTIVE_CONSTRUCTS_NEVER_SILENTLY_DROP_OR_PUBLISH_PARTIAL_SEMANTICS",
+    "XML_UTF16_TO_SEMANTIC_UTF16_TRANSFORM_TAPE_WITH_EXACT_INPUT_PART_DIGESTS",
+    "COMPLETE_FIELD_DENOMINATOR_AND_EXPLICIT_PHYSICAL_PACKAGING_LOSS",
+    "PROJECT_ENTITY_REVISION_GENERATION_AND_SOURCE_BYTES_REVALIDATED",
+    "STRICT_OWN_DATA_UNKNOWN_KEY_ACCESSOR_SYMBOL_SPARSE_AND_NORMALIZATION_REJECTION",
+    "DETERMINISTIC_HARD_BUDGETS_AND_TYPED_REJECTION",
+    "INDEPENDENT_REPARSE_PHYSICAL_LOCAL_FILE_ROUNDTRIP_AND_HOSTILE_CORPUS",
+    "REAL_IMPLEMENTATION_MUTANTS_ZERO_SURVIVORS",
+    "NO_WORD_APPLY_GOOGLE_USER_DOCUMENT_PRODUCT_MUTATION_OR_RUNTIME_NETWORK_AUTHORITY",
+    "POST_AUDIT_COMPLETE_ADMISSION_CHAIN_EXTENDED_THROUGH_WP703",
+    "EXTERNAL_SOURCE_AND_COMPILED_PROGRAM_ROLES_DISTINCT",
+    "WP600_VERIFIED_TERMINAL_AND_COMPLETE_109_NODE_GRAPH_BOUND",
+    "NORMAL_PROTECTED_MERGE_AND_EXACT_POSTMERGE_CI",
+    "ALL_261_PROTECTED_WORKTREES_EIGHT_UNRELATED_DIRTY_AND_ONE_FROZEN_OWNED_DIRTY_UNCHANGED",
+    "WP703_LEASE_78_RELEASED_WIP_0",
+    "PROGRAM_DONE_FALSE",
+    "ORIGINAL_V1_PATH_MISMATCH_PRESERVED_WITH_NO_RETROACTIVE_ADMISSION_CLAIM",
+    "ACTUAL_CHANGED_PATHS_ARE_SUBSET_OF_LATEST_EXACT_34_PATH_AGGREGATE",
+    "CORRECTION_IS_FILENAME_AND_WORKTREE_BINDING_ONLY_SAME_BASE_NODE_SCOPE_AND_LEASE",
+    "FROZEN_ORIGINAL_WORKTREE_EIGHT_FILE_HASHES_PRESERVED_NO_EXECUTION_LEASE",
+    "FRESH_CLEAN_TARGET_PREFLIGHT_AND_PINNED_ADMISSION_BEFORE_EXACT_OWNED_BYTE_COPY"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP600_EXTERNAL_TERMINAL_RECEIPT_V1",
+      "digest": "024e8b8cb2a85e89ce8ecdb4cbf04087e2089d6ce14cd699ee5ac6bc49664750",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP600_EXTERNAL_TERMINAL_VERIFICATION_V1",
+      "digest": "7943601ab11e75d4769d79bd09b06e978beb457ec143b045a10356f550eccfdd",
+      "status": "PASS"
+    },
+    {
+      "id": "WP600_EXTERNAL_DURABLE_CARRIER_V1",
+      "digest": "c32190c88d329597e11aa428b054da419f5bc60d9d7077fe8b9d3386f52272c2",
+      "status": "ISSUED_AND_VERIFIED"
+    },
+    {
+      "id": "WP600_EXTERNAL_LEASE_RELEASE_DISPOSITION",
+      "digest": "eee881e38c39fdabfac38f9d512a762d834544c2371e1c50e874c5b4d0afd6c0",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "WP600_COMPLETE_EFFECTIVE_GRAPH_PROJECTION_V1",
+      "digest": "0264cc4d8177ea495730a567210786c8222611da79e9d85c0b418c9f4e3903e5",
+      "status": "109_NODES_67_DONE_29_PENDING_3_BLOCKED_10_INELIGIBLE"
+    },
+    {
+      "id": "WP703_PROTECTED_WIP_BEFORE_V1",
+      "digest": "2ac1fe57c0847bb91359e5d3223247e12d461db50624a3a9c684f49822e0b63d",
+      "status": "260_PROTECTED_ENTRIES_EIGHT_DIRTY"
+    },
+    {
+      "id": "WP703_V1_G0_READ_ONLY_EPOCH_PRESERVED",
+      "digest": "3a486f565736a906f04645646d15245b40ddbd05b771e73c259f5dc0d620d261",
+      "status": "HISTORICAL_PRE_CORRECTION_WORKTREE_BINDING"
+    },
+    {
+      "id": "HISTORICAL_STAGE_ADMISSION_VERIFIER_CONTRACT",
+      "digest": "925b4c23f1cad674720ee6a22fcd74cc2169b16bbc161be5d43535f20dd2ee31",
+      "status": "FIXED_BINDING_PRESERVED"
+    },
+    {
+      "id": "WP703_V1_OWNER_AUTHORITY_PRESERVED",
+      "digest": "607b23ff04c556502184fff788cd8b208a1d18dc3f9d8597a5cd0b1463193935",
+      "status": "SUPERSEDED_PATH_LABEL_MISMATCH_ONLY"
+    },
+    {
+      "id": "WP703_V1_STAGE_INSTANCE_PRESERVED",
+      "digest": "2813f4d51ade52143d5ebe1466af9bfb3acab9a1b608c6d32ac81ca30fa4b011",
+      "status": "SUPERSEDED_PATH_LABEL_MISMATCH_ONLY"
+    },
+    {
+      "id": "WP703_V1_STAGE_ADMISSION_PRESERVED",
+      "digest": "4c84bd927d109e3881da7367179f5b35d61eb4ac799d4ec1429e40a15fba75c9",
+      "status": "HISTORICAL_VERIFIER_PASS_DID_NOT_AUTHORIZE_ACTUAL_MISNAMED_PATH"
+    },
+    {
+      "id": "WP703_PATH_MISMATCH_OBSERVATION_V1",
+      "digest": "2304a1d8d01d8570d2dc7eef689d7c312e085276b163e35a60baf5e089d4842e",
+      "status": "UNADMITTED_PATH_OR_COMMAND_RECORDED_BEFORE_CORRECTION"
+    },
+    {
+      "id": "WP703_ACTUAL_WP600_TERMINAL_PREDECESSOR_BYTES",
+      "digest": "fdc15c7d36b3d45b5dc87fab4c322f5428ebe45d273fb899f7e041838b350895",
+      "status": "PRESERVED_WITHOUT_RENAME_DELETE_OR_REWRITE"
+    },
+    {
+      "id": "WP703_SCOPE_CORRECTION_PROTECTED_WIP_BEFORE_V1",
+      "digest": "90a596913a461de3edcee2b081efe0f3f4c6bba963fc17a3d30df6b4e4881ee0",
+      "status": "261_PROTECTED_NINE_DIRTY_INCLUDING_ONE_FROZEN_OWNED_WORKTREE"
+    },
+    {
+      "id": "WP703_SCOPE_CORRECTION_PROTECTED_WIP_SNAPSHOT_V2",
+      "digest": "6ea8f1b8e1151c26a6d653a648c432a2ce39aa32a8f34569487ee34d7da491f3",
+      "status": "260_PRIOR_ENTRIES_AND_EIGHT_UNRELATED_DIRTY_ENTRIES_IDENTICAL"
+    },
+    {
+      "id": "WP703_FRESH_G0_READ_ONLY_EPOCH",
+      "digest": "1f2a59535102739a41568b47bd74911a4259dbbfbf461de56be3de2e145d3b0c",
+      "status": "FRESH_EXACT_SAME_BASE_CLEAN_CONTINUATION_WORKTREE_LEASE_78_WIP_1"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 78,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "eee881e38c39fdabfac38f9d512a762d834544c2371e1c50e874c5b4d0afd6c0"
+  }
+}

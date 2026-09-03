@@ -1,0 +1,99 @@
+{
+  "schemaVersion": "YALKEN_R24_WP703_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-703_DOCX_PROFILE",
+  "evidenceStampId": "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "repositoryEvidenceStampId": "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS",
+  "bindings": {
+    "terminalReceiptDigest": "6339b994e99aae6f346aa0dd198a8694b329a52e7d5c5db85abeee527cb97baa",
+    "authorityDigest": "ebe0cb273186af33832437a419faba6d1efaadda11ffb6e59275c99d7a0c0a1a",
+    "stageInstanceDigest": "b3c9096180fc66b4472766ea9fdbbfa549a6a43098aa7b5a32c48fda0812c7f2",
+    "stageAdmissionDigest": "84e06d35a017e74812641d92d2f079b4426e68376072ed9e2f2f867536a0b31d",
+    "writeSetDigest": "6fdd80161c9600a9b90649c839390a44b67e2a5c2ec82f90c7a556d8d661c5e7",
+    "commandScopeDigest": "49e46f5dca9cdb3247a32a4e88fa13a5689d28e83d13f91f9aa4825f93da6f3c",
+    "acceptanceSignalsDigest": "549a7e3868d5071c0efa1ff879850d1e70df4e3e8977d87861d6c545f519b404",
+    "selectionReceiptDigest": "b5ea8e54a3c76dd1989ddc3088719386459935e75cfcfe62626cd1621cf52333",
+    "correctionCarrierDigest": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b",
+    "wp600TerminalPredecessorDigest": "fdc15c7d36b3d45b5dc87fab4c322f5428ebe45d273fb899f7e041838b350895",
+    "effectiveGraphBaselineDigest": "0264cc4d8177ea495730a567210786c8222611da79e9d85c0b418c9f4e3903e5",
+    "protectedWipBeforeRawDigest": "90a596913a461de3edcee2b081efe0f3f4c6bba963fc17a3d30df6b4e4881ee0",
+    "modelEvidenceDigest": "44e3079a015bf22be63bb737d934038be045949687465e9ed2aa2bd6ad9e6074",
+    "contractEvidenceDigest": "78fbaf73223067c2754d15755331256430b9d2a6cf62f459e0f3fe60cb4fe84c",
+    "integrationEvidenceDigest": "e86f161a969fb3dbe9a5f81a66e80e530a9627dd257de87853b6d2dd86e85c18",
+    "mutantsEvidenceDigest": "98a1b134d189bb2ff5bc072d13a33301e0a7218471886738cf972e6b44e8b022"
+  },
+  "compatibilityReview": {
+    "wp600MergeSha": "48dfd205f3d368e2b8035210fa15037cc2ed4af9",
+    "wp600TreeSha": "ee4353f39b7d6f40ad9e99270641fb54aeda65a2",
+    "wp600ExternalTerminalReceiptDigest": "024e8b8cb2a85e89ce8ecdb4cbf04087e2089d6ce14cd699ee5ac6bc49664750",
+    "differentialCaseDenominator": 960,
+    "fieldComparisonDenominator": 7680,
+    "implementationMutantDenominator": 18,
+    "performance": {
+      "workload": {
+        "paragraphs": 96,
+        "runs": 192,
+        "textBytes": 196608,
+        "semanticFields": 1057
+      },
+      "warmupSamples": 1,
+      "measuredSamples": 5,
+      "p50Ms": 91.22450000000003,
+      "p95Ms": 95.35166700000013,
+      "maxMs": 95.35166700000013,
+      "maxRssKiB": 197344,
+      "maxRoundtripMs": 10000,
+      "maxRssBudgetKiB": 524288,
+      "cancellation": "NOT_APPLICABLE_SYNCHRONOUS_PURE_QUERY_NO_JOB_OR_PUBLICATION_PHASE"
+    },
+    "productMutationAuthority": false,
+    "wordApplyAuthority": false,
+    "providerAuthority": false
+  },
+  "currentLease": {
+    "fencingCounter": 78,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "eee881e38c39fdabfac38f9d512a762d834544c2371e1c50e874c5b4d0afd6c0"
+  },
+  "targetLease": {
+    "fencingCounter": 78,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false
+}

@@ -1,0 +1,144 @@
+{
+  "schemaVersion": "YALKEN_R24_WP703_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-703_DOCX_PROFILE",
+  "evidenceStampId": "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP703_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-03T00:11:01.040Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "48dfd205f3d368e2b8035210fa15037cc2ed4af9",
+    "treeSha": "ee4353f39b7d6f40ad9e99270641fb54aeda65a2"
+  },
+  "bindings": {
+    "authorityDigest": "ebe0cb273186af33832437a419faba6d1efaadda11ffb6e59275c99d7a0c0a1a",
+    "stageInstanceDigest": "b3c9096180fc66b4472766ea9fdbbfa549a6a43098aa7b5a32c48fda0812c7f2",
+    "stageAdmissionDigest": "84e06d35a017e74812641d92d2f079b4426e68376072ed9e2f2f867536a0b31d",
+    "writeSetDigest": "6fdd80161c9600a9b90649c839390a44b67e2a5c2ec82f90c7a556d8d661c5e7",
+    "commandScopeDigest": "49e46f5dca9cdb3247a32a4e88fa13a5689d28e83d13f91f9aa4825f93da6f3c",
+    "acceptanceSignalsDigest": "549a7e3868d5071c0efa1ff879850d1e70df4e3e8977d87861d6c545f519b404",
+    "selectionReceiptDigest": "b5ea8e54a3c76dd1989ddc3088719386459935e75cfcfe62626cd1621cf52333",
+    "correctionCarrierDigest": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b",
+    "wp600TerminalPredecessorDigest": "fdc15c7d36b3d45b5dc87fab4c322f5428ebe45d273fb899f7e041838b350895",
+    "effectiveGraphBaselineDigest": "0264cc4d8177ea495730a567210786c8222611da79e9d85c0b418c9f4e3903e5",
+    "protectedWipBeforeRawDigest": "90a596913a461de3edcee2b081efe0f3f4c6bba963fc17a3d30df6b4e4881ee0",
+    "carrierRegistryDigest": "b75acaec7511af03290a745458ee533c17fb7bd4bed4345e5a7ef3a54829b703",
+    "acceptanceMatrixDigest": "ce30c53e3c633f1f04c7b5369ac939dc94875d172327cc860a61bac52e882b6d",
+    "effectiveStateDigest": "8d8c26a6f0041702ad218e0323840d2254d36fd245fe18f43f8a2b9ae208ad16",
+    "stageRegistryDigest": "073c7985701f7cb79f5383f17643e9b2925bbac3606083be656f76695fdb7465",
+    "leaseReleaseDigest": "41235b35317fd319238e64a3435ae371f198c65e24f18a3e902549da6aae3d41"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/docx-profile-v1.mjs",
+      "sha256": "b5ff11cfa35d1744cd923dee3f63e35fc267a1108d4e3d49276cd89f9de56d3c"
+    },
+    {
+      "path": "test/fixtures/r24-wp703-docx-profile-fixtures.js",
+      "sha256": "1d805a92e4fa9852274a626dce741f90a60c086e0f311a388a39a99ea713b6b4"
+    },
+    {
+      "path": "test/unit/r24-wp703-docx-profile.test.js",
+      "sha256": "a44d7bd1f7190aec4cc5efe35af8374396e6d19097142ba462d5993be5e8199c"
+    },
+    {
+      "path": "test/unit/r24-wp703-docx-profile-integration.test.js",
+      "sha256": "e91f0cc86bfa5e6be62124b379151078145f244dcdc95c2086568ed87469bbf0"
+    },
+    {
+      "path": "test/unit/r24-wp703-docx-profile-mutants.test.js",
+      "sha256": "596f2923c2f89b651c9a49378647d9ffe90b4634b500f48c6243b5ec91e7f9b7"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp703": {
+      "tests": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "implementationMutants": 18,
+      "mutantsKilled": 18,
+      "mutantsSurvived": 0,
+      "differentialCases": 960,
+      "fieldComparisons": 7680,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP703_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "2a618172ebd2cd7e640850a5e44f7efc16f500ad426771cb0e1e7fc62db475b1",
+        "byteLength": 4022,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 14,
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp703-docx-profile.test.js test/unit/r24-wp703-docx-profile-integration.test.js test/unit/r24-wp703-docx-profile-mutants.test.js"
+      }
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "installedPackages": 358,
+      "vulnerabilities": 0,
+      "status": "PASS"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_ON_CLEAN_LOCAL_CANDIDATE_BEFORE_PUSH_AND_IN_EXACT_CI",
+      "unpublishedCandidateCommitIsNotDelivery": true,
+      "historicalRtkDirtyScopeGuardsPreserved": true
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 68,
+    "blockedTypedCount": 3,
+    "pendingCount": 28,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_RETROACTIVE_ADMISSION_OF_V1_MISNAMED_PATH",
+    "NO_WORD_GOOGLE_PROVIDER_PHYSICAL_OR_PROFILE_WIDE_QUALIFICATION",
+    "NO_LAYOUT_OR_RAW_ZIP_XML_LEXICAL_FIDELITY",
+    "NO_USER_DOCUMENT_PRODUCT_SIGNING_RELEASE_PAYMENT_SECRET_OR_UNADMITTED_PROVIDER_EFFECT"
+  ]
+}

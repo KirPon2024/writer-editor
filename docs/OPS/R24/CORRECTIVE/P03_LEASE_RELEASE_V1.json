@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "YALKEN_R24_P03_LEASE_RELEASE_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "evidenceStampId": "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_TRANSITION_NOT_RELEASED",
+  "lease": {
+    "fencingCounter": 84,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33"
+  },
+  "predecessorReleaseDigest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33",
+  "releaseOnlyAfter": [
+    "ALL_LOCAL_REQUIRED_GATES",
+    "FRESH_CANDIDATE_CI",
+    "NORMAL_PROTECTED_PR_MERGE",
+    "OPS_VECTOR_CLOSE_EXACT_MERGE",
+    "EXACT_POSTMERGE_CI",
+    "PROTECTED_WIP_AFTER_UNCHANGED",
+    "CLEAN_WRITER_NO_LIVE_WORK"
+  ],
+  "terminalDisposition": {
+    "fencingCounter": 84,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDispositionRequired": true,
+  "finalDispositionVerifiedBy": "SEPARATE_EXTERNAL_TERMINAL_VERIFICATION",
+  "recursiveClosurePrForbidden": true
+}

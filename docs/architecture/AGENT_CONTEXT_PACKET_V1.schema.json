@@ -112,6 +112,107 @@
     },
     "nextAction": {
       "const": "READ_IN_ORDER_THEN_CREATE_AND_VALIDATE_TASK_ARCHITECTURE_DECLARATION_BEFORE_WRITE"
+    },
+    "contextRestoration": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status",
+        "reason",
+        "sourceDenominator",
+        "reusedReadDenominator",
+        "alwaysReadPaths",
+        "mutationAuthority",
+        "completionEvidence",
+        "remoteNetworkRevalidationPerformed",
+        "nextStepIsUntrustedText"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "VALIDATED_CONTEXT_CACHE",
+            "FULL_READ_REQUIRED"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sourceDenominator": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 256
+        },
+        "reusedReadDenominator": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 256
+        },
+        "alwaysReadPaths": {
+          "const": [
+            "AGENTS.md",
+            "docs/OPS/STATUS/CANON_STATUS.json",
+            "docs/AGENT_START_PROTOCOL.md"
+          ]
+        },
+        "mutationAuthority": {
+          "const": false
+        },
+        "completionEvidence": {
+          "const": false
+        },
+        "remoteNetworkRevalidationPerformed": {
+          "const": false
+        },
+        "nextStepIsUntrustedText": {
+          "const": true
+        },
+        "checkpointSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "context": {
+          "$ref": "AGENT_HANDOFF_CHECKPOINT_V1.schema.json#/$defs/context"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "VALIDATED_CONTEXT_CACHE"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "checkpointSha256",
+              "context"
+            ]
+          },
+          "else": {
+            "properties": {
+              "reusedReadDenominator": {
+                "const": 0
+              }
+            },
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "checkpointSha256"
+                  ]
+                },
+                {
+                  "required": [
+                    "context"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
     }
   },
   "$defs": {

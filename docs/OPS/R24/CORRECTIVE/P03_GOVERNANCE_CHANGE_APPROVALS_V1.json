@@ -1,0 +1,244 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "821fafe5098a3151f44e2a7b7b45213b97c3b3dc4e1fa8c31c46fff5361226af",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "AGENTS.md",
+      "sha256": "c65a4e9ee1b9a3520c172b10dc9acd84e87687142d5b1594b4a4cae25e42f5e6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/AGENT_START_PROTOCOL.md",
+      "sha256": "b72f6e8c1b118f614679df48b37564c48e5fc5f802d6606e80b2add3f8445351",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/HANDOFF.md",
+      "sha256": "ddcd4c765d7c73a2d30daa7fa947d8dafccc0a3840443e9afcdd3bbfcbe74cd4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json",
+      "sha256": "573f51a27baea0dedb2d27cc8ed09e287a35330357b0a9fa3f21ea77c92455cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_STATUS.json",
+      "sha256": "d110424e82d9c3e551a649e5a93f69b0a7cbc9d0d17c3818b1c412bf219133c6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "dcc6d64bfee688a183a22bda6eb9496d42be1a31550806ffb2792a5650555e0a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "6f6e2b8b261b93eb89cd60e254c2c373f363fb2d5fa451257676614a027c32a0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_ADMISSION_PREPARATION_OUTPUTS_V1.json",
+      "sha256": "e89c6b596c34c2c846ea845fcdc7bc677aa0d1f1e8e348a064dab637457866e2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_CARRIER_REGISTRY_V1.json",
+      "sha256": "9218d8d46a1879cd2214b11e3446ca4dbbdc475aaf4d66a7dfe8491e2dad899a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_CONTEXT_RESTORATION_CONTRACT_V1.json",
+      "sha256": "c113e5ae2d7a7f821d9b73a06ffbd091f834ecbbf2cad0153e44713e70e66f88",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_EFFECTIVE_STATE_V1.json",
+      "sha256": "2862dd0a37898db10750e54080adecfcbef073fb3fe6c36bc55b9a075042d710",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_LEASE_RELEASE_V1.json",
+      "sha256": "b4aa28f21dda38f8bdfdd265f3df1d0e1c8956d457abcf3f4c47b8047928e2da",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_OWNER_AUTHORITY_V1.json",
+      "sha256": "e89bf411151977760e1c474f94d749824e84660a2513914d66861c75cb73c0b2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_P01_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "7e4d44d860184d2c3ea5aba1e4e8b0eeb57d2a8439809fcc7ad947a7ee460a28",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_P02_NO_CHANGE_BINDING_V1.json",
+      "sha256": "59fcffe695cfff210f11ff32640670fd418d0bcdf337b814af985ef3de334e12",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "1d45a333b80a5a85d3ca8d3e368b434646ce2051fffe3d858af167a421383209",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2a8b3d09d5dddb64c3196716f8926bc06ec6b7b1717fc48e7c8bbf45f37c3ef2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_STAGE_INSTANCE_V1.json",
+      "sha256": "660a6a48aae93c0102ed0ee962b66cce4229e4bfcb363016da0c471dc57be054",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_STAGE_REGISTRY_V1.json",
+      "sha256": "a93ab12ced38d247a222e651e232c18614254314c61b8ee87bb1f886105d7090",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P03_TERMINAL_RECEIPT_V1.json",
+      "sha256": "91c5b68b3e56e102ba02c919c47f1676527b8387cde7274514c47012a9749de4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS.json",
+      "sha256": "8f7a09088ca7b4f1af17b1b9896c87e0d5a365abb60ebfa0cafe33a5558c25e6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/PROCESS.md",
+      "sha256": "d86412b0d9806a787198a0aa6fe48f866d359953cff5ee5e7af3cffbac5f3786",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/architecture/AGENT_CONTEXT_PACKET_V1.schema.json",
+      "sha256": "fad9c50b275a3073064beeb394f792f654cd9bfe67a1c525e22c80daf7205769",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/architecture/AGENT_HANDOFF_CHECKPOINT_V1.schema.json",
+      "sha256": "551030bad6dbed18cdfb17a6cc3d0c9750be82cdcdf6498e88479ba24fe0a5f3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "docs/tasks/2026-09-03--r24-process-corrections.md",
+      "sha256": "8b87f7a1c9fe4f72bcf03e2430b8e1024dd6aec75aad9dac5debc06c7249987c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "scripts/agent-bootstrap.mjs",
+      "sha256": "a847c880d5cebe869992a59c3429945e0ed0d07943dfd65ea91401dd0d1dbef7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "scripts/agent-context-restoration.mjs",
+      "sha256": "f60c81607833f3ac4937bbf7e6bdb5a6ec1f4dba7257e15c76e49595d7bc7fb2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "scripts/brain.mjs",
+      "sha256": "d9b7f6170cf5a3bf06592ced3d8e9a2dab13e1ec4fc907ad29db8d396b4c0805",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "9eab92f2393b92abfa1f528ee506d3408d58a880f3d6cd6337cc189b9d2e804c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "test/contracts/agent-context-restoration.contract.test.mjs",
+      "sha256": "c9f7a2e5fb1ac605908ffd5b7d207e1c139225e32e4961d2f66acb0d6701905f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs",
+      "sha256": "2965b22d7f6191ae79dd4bdf7c15f2380ea7b5a57363e3008fd7ff42b2e1061d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    },
+    {
+      "filePath": "test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs",
+      "sha256": "b2bbe87f2a56cfd2dd2d4c29a8bc3eae246333aa5b756f0dd489c7216db7c98f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+      "approvedAtUtc": "2026-09-03T12:22:09.909Z",
+      "rationale": "Owner-authorized P03 exact-bound read-only context restoration and stdout-only handoff, 34-path scope, immutable P01/P02 and pinned native V2 preserved. No product mutation, required-gate weakening, new writer, dependency, authority-from-cache or recursive delivery PR."
+    }
+  ]
+}

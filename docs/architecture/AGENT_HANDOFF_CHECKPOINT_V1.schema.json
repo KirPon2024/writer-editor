@@ -1,0 +1,46 @@
+{
+  "title": "Agent handoff derived context checkpoint V1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "claimBoundary", "mutationAuthority", "completionEvidence", "readClaim", "createdAtUtc", "taskId", "objective", "context", "identity", "admissionBinding", "leaseBinding", "lease", "sourceDenominator", "sources", "taskSourcePaths", "alwaysReadPaths", "remoteNetworkRevalidationPerformed"],
+  "properties": {
+    "schemaVersion": {"const": "AGENT_HANDOFF_CHECKPOINT_V1"},
+    "claimBoundary": {"const": "DERIVED_CONTEXT_CACHE_NOT_AUTHORITY"},
+    "mutationAuthority": {"const": false},
+    "completionEvidence": {"const": false},
+    "readClaim": {"const": "CALLER_REPORTED_FULL_READS_NOT_INDEPENDENT_EVIDENCE"},
+    "createdAtUtc": {"type": "string", "format": "date-time"},
+    "taskId": {"type": "string", "pattern": "^[A-Z][A-Z0-9_-]+$", "maxLength": 128},
+    "objective": {"type": "string", "minLength": 1, "maxLength": 1024},
+    "context": {"$ref": "#/$defs/context"},
+    "identity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["headSha", "treeSha", "originMainSha", "branch", "worktreeIdentitySha256", "repositoryIdentitySha256", "statusSha256"],
+      "properties": {
+        "headSha": {"$ref": "#/$defs/gitSha"}, "treeSha": {"$ref": "#/$defs/gitSha"}, "originMainSha": {"$ref": "#/$defs/gitSha"},
+        "branch": {"type": "string", "minLength": 1},
+        "worktreeIdentitySha256": {"$ref": "#/$defs/digest"}, "repositoryIdentitySha256": {"$ref": "#/$defs/digest"}, "statusSha256": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "admissionBinding": {"$ref": "#/$defs/binding"}, "leaseBinding": {"$ref": "#/$defs/binding"},
+    "lease": {
+      "type": "object", "additionalProperties": false, "required": ["fencingCounter", "status", "wip"],
+      "properties": {"fencingCounter": {"type": "integer", "minimum": 1}, "status": {"enum": ["ACTIVE", "RELEASED"]}, "wip": {"enum": [0, 1]}},
+      "oneOf": [{"properties": {"status": {"const": "ACTIVE"}, "wip": {"const": 1}}}, {"properties": {"status": {"const": "RELEASED"}, "wip": {"const": 0}}}]
+    },
+    "sourceDenominator": {"type": "integer", "minimum": 1, "maximum": 256},
+    "sources": {
+      "type": "array", "minItems": 1, "maxItems": 256, "uniqueItems": true,
+      "items": {"type": "object", "additionalProperties": false, "required": ["path", "sha256", "byteLength"], "properties": {"path": {"type": "string", "minLength": 1, "maxLength": 2048}, "sha256": {"$ref": "#/$defs/digest"}, "byteLength": {"type": "integer", "minimum": 1, "maximum": 8388608}}}
+    },
+    "taskSourcePaths": {"type": "array", "minItems": 1, "maxItems": 128, "uniqueItems": true, "items": {"type": "string", "minLength": 1, "maxLength": 2048}},
+    "alwaysReadPaths": {"const": ["AGENTS.md", "docs/OPS/STATUS/CANON_STATUS.json", "docs/AGENT_START_PROTOCOL.md"]},
+    "remoteNetworkRevalidationPerformed": {"const": false}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^[a-f0-9]{64}$"},
+    "gitSha": {"type": "string", "pattern": "^[a-f0-9]{40}$"},
+    "binding": {"type": "object", "additionalProperties": false, "required": ["path", "sha256"], "properties": {"path": {"type": "string", "minLength": 1}, "sha256": {"$ref": "#/$defs/digest"}}},
+    "context": {"type": "object", "additionalProperties": false, "required": ["summary", "nextStep"], "properties": {"summary": {"type": "string", "minLength": 1, "maxLength": 4096}, "nextStep": {"type": "string", "minLength": 1, "maxLength": 2048}}}
+  }
+}

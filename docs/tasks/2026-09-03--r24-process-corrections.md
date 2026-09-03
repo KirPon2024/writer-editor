@@ -44,6 +44,8 @@ After this package closes, measure the same fields for the next 3–5 comparable
 
 ## Protection, rollback and exit
 
+P03 implementation is an exact-head successor at 87de5fdf38a03b25de5736664ce3df30eac8314d, not a product graph node. It extends the existing bootstrap/handoff with a bounded derived context cache and retains the full source denominator. Fresh separately caller-pinned request data, current HEAD/tree/worktree/status/canon/source bytes, admission and lease are revalidated. Cache timestamps never refresh authority. Writer-control and remote freshness remain independent duties, not claims made by the cache. `brain:handoff` becomes stdout-only and preserves curated HANDOFF bytes. P01 remains frozen at this base; P02's verified read-only NO_CHANGE is bound without a new PR or lease. P03 remains pending its own protected delivery and external terminal verification; no protocol shortening before that closure.
+
 P01 starts from clean isolated exact main with fence 83, after verified release of fence 82. Preserve all 267 protected worktrees, ten dirty entries, the frozen owned files, and the canonical user checkout. No reset, clean, stash, move, deletion or unrelated staging.
 
 Each task has one conceptual rollback through a normal reviewed revert, never an authority bypass. A failed oracle remains failed until an evidence-backed correction within scope or a separately admitted successor. Completion requires actual outcome, exact identities, positive/negative proofs, full required delivery, external terminal verification, released lease, WIP=0 and preserved unrelated work. No main-product selection before this process package closes.

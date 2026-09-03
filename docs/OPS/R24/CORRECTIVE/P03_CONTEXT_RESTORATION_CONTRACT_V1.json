@@ -1,0 +1,152 @@
+{
+  "schemaVersion": "YALKEN_R24_P03_CONTEXT_RESTORATION_CONTRACT_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "evidenceStampId": "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "baseSha": "87de5fdf38a03b25de5736664ce3df30eac8314d",
+  "baseTree": "6dce15379c752e85cb3847d2319478ad9d9eebaa",
+  "processTask": true,
+  "productGraphIncrement": 0,
+  "programDone": false,
+  "hypothesis": "Same-task exact-byte context can be restored without repeating unchanged long source reads, while every authority and freshness gate remains independent and current.",
+  "existingSeams": {
+    "bootstrap": "scripts/agent-bootstrap.mjs",
+    "handoff": "scripts/brain.mjs",
+    "implementation": "scripts/agent-context-restoration.mjs",
+    "protocol": "docs/AGENT_START_PROTOCOL.md",
+    "checkpointSchema": "docs/architecture/AGENT_HANDOFF_CHECKPOINT_V1.schema.json"
+  },
+  "contextCache": {
+    "kind": "DERIVED_CONTEXT_CACHE_NOT_AUTHORITY",
+    "canonicalTruth": false,
+    "tracker": false,
+    "mutationAuthority": false,
+    "completionEvidence": false,
+    "readClaim": "CALLER_REPORTED_FULL_READS_NOT_INDEPENDENT_EVIDENCE",
+    "fullSourceDenominatorRequired": true,
+    "summaryMaxCharacters": 4096,
+    "nextStepMaxCharacters": 2048,
+    "nextStepExecuted": false,
+    "requestMaximumAgeMilliseconds": 300000,
+    "alwaysRead": [
+      "AGENTS.md",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "docs/AGENT_START_PROTOCOL.md"
+    ],
+    "callerFreshRequestPinsRequired": true,
+    "cacheCannotSupplyFreshAuthority": true,
+    "localOriginRefNotRemoteNetworkVerification": true
+  },
+  "freshChecks": [
+    "REPOSITORY_GUARDRAILS",
+    "HEAD_TREE_BRANCH_WORKTREE_REPOSITORY_STATUS",
+    "ACTIVE_CANON_AND_COMPLETE_SOURCE_BYTES",
+    "CALLER_PINNED_CURRENT_ADMISSION_STAGE_BRANCH_ANCESTRY",
+    "CALLER_PINNED_CURRENT_LEASE_FENCE_STATUS_WIP",
+    "STRICT_JSON_BOUNDS_PATH_LSTAT_REALPATH_NO_SYMLINK",
+    "SNAPSHOT_GENERATION_STABILITY"
+  ],
+  "dutiesNotReplaced": [
+    "OWNER_AUTHORITY",
+    "WRITER_CONTROL_CURRENT_HOLDER_AND_RELEASE_DISCOVERY",
+    "AUTHORIZED_REMOTE_FETCH_OR_API_FRESHNESS",
+    "ARCHITECTURE_DECLARATION_AND_PREFLIGHT",
+    "PINNED_NATIVE_STAGE_ADMISSION",
+    "P01_COMPLETE_GENERATED_OUTPUT_PREPARATION",
+    "REQUIRED_TESTS_BUILD_CI_PROTECTED_DELIVERY",
+    "INDEPENDENT_EVIDENCE_AND_TERMINAL_VERIFICATION"
+  ],
+  "invalidation": {
+    "missingOrInvalidCheckpoint": "FULL_READ_REQUIRED",
+    "missingOrInvalidFreshRequest": "STOP",
+    "headScopeSourceAdmissionOrLeaseChange": "FULL_READ_REQUIRED_WITH_CURRENT_AUTHORITY_GATE",
+    "allFailuresGrantMutationAuthority": false
+  },
+  "handoff": {
+    "stdoutOnly": true,
+    "repositoryWrites": 0,
+    "curatedHandoffOverwriteAllowed": false,
+    "legacyNoArgumentInvocation": "FAIL_CLOSED",
+    "historicalProgramCheckpointRewritten": false
+  },
+  "activation": "FULL_STARTUP_REQUIRED_UNTIL_THIS_P03_EXACT_TERMINAL_DELIVERY",
+  "integrationManifest": {
+    "featureId": "P03_CONTEXT_RESTORATION",
+    "integrationMode": "EXISTING_SEAM",
+    "domainOwner": "REPOSITORY_AGENT_WORKFLOW",
+    "authoritativeData": "EXISTING_CANON_OWNER_AND_NATIVE_ADMISSION",
+    "derivedData": "BOUNDED_CONTEXT_CHECKPOINT",
+    "commandIds": [],
+    "eventTypes": [],
+    "queryIds": [
+      "EXISTING_AGENT_BOOTSTRAP",
+      "EXISTING_BRAIN_HANDOFF"
+    ],
+    "productProjectionIds": [],
+    "capabilityIds": [],
+    "authorityMap": "CHECKPOINT_HAS_NONE",
+    "identityKeys": [
+      "HEAD",
+      "TREE",
+      "WORKTREE",
+      "BRANCH",
+      "SOURCE_DIGEST",
+      "ADMISSION_DIGEST",
+      "LEASE_DIGEST",
+      "FENCE"
+    ],
+    "revisionPolicy": "EXACT_BYTES_OR_INVALIDATE",
+    "writePath": "STDOUT_ONLY_NO_REPOSITORY_OR_PRODUCT_WRITE",
+    "readPath": "CALLER_PINNED_INPUTS_AND_REPOSITORY_SOURCES",
+    "requiredProductPorts": [
+      "NOT_APPLICABLE_OPS_ONLY"
+    ],
+    "requiredDesignOsPorts": [
+      "NOT_APPLICABLE_OPS_ONLY"
+    ],
+    "adapterRequirements": [
+      "EXISTING_LOCAL_FILESYSTEM_AND_READ_ONLY_GIT"
+    ],
+    "surfaceManifests": [],
+    "slotRequirements": [],
+    "supportedWorkspaces": [
+      "NOT_APPLICABLE_OPS_ONLY"
+    ],
+    "platformAvailability": [
+      "NODE_PINNED_TOOLCHAIN"
+    ],
+    "accessibilityRequirements": [
+      "NOT_APPLICABLE_NO_UI"
+    ],
+    "fallbacks": [
+      "FULL_ORDERED_READ",
+      "STOP_FOR_INVALID_FRESH_INPUT"
+    ],
+    "stateClasses": [
+      "DERIVED_STATE"
+    ],
+    "persistenceClass": "OPTIONAL_EXTERNAL_TASK_EVIDENCE_NOT_CANON",
+    "migrations": "NONE",
+    "recovery": "DISCARD_CACHE_AND_REREAD",
+    "rollback": "NORMAL_REVIEWED_REVERT",
+    "performanceBudget": "MAX_256_SOURCES_64_MIB_TOTAL",
+    "securityBoundary": "NO_NETWORK_NO_SECRETS_NO_EXECUTABLE_PAYLOAD",
+    "lifecycle": "SAME_TASK_EXACT_GENERATION",
+    "negativeBypassChecks": [
+      "AUTHORITY_LEAK",
+      "STALE_CACHE",
+      "MIXED_SNAPSHOT",
+      "HANDOFF_OVERWRITE"
+    ],
+    "evidenceBindings": [
+      "FOCUSED_TESTS",
+      "EXACT_CANDIDATE_AND_MERGE",
+      "EXTERNAL_TERMINAL"
+    ],
+    "currentReality": "IMPLEMENTATION_PENDING_REQUIRED_DELIVERY"
+  }
+}

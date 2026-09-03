@@ -152,5 +152,26 @@
   "masterConclusion": {
     "statement": "AN_AGENT_WITH_AN_OBJECTIVE_AND_REPOSITORY_ACCESS_CAN_RECOVER_ARCHITECTURE_AND_PROCESS_WITHOUT_A_SEPARATE_TZ",
     "guard": "BOOTSTRAP_AND_PREFLIGHT_MUST_PASS_BEFORE_WRITE"
+  },
+  "contextRestoration": {
+    "protocolId": "P03_CONTEXT_RESTORATION_V1",
+    "protocolRef": "docs/AGENT_START_PROTOCOL.md#2a-exact-bound-context-restoration",
+    "implementation": "scripts/agent-context-restoration.mjs",
+    "checkpointSchema": "docs/architecture/AGENT_HANDOFF_CHECKPOINT_V1.schema.json",
+    "claimBoundary": "DERIVED_CONTEXT_CACHE_NOT_AUTHORITY",
+    "activation": "AFTER_EXACT_P03_TERMINAL_DELIVERY",
+    "fullReadingOrderRetained": true,
+    "alwaysRead": [
+      "AGENTS.md",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "docs/AGENT_START_PROTOCOL.md"
+    ],
+    "freshCallerPinnedRequestRequired": true,
+    "currentAdmissionAndLeaseBytesRequired": true,
+    "writerControlAndRemoteFreshnessRemainSeparateDuties": true,
+    "readAttestationIsIndependentEvidence": false,
+    "mutationAuthority": false,
+    "completionEvidence": false,
+    "curatedHandoffOverwriteAllowed": false
   }
 }

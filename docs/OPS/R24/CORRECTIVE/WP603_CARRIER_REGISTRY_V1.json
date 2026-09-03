@@ -1,0 +1,210 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_CARRIER_REGISTRY_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceStampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "baseIdentity": {
+    "sha": "39897a04b880391ee9224269a2691f52e9e8018f",
+    "tree": "9dab745703c8c814b728910fed0df265a28e1520"
+  },
+  "carrierDenominator": 35,
+  "verifiedCarrierCount": 35,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "800a3803fad7be7520afb6ae68713d3eea9df0d37aac729e88b04863fc29796c",
+      "byteLength": 14260
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "sha256": "bfadfef5decbf2df41c6bc77325946974bdca447851c7f5997c44a0e5b423dfc",
+      "byteLength": 67547
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "f69b1f84db2cfbacb14b4b86804c6d66fa487118af5a882a14e1c06b9963d38f",
+      "byteLength": 415605
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "6e63e26daff70d3fed24e64c6b0efad126dec44a0169e7cd85c5e207657a55eb",
+      "byteLength": 6022
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_FIXTURE_MANIFEST_V1.json",
+      "sha256": "0b57f664057e141ea5231894621202746ea558fd08dce8128ce3d9eb33d2bd89",
+      "byteLength": 1303
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8476719bb1b3f2ac76f4a1efbe92124065608e1a4df32d415c4801273acdf7fd",
+      "byteLength": 18501
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "530716713dbd2d9ec9fd4e9b69dda359381075c749acd359e781d673975e5056",
+      "byteLength": 1064
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9e908f725cff9b09f8662b898502522e131fe79c8c77653d8bc00d2918e156ed",
+      "byteLength": 1779
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "4ccd7c44335c82d14027006284f7cb6134c51bb4a0d221d7c7236755bde7c5f4",
+      "byteLength": 18848
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_OWNER_SCOPE_AMENDMENT_V1.json",
+      "sha256": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394",
+      "byteLength": 1117
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_P03_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "0962421a073c2fe8245123e85cf3c01583a497da56377a3ff778f63cd8bfb05a",
+      "byteLength": 903
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94",
+      "byteLength": 106019
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "dcaecac562be0d9e59b979e22fc5811cda0e208118d6457fe9b857ef7b47e89b",
+      "byteLength": 1804
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CONTRACT.json",
+      "sha256": "3337e771dd53d6dea70a4c64bdac70cace23f05e0c131ab009cebb6e51c54d8d",
+      "byteLength": 7879
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-INTEGRATION.json",
+      "sha256": "af9439ebf6eabb6a1669f33105fe83615813f0bf1ac81f47ac8772f34a53e8d7",
+      "byteLength": 7903
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-MODEL.json",
+      "sha256": "6ea66bef2653210595668287ecdf28f02e4882d6ae3c59b93b107bc0a6ef1e1e",
+      "byteLength": 7844
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-MUTANTS.json",
+      "sha256": "f22a88a7b864775478c9d633bfced2c68ac3ddc0c20ebbb37b6cfdfc0aec7c8f",
+      "byteLength": 7890
+    },
+    {
+      "path": "docs/PROCESS.md",
+      "sha256": "85a70b2cd15fd481c89d791e7baf86eb8ce26fc236cfbd3eeacaa0a478d063e5",
+      "byteLength": 39158
+    },
+    {
+      "path": "docs/tasks/2026-09-03--r24-process-corrections.md",
+      "sha256": "d51cd66753572dbdc015f94da59ef7d1ea2fef5cca4c5c96953b5b2036fe8048",
+      "byteLength": 7713
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "fbe951cf23e97c21b3019479336f4a0e93b51ce89a66e950753ca4772c3702db",
+      "byteLength": 561955
+    },
+    {
+      "path": "src/core/wse-state-evidence-v1.mjs",
+      "sha256": "e82b7ec841c391ce8e1e8bfb3fa9f161feddddd83d70f17914c420618e2ce99e",
+      "byteLength": 13589
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "e025c31bf52d32d85fcb94ceefae8e78bc27946bb78ce53c74df2bddc9d72260",
+      "byteLength": 16138
+    },
+    {
+      "path": "src/renderer/atlasWseStateEvidencePresentationModel.mjs",
+      "sha256": "efb2dd3897afa4b50557cf4484640c3fb0f0afc216be042731555152669b3142",
+      "byteLength": 1932
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "2fae6379224f2eec291d1dcb959b3049f696ec7df76e8ccd504f272e745bb360",
+      "byteLength": 1311909
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "3f5a597264599750fac4e812dc4e27e470b3d2b94e1d0197a489c43ffbc70a21",
+      "byteLength": 925876
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "3279a2ea81a1856c591cf330bee4b401e663e9a086e842c479b6000f3a1134b6",
+      "byteLength": 220901
+    },
+    {
+      "path": "test/contracts/r24-wp603-post-audit-compatibility.contract.test.mjs",
+      "sha256": "50d375f66957f4dbe407542f1703d4b139cf7bbdb4ffb2a07549a341eaa396db",
+      "byteLength": 4540
+    },
+    {
+      "path": "test/contracts/r24-wp603-terminal-carriers.contract.test.mjs",
+      "sha256": "9942a9804ef373af2f2ffce7bc776579040f436318dd749ad4a74f57c43be29c",
+      "byteLength": 8686
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "df94caee2e66797dd1c8dbaacff3001795a6d5dfe516b17fdfd7f3742948e67f",
+      "byteLength": 94235
+    },
+    {
+      "path": "test/fixtures/r24-wp603-wse-state-evidence-fixtures.js",
+      "sha256": "ec479e79c5120a48d694b6d2bafe99f27008c983090abd6620c45b146988edba",
+      "byteLength": 3245
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "941f86e991e4552b0d6e6d2a0632ee1b0fa2875529d4dca979c3aef9168c0790",
+      "byteLength": 5591
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-integration.test.js",
+      "sha256": "8baf8a12e5362b7cb97dc5a138cbedd06743d3aea6c0d6ce92aaf85f2bf90a17",
+      "byteLength": 4272
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-mutants.test.js",
+      "sha256": "56e29bd5f32b12f04184a2ae406b202fbf6dcb8aa90ad62ff8a0ac043980b472",
+      "byteLength": 3571
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+      "sha256": "49869060c03a1294eaa6085aaaafd4dc30eacc8c74d016d6ee4317c872d42978",
+      "byteLength": 1132
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence.test.js",
+      "sha256": "91a61afd03692c74a2908ceaa3205710c6b5b87aec7df22652f0fdbd4273613a",
+      "byteLength": 6268
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_SUPPLEMENT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS.json"
+  ],
+  "currentTreeFallbackAllowed": false
+}

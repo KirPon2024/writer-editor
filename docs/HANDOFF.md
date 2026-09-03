@@ -18,6 +18,7 @@ _Updated: 2026-08-04_
 - Process: `docs/PROCESS.md`
 - R2.4 process rollout: `docs/tasks/2026-09-03--r24-process-corrections.md` owns the plan and preparation-time baseline; resolve `P01_TERMINAL_RECEIPT_V1.json` plus its separate exact external terminal verification for P01 completion. This pointer is not a product-progress increment or a replacement for fresh HEAD/canon/admission/lease checks.
 - P03 context restoration: `P03_CONTEXT_RESTORATION_CONTRACT_V1.json` and `AGENT_START_PROTOCOL.md` section 2A define the bounded derived checkpoint. `brain:handoff` emits stdout only and never rewrites this curated document. P01 completion and P02 NO_CHANGE remain pinned predecessors; resolve `P03_TERMINAL_RECEIPT_V1.json` plus separate external terminal verification before using the delivered shortened-repeat-reading protocol. No checkpoint grants mutation authority, release readiness or a product-progress increment.
+- Owner queue amendment от 2026-09-03T13:39:25Z: после подтверждённого P03 terminal обычная R2.4 product queue продолжается немедленно. P04 остаётся `DEFERRED_NON_BLOCKING`; P05 exact-build create/write/save/close/reopen/recovery/export проверяется внутри acceptance релевантного product contour.
 - Recent changes: `docs/WORKLOG.md`
 
 ## Reading Order

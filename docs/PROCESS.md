@@ -347,6 +347,7 @@ OPS-GATE (E0) — локальный, ручной gate для MODE A (HARD‑Т
 Команды (все оффлайн, без зависимостей):
 - `npm run brain:status` — быстрый срез состояния (CONTEXT + последний WORKLOG + список задач).
 - `npm run brain:handoff -- --request <absolute-json> --request-sha256 <caller-pin>` — выводит derived checkpoint в stdout; не перезаписывает `docs/HANDOFF.md`. Freshness/authority/read-denominator contract: `AGENT_START_PROTOCOL.md`, section 2A. До terminal delivery P03 действует полный startup-reading protocol; после него только validated same-task cache может сокращать повторное чтение, не mandatory gates.
+- Owner queue amendment от 2026-09-03T13:39:25Z: после terminal closure P03 обычные R2.4 product contours продолжаются по свежему graph selection. P04 имеет статус `DEFERRED_NON_BLOCKING`; P05 exact-build user scenarios входят в acceptance соответствующего product contour.
 - `npm run brain:log -- "..."` — добавляет пункт в `docs/WORKLOG.md` под сегодняшней датой.
 - `npm run brain:new-task -- "..."` — создаёт новый файл ТЗ в `docs/tasks/` из шаблона.
 - `npm run brain:savepoint -- "..."` — подсказывает, как сделать аккуратный git‑коммит после этапа.

@@ -1,0 +1,314 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "800a3803fad7be7520afb6ae68713d3eea9df0d37aac729e88b04863fc29796c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/HANDOFF.md",
+      "sha256": "bfadfef5decbf2df41c6bc77325946974bdca447851c7f5997c44a0e5b423dfc",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "f69b1f84db2cfbacb14b4b86804c6d66fa487118af5a882a14e1c06b9963d38f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "f3386b27a0ce400cf23193f68fc7fe92701bd041db63d2a699bd726ec09219c9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json",
+      "sha256": "760a5cc90278530e61ffa7fd80cc1e99b9b6beb573115bd032f6cc40066db6b1",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "6e63e26daff70d3fed24e64c6b0efad126dec44a0169e7cd85c5e207657a55eb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_STATE_V1.json",
+      "sha256": "16544654408d3585f0002a83209e98a958322ddba65f7fb4e28f3e54fae561da",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_FIXTURE_MANIFEST_V1.json",
+      "sha256": "0b57f664057e141ea5231894621202746ea558fd08dce8128ce3d9eb33d2bd89",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "sha256": "43ba373b739da0270f76ad39cac280aebf96839533e9f88e836d15f27608d2c6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8476719bb1b3f2ac76f4a1efbe92124065608e1a4df32d415c4801273acdf7fd",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "530716713dbd2d9ec9fd4e9b69dda359381075c749acd359e781d673975e5056",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9e908f725cff9b09f8662b898502522e131fe79c8c77653d8bc00d2918e156ed",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "4ccd7c44335c82d14027006284f7cb6134c51bb4a0d221d7c7236755bde7c5f4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_OWNER_SCOPE_AMENDMENT_V1.json",
+      "sha256": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_P03_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "0962421a073c2fe8245123e85cf3c01583a497da56377a3ff778f63cd8bfb05a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "dcaecac562be0d9e59b979e22fc5811cda0e208118d6457fe9b857ef7b47e89b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_STAGE_REGISTRY_V1.json",
+      "sha256": "ea166b8dc6c4a4d98f7dea844ada60541750b283b9defd655757e5c860b1cca1",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "sha256": "561c8efcf337720aaf28f85aa5fdd12e780f7e3e22f30178aebbcdc853e9034d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "66ee38367871fe1be7809b93dd245e97e334616f8817495cdd4467c68f638760",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS.json",
+      "sha256": "b37af193de4b9efc7142141e0d5fd83f3d960927b648a9a56d118093d166e556",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CONTRACT.json",
+      "sha256": "3337e771dd53d6dea70a4c64bdac70cace23f05e0c131ab009cebb6e51c54d8d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-INTEGRATION.json",
+      "sha256": "af9439ebf6eabb6a1669f33105fe83615813f0bf1ac81f47ac8772f34a53e8d7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-MODEL.json",
+      "sha256": "6ea66bef2653210595668287ecdf28f02e4882d6ae3c59b93b107bc0a6ef1e1e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-MUTANTS.json",
+      "sha256": "f22a88a7b864775478c9d633bfced2c68ac3ddc0c20ebbb37b6cfdfc0aec7c8f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/PROCESS.md",
+      "sha256": "85a70b2cd15fd481c89d791e7baf86eb8ce26fc236cfbd3eeacaa0a478d063e5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "docs/tasks/2026-09-03--r24-process-corrections.md",
+      "sha256": "d51cd66753572dbdc015f94da59ef7d1ea2fef5cca4c5c96953b5b2036fe8048",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "fbe951cf23e97c21b3019479336f4a0e93b51ce89a66e950753ca4772c3702db",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/core/wse-state-evidence-v1.mjs",
+      "sha256": "e82b7ec841c391ce8e1e8bfb3fa9f161feddddd83d70f17914c420618e2ce99e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "e025c31bf52d32d85fcb94ceefae8e78bc27946bb78ce53c74df2bddc9d72260",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/renderer/atlasWseStateEvidencePresentationModel.mjs",
+      "sha256": "efb2dd3897afa4b50557cf4484640c3fb0f0afc216be042731555152669b3142",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "2fae6379224f2eec291d1dcb959b3049f696ec7df76e8ccd504f272e745bb360",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "3f5a597264599750fac4e812dc4e27e470b3d2b94e1d0197a489c43ffbc70a21",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "src/renderer/styles.css",
+      "sha256": "3279a2ea81a1856c591cf330bee4b401e663e9a086e842c479b6000f3a1134b6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp603-post-audit-compatibility.contract.test.mjs",
+      "sha256": "50d375f66957f4dbe407542f1703d4b139cf7bbdb4ffb2a07549a341eaa396db",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp603-terminal-carriers.contract.test.mjs",
+      "sha256": "9942a9804ef373af2f2ffce7bc776579040f436318dd749ad4a74f57c43be29c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "df94caee2e66797dd1c8dbaacff3001795a6d5dfe516b17fdfd7f3742948e67f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp603-wse-state-evidence-fixtures.js",
+      "sha256": "ec479e79c5120a48d694b6d2bafe99f27008c983090abd6620c45b146988edba",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "941f86e991e4552b0d6e6d2a0632ee1b0fa2875529d4dca979c3aef9168c0790",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp603-wse-state-evidence-integration.test.js",
+      "sha256": "8baf8a12e5362b7cb97dc5a138cbedd06743d3aea6c0d6ce92aaf85f2bf90a17",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp603-wse-state-evidence-mutants.test.js",
+      "sha256": "56e29bd5f32b12f04184a2ae406b202fbf6dcb8aa90ad62ff8a0ac043980b472",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+      "sha256": "49869060c03a1294eaa6085aaaafd4dc30eacc8c74d016d6ee4317c872d42978",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp603-wse-state-evidence.test.js",
+      "sha256": "91a61afd03692c74a2908ceaa3205710c6b5b87aec7df22652f0fdbd4273613a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+      "approvedAtUtc": "2026-09-03T20:56:56.127Z",
+      "rationale": "Owner-authorized fence-85 WP603 source-first read-only state/evidence views through the existing immutable Atlas projection, including the append-only derived-adapter scope amendment. Synthetic fixtures only; preserve 269 protected entries and ten dirty entries. No product Core, storage, platform, network, dependency, signing, payment or real owner-document authority."
+    }
+  ]
+}

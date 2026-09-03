@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceStampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "repositoryEvidenceStampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "bindings": {
+    "terminalReceiptDigest": "561c8efcf337720aaf28f85aa5fdd12e780f7e3e22f30178aebbcdc853e9034d",
+    "authorityDigest": "8476719bb1b3f2ac76f4a1efbe92124065608e1a4df32d415c4801273acdf7fd",
+    "stageInstanceDigest": "4ccd7c44335c82d14027006284f7cb6134c51bb4a0d221d7c7236755bde7c5f4",
+    "stageAdmissionDigest": "9e908f725cff9b09f8662b898502522e131fe79c8c77653d8bc00d2918e156ed",
+    "writeSetDigest": "8420377712deb9cec3598763f5ca1b657ee5357447b14509f4bb409063714264",
+    "commandScopeDigest": "2a1dea2b125701be8fdeedd575e47158c057d5ae7f0b8c735f8e45aa92a706aa",
+    "acceptanceSignalsDigest": "39957a3ac71be4b33e97ceedf445359fe1ec79de6c469fc24bd02efd1275b0ea",
+    "selectionReceiptDigest": "530716713dbd2d9ec9fd4e9b69dda359381075c749acd359e781d673975e5056",
+    "ownerScopeAmendmentDigest": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394",
+    "p03TerminalPredecessorDigest": "0962421a073c2fe8245123e85cf3c01583a497da56377a3ff778f63cd8bfb05a",
+    "effectiveGraphBaselineDigest": "6e63e26daff70d3fed24e64c6b0efad126dec44a0169e7cd85c5e207657a55eb",
+    "protectedWipBeforeRawDigest": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94",
+    "fixtureManifestDigest": "0b57f664057e141ea5231894621202746ea558fd08dce8128ce3d9eb33d2bd89",
+    "modelEvidenceDigest": "6ea66bef2653210595668287ecdf28f02e4882d6ae3c59b93b107bc0a6ef1e1e",
+    "contractEvidenceDigest": "3337e771dd53d6dea70a4c64bdac70cace23f05e0c131ab009cebb6e51c54d8d",
+    "integrationEvidenceDigest": "af9439ebf6eabb6a1669f33105fe83615813f0bf1ac81f47ac8772f34a53e8d7",
+    "mutantsEvidenceDigest": "f22a88a7b864775478c9d633bfced2c68ac3ddc0c20ebbb37b6cfdfc0aec7c8f"
+  },
+  "compatibilityReview": {
+    "views": [
+      "STORY_STATE_DEBUGGER",
+      "LIVING_EVIDENCE_BIBLE",
+      "SCENE_COCKPIT",
+      "KNOWLEDGE_MATRIX"
+    ],
+    "existingReadOnlyProjection": "query.atlasContinuityLedgerSurface",
+    "projectRevisionGenerationGuards": true,
+    "sourceHashRevalidationBeforeSelection": true,
+    "openWorldUnknownPreserved": true,
+    "maxInputFacts": 10000,
+    "maxVisibleRowsPerView": 128,
+    "implementationMutantDenominator": 6,
+    "productMutationAuthority": false,
+    "runtimeNetworkAuthority": false,
+    "providerAuthority": false,
+    "realOwnerDocuments": false
+  },
+  "currentLease": {
+    "fencingCounter": 85,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "084ae4107b98f1b0337caf624af3e305e8bdf5cdc1cb064a849f92a29bf3c32c"
+  },
+  "targetLease": {
+    "fencingCounter": 85,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false
+}

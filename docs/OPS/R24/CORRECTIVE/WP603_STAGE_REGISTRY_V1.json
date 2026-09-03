@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_STAGE_REGISTRY_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceStampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP603_WSE_STATE_EVIDENCE_V1",
+  "authorityDigest": "e668a10dc99073fb47db0f5c9461c972653da92a3ad20a0fb85e4b0f910eaae4",
+  "stageInstanceDigest": "ff01f49da5019cd265c78b278c08d07e44a08c24d4e40eebfeb426551d56fa71",
+  "stageAdmissionDigest": "9734cfd9ad04c51cfbdf3667108122a0e2150aed0a01254c6b95eefc6c0a9d1d",
+  "writeSetDigest": "61dd304af13ee4f83ea14f8573eeebe90c29bdc2910788691e135ccc671bc102",
+  "selectionReceiptDigest": "530716713dbd2d9ec9fd4e9b69dda359381075c749acd359e781d673975e5056",
+  "ownerScopeAmendmentDigest": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394",
+  "p03TerminalPredecessorDigest": "0962421a073c2fe8245123e85cf3c01583a497da56377a3ff778f63cd8bfb05a",
+  "protectedWipBeforeRawDigest": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94",
+  "fixtureManifestDigest": "0b57f664057e141ea5231894621202746ea558fd08dce8128ce3d9eb33d2bd89",
+  "baseSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+  "baseTree": "9dab745703c8c814b728910fed0df265a28e1520",
+  "lease": {
+    "fencingCounter": 85,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "084ae4107b98f1b0337caf624af3e305e8bdf5cdc1cb064a849f92a29bf3c32c"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "commandScopeDigest": "2a1dea2b125701be8fdeedd575e47158c057d5ae7f0b8c735f8e45aa92a706aa",
+  "acceptanceSignalsDigest": "39957a3ac71be4b33e97ceedf445359fe1ec79de6c469fc24bd02efd1275b0ea",
+  "effectiveGraphBaselineDigest": "6e63e26daff70d3fed24e64c6b0efad126dec44a0169e7cd85c5e207657a55eb",
+  "carrierRegistryDigest": "760a5cc90278530e61ffa7fd80cc1e99b9b6beb573115bd032f6cc40066db6b1",
+  "acceptanceMatrixDigest": "f3386b27a0ce400cf23193f68fc7fe92701bd041db63d2a699bd726ec09219c9",
+  "effectiveStateDigest": "16544654408d3585f0002a83209e98a958322ddba65f7fb4e28f3e54fae561da"
+}

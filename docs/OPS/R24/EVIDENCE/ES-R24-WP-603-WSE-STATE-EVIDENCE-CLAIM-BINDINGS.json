@@ -1,0 +1,287 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "contourId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+  "originMainSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+  "generatedAtUtc": "2026-09-03T22:13:47Z",
+  "oracle": "Exact admitted worktree-byte bindings; base SHA is admission identity. Required full gates, exact packaged desktop lifecycle and external delivery remain unclaimed predicates.",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "f69b1f84db2cfbacb14b4b86804c6d66fa487118af5a882a14e1c06b9963d38f",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "6e63e26daff70d3fed24e64c6b0efad126dec44a0169e7cd85c5e207657a55eb",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8476719bb1b3f2ac76f4a1efbe92124065608e1a4df32d415c4801273acdf7fd",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "530716713dbd2d9ec9fd4e9b69dda359381075c749acd359e781d673975e5056",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9e908f725cff9b09f8662b898502522e131fe79c8c77653d8bc00d2918e156ed",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "4ccd7c44335c82d14027006284f7cb6134c51bb4a0d221d7c7236755bde7c5f4",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_OWNER_SCOPE_AMENDMENT_V1.json",
+      "sha256": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_P03_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "0962421a073c2fe8245123e85cf3c01583a497da56377a3ff778f63cd8bfb05a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_FIXTURE_MANIFEST_V1.json",
+      "sha256": "0b57f664057e141ea5231894621202746ea558fd08dce8128ce3d9eb33d2bd89",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json",
+      "sha256": "760a5cc90278530e61ffa7fd80cc1e99b9b6beb573115bd032f6cc40066db6b1",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "f3386b27a0ce400cf23193f68fc7fe92701bd041db63d2a699bd726ec09219c9",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_EFFECTIVE_STATE_V1.json",
+      "sha256": "16544654408d3585f0002a83209e98a958322ddba65f7fb4e28f3e54fae561da",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_STAGE_REGISTRY_V1.json",
+      "sha256": "ea166b8dc6c4a4d98f7dea844ada60541750b283b9defd655757e5c860b1cca1",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "sha256": "43ba373b739da0270f76ad39cac280aebf96839533e9f88e836d15f27608d2c6",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "sha256": "561c8efcf337720aaf28f85aa5fdd12e780f7e3e22f30178aebbcdc853e9034d",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "66ee38367871fe1be7809b93dd245e97e334616f8817495cdd4467c68f638760",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/wse-state-evidence-v1.mjs",
+      "sha256": "e82b7ec841c391ce8e1e8bfb3fa9f161feddddd83d70f17914c420618e2ce99e",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "e025c31bf52d32d85fcb94ceefae8e78bc27946bb78ce53c74df2bddc9d72260",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "src/renderer/atlasWseStateEvidencePresentationModel.mjs",
+      "sha256": "efb2dd3897afa4b50557cf4484640c3fb0f0afc216be042731555152669b3142",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "3f5a597264599750fac4e812dc4e27e470b3d2b94e1d0197a489c43ffbc70a21",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "2fae6379224f2eec291d1dcb959b3049f696ec7df76e8ccd504f272e745bb360",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "3279a2ea81a1856c591cf330bee4b401e663e9a086e842c479b6000f3a1134b6",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp603-wse-state-evidence-fixtures.js",
+      "sha256": "ec479e79c5120a48d694b6d2bafe99f27008c983090abd6620c45b146988edba",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence.test.js",
+      "sha256": "91a61afd03692c74a2908ceaa3205710c6b5b87aec7df22652f0fdbd4273613a",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-integration.test.js",
+      "sha256": "8baf8a12e5362b7cb97dc5a138cbedd06743d3aea6c0d6ce92aaf85f2bf90a17",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-mutants.test.js",
+      "sha256": "56e29bd5f32b12f04184a2ae406b202fbf6dcb8aa90ad62ff8a0ac043980b472",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+      "sha256": "49869060c03a1294eaa6085aaaafd4dc30eacc8c74d016d6ee4317c872d42978",
+      "terms": [
+        "WP603_READ_ONLY_SOURCE_FIRST_BOUNDED_WSE_PROJECTION_ONLY"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test --test-reporter=tap test/unit/r24-wp603-wse-state-evidence.test.js test/unit/r24-wp603-wse-state-evidence-integration.test.js test/unit/r24-wp603-wse-state-evidence-mutants.test.js test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 11,
+        "fail": 0
+      }
+    },
+    {
+      "command": "WP603_REAL_IMPLEMENTATION_MUTANT_CAMPAIGN",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 6,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_BASE_TREE_CONTENT_CLAIM_FOR_NEW_ADMITTED_WORKTREE_BYTES",
+    "NO_PRODUCT_CORE_STORAGE_PLATFORM_OR_NETWORK_MUTATION_AUTHORITY",
+    "NO_WP603_DONE_BEFORE_REQUIRED_GATES_EXACT_DESKTOP_LIFECYCLE_AND_EXTERNAL_TERMINAL_PROOF",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

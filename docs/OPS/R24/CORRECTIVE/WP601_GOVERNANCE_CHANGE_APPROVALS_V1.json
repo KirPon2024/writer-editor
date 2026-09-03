@@ -1,0 +1,286 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "302b8291355ebe9965280ffe8cd19bd584983c1b05271151db4be337b641ca8b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact earlier ten-path historical-inventory successor, immutable evaluation at 894eeb04."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "7f5c5719c28ee58406d294322545fa3a19119cc57c2403912059663fb20c3d78",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "2c09df66d3303d586312997e1e976d1f4124361a7eda977555dc4fb76dede8fb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_CARRIER_REGISTRY_V1.json",
+      "sha256": "6db1b8d754d89bd050462472377f4a5149d1f77fcb4aa5df08d6d64af06324b9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "b7b124cb7d1bdd322e953b2080a22ae7aca837574f081cc3a8adcc5561a8ce85",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_EFFECTIVE_STATE_V1.json",
+      "sha256": "bc3783b99b5aec160eba96bf5f4af46e18619ea8e6693405f6ae7a80f92c31cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_OWNER_AUTHORITY_V1.json",
+      "sha256": "d0577caed1c47f1dd7f57887c06237f9c7cf3cbb942cf6d9f537a4d05be04445",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9e7e1abfd9e6bbbca5e66bb91f685e6b70be5f660511f8f189394e18c4ab9536",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_STAGE_INSTANCE_V1.json",
+      "sha256": "957ae60b9d371f7b03cb4807d8a378a7b152603ec255dde899303755bf332919",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1.json",
+      "sha256": "874596a85c9311d2f91988484e3a1856acf3681c5d4884debdcd8d9c845d1713",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_OWNER_AUTHORITY_V1.json",
+      "sha256": "c0e739b336ab694aee219666f0ac5c462b386c4ace3adfc292c414fee3d4b069",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact earlier ten-path historical-inventory successor, immutable evaluation at 894eeb04."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "cfc75249a01f154ed9c072cff65d0fb5febc82131da9f672b19cf0d4f7311533",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact earlier ten-path historical-inventory successor, immutable evaluation at 894eeb04."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_STAGE_INSTANCE_V1.json",
+      "sha256": "e6130d80f8dcd5050e4df2beffc2eca83fab73184ef09aa581c7100ce04ea0b4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact earlier ten-path historical-inventory successor, immutable evaluation at 894eeb04."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1.json",
+      "sha256": "eea6a0208377ad5fdca5cd6b740d90d37dc96b7b853091916e4aad9f1c9100b8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact earlier ten-path historical-inventory successor, immutable evaluation at 894eeb04."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_LEASE_RELEASE_V1.json",
+      "sha256": "b135254010f94cda4ccca98dbbb38f590a54b36d1240ca636f689ab361a3b2ae",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8c6617bbcb720e913eb91258361d411ff2ffbb94deaa6da28a6d2e086e305c2c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "d6204ee0828f15b9d7358f4b02423271e8bb4d3c3c1a30bc458e263c61faa9f8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "08993e9a6db865d0fc22c1e5f74779ffdd11be56795c8950d7b2df862ff5d58d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_STAGE_REGISTRY_V1.json",
+      "sha256": "0285ef75bea7bb8916777e84133f15ce0b24c41c0172362fcd4991c961c71d20",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_TERMINAL_RECEIPT_V1.json",
+      "sha256": "94f3636d538bb5a3da04b93ebb35f2b896f66f74e8cc10cc6614b245f4022ce0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "1a3887a9ddee435b0d5bf95bbce98299ecb7005f29c35747b2bd92ce19943aa0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_WP703_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "50ec787d582dfaf966ae3ba5242f7b469a31b832800bf58642fb7d0814fc7878",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS.json",
+      "sha256": "dee1e05585eacbeab2f392a517f1ebc1ace03276769cba35620d9991a1b48628",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-CONTRACT.json",
+      "sha256": "d9f0b803937913be3ef5b7fbf9df69b010b3517ef14ce708aae0dfbe2c3042ff",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-INTEGRATION.json",
+      "sha256": "117d6f99dc4376a0fb7195b86f8c08ddac757f3887db89a5104d9e9a19b41f25",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-MODEL.json",
+      "sha256": "2dc031a096756aa295a4c729d10b0929b1284f61019bf40d38a17d91fc973ad8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-MUTANTS.json",
+      "sha256": "24a2bcb3476ab7a6dc26553e44cd423df05e5459af9b3e2456749783065c59f6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "99de38d4ffbaaa895d137d97504ce0441f21b7acd7fb5af921c5f5e200eaaea4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "62c2b6cb7c917c3b03cc85718c57f9f0b4bb32812b745dd636fe08394c619b7e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "src/core/local-automation-v1.mjs",
+      "sha256": "50fe5e24e83d9de96126322635229ba35b5de285b2db531cdbdaad1b5f8452f8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs",
+      "sha256": "a760f8f18dfb2f4e309f666e98d61beed8512fe32f4c9c0ce0835ac74e91223f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact fence-79 nine-path anchor repair at unpublished 894eeb04. Preserve the E0 mutation harness, both original claim stamps and prior admission carriers; freeze historical proof at its introduction commit. No product runtime or unrelated worktree change."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-post-audit-compatibility.contract.test.mjs",
+      "sha256": "fd3a7c3418c2981efc29821ff94684a2e9e852e7d6fdd31a45e8cd6832dcf4e3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-terminal-carriers.contract.test.mjs",
+      "sha256": "53d86a49ae022109d4c3bb76744a6f1c4b15d85841a7e85a909ac2611735250e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp601-local-automation-fixtures.js",
+      "sha256": "07150805b8569c98434be21f7c6b92351b984003620f3c173eb96562a6a5a255",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation-integration.test.js",
+      "sha256": "2d7a4742140c30ca0284c585d9087e3ecffc9fbaf1e96b143f3ce99eb26d73d7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation-mutants.test.js",
+      "sha256": "06d46c4389631d7d0cec00da6b7d6664a134c33c18408c944a5e62912085ebe5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation.test.js",
+      "sha256": "ab2a3b682d0d313dd421df594643653486cfe4ce11b2c62db4ce320879211f8c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T02:05:29.470Z",
+      "rationale": "Exact original thirty-path WP601 admission, immutable evaluation at 91dd6525."
+    }
+  ]
+}

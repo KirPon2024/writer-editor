@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "YALKEN_R24_WP601_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-601_LOCAL_AUTOMATION",
+  "evidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
+  "denominator": 18,
+  "localPassCount": 12,
+  "localRequiredCount": 1,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052"
+    },
+    {
+      "id": "EXACT_30_PATH_WRITE_SET",
+      "status": "PASS",
+      "evidence": "9afb8ccab79b44ac72e86bdb22acbba93f2564275667a41000d8d83928770bd7"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE",
+      "status": "PASS",
+      "evidence": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "2dc031a096756aa295a4c729d10b0929b1284f61019bf40d38a17d91fc973ad8"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "d9f0b803937913be3ef5b7fbf9df69b010b3517ef14ce708aae0dfbe2c3042ff"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "117d6f99dc4376a0fb7195b86f8c08ddac757f3887db89a5104d9e9a19b41f25"
+    },
+    {
+      "id": "MUTANTS",
+      "status": "PASS",
+      "evidence": "24a2bcb3476ab7a6dc26553e44cd423df05e5459af9b3e2456749783065c59f6"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "6db1b8d754d89bd050462472377f4a5149d1f77fcb4aa5df08d6d64af06324b9"
+    },
+    {
+      "id": "EXACT_FIXED_QUERY_AND_PROJECTOR_ADAPTER",
+      "status": "PASS",
+      "evidence": "2dc031a096756aa295a4c729d10b0929b1284f61019bf40d38a17d91fc973ad8"
+    },
+    {
+      "id": "BOUNDED_CANONICAL_REPLAY_AND_STATE_MACHINE",
+      "status": "PASS",
+      "evidence": "d9f0b803937913be3ef5b7fbf9df69b010b3517ef14ce708aae0dfbe2c3042ff"
+    },
+    {
+      "id": "FULL_REQUIRED_LOCAL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NO_PRODUCT_OR_EXTERNAL_EFFECT_AUTHORITY",
+      "status": "PASS",
+      "evidence": "117d6f99dc4376a0fb7195b86f8c08ddac757f3887db89a5104d9e9a19b41f25"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "NODE_ONLY_SCOPE"
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "claimCeiling": "WP601_NODE_ONLY"
+}

@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "YALKEN_R24_WP601_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-601_LOCAL_AUTOMATION",
+  "evidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "repositoryEvidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "bindings": {
+    "terminalReceiptDigest": "94f3636d538bb5a3da04b93ebb35f2b896f66f74e8cc10cc6614b245f4022ce0",
+    "authorityDigest": "8c6617bbcb720e913eb91258361d411ff2ffbb94deaa6da28a6d2e086e305c2c",
+    "stageInstanceDigest": "08993e9a6db865d0fc22c1e5f74779ffdd11be56795c8950d7b2df862ff5d58d",
+    "stageAdmissionDigest": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052",
+    "writeSetDigest": "9afb8ccab79b44ac72e86bdb22acbba93f2564275667a41000d8d83928770bd7",
+    "commandScopeDigest": "f6b35b765245eea13f9e34eb686489cb1b38e1ebb5ac1222d8195d8b6a9656d4",
+    "acceptanceSignalsDigest": "11d614e52f4990fc23955a9e0ad2251229dc32892ec3a6f11ef5876c9bcf85a4",
+    "selectionReceiptDigest": "d6204ee0828f15b9d7358f4b02423271e8bb4d3c3c1a30bc458e263c61faa9f8",
+    "wp703TerminalPredecessorDigest": "50ec787d582dfaf966ae3ba5242f7b469a31b832800bf58642fb7d0814fc7878",
+    "effectiveGraphBaselineDigest": "b7b124cb7d1bdd322e953b2080a22ae7aca837574f081cc3a8adcc5561a8ce85",
+    "protectedWipBeforeRawDigest": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7",
+    "modelEvidenceDigest": "2dc031a096756aa295a4c729d10b0929b1284f61019bf40d38a17d91fc973ad8",
+    "contractEvidenceDigest": "d9f0b803937913be3ef5b7fbf9df69b010b3517ef14ce708aae0dfbe2c3042ff",
+    "integrationEvidenceDigest": "117d6f99dc4376a0fb7195b86f8c08ddac757f3887db89a5104d9e9a19b41f25",
+    "mutantsEvidenceDigest": "24a2bcb3476ab7a6dc26553e44cd423df05e5459af9b3e2456749783065c59f6"
+  },
+  "compatibilityReview": {
+    "wp703MergeSha": "b3a07014649c670a401bba2bff82cad78befcdd6",
+    "wp703TreeSha": "0731572227f0a63598f1cd57c6cc9453c22b47e3",
+    "wp703ExternalTerminalReceiptDigest": "1566f006f0ef3a30ad383ea811f50f57c73ea1e15e4b6ab313b09a16f162be00",
+    "differential": {
+      "schedules": 96,
+      "jobDenominator": 384,
+      "observations": 1017,
+      "publishedObservations": 274,
+      "hiddenOutputObservations": 3218,
+      "oracle": "INDEPENDENT_EXPLICIT_STATE_MACHINE"
+    },
+    "largeCorpus": {
+      "sourceWords": 160000,
+      "associationDenominator": 768,
+      "outputDenominator": 128,
+      "exactWorkUnits": 383844,
+      "inputTextRetained": false,
+      "wallClockSlaClaim": false
+    },
+    "implementationMutantDenominator": 20,
+    "productMutationAuthority": false,
+    "runtimeRegistryAuthority": false,
+    "providerAuthority": false
+  },
+  "currentLease": {
+    "fencingCounter": 79,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "492b7d00353aeb403a590b3aa1cedea7264cf28151e3cbd1b806a0edef37b771"
+  },
+  "targetLease": {
+    "fencingCounter": 79,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false
+}

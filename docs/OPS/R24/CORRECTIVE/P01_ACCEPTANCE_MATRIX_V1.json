@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "YALKEN_R24_P01_ACCEPTANCE_MATRIX_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "evidenceStampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_REQUIREMENTS_NOT_TERMINAL_ACCEPTANCE",
+  "rowDenominator": 13,
+  "rows": [
+    {
+      "id": "DISTINCT_VERIFIED_STAGE_AND_ACTUAL_PREDECESSOR_IDENTITIES",
+      "index": 0,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "SINGLE_PASS_TYPED_PATH_TEMPLATE_NO_CHAINED_IDENTIFIER_REPLACEMENT",
+      "index": 1,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "COMPLETE_GENERATED_OPERATION_SET_EQUALS_CALLER_PINNED_ADMISSION_BEFORE_FIRST_REPOSITORY_WRITE",
+      "index": 2,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "NATIVE_PINNED_V2_AUTHORITY_PATH_SYMLINK_CONFUSABLE_AND_OPERATION_LAWS_PRESERVED",
+      "index": 3,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "WP703_WP600_AND_WP705_WP704_AND_GENERIC_ID_REGRESSIONS",
+      "index": 4,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "WRONG_PREDECESSOR_EXTRA_MISSING_WRONG_CLASS_DUPLICATE_RENAME_PATH_NEGATIVES",
+      "index": 5,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "OWNER_PROCESS_PACKAGE_PLAN_BASELINE_AND_SCOPE_NOT_PRODUCT_PROGRESS",
+      "index": 6,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "WP602_IMMUTABLE_COMPLETED_IDENTITY_AND_CURRENT_INVENTORY_COVERAGE_DISTINCT",
+      "index": 7,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "267_PROTECTED_WORKTREES_TEN_DIRTY_AND_FROZEN_OWNED_BYTES_UNCHANGED",
+      "index": 8,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE_FRESH_CANDIDATE_EXACT_POSTMERGE_FULL_GATES",
+      "index": 9,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "NON_RECURSIVE_EXTERNAL_TERMINAL_VERIFICATION",
+      "index": 10,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "LEASE_83_RELEASED_WIP_0",
+      "index": 11,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "index": 12,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    }
+  ],
+  "registryDigest": "0b973353b56c5aadbb55beda0958d6566902ba6bf1e4be717f0ad2d727dc9ebb",
+  "terminalAcceptanceRule": "ALL_ROWS_EXECUTED_AND_PASS_AT_EXACT_EXTERNAL_DELIVERY_IDENTITY_NO_UNKNOWN_OR_PENDING_ROWS"
+}

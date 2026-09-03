@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "YALKEN_R24_P01_STAGE_REGISTRY_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "evidenceStampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE",
+  "stageDenominator": 1,
+  "stages": [
+    {
+      "stageId": "P01_ADMISSION_PREPARATION",
+      "kind": "PROCESS_CORRECTION_NOT_PRODUCT_NODE",
+      "admission": {
+        "authorityDigest": "96529524a212feb3dc28c04a4b6e1df34383d0348ed2dd7e85ae09614bb9a819",
+        "stageInstanceDigest": "ea92d82beedfc8e60c72f2436c1a5df6df0e165900171296b7d7aed305086840",
+        "stageAdmissionDigest": "ae1114bb5f060149a707c769d57341781fca25e148e4da0f99ead920f60f85b0",
+        "writeSetDigest": "3d108e98ac2a2f26f1492d01abdb764433c4d7c2a2108bb5ca64488606a25fc6",
+        "commandScopeDigest": "aafbac50f491349cf3b3ebee459c0bb18755ba8ff2c156cdc6ff7a3cdad558af",
+        "acceptanceSignalsDigest": "594446fede71160d66bb9200ea9a12074029cd469c49558bdd31b9e547a7e540"
+      },
+      "lease": {
+        "fencingCounter": 83,
+        "status": "ACTIVE",
+        "wip": 1,
+        "predecessorReleaseDigest": "6529cad5a5c83087f05b4c972869f4a48678cac41f33263b6cc60bde65ecd388"
+      },
+      "closure": "REQUIRES_EXACT_EXTERNAL_TERMINAL_VERIFICATION"
+    }
+  ],
+  "effectiveStateDigest": "db62d7af23e94919181a0cc652ab10abfaf5ea9d9f45148941b880ecde119244"
+}

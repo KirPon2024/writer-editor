@@ -1,0 +1,376 @@
+{
+  "schemaVersion": "R24_PROCESS_PRECORRECTION_BASELINE_V1",
+  "status": "OBSERVED_BASELINE_NOT_PROCESS_IMPROVEMENT_CLAIM",
+  "observedAtUtc": "2026-09-03T10:16:13.558Z",
+  "baseSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+  "baseTree": "ca85eca9303d0da3b4ed6fc421baba746b1461a8",
+  "ownerSource": {
+    "locator": "/Users/kirillponomarev/.codex/sessions/2026/09/01/rollout-2026-09-01T21-57-48-01a05e55-ac3b-7b42-a9a4-9586f3aa0aea.jsonl",
+    "line": 10481,
+    "ordinal": 10478,
+    "timestamp": "2026-09-03T09:42:29.880Z",
+    "eventSha256": "e226f752d442ff18958e3d14759d6f3cd3686fdd2b78f80885e6cfbc8c18fc4a",
+    "exactTextIncludingExistingLfSha256": "1dd01a8e6d15aee424cfe10b004d3a4946e073f5f69306af3920ebf72d77ceb3"
+  },
+  "auditSources": [
+    {
+      "locator": "/Users/kirillponomarev/.codex/attachments/1f5a9234-61f9-4bab-90b5-e37b8481aa52/pasted-text.txt",
+      "sha256": "06e66544cbf1629b624b2ba39d9de5b198ce33afe2ef23db583b0dcbf394164b",
+      "sizeBytes": 31833
+    },
+    {
+      "locator": "/Users/kirillponomarev/.codex/attachments/e036d436-d5ba-4460-ba9f-492f696eed19/pasted-text.txt",
+      "sha256": "7146d12a5ebb315bdd0ef37e9217c1856f4371e40a7522d26b8cf570afc54b51",
+      "sizeBytes": 22675
+    }
+  ],
+  "firstAuditCorrection": "WP705 added WP704 and WP705 historical pins, not WP601 and WP704",
+  "sampleBoundary": "TWO_COMPLETED_COMPONENT_STAGES_NOT_ENTIRE_PROGRAM_PROFILE",
+  "stages": [
+    {
+      "node": "WP704",
+      "exactIdentity": {
+        "baseSha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+        "candidateSha": "e80362e9e2c396e2ab2574ace74827c909020f62",
+        "candidateTree": "0fc51d530c971f54700efb5decc5c6fbdf4bc0d4",
+        "mergeSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+        "mergeTree": "0fc51d530c971f54700efb5decc5c6fbdf4bc0d4",
+        "originMainSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+        "mergeParents": [
+          "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+          "e80362e9e2c396e2ab2574ace74827c909020f62"
+        ],
+        "candidateAndMergeTreesIdentical": true
+      },
+      "startPolicy": "FIRST_RECORDED_NODE_SELECTION_PREPARATION_MESSAGE",
+      "endPolicy": "SEPARATE_TERMINAL_VERIFICATION_TIMESTAMP",
+      "preparationStart": {
+        "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+        "ordinal": 69722,
+        "timestamp": "2026-09-03T03:01:11.116Z",
+        "eventSha256": "b245e0581a039e9526db41f35506378b4d649607a8c357a7ae0d704eb0638c35",
+        "textSha256": "63626ffd15374ea7c55e00030947c1a9b0da818c0c5137b53c9c60e5aa7da8ad",
+        "text": "Fresh read-only G0 selected `WP-704_PDF_ARCHIVE_REVIEW` from the verified 109-node graph. No new writer lease or repository mutation has begun. I’m mapping its exact contract next, using the PDF skill for the PDF inspection and rendering checks this node may require.\n"
+      },
+      "admittedBoundary": {
+        "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+        "ordinal": 70265,
+        "timestamp": "2026-09-03T03:47:09.133Z",
+        "eventSha256": "8a2783225d066a86eeb8d83cda0d28fb404fecf7740c29b473b5ff809f3e05fc",
+        "textSha256": "866d9dee1061b94a39425da41b4667968a42b625aa017c325e4a52d54fb86aa6",
+        "text": "Admission и preflight прошли. Lease 80 ACTIVE, WIP=1; exact write-set — 35 файлов, digest `c4ee3ea64e99104bb69cd27ed54dc0a63bc07d7936b0f53c46cd17e0f9a4b363`. Записаны первые 10 admitted-carriers; authority `8419a5b5…879b`, StageInstance `8ba64319…371c9`, Admission `672508ae…18c69`. Перехожу к негативным тестам и реализации.\n"
+      },
+      "verifiedTerminalEnd": "2026-09-03T05:16:43.560Z",
+      "totalObservedWallSeconds": 8132.444,
+      "preparationObservedSeconds": 2758.017,
+      "implementationChecksDeliveryObservedSeconds": 5374.427,
+      "phaseBoundaryPrecision": "OBSERVED_MESSAGES_NOT_EXACT_FIRST_EDIT_OR_CPU_PROFILING",
+      "rework": {
+        "start": {
+          "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+          "ordinal": 70696,
+          "timestamp": "2026-09-03T04:26:30.622Z",
+          "eventSha256": "72dfc095cb86d0c41f489d87f40d30e0635b9ecbd034a794f05402bbd702d627",
+          "textSha256": "9a54f4839f003530c1d33cd2e862f78de1748a41db907230006ce57889d0eb1d",
+          "text": "E0 exposed one integration defect: the PDF harness introduced an unregistered `WP704_PHYSICAL_DIR` environment input. The 110 E0 tests passed, but the environment registry and mutant baseline correctly failed. I’ll replace that harness input with an explicit bounded CLI locator under an exact-head repair admission, preserve the original candidate evidence, and rerun the full gates."
+        },
+        "end": {
+          "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+          "ordinal": 70805,
+          "timestamp": "2026-09-03T04:36:32.801Z",
+          "eventSha256": "118ce376d44bef2735819ec98405d06f2d0348417062f2e7692eff5598c19a66",
+          "textSha256": "8e2c368cd1c2f8f2d1e29203bf46cfb2ff0331dff957b5247bb17c96e78d2363",
+          "text": "The seven-path repair is admitted at the exact candidate head. The registry now passes with one new `BEHAVIOR` entry; 19 hostile successor candidates are rejected, and the existing WP601/WP704 carrier contracts still pass. No product, harness, test, or historical evidence file was changed by this repair."
+        },
+        "observedSeconds": 602.179
+      },
+      "exclusiveImplementationSeconds": null,
+      "exclusiveExternalWaitingSeconds": null,
+      "unknownIntervalsClassifiedAsIdle": false,
+      "externalCiIntervals": [
+        {
+          "role": "candidate",
+          "runId": 33716651986,
+          "attempt": 1,
+          "headSha": "e80362e9e2c396e2ab2574ace74827c909020f62",
+          "createdAt": "2026-09-03T04:52:45Z",
+          "startedAt": "2026-09-03T04:52:45Z",
+          "completedAt": "2026-09-03T05:02:25Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 580,
+          "parallelJobSecondsNotWallTime": 2045,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/CANDIDATE_CI_RUN_33716651986.json",
+              "sha256": "82190427ab0ae0fb6433aaab6e88a7312e23f9e23af95ced69f6935b22056892",
+              "sizeBytes": 13440
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/CANDIDATE_CI_JOBS_33716651986.json",
+              "sha256": "72c9b0c82e68cd405dfc906606ffa48b1d8c83bd7f1688fe4ec0af9dd8babc3b",
+              "sizeBytes": 56639
+            }
+          ]
+        },
+        {
+          "role": "ops",
+          "runId": 33717279094,
+          "attempt": 1,
+          "headSha": "e80362e9e2c396e2ab2574ace74827c909020f62",
+          "createdAt": "2026-09-03T05:02:57Z",
+          "startedAt": "2026-09-03T05:02:57Z",
+          "completedAt": "2026-09-03T05:03:14Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 17,
+          "parallelJobSecondsNotWallTime": 14,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/OPS_CI_RUN_33717279094.json",
+              "sha256": "a32d38f136650349dc48a0c3b1f07b03466ac1f5f9ac88e59fb5873d88d35b62",
+              "sizeBytes": 12868
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/OPS_CI_JOBS_33717279094.json",
+              "sha256": "4a16ce1db3e371ad61ad9dd116a963091c4d056dac4b08ae881c144cc1219c61",
+              "sizeBytes": 3089
+            }
+          ]
+        },
+        {
+          "role": "postmerge",
+          "runId": 33717278736,
+          "attempt": 1,
+          "headSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+          "createdAt": "2026-09-03T05:02:56Z",
+          "startedAt": "2026-09-03T05:02:56Z",
+          "completedAt": "2026-09-03T05:13:42Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 646,
+          "parallelJobSecondsNotWallTime": 2005,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/POSTMERGE_CI_RUN_33717278736.json",
+              "sha256": "377a9ed40a6622e1e9fb2e4061652573fa0d5e46256dbcec2490218a0995305a",
+              "sizeBytes": 13477
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/POSTMERGE_CI_JOBS_33717278736.json",
+              "sha256": "7a805f3ac9113ba01f441360df6df334851dbf1f720387b0373e3e20aa169633",
+              "sizeBytes": 55925
+            }
+          ]
+        }
+      ],
+      "ciIntervalsMayOverlapLocalWork": true,
+      "parallelJobTimesAreNotAddedToWallTime": true,
+      "localGateDenominator": 30,
+      "localGateWindow": {
+        "startedAt": "2026-09-03T04:36:50.148Z",
+        "finishedAt": "2026-09-03T04:46:54.434Z",
+        "wallSeconds": 604.286
+      },
+      "candidates": {
+        "definition": "ALL_FIRST_PARENT_DELIVERY_CANDIDATE_COMMITS_BEFORE_PROTECTED_MERGE",
+        "count": 2,
+        "shas": [
+          "25f485f2d8a3c3b6f62db862bd68e61523918eab",
+          "e80362e9e2c396e2ab2574ace74827c909020f62"
+        ]
+      },
+      "correctiveAdmissions": {
+        "count": 1,
+        "entries": [
+          {
+            "path": "docs/OPS/R24/CORRECTIVE/WP704_ENV_REGISTRATION_STAGE_ADMISSION_ATTESTATION_V1.json",
+            "sha256": "72b1d095df39843791f70bb166a79109949baaa5939b980bbd1dca9afe5e8de5",
+            "stageId": "WP-704_PDF_ARCHIVE_REVIEW_ENV_REGISTRATION_SUCCESSOR"
+          }
+        ]
+      },
+      "ordinaryPrCount": 1,
+      "additionalPrCount": 0,
+      "prNumber": 1817,
+      "sources": [
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/WP704_PDF_ARCHIVE_REVIEW_TERMINAL_RECEIPT_V1.json",
+          "sha256": "12f8a0e289d1865caefbe7944b64309842a6d14b9c12aa2f218134d2ef813d3c",
+          "sizeBytes": 53218
+        },
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/terminal-v1/WP704_PDF_ARCHIVE_REVIEW_TERMINAL_VERIFICATION_V1.json",
+          "sha256": "1781bc5421bd5cede0fc5442ed37cf2565a9048c871f414e5dcd250eb260d29b",
+          "sizeBytes": 1593
+        },
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp704-pdf-archive-review-v1/local-gates-v2/RESULTS.json",
+          "sha256": "907e65b23cf58996ebb2635d54ad6bd1683422a9d0fddb49d1f7aa9ac7504476",
+          "sizeBytes": 12746
+        }
+      ]
+    },
+    {
+      "node": "WP602",
+      "exactIdentity": {
+        "baseSha": "888d3bc716b64dd6dfa16027cc4933bb775c6fdf",
+        "candidateSha": "297ec75e48c906e65d37b3326f1f83df63cb2bf2",
+        "candidateTree": "ca85eca9303d0da3b4ed6fc421baba746b1461a8",
+        "mergeSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+        "mergeTree": "ca85eca9303d0da3b4ed6fc421baba746b1461a8",
+        "originMainSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+        "mergeParents": [
+          "888d3bc716b64dd6dfa16027cc4933bb775c6fdf",
+          "297ec75e48c906e65d37b3326f1f83df63cb2bf2"
+        ],
+        "candidateAndMergeTreesIdentical": true
+      },
+      "startPolicy": "FIRST_RECORDED_NODE_SELECTION_PREPARATION_MESSAGE",
+      "endPolicy": "SEPARATE_TERMINAL_VERIFICATION_TIMESTAMP",
+      "preparationStart": {
+        "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+        "ordinal": 73380,
+        "timestamp": "2026-09-03T07:44:54.059Z",
+        "eventSha256": "39fdd1ef06535f78798c6a1aa4bd8380ebf500b18d1b961ab6af88e13e077364",
+        "textSha256": "79b1795100a9990ea2034ef692102f788602015225284b288f57ecca9b23f9b5",
+        "text": "Fresh G0 selected WP602, “Proposal workflow,” from the dependency-ready set. Bootstrap passed at `888d3bc7`; I’m reading its governing source and current implementation before declaring the next exact write set. No WP602 lease or repository mutation has started.\n"
+      },
+      "admittedBoundary": {
+        "locator": "/Users/kirillponomarev/.codex/sessions/2026/08/31/rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+        "ordinal": 73675,
+        "timestamp": "2026-09-03T08:33:23.620Z",
+        "eventSha256": "401be921bdba2bdf1f246dc7b496870c0dbbfc3c5ef5608f45e3b7a9acfc6264",
+        "textSha256": "2d8b8d63723afb370c52f56cdf6f7fba065e8a05214e188216dce15d17e6f893",
+        "text": "WP602 admission is verified at origin `888d3bc716b64dd6dfa16027cc4933bb775c6fdf`, tree `aa4c26d7cb8aeca5c5bf7ba5592e5af00d7745f2`. The isolated worktree is clean; T7’s UUID, encryption, unlocked state, and writability passed. All 266 protected entries—including 10 dirty worktrees—exactly match baseline `79be63c60400a2241bd72e26451d6e43ae9f689a8d430f2e4b92a181ff09e053`. No open PRs or live Actions were found.\n\nAuthority: `c2244c51c35fb29a19ff8d1ba3c0a5c8f7da69fe43370a230015b374dd4a4f1a`; StageInstance: `d0b65b56c9b8924958ca35d4aa714ebbd9307e495073621d296e9fc91f1d5144`; Admission: `51eac019b137d564b3cac87ffd03ea91ec57f2de8b4e062b6e2307957588e76f`; write set: `c5e7cca3723c35327e87451714c4a34cf62bc1de56f00a9af045c2e07b453011`; lease 82/WIP 1: `55ba1efb2a092de9e8d199f85e4abaf8e57db4e286f264c199539f1394a96e4f`. First executed gates: pinned StageAdmission and architecture preflight both PASS."
+      },
+      "verifiedTerminalEnd": "2026-09-03T09:57:24.836Z",
+      "totalObservedWallSeconds": 7950.777,
+      "preparationObservedSeconds": 2909.561,
+      "implementationChecksDeliveryObservedSeconds": 5041.216,
+      "phaseBoundaryPrecision": "OBSERVED_MESSAGES_NOT_EXACT_FIRST_EDIT_OR_CPU_PROFILING",
+      "rework": null,
+      "exclusiveImplementationSeconds": null,
+      "exclusiveExternalWaitingSeconds": null,
+      "unknownIntervalsClassifiedAsIdle": false,
+      "externalCiIntervals": [
+        {
+          "role": "candidate",
+          "runId": 33739153545,
+          "attempt": 1,
+          "headSha": "297ec75e48c906e65d37b3326f1f83df63cb2bf2",
+          "createdAt": "2026-09-03T09:29:48Z",
+          "startedAt": "2026-09-03T09:29:48Z",
+          "completedAt": "2026-09-03T09:40:38Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 650,
+          "parallelJobSecondsNotWallTime": 2126,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/CANDIDATE_CI_RUN_33739153545.json",
+              "sha256": "26808c5a7de1d5e6b0490b21722141764d81b9e5ed2179bb1af22ab976fb250f",
+              "sizeBytes": 14908
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/CANDIDATE_CI_JOBS_33739153545.json",
+              "sha256": "082ef836d016fc49b816cdb5c6bce3c82cb6f0033febfca02db52e580321c585",
+              "sizeBytes": 81792
+            }
+          ]
+        },
+        {
+          "role": "ops",
+          "runId": 33740245686,
+          "attempt": 1,
+          "headSha": "297ec75e48c906e65d37b3326f1f83df63cb2bf2",
+          "createdAt": "2026-09-03T09:41:35Z",
+          "startedAt": "2026-09-03T09:41:35Z",
+          "completedAt": "2026-09-03T09:41:50Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 15,
+          "parallelJobSecondsNotWallTime": 12,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/OPS_CI_RUN_33740245686.json",
+              "sha256": "e0fa5d2385ab927f29264b1ecbe7eb74cc7aa3c40fdc3afbaaad7d81af53cbe9",
+              "sizeBytes": 14235
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/OPS_CI_JOBS_33740245686.json",
+              "sha256": "625f8f6a33160469febab61e1048aa823270e22a90791d0299745cc12baa1612",
+              "sizeBytes": 4488
+            }
+          ]
+        },
+        {
+          "role": "postmerge",
+          "runId": 33740245696,
+          "attempt": 1,
+          "headSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+          "createdAt": "2026-09-03T09:41:35Z",
+          "startedAt": "2026-09-03T09:41:35Z",
+          "completedAt": "2026-09-03T09:53:29Z",
+          "queueSeconds": 0,
+          "workflowWallSeconds": 714,
+          "parallelJobSecondsNotWallTime": 2186,
+          "sources": [
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/POSTMERGE_CI_RUN_33740245696.json",
+              "sha256": "28901f457033d466d91ddb71745f3f2b7d6923aef223d24ffaa5ec72f1eaeb5f",
+              "sizeBytes": 14926
+            },
+            {
+              "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/POSTMERGE_CI_JOBS_33740245696.json",
+              "sha256": "9b4e772b7ac1516647537677d904161a030c85d325f534ef2ac5f70db3dcd8f4",
+              "sizeBytes": 81095
+            }
+          ]
+        }
+      ],
+      "ciIntervalsMayOverlapLocalWork": true,
+      "parallelJobTimesAreNotAddedToWallTime": true,
+      "localGateDenominator": 32,
+      "localGateWindow": {
+        "startedAt": "2026-09-03T09:14:53.051Z",
+        "finishedAt": "2026-09-03T09:26:55.068Z",
+        "wallSeconds": 722.017
+      },
+      "candidates": {
+        "definition": "ALL_FIRST_PARENT_DELIVERY_CANDIDATE_COMMITS_BEFORE_PROTECTED_MERGE",
+        "count": 1,
+        "shas": [
+          "297ec75e48c906e65d37b3326f1f83df63cb2bf2"
+        ]
+      },
+      "correctiveAdmissions": {
+        "count": 0,
+        "entries": []
+      },
+      "ordinaryPrCount": 1,
+      "additionalPrCount": 0,
+      "prNumber": 1819,
+      "sources": [
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/WP602_PROPOSAL_WORKFLOW_TERMINAL_RECEIPT_V1.json",
+          "sha256": "34bb0bbeea6328ab1e194759e1aa045e8cc2001d205dbe60d1cfd77dda737b9c",
+          "sizeBytes": 43429
+        },
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/terminal-v1/WP602_PROPOSAL_WORKFLOW_TERMINAL_VERIFICATION_V1.json",
+          "sha256": "1cd1f479f1d2c7d8bc2f85ba47ac80d3b1198e72246debfb8b45fe54bf92db10",
+          "sizeBytes": 1592
+        },
+        {
+          "locator": "/Volumes/T7-Secure/storage/yalken/evidence/wp602-proposal-workflow-v1/local-gates-v1/RESULTS.json",
+          "sha256": "0861c3fee898cab1274b7a0a2085bcce9b709ee9cef60d27addfd3255b55b02e",
+          "sizeBytes": 13862
+        }
+      ]
+    }
+  ],
+  "pilot": {
+    "comparableProductStageCountMin": 3,
+    "comparableProductStageCountMax": 5,
+    "sameMetricDefinitionsRequired": true,
+    "multiplicativeSpeedupClaim": false
+  },
+  "noProductNodeIncrement": true,
+  "programDone": false
+}

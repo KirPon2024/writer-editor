@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_P01_EFFECTIVE_STATE_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "evidenceStampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_DELIVERY",
+  "lease": {
+    "fencingCounter": 83,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "6529cad5a5c83087f05b4c972869f4a48678cac41f33263b6cc60bde65ecd388"
+  },
+  "processTask": true,
+  "productGraphIncrement": 0,
+  "productGraph": {
+    "denominator": 109,
+    "done": 72,
+    "pending": 24,
+    "blockedTyped": 3,
+    "ineligibleOptional": 10
+  },
+  "nextMainProductNodeStarted": false,
+  "processPackageNextTask": "P02_FRESH_HISTORICAL_BINDING_INSPECTION_AFTER_P01_TERMINAL_CLOSE",
+  "acceptanceMatrixDigest": "5b777fb56ca8a7ad78704642b5935238f6804ccc664b8734bb699f97fe683c5f",
+  "leaseTransitionDigest": "742a75dd8ff0cd0fa14453ee07539a98df8cb7f6c225d279a2840c6f2ad1d419"
+}

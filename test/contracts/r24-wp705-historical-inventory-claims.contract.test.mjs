@@ -66,7 +66,8 @@ test('WP705 historical successor rejects incomplete unadmitted missing drifted a
     else if(args[0]==='show'){
       const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
       if(file===missing)throw Error('MISSING');
-      result=sha===candidate?fs.readFileSync(file):realGit(root,args);
+      // P01 adds a new pin; the WP705 successor retains its completed bytes.
+      result=sha===candidate?realGit(root,['show','888d3bc716b64dd6dfa16027cc4933bb775c6fdf:'+file]):realGit(root,args);
       if(file===drift||(historicalDrift&&sha===pins[1].evaluationSha&&file===inventory))result=Buffer.concat([result,Buffer.from('\n')]);
     }else result=realGit(root,args);
     return encoding==='utf8'?result.toString():result;

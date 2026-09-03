@@ -32,7 +32,7 @@ jobs:
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
         env:
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP601_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP704_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: npm test
       - name: Verify WP-500 association scope semantics and mutants
         run: node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js
@@ -64,6 +64,9 @@ jobs:
         run: node --test test/unit/r24-wp601-local-automation.test.js test/unit/r24-wp601-local-automation-integration.test.js test/unit/r24-wp601-local-automation-mutants.test.js test/contracts/r24-wp601-terminal-carriers.contract.test.mjs test/contracts/r24-wp601-post-audit-compatibility.contract.test.mjs
       - name: Verify WP-601 exact historical inventory bindings without current-byte claims
         run: node --test test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs
+
+      - name: Verify WP-704 PDF archive and Review Packet semantics, byte replay and hostile mutants
+        run: node --test test/unit/r24-wp704-pdf-archive-review.test.js test/unit/r24-wp704-pdf-archive-review-integration.test.js test/unit/r24-wp704-pdf-archive-review-mutants.test.js test/contracts/r24-wp704-terminal-carriers.contract.test.mjs test/contracts/r24-wp704-post-audit-compatibility.contract.test.mjs
 
   e0-mutants:
     runs-on: ubuntu-latest
@@ -118,8 +121,8 @@ jobs:
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
       - env:
           EFFECTIVE_MODE: STRICT
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP601_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP601_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP704_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP704_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:
     runs-on: ubuntu-latest
@@ -152,6 +155,9 @@ jobs:
           test "$(stat -c '%u:%g:%a' node_modules/electron/dist/chrome-sandbox)" = "0:0:4755"
       - name: Explicit privacy-negative gate
         run: xvfb-run -a node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs
+
+      - name: Verify WP-704 actual offline Electron PDF render and repeated canonical bytes
+        run: node scripts/ops/r24/wp704-physical-pdf.cjs --driver
 
   static-security-sast:
     runs-on: ubuntu-latest

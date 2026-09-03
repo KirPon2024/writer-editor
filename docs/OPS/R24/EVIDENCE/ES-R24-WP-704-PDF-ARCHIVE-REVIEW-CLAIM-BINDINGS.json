@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CLAIM-BINDINGS",
+  "contourId": "WP-704_PDF_ARCHIVE_REVIEW",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+  "originMainSha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+  "generatedAtUtc": "2026-09-03T04:22:43.414Z",
+  "oracle": "Exact admitted worktree-byte bindings only; base SHA identifies admission, not future artifact contents. Required gates and external delivery remain unclaimed predicates.",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "d2fb096e242d00b68a821136c68cc441f0dd76f72d126998f9307bafff781d2e",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "c5254ffd9f598e7ffaf9daf92533aeaa07b44e5c23544eb6c7a042dec81a1067",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "f7b8abc6d56c89059e0ba1ea872558e304e4825030779640801dbd9576f3aee8",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_FIXTURE_MANIFEST_V1.json",
+      "sha256": "259fabf3a002554ba987bdd55726849cfe1f65f59bf8cb910613c4590d45cbd7",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8419a5b5eb45ea78cc201a2b9ead3f0e57a75b721807c57679edf12eb857879b",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "71a010feebe3134db1afd9ab9a1af0503df630c5962338e9cc74eabefcc466d5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "672508ae87af2e5111f9aa7e08446b721a77bf9726ca784ece2bd7e1aba18c69",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "8ba6431912aab50f2be949e214888dfbc1e7b03fae5661d252536fc88bf371c9",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "e416b842fe751ff8753544c4a3c586c517c40177eee93466f7b98680b15683b3",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_SEALED_SOURCE_READ_RECEIPT_V1.json",
+      "sha256": "c212ec2ea2bcb10bc9fd6ac3981135bc14f8ac1eee9adb298e9e69e674b8d249",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_WP601_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "b3cf28f727da6195abf4a7858ab08cc9e51dc45c40a2e30af052c4fcfff6b67c",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_CARRIER_REGISTRY_V1.json",
+      "sha256": "e84e386556536047938e5523fa1cb1b1035d2a7a4eb93c2f67e49958fb0407a0",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "a8f16aa2bbb15cd0a07c7ab9a4aabf66e360e2e0ce9615f6508837639765cdbf",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_EFFECTIVE_STATE_V1.json",
+      "sha256": "89f8a5729a85e1631df10973711378cd64d71219ecb2acedc5469b005db65c39",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_STAGE_REGISTRY_V1.json",
+      "sha256": "ef8f03e07a0aa72acbfa20912d7089aff45385e377f80320060d9dadde072af6",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_LEASE_RELEASE_V1.json",
+      "sha256": "39ebfe011feee2efaf8615dc5851f2072103dc14fe2423997c5effb2e85a2b9a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e946974ff9e8fed58862b88dfb2e5623ca62267c9f97c059b44bdc1811a67e64",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP704_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "95df2f6462e6cdd5ab8451c709151a1eb30256d606917448a325f490168380e3",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pdf-archive-review-profile-v1.mjs",
+      "sha256": "ad0ac06c66f8656092eb1f87a73f16f1eeebf1fe980acabf2e138e3d26025182",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "src/core/electron-pdf-profile-port-v1.cjs",
+      "sha256": "c22c61c067746bec4fe88d0421c052198f9a35d9b3728e95141cda3997e6e325",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "scripts/ops/r24/wp704-physical-pdf.cjs",
+      "sha256": "d25c678294c4292ae084f1c3fbf83f875b180065a334d0ad3f95849fbec77fd4",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp704-pdf-archive-review-fixtures.js",
+      "sha256": "d355de8268a619571eb6d04f2f0e08f6582c5fe5992ff645548496799f4b7e11",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review.test.js",
+      "sha256": "3dfc48df5c37b6773f36cca06bfb27574e32ff092650744df356cbeb4eb75a19",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review-integration.test.js",
+      "sha256": "e5617e35dd90108976766d4c21828d4d045f059fdc5f3c578f7dff95441b8eef",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review-mutants.test.js",
+      "sha256": "8174eb9eaea4a61d48df1e33db3f8df8140cbb775ad68405eda9d14a766316a5",
+      "terms": [
+        "WP704_BOUNDED_INTERCHANGE_PROFILES_NO_PRODUCT_WRITE_OR_UNADMITTED_PROVIDER_AUTHORITY"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_BASE_TREE_CONTENT_CLAIM_FOR_NEW_ADMITTED_WORKTREE_BYTES",
+    "NO_RUNTIME_REGISTRY_OR_PRODUCT_MUTATION_AUTHORITY",
+    "NO_WP704_DONE_BEFORE_REQUIRED_GATES_AND_EXTERNAL_TERMINAL_PROOF",
+    "EXTERNAL_SOURCE_PLAN_DIGEST:1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "COMPILED_PROGRAM_FILE_DIGEST:da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "SOURCE_AND_COMPILED_DIGEST_ROLES_DISTINCT",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

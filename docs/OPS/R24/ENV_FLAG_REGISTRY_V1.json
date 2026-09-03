@@ -325,6 +325,13 @@
       "semantics": "allows interactive OS permission grant in Word smoke harness; manual lab use only",
       "defaultEffect": "unset = non-interactive fail-closed",
       "registeredBy": "YALKEN-R24-E0-RUNNER-SAFETY-QUARANTINE-001"
+    },
+    {
+      "name": "WP704_PHYSICAL_DIR",
+      "flagClass": "BEHAVIOR",
+      "semantics": "Selects the existing task-owned synthetic PDF evidence directory for the explicit --verify harness mode; does not skip any byte, implementation, independent-reader or visual requirement and grants no product publication authority.",
+      "defaultEffect": "Unset = explicit verification fails closed; --driver creates its own synthetic evidence directory and does not read this input.",
+      "registeredBy": "OWNER_AUTHORIZED_YALKEN_R24_WP704_ENV_REGISTRATION_SUCCESSOR_V1"
     }
   ],
   "census": [

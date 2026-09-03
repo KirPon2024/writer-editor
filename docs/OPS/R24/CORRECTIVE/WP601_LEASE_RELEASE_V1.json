@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "YALKEN_R24_WP601_LEASE_RELEASE_V1",
+  "stageId": "WP-601_LOCAL_AUTOMATION",
+  "evidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "492b7d00353aeb403a590b3aa1cedea7264cf28151e3cbd1b806a0edef37b771",
+    "acceptanceMatrixDigest": "2c09df66d3303d586312997e1e976d1f4124361a7eda977555dc4fb76dede8fb",
+    "effectiveStateDigest": "bc3783b99b5aec160eba96bf5f4af46e18619ea8e6693405f6ae7a80f92c31cb",
+    "stageRegistryDigest": "0285ef75bea7bb8916777e84133f15ce0b24c41c0172362fcd4991c961c71d20",
+    "stageAdmissionDigest": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052"
+  },
+  "currentLease": {
+    "fencingCounter": 79,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "492b7d00353aeb403a590b3aa1cedea7264cf28151e3cbd1b806a0edef37b771"
+  },
+  "targetLease": {
+    "fencingCounter": 79,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7",
+    "beforeSnapshotDigest": "2c454b9af21297104874f9354b10a0f1336789b61456fdd8596328dc7102c865",
+    "completeDenominator": 262,
+    "presentDenominator": 262,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 9,
+    "protectedDirtySetDenominator": 9,
+    "unrelatedDirtyDenominator": 8,
+    "frozenOwnedDirtyDenominator": 1,
+    "finalSnapshotRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_AND_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

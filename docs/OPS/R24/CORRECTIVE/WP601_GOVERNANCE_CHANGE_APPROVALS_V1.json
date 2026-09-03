@@ -1,0 +1,216 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "bcb592e251d1e5c8ede1086d262af7bfe0b8377614293b16e972759659967859",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "bd6d7f4b8abebf9db7e0ff097c3d0b8656e5f0db9140c57ac31f2d78f3f3786e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "2c09df66d3303d586312997e1e976d1f4124361a7eda977555dc4fb76dede8fb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_CARRIER_REGISTRY_V1.json",
+      "sha256": "6db1b8d754d89bd050462472377f4a5149d1f77fcb4aa5df08d6d64af06324b9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "b7b124cb7d1bdd322e953b2080a22ae7aca837574f081cc3a8adcc5561a8ce85",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_EFFECTIVE_STATE_V1.json",
+      "sha256": "bc3783b99b5aec160eba96bf5f4af46e18619ea8e6693405f6ae7a80f92c31cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_LEASE_RELEASE_V1.json",
+      "sha256": "b135254010f94cda4ccca98dbbb38f590a54b36d1240ca636f689ab361a3b2ae",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8c6617bbcb720e913eb91258361d411ff2ffbb94deaa6da28a6d2e086e305c2c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "d6204ee0828f15b9d7358f4b02423271e8bb4d3c3c1a30bc458e263c61faa9f8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "08993e9a6db865d0fc22c1e5f74779ffdd11be56795c8950d7b2df862ff5d58d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_STAGE_REGISTRY_V1.json",
+      "sha256": "0285ef75bea7bb8916777e84133f15ce0b24c41c0172362fcd4991c961c71d20",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_TERMINAL_RECEIPT_V1.json",
+      "sha256": "94f3636d538bb5a3da04b93ebb35f2b896f66f74e8cc10cc6614b245f4022ce0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "1a3887a9ddee435b0d5bf95bbce98299ecb7005f29c35747b2bd92ce19943aa0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP601_WP703_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "50ec787d582dfaf966ae3ba5242f7b469a31b832800bf58642fb7d0814fc7878",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS.json",
+      "sha256": "dee1e05585eacbeab2f392a517f1ebc1ace03276769cba35620d9991a1b48628",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-CONTRACT.json",
+      "sha256": "d9f0b803937913be3ef5b7fbf9df69b010b3517ef14ce708aae0dfbe2c3042ff",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-INTEGRATION.json",
+      "sha256": "117d6f99dc4376a0fb7195b86f8c08ddac757f3887db89a5104d9e9a19b41f25",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-MODEL.json",
+      "sha256": "2dc031a096756aa295a4c729d10b0929b1284f61019bf40d38a17d91fc973ad8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-601-LOCAL-AUTOMATION-MUTANTS.json",
+      "sha256": "24a2bcb3476ab7a6dc26553e44cd423df05e5459af9b3e2456749783065c59f6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "04b59b350230e301f8276517b62069010ea432eff599ad2aedd6f3417bd6719a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "src/core/local-automation-v1.mjs",
+      "sha256": "50fe5e24e83d9de96126322635229ba35b5de285b2db531cdbdaad1b5f8452f8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-post-audit-compatibility.contract.test.mjs",
+      "sha256": "fd3a7c3418c2981efc29821ff94684a2e9e852e7d6fdd31a45e8cd6832dcf4e3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-terminal-carriers.contract.test.mjs",
+      "sha256": "53d86a49ae022109d4c3bb76744a6f1c4b15d85841a7e85a909ac2611735250e",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp601-local-automation-fixtures.js",
+      "sha256": "07150805b8569c98434be21f7c6b92351b984003620f3c173eb96562a6a5a255",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation-integration.test.js",
+      "sha256": "2d7a4742140c30ca0284c585d9087e3ecffc9fbaf1e96b143f3ce99eb26d73d7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation-mutants.test.js",
+      "sha256": "06d46c4389631d7d0cec00da6b7d6664a134c33c18408c944a5e62912085ebe5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp601-local-automation.test.js",
+      "sha256": "ab2a3b682d0d313dd421df594643653486cfe4ce11b2c62db4ce320879211f8c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP601_LOCAL_AUTOMATION_V1",
+      "approvedAtUtc": "2026-09-03T01:40:59.130Z",
+      "rationale": "Exact fence-79 admitted bounded local-automation module, focused tests and conditional single-PR terminal carriers. Preserve all 262 unrelated worktrees and nine dirty entries. No user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "YALKEN_R24_WP601_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-601_LOCAL_AUTOMATION",
+  "evidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP601_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-03T01:40:59.130Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "b3a07014649c670a401bba2bff82cad78befcdd6",
+    "treeSha": "0731572227f0a63598f1cd57c6cc9453c22b47e3"
+  },
+  "bindings": {
+    "authorityDigest": "8c6617bbcb720e913eb91258361d411ff2ffbb94deaa6da28a6d2e086e305c2c",
+    "stageInstanceDigest": "08993e9a6db865d0fc22c1e5f74779ffdd11be56795c8950d7b2df862ff5d58d",
+    "stageAdmissionDigest": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052",
+    "writeSetDigest": "9afb8ccab79b44ac72e86bdb22acbba93f2564275667a41000d8d83928770bd7",
+    "commandScopeDigest": "f6b35b765245eea13f9e34eb686489cb1b38e1ebb5ac1222d8195d8b6a9656d4",
+    "acceptanceSignalsDigest": "11d614e52f4990fc23955a9e0ad2251229dc32892ec3a6f11ef5876c9bcf85a4",
+    "selectionReceiptDigest": "d6204ee0828f15b9d7358f4b02423271e8bb4d3c3c1a30bc458e263c61faa9f8",
+    "wp703TerminalPredecessorDigest": "50ec787d582dfaf966ae3ba5242f7b469a31b832800bf58642fb7d0814fc7878",
+    "effectiveGraphBaselineDigest": "b7b124cb7d1bdd322e953b2080a22ae7aca837574f081cc3a8adcc5561a8ce85",
+    "protectedWipBeforeRawDigest": "e26433edd6a8d136f425e9068d93232b02dd81a331f362456cb07c05f1c294c7",
+    "carrierRegistryDigest": "6db1b8d754d89bd050462472377f4a5149d1f77fcb4aa5df08d6d64af06324b9",
+    "acceptanceMatrixDigest": "2c09df66d3303d586312997e1e976d1f4124361a7eda977555dc4fb76dede8fb",
+    "effectiveStateDigest": "bc3783b99b5aec160eba96bf5f4af46e18619ea8e6693405f6ae7a80f92c31cb",
+    "stageRegistryDigest": "0285ef75bea7bb8916777e84133f15ce0b24c41c0172362fcd4991c961c71d20",
+    "leaseReleaseDigest": "b135254010f94cda4ccca98dbbb38f590a54b36d1240ca636f689ab361a3b2ae"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/local-automation-v1.mjs",
+      "sha256": "50fe5e24e83d9de96126322635229ba35b5de285b2db531cdbdaad1b5f8452f8"
+    },
+    {
+      "path": "test/fixtures/r24-wp601-local-automation-fixtures.js",
+      "sha256": "07150805b8569c98434be21f7c6b92351b984003620f3c173eb96562a6a5a255"
+    },
+    {
+      "path": "test/unit/r24-wp601-local-automation.test.js",
+      "sha256": "ab2a3b682d0d313dd421df594643653486cfe4ce11b2c62db4ce320879211f8c"
+    },
+    {
+      "path": "test/unit/r24-wp601-local-automation-integration.test.js",
+      "sha256": "2d7a4742140c30ca0284c585d9087e3ecffc9fbaf1e96b143f3ce99eb26d73d7"
+    },
+    {
+      "path": "test/unit/r24-wp601-local-automation-mutants.test.js",
+      "sha256": "06d46c4389631d7d0cec00da6b7d6664a134c33c18408c944a5e62912085ebe5"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp601": {
+      "tests": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "implementationMutants": 20,
+      "mutantsKilled": 20,
+      "mutantsSurvived": 0,
+      "differentialSchedules": 96,
+      "differentialJobs": 384,
+      "stateObservations": 1017,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP601_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "6a62233fdfb17066da027d756f5174e9f80fffd55c16932e11a5160661fcd7d6",
+        "byteLength": 4142,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 16,
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp601-local-automation.test.js test/unit/r24-wp601-local-automation-integration.test.js test/unit/r24-wp601-local-automation-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwMSBpbmRlcGVuZGVudCBxdWV1ZSBvcmFjbGUgY2hlY2tzIDM4NCBqb2JzIGFjcm9zcyA5NiBkZXRlcm1pbmlzdGljIGFkdmVyc2Ugc2NoZWR1bGVzCm9rIDEgLSBXUDYwMSBpbmRlcGVuZGVudCBxdWV1ZSBvcmFjbGUgY2hlY2tzIDM4NCBqb2JzIGFjcm9zcyA5NiBkZXRlcm1pbmlzdGljIGFkdmVyc2Ugc2NoZWR1bGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQ3OTIuMjY1NQogIC4uLgojIHsic2NoZWR1bGVzIjo5Niwiam9iRGVub21pbmF0b3IiOjM4NCwib2JzZXJ2YXRpb25zIjoxMDE3LCJwdWJsaXNoZWRPYnNlcnZhdGlvbnMiOjI3NCwiaGlkZGVuT3V0cHV0T2JzZXJ2YXRpb25zIjozMjE4LCJvcmFjbGUiOiJJTkRFUEVOREVOVF9FWFBMSUNJVF9TVEFURV9NQUNISU5FIn0KIyBTdWJ0ZXN0OiBXUDYwMSAxNjAwMDAtd29yZCByZXZpc2lvbiBicmlkZ2UgYW5kIDc2OCBkZWNsYXJlZCBhc3NvY2lhdGlvbnMgZXhlY3V0ZSBhcyBvbmUgYm91bmRlZCBkZXJpdmVkIGpvYgpvayAyIC0gV1A2MDEgMTYwMDAwLXdvcmQgcmV2aXNpb24gYnJpZGdlIGFuZCA3NjggZGVjbGFyZWQgYXNzb2NpYXRpb25zIGV4ZWN1dGUgYXMgb25lIGJvdW5kZWQgZGVyaXZlZCBqb2IKICAtLS0KICBkdXJhdGlvbl9tczogMzMwOS40NjUwODMKICAuLi4KIyB7InNvdXJjZVdvcmRzIjoxNjAwMDAsImFzc29jaWF0aW9uRGVub21pbmF0b3IiOjc2OCwib3V0cHV0RGVub21pbmF0b3IiOjEyOCwiZXhhY3RXb3JrVW5pdHMiOjM4Mzg0NCwiaW5wdXRUZXh0UmV0YWluZWQiOmZhbHNlLCJ3YWxsQ2xvY2tTbGFDbGFpbSI6ZmFsc2V9CiMgU3VidGVzdDogV1A2MDEgYm91bmRlZCBzZXNzaW9uIHRyYW5zY3JpcHQgYW5kIGZpeGVkIGFkYXB0ZXIgZXhwb3NlIG5vIGhvc3Qgb3IgZHluYW1pYyBleGVjdXRpb24gc2VhbQpvayAzIC0gV1A2MDEgYm91bmRlZCBzZXNzaW9uIHRyYW5zY3JpcHQgYW5kIGZpeGVkIGFkYXB0ZXIgZXhwb3NlIG5vIGhvc3Qgb3IgZHluYW1pYyBleGVjdXRpb24gc2VhbQogIC0tLQogIGR1cmF0aW9uX21zOiA3NS4zODk1CiAgLi4uCiMgU3VidGVzdDogV1A2MDEgYWN0dWFsIGltcGxlbWVudGF0aW9uIHJlcGxheSBraWxscyBhbGwgMjAgZ3VhcmQgc2NoZWR1bGluZyBhbmQgcHVibGljYXRpb24gbXV0YW50cwpvayA0IC0gV1A2MDEgYWN0dWFsIGltcGxlbWVudGF0aW9uIHJlcGxheSBraWxscyBhbGwgMjAgZ3VhcmQgc2NoZWR1bGluZyBhbmQgcHVibGljYXRpb24gbXV0YW50cwogIC0tLQogIGR1cmF0aW9uX21zOiA0MTIuNTAwNDU4CiAgLi4uCiMgeyJpbXBsZW1lbnRhdGlvbk11dGFudHMiOjIwLCJraWxsZWQiOjIwLCJzdXJ2aXZvcnMiOjAsInByb2R1Y3Rpb25Tb3VyY2VNdXRhdGlvbnMiOjB9CiMgU3VidGVzdDogV1A2MDEgZml4ZWQgcXVlcnkgam9iIGhhcyBoaWRkZW4gUkVBRFkgb3V0cHV0IGFuZCBleGFjdCBpbW11dGFibGUgcHVibGljYXRpb24Kb2sgNSAtIFdQNjAxIGZpeGVkIHF1ZXJ5IGpvYiBoYXMgaGlkZGVuIFJFQURZIG91dHB1dCBhbmQgZXhhY3QgaW1tdXRhYmxlIHB1YmxpY2F0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDY5LjE4NTYyNQogIC4uLgojIFN1YnRlc3Q6IFdQNjAxIHByaW9yaXR5LCBlYXJsaWVzdCBkZWFkbGluZSBhbmQgc3RhYmxlIGRpZ2VzdCBmb3JtIGEgdG90YWwgcXVldWUgb3JkZXIKb2sgNiAtIFdQNjAxIHByaW9yaXR5LCBlYXJsaWVzdCBkZWFkbGluZSBhbmQgc3RhYmxlIGRpZ2VzdCBmb3JtIGEgdG90YWwgcXVldWUgb3JkZXIKICAtLS0KICBkdXJhdGlvbl9tczogMzAuNTg1MjkyCiAgLi4uCiMgU3VidGVzdDogV1A2MDEgY2Fub25pY2FsIHdpcmUgb3JkZXIgcHJlc2VydmVzIGV2ZXJ5IGFzc29jaWF0aW9uIGRlbm9taW5hdG9yIGFuZCBpbmRleCBjaGVjawpvayA3IC0gV1A2MDEgY2Fub25pY2FsIHdpcmUgb3JkZXIgcHJlc2VydmVzIGV2ZXJ5IGFzc29jaWF0aW9uIGRlbm9taW5hdG9yIGFuZCBpbmRleCBjaGVjawogIC0tLQogIGR1cmF0aW9uX21zOiAyNi4xNjIxNjcKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMSBjYW5jZWxsYXRpb24gYmVmb3JlIHJ1biBhbmQgYWZ0ZXIgcnVuIHByZXZlbnRzIGFueSBwdWJsaWNhdGlvbgpvayA4IC0gV1A2MDEgY2FuY2VsbGF0aW9uIGJlZm9yZSBydW4gYW5kIGFmdGVyIHJ1biBwcmV2ZW50cyBhbnkgcHVibGljYXRpb24KICAtLS0KICBkdXJhdGlvbl9tczogMTQuMTg3NTQyCiAgLi4uCiMgU3VidGVzdDogV1A2MDEgZGVhZGxpbmUgZXF1YWxpdHkgZXhwaXJlcyBxdWV1ZWQgYW5kIHJlYWR5IGpvYnM7IGNsb2NrcyBuZXZlciByZXdpbmQKb2sgOSAtIFdQNjAxIGRlYWRsaW5lIGVxdWFsaXR5IGV4cGlyZXMgcXVldWVkIGFuZCByZWFkeSBqb2JzOyBjbG9ja3MgbmV2ZXIgcmV3aW5kCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE3LjkxOTcwOAogIC4uLgojIFN1YnRlc3Q6IFdQNjAxIGpvYiBhbmQgYWdncmVnYXRlIHdvcmsgYnVkZ2V0cyBiaW5kIGV4YWN0IGlucHV0LWJ5dGUgY29zdHMgd2l0aG91dCBwYXJ0aWFsIHJlc3VsdHMKb2sgMTAgLSBXUDYwMSBqb2IgYW5kIGFnZ3JlZ2F0ZSB3b3JrIGJ1ZGdldHMgYmluZCBleGFjdCBpbnB1dC1ieXRlIGNvc3RzIHdpdGhvdXQgcGFydGlhbCByZXN1bHRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI2Ljk2OTgzMwogIC4uLgojIFN1YnRlc3Q6IFdQNjAxIGN1cnJlbnQgcHJvamVjdCBsaWZlY3ljbGUgc25hcHNob3QgcHJvamVjdGlvbiBnZW5lcmF0aW9uIGFuZCBlbmFibGVkIHN0YXRlIGZlbmNlIHJlc3VsdHMKb2sgMTEgLSBXUDYwMSBjdXJyZW50IHByb2plY3QgbGlmZWN5Y2xlIHNuYXBzaG90IHByb2plY3Rpb24gZ2VuZXJhdGlvbiBhbmQgZW5hYmxlZCBzdGF0ZSBmZW5jZSByZXN1bHRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDcwLjQyOTA4MwogIC4uLgojIFN1YnRlc3Q6IFdQNjAxIG5ld2VyIGdlbmVyYXRpb24gY29hbGVzY2VzIHF1ZXVlZCB3b3JrLCByZXRhaW5zIGhpc3RvcnkgYW5kIHJlamVjdHMgaWRlbnRpdHkgY29sbGlzaW9ucwpvayAxMiAtIFdQNjAxIG5ld2VyIGdlbmVyYXRpb24gY29hbGVzY2VzIHF1ZXVlZCB3b3JrLCByZXRhaW5zIGhpc3RvcnkgYW5kIHJlamVjdHMgaWRlbnRpdHkgY29sbGlzaW9ucwogIC0tLQogIGR1cmF0aW9uX21zOiAxOS4xMzg3NQogIC4uLgojIFN1YnRlc3Q6IFdQNjAxIFVOS05PV04gYW5kIGZlYXR1cmUtYnVkZ2V0IEFCU1RBSU4gcmVtYWluIHR5cGVkIGFmdGVyIGZpeGVkIGFkYXB0ZXIgZXhlY3V0aW9uCm9rIDEzIC0gV1A2MDEgVU5LTk9XTiBhbmQgZmVhdHVyZS1idWRnZXQgQUJTVEFJTiByZW1haW4gdHlwZWQgYWZ0ZXIgZml4ZWQgYWRhcHRlciBleGVjdXRpb24KICAtLS0KICBkdXJhdGlvbl9tczogMjQuMjY1OTU4CiAgLi4uCiMgU3VidGVzdDogV1A2MDEgY2Fub25pY2FsIEpTT04gYm91bmRhcnksIGZpbml0ZSBjb3VudGVycyBhbmQgY2xvc2VkIGNvbnRyb2xzIGZhaWwgYXRvbWljYWxseQpvayAxNCAtIFdQNjAxIGNhbm9uaWNhbCBKU09OIGJvdW5kYXJ5LCBmaW5pdGUgY291bnRlcnMgYW5kIGNsb3NlZCBjb250cm9scyBmYWlsIGF0b21pY2FsbHkKICAtLS0KICBkdXJhdGlvbl9tczogMjkuMTM4MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMSBxdWV1ZSBqb2IgYW5kIGV2ZW50IGRlbm9taW5hdG9yIGJvdW5kcyByZWplY3QgYmVmb3JlIGFueSBzdGF0ZSBjaGFuZ2UKb2sgMTUgLSBXUDYwMSBxdWV1ZSBqb2IgYW5kIGV2ZW50IGRlbm9taW5hdG9yIGJvdW5kcyByZWplY3QgYmVmb3JlIGFueSBzdGF0ZSBjaGFuZ2UKICAtLS0KICBkdXJhdGlvbl9tczogMjMuNjc5MjA4CiAgLi4uCiMgU3VidGVzdDogV1A2MDEgZXhhY3QgcmVwbGF5IHJlamVjdHMgbWlzc2luZyByZW9yZGVyZWQgcmVoYXNoZWQgc3RhbGUgYW5kIHdpZGVuZWQgYXV0aG9yaXR5IGV2aWRlbmNlCm9rIDE2IC0gV1A2MDEgZXhhY3QgcmVwbGF5IHJlamVjdHMgbWlzc2luZyByZW9yZGVyZWQgcmVoYXNoZWQgc3RhbGUgYW5kIHdpZGVuZWQgYXV0aG9yaXR5IGV2aWRlbmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDY2LjUwODMzMwogIC4uLgoxLi4xNgojIHRlc3RzIDE2CiMgc3VpdGVzIDAKIyBwYXNzIDE2CiMgZmFpbCAwCiMgY2FuY2VsbGVkIDAKIyBza2lwcGVkIDAKIyB0b2RvIDAKIyBkdXJhdGlvbl9tcyA4MjU4LjYyNDA4NAo="
+      }
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_ON_CLEAN_LOCAL_CANDIDATE_BEFORE_PUSH_AND_IN_EXACT_CI",
+      "unpublishedCandidateCommitIsNotDelivery": true,
+      "historicalRtkDirtyScopeGuardsPreserved": true
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 69,
+    "blockedTypedCount": 3,
+    "pendingCount": 27,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_DAEMON_TIMER_PLUGIN_RUNTIME_REGISTRY_OR_PRODUCT_MUTATION_AUTHORITY",
+    "NO_WALL_CLOCK_CPU_TIME_SLA_OR_TYPING_PATH_CLAIM",
+    "NO_USER_DOCUMENT_RELEASE_SECRET_OR_UNADMITTED_PROVIDER_EFFECT"
+  ]
+}

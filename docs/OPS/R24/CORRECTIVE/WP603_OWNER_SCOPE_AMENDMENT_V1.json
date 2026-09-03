@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_OWNER_SCOPE_AMENDMENT_V1",
+  "amendmentType": "APPEND_ONLY_OWNER_SCOPE_AMENDMENT",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "status": "OWNER_AUTHORIZED",
+  "ownerDecision": {
+    "observedAtUtc": "2026-09-03T20:56:56.127Z",
+    "messageId": "msg_01a0690f-763f-7e01-855d-d7adc1889d10",
+    "rawJsonlRecordSha256": "7d03855e17e204b5529d562937f3a0ad2b522210ae041472c77c36b934f3bd4e",
+    "rawJsonlRecordBytes": 718,
+    "journalTaskId": "01a05e55-ac3b-7b42-a9a4-9586f3aa0aea"
+  },
+  "addedWritePath": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+  "purpose": [
+    "Story State Debugger",
+    "Living Evidence Bible",
+    "Scene Cockpit",
+    "Knowledge Matrix"
+  ],
+  "route": "EXISTING_READ_ONLY_IMMUTABLE_PROJECTION",
+  "ordinaryTechnicalDecisionsAutonomous": true,
+  "constraints": [
+    "NO_DESTRUCTIVE_RESET_CLEAN_STASH_FORCE_PUSH",
+    "NO_BRANCH_PROTECTION_BYPASS",
+    "NO_SECRETS_OR_CREDENTIALS",
+    "NO_REAL_OWNER_DOCUMENTS",
+    "NO_NEW_DEPENDENCY",
+    "NO_CLOUD_OR_RUNTIME_BOUNDARY_EXPANSION",
+    "NO_SIGNING_PUBLIC_DISTRIBUTION_OR_PAYMENT"
+  ]
+}

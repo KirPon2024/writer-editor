@@ -6,12 +6,43 @@
 // Claim text without a resolvable stamp fails closed.
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import { readJsonBounded, sha256hex } from './canonical-json.mjs';
 import { buildEvidenceStamp } from './terminal-receipt.mjs';
 import { buildClaimBinding } from './claim-binding.mjs';
 
 const CLAIM_TERMS = ['PASS', 'DONE', 'READY', 'CLOSED', 'SAFE', 'COMPLETE'];
 const CLAIM_RE = new RegExp(`\\b(${CLAIM_TERMS.join('|')})\\b`);
+
+// Two immutable node carriers included the mutable inventory in their claim
+// surface. They remain exact historical evidence, never coverage of today's
+// inventory. No arbitrary stamp, path, digest or future-head fallback is allowed.
+export const HISTORICAL_INVENTORY_CLAIM_PINS_V1 = Object.freeze([
+  Object.freeze({ stampId: 'ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS', stampSha256: '82f1e92a55570f31bb04049efe5bfaa87f3c4ce4bf16cb8f7196fd6adc589143',
+    evaluationSha: '5a6c46b3c6a8a8e1f945e1d72c0302cb78d4763f', evaluationTree: '0731572227f0a63598f1cd57c6cc9453c22b47e3', targetSha256: '7f315e0a188cabc597d60f5e11180ed7bde828d1d495b88e27d73e0b47859d0f' }),
+  Object.freeze({ stampId: 'ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS', stampSha256: 'dee1e05585eacbeab2f392a517f1ebc1ace03276769cba35620d9991a1b48628',
+    evaluationSha: '91dd652595d2d9ea47d74cbf9edfa6a21b7f277e', evaluationTree: '689c5ea5449c42ba6af5402a75b9930a9e85e7d4', targetSha256: 'bd6d7f4b8abebf9db7e0ff097c3d0b8656e5f0db9140c57ac31f2d78f3f3786e' }),
+]);
+const INVENTORY_PATH = 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json';
+const historicalGit = (rootDir, args) => execFileSync('git', args, { cwd: rootDir, encoding: null, maxBuffer: 4 * 1024 * 1024, timeout: 15000, stdio: ['ignore','pipe','pipe'] });
+export function verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes, binding, git = historicalGit }) {
+  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V1.find(item => item.stampId === stamp.stampId);
+  if (!pin || binding.filePath !== INVENTORY_PATH) return null;
+  const fail = () => { const error = new Error('E_HISTORICAL_INVENTORY_BINDING'); error.code = error.message; throw error; };
+  if (sha256hex(stampBytes) !== pin.stampSha256 || binding.sha256 !== pin.targetSha256) fail();
+  const stampPath = `docs/OPS/R24/EVIDENCE/${pin.stampId}.json`;
+  try {
+    const head = git(rootDir, ['rev-parse','HEAD']).toString().trim();
+    if (!/^[a-f0-9]{40}$/.test(head)) fail();
+    if (git(rootDir, ['rev-parse',`${pin.evaluationSha}^{tree}`]).toString().trim() !== pin.evaluationTree) fail();
+    git(rootDir, ['merge-base','--is-ancestor',pin.evaluationSha,head]);
+    if (sha256hex(git(rootDir, ['show',`${pin.evaluationSha}:${stampPath}`])) !== pin.stampSha256) fail();
+    if (sha256hex(git(rootDir, ['show',`${pin.evaluationSha}:${INVENTORY_PATH}`])) !== pin.targetSha256) fail();
+  } catch { fail(); }
+  return Object.freeze({ stampId: pin.stampId, targetPath: INVENTORY_PATH, evaluationSha: pin.evaluationSha,
+    evaluationTree: pin.evaluationTree, stampSha256: pin.stampSha256, targetSha256: pin.targetSha256,
+    status: 'VERIFIED_HISTORICAL_BYTES', currentFileCoverage: false });
+}
 
 function listFiles(dir, out = []) {
   if (!fs.existsSync(dir)) return out;
@@ -32,7 +63,7 @@ function safeSurfaceRelative(value) {
     && /\.(md|json)$/.test(normalized);
 }
 
-function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, failures }) {
+function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, historicalBindings, failures }) {
   if (!Array.isArray(stamp.claimBindings)) return;
   for (const binding of stamp.claimBindings) {
     const relativePath = binding?.filePath || binding?.path || '';
@@ -64,6 +95,10 @@ function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, failure
     }
     const actual = sha256hex(fs.readFileSync(normalizedTarget));
     if (actual !== binding.sha256) {
+      try {
+        const historical = verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes: fs.readFileSync(file), binding });
+        if (historical) { historicalBindings.push(historical); continue; }
+      } catch (error) { failures.push(`${error.code || 'E_HISTORICAL_INVENTORY_BINDING'}:${relativePath}`); continue; }
       failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);
       continue;
     }
@@ -78,6 +113,7 @@ export function lintDocsClaims(rootDir) {
   const evidenceDir = path.join(surface, 'EVIDENCE');
   const stampIds = new Set();
   const bindingsByFile = new Map();
+  const historicalBindings = [];
   const failures = [];
   for (const file of listFiles(evidenceDir)) {
     if (!file.endsWith('.json')) continue;
@@ -89,7 +125,7 @@ export function lintDocsClaims(rootDir) {
       } else if (artifact?.schemaVersion === 'ClaimBindingV1') {
         const binding = buildClaimBinding(artifact);
         stampIds.add(binding.stampId);
-        addBinding({ rootDir, evidenceDir, stamp: binding, file, bindingsByFile, failures });
+        addBinding({ rootDir, evidenceDir, stamp: binding, file, bindingsByFile, historicalBindings, failures });
       } else if (artifact && (Object.hasOwn(artifact, 'stampId') || Object.hasOwn(artifact, 'claimBindings'))) {
         failures.push('E_EVIDENCE_ARTIFACT_SCHEMA:' + path.relative(rootDir, file) + ':UNSUPPORTED_SCHEMA_VERSION');
       }
@@ -114,7 +150,7 @@ export function lintDocsClaims(rootDir) {
     ]);
     if (resolved.size === 0) failures.push(`E_CLAIM_WITHOUT_EVIDENCE:${path.relative(rootDir, file)}`);
   }
-  return { ok: failures.length === 0, failures, filesWithClaims, stampCount: stampIds.size };
+  return { ok: failures.length === 0, failures, filesWithClaims, stampCount: stampIds.size, historicalBindings };
 }
 
 export function main(argv = process.argv.slice(2)) {

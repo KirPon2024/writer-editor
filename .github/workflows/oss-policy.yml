@@ -62,6 +62,8 @@ jobs:
         run: node --test test/unit/r24-wp703-docx-profile.test.js test/unit/r24-wp703-docx-profile-integration.test.js test/unit/r24-wp703-docx-profile-mutants.test.js test/contracts/r24-wp703-terminal-carriers.contract.test.mjs test/contracts/r24-wp703-post-audit-compatibility.contract.test.mjs
       - name: Verify WP-601 bounded local automation, replay and executable mutants
         run: node --test test/unit/r24-wp601-local-automation.test.js test/unit/r24-wp601-local-automation-integration.test.js test/unit/r24-wp601-local-automation-mutants.test.js test/contracts/r24-wp601-terminal-carriers.contract.test.mjs test/contracts/r24-wp601-post-audit-compatibility.contract.test.mjs
+      - name: Verify WP-601 exact historical inventory bindings without current-byte claims
+        run: node --test test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs
 
   e0-mutants:
     runs-on: ubuntu-latest

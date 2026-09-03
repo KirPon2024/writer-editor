@@ -2,6 +2,7 @@ import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveVie
 import { deriveAtlasContinuityFactLedgers } from './deriveAtlasContinuityFactLedgers.mjs';
 import { deriveAtlasContinuityFindings } from './deriveAtlasContinuityFindings.mjs';
 import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
+import { buildWseStateEvidence } from '../../core/wse-state-evidence-v1.mjs';
 import {
   ATLAS_CONTINUITY_LEDGER_CORRECTION_ROUTE_SCHEMA_VERSION,
   ATLAS_CONTINUITY_LEDGER_EVIDENCE_ROW_SCHEMA_VERSION,
@@ -271,6 +272,11 @@ function buildEvidence({ surfaceHash, sourceHash }) {
 }
 
 function emptyState(projectId, reason = '') {
+  const wseStateEvidence = buildWseStateEvidence({
+    projectId: projectId || 'unavailable-project',
+    facts: [],
+    continuityRows: [],
+  });
   return {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_SURFACE_SCHEMA_VERSION,
     state: reason ? 'unavailable' : 'empty',
@@ -292,6 +298,7 @@ function emptyState(projectId, reason = '') {
       invalidationKey: '',
     },
     rows: [],
+    wseStateEvidence,
     listParity: buildListParity([], 0),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash: '', sourceHash: '' }),
@@ -307,6 +314,13 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
   const outcomeRows = (Array.isArray(findingsResult.value?.outcomes) ? findingsResult.value.outcomes : [])
     .map((item) => makeRow({ source: item, rowKind: 'outcome', sceneOrdinalById, factsById }));
   const allRows = sortAtlasContinuityLedgerRows([...findingRows, ...outcomeRows]);
+  const allFacts = Array.isArray(factLedgersResult.value?.facts) ? factLedgersResult.value.facts : [];
+  const wseStateEvidence = buildWseStateEvidence({
+    projectId,
+    facts: allFacts,
+    continuityRows: allRows,
+    rowLimit: Math.min(128, Math.max(rowLimit, 32)),
+  });
   const visibleRows = allRows.slice(0, rowLimit);
   const omittedRowCount = Math.max(0, allRows.length - visibleRows.length);
   const evidenceAnchorCount = visibleRows.reduce((sum, row) => sum + row.evidenceAnchorCount, 0);
@@ -318,11 +332,13 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     ledgerOutputHash: normalizeString(factLedgersResult.meta?.outputHash),
     coreStateHash: normalizeString(meta.coreStateHash),
   });
-  const surfaceHash = hashCanonicalValue({ rows: visibleRows, sourceHash, rowLimit });
+  const surfaceHash = hashCanonicalValue({ rows: visibleRows, sourceHash, rowLimit, wseProjectionDigest: wseStateEvidence.projectionDigest });
   const degradedRowCount = visibleRows.filter((row) => row.evidenceRows.some((evidenceRow) => evidenceRow.evidenceState !== 'current')).length;
   return {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_SURFACE_SCHEMA_VERSION,
-    state: allRows.length === 0 ? 'empty' : degradedRowCount > 0 ? 'degraded' : 'ready',
+    state: allRows.length === 0 && wseStateEvidence.denominator.inputFacts === 0
+      ? 'empty'
+      : degradedRowCount > 0 || wseStateEvidence.state === 'degraded' ? 'degraded' : 'ready',
     unavailableReason: '',
     surfaceManifest: buildSurfaceManifest(),
     authority: buildAuthority(),
@@ -341,6 +357,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
       invalidationKey: meta.invalidationKey,
     },
     rows: visibleRows,
+    wseStateEvidence,
     listParity: buildListParity(visibleRows, omittedRowCount),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash, sourceHash }),
@@ -383,16 +400,6 @@ export function deriveAtlasContinuityLedgerSurface(input = {}) {
       if (!factLedgers.ok) throw createDerivedError(factLedgers.error?.code, VIEW_ID, factLedgers.error?.reason, factLedgers.error?.details);
       const findings = deriveAtlasContinuityFindings({ coreState, params: { projectId: params.projectId }, capabilitySnapshot });
       if (!findings.ok) throw createDerivedError(findings.error?.code, VIEW_ID, findings.error?.reason, findings.error?.details);
-      if ((Array.isArray(findings.value?.findings) ? findings.value.findings : []).length === 0
-        && (Array.isArray(findings.value?.outcomes) ? findings.value.outcomes : []).length === 0) {
-        return {
-          ...emptyState(params.projectId),
-          summary: {
-            ...emptyState(params.projectId).summary,
-            invalidationKey: meta.invalidationKey,
-          },
-        };
-      }
       return buildState({
         project,
         projectId: params.projectId,

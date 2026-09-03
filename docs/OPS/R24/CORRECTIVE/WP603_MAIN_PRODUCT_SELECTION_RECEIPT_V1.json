@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "status": "SELECTED",
+  "selectedAtUtc": "2026-09-03T16:09:35.504Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "schedulerGraphDigest": "c9744a548acb32169483780de151a43bf89d5d75e9564874b7a8939192afe2f5",
+  "contourStatesDigest": "610602c5731a0965f12559c06117727e773b2cb14e721437c490424b29f36c0c",
+  "stateDigest": "66bfd053000401e3c0c24bda8b2ce2860d4b73039b34bc8a10d604a52b3e2323",
+  "logicalProjectionRevision": 292,
+  "baseSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+  "baseTree": "9dab745703c8c814b728910fed0df265a28e1520",
+  "readySet": [
+    "WP-603_WSE_STATE_EVIDENCE",
+    "WP-710_EVIDENCE_CAPSULE_EXPORT"
+  ],
+  "graphCounts": {
+    "DONE": 72,
+    "PENDING": 24,
+    "BLOCKED_TYPED": 3,
+    "INELIGIBLE_OPTIONAL": 10
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 84,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "mutationAdmissionGranted": false
+}

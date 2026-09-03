@@ -1,0 +1,127 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceStampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
+  "denominator": 21,
+  "localPassCount": 14,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "1d8b6744e8f5341e8348550b284827b05b6fdc1d3bd9ef735fb3b554038f2efb"
+    },
+    {
+      "id": "EXACT_45_PATH_WRITE_SET",
+      "status": "PASS",
+      "evidence": "42c65596d1862e97a5eb8a98c6a5a85b5d33898cca48684acc53ecf2b00d45fd"
+    },
+    {
+      "id": "OWNER_SCOPE_AMENDMENT",
+      "status": "PASS",
+      "evidence": "fde66b2642e7a1949fbe4040e6aba1f12d0e693adc269e13a155baa9abef5394"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE",
+      "status": "PASS",
+      "evidence": "a90797ae16c4791ec22453c074daf9635483d861a8986735108aebc96feccc94"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "915248883d641ca71a456b1132190c7cf10ac950a8421102c3bb39cc52872d72"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "4daeb3137b3edd62f58cc7df475463235c75b4ffcc37a5ba70939bb555bc6e53"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "92a1fdf16a19de40ce4642a728c0397a4ffeb08ca17002b30f9635c505152952"
+    },
+    {
+      "id": "MUTANTS",
+      "status": "PASS",
+      "evidence": "7d122b12633b800aacf946552e776f965b8c4a74388a276cbedf316ec7ddd2be"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "75fd7cebfc8024a3c19f705035230443d7ebd15a700c71e61a3189af9e8b6cdc"
+    },
+    {
+      "id": "FOUR_SOURCE_FIRST_IMMUTABLE_VIEWS",
+      "status": "PASS",
+      "evidence": "915248883d641ca71a456b1132190c7cf10ac950a8421102c3bb39cc52872d72"
+    },
+    {
+      "id": "OPEN_WORLD_UNKNOWN_PRESERVED",
+      "status": "PASS",
+      "evidence": "4daeb3137b3edd62f58cc7df475463235c75b4ffcc37a5ba70939bb555bc6e53"
+    },
+    {
+      "id": "HASH_AND_PROJECT_IDENTITY_GUARDS",
+      "status": "PASS",
+      "evidence": "92a1fdf16a19de40ce4642a728c0397a4ffeb08ca17002b30f9635c505152952"
+    },
+    {
+      "id": "BOUNDED_OUTPUT_HONEST_OMISSIONS",
+      "status": "PASS",
+      "evidence": "4daeb3137b3edd62f58cc7df475463235c75b4ffcc37a5ba70939bb555bc6e53"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "NODE_ONLY_SCOPE"
+    },
+    {
+      "id": "FULL_REQUIRED_LOCAL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_DESKTOP_BUILD_LIFECYCLE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_EXACT_DESKTOP_LIFECYCLE_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "claimCeiling": "WP603_NODE_ONLY"
+}

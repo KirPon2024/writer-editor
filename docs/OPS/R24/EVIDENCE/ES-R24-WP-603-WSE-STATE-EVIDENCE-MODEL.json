@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-603_WSE_STATE_EVIDENCE",
+  "attemptId": "ATTEMPT-WP603-20260903",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP603_AUTHORITY_EPOCH_V1",
+  "profileId": "WSE_OPTIONAL_MODULES",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+    "treeSha": "9dab745703c8c814b728910fed0df265a28e1520"
+  },
+  "createdAt": "2026-09-03T22:48:56Z",
+  "actor": "codex/r24-wp603-wse-state-evidence-v1-recovery-20260904",
+  "stampId": "ES-R24-WP-603-WSE-STATE-EVIDENCE-MODEL",
+  "claim": {
+    "type": "WP603_WSE_STATE_EVIDENCE_MODEL",
+    "ceiling": "WP603_NODE_AND_WSE_OPTIONAL_MODULES_ONLY_NOT_PRODUCT_RELEASE",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "FOUR_SOURCE_FIRST_IMMUTABLE_VIEWS",
+    "evidenceClass": "MODEL",
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "316fb6fd0c389f820e03f515719744e4cc46f4e6084506a6b052c81147d1c84f"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/wse-state-evidence-v1.mjs",
+        "sha256": "e82b7ec841c391ce8e1e8bfb3fa9f161feddddd83d70f17914c420618e2ce99e"
+      },
+      {
+        "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+        "sha256": "e025c31bf52d32d85fcb94ceefae8e78bc27946bb78ce53c74df2bddc9d72260"
+      },
+      {
+        "path": "src/renderer/atlasWseStateEvidencePresentationModel.mjs",
+        "sha256": "efb2dd3897afa4b50557cf4484640c3fb0f0afc216be042731555152669b3142"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "3f5a597264599750fac4e812dc4e27e470b3d2b94e1d0197a489c43ffbc70a21"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "2fae6379224f2eec291d1dcb959b3049f696ec7df76e8ccd504f272e745bb360"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "3279a2ea81a1856c591cf330bee4b401e663e9a086e842c479b6000f3a1134b6"
+      },
+      {
+        "path": "test/fixtures/r24-wp603-wse-state-evidence-fixtures.js",
+        "sha256": "ec479e79c5120a48d694b6d2bafe99f27008c983090abd6620c45b146988edba"
+      },
+      {
+        "path": "test/unit/r24-wp603-wse-state-evidence.test.js",
+        "sha256": "91a61afd03692c74a2908ceaa3205710c6b5b87aec7df22652f0fdbd4273613a"
+      },
+      {
+        "path": "test/unit/r24-wp603-wse-state-evidence-integration.test.js",
+        "sha256": "8baf8a12e5362b7cb97dc5a138cbedd06743d3aea6c0d6ce92aaf85f2bf90a17"
+      },
+      {
+        "path": "test/unit/r24-wp603-wse-state-evidence-mutants.test.js",
+        "sha256": "56e29bd5f32b12f04184a2ae406b202fbf6dcb8aa90ad62ff8a0ac043980b472"
+      },
+      {
+        "path": "test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+        "sha256": "49869060c03a1294eaa6085aaaafd4dc30eacc8c74d016d6ee4317c872d42978"
+      }
+    ],
+    "observations": [
+      "READ_ONLY_DERIVED_PROJECTION",
+      "FOUR_SOURCE_FIRST_VIEWS",
+      "UNKNOWN_REMAINS_UNKNOWN",
+      "BOUNDED_OUTPUT_WITH_HONEST_OMISSION_COUNTS"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "rawEvidence": {
+      "basename": "WP603_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "5b47781b9a78659a2c6c669aa3f5c3322fdfa0742ab02481bfda489af2e67fe5",
+      "byteLength": 2572,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test --test-reporter=tap test/unit/r24-wp603-wse-state-evidence.test.js test/unit/r24-wp603-wse-state-evidence-integration.test.js test/unit/r24-wp603-wse-state-evidence-mutants.test.js test/unit/r24-wp603-wse-state-evidence-ui-e2e-smoke.mjs",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwMyBleGlzdGluZyBDb250aW51aXR5IGFkYXB0ZXIgcHVibGlzaGVzIFdTRSBldmVuIHdoZW4gYXV0aG9yZWQgZmFjdHMgaGF2ZSBubyBmaW5kaW5nCm9rIDEgLSBXUDYwMyBleGlzdGluZyBDb250aW51aXR5IGFkYXB0ZXIgcHVibGlzaGVzIFdTRSBldmVuIHdoZW4gYXV0aG9yZWQgZmFjdHMgaGF2ZSBubyBmaW5kaW5nCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUxLjYwNDQ1OQogIC4uLgojIFN1YnRlc3Q6IFdQNjAzIHJlbmRlcmVyIHByZXNlbnRhdGlvbiBrZWVwcyBhbGwgZm91ciBuYXRpdmUgdmlld3MgYW5kIGhvbmVzdCBjb3VudHMKb2sgMiAtIFdQNjAzIHJlbmRlcmVyIHByZXNlbnRhdGlvbiBrZWVwcyBhbGwgZm91ciBuYXRpdmUgdmlld3MgYW5kIGhvbmVzdCBjb3VudHMKICAtLS0KICBkdXJhdGlvbl9tczogMS42MDY5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMyBVSSBzb3VyY2UgcmVqZWN0cyBsYXRlIHJlc3VsdHMgYW5kIHN0YWxlIGFuY2hvcnMgYmVmb3JlIHNlbGVjdGlvbgpvayAzIC0gV1A2MDMgVUkgc291cmNlIHJlamVjdHMgbGF0ZSByZXN1bHRzIGFuZCBzdGFsZSBhbmNob3JzIGJlZm9yZSBzZWxlY3Rpb24KICAtLS0KICBkdXJhdGlvbl9tczogMy4yMDg2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMyBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgcmVhbCBpbXBsZW1lbnRhdGlvbiBtdXRhbnRzCm9rIDQgLSBXUDYwMyBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgcmVhbCBpbXBsZW1lbnRhdGlvbiBtdXRhbnRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDY0LjIzOTc5MgogIC4uLgojIHsiaW1wbGVtZW50YXRpb25NdXRhbnRzIjo2LCJraWxsZWQiOjYsInN1cnZpdm9ycyI6MCwicHJvZHVjdGlvblNvdXJjZU11dGF0aW9ucyI6MH0KIyBTdWJ0ZXN0OiBXUDYwMyBidWlsdCByZW5kZXJlciBjb250cmFjdCBleHBvc2VzIGZvdXIga2V5Ym9hcmQgdmlld3MgdGhyb3VnaCB0aGUgZXhpc3RpbmcgQ29udGludWl0eSBxdWVyeQpvayA1IC0gV1A2MDMgYnVpbHQgcmVuZGVyZXIgY29udHJhY3QgZXhwb3NlcyBmb3VyIGtleWJvYXJkIHZpZXdzIHRocm91Z2ggdGhlIGV4aXN0aW5nIENvbnRpbnVpdHkgcXVlcnkKICAtLS0KICBkdXJhdGlvbl9tczogMy43NzczNzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMyBleHBvc2VzIGZvdXIgaW1tdXRhYmxlIHNvdXJjZS1maXJzdCB2aWV3cyBhbmQgcHJlc2VydmVzIG9wZW4td29ybGQgdW5rbm93bgpvayA2IC0gV1A2MDMgZXhwb3NlcyBmb3VyIGltbXV0YWJsZSBzb3VyY2UtZmlyc3Qgdmlld3MgYW5kIHByZXNlcnZlcyBvcGVuLXdvcmxkIHVua25vd24KICAtLS0KICBkdXJhdGlvbl9tczogMjkuNTEyMTI1CiAgLi4uCiMgU3VidGVzdDogV1A2MDMgcmVwb3J0cyBjb21wbGV0ZSB2aXNpYmxlIGFuZCBvbWl0dGVkIGRlbm9taW5hdG9ycyB3aXRob3V0IHBhcnRpYWwgYW1iaWd1aXR5Cm9rIDcgLSBXUDYwMyByZXBvcnRzIGNvbXBsZXRlIHZpc2libGUgYW5kIG9taXR0ZWQgZGVub21pbmF0b3JzIHdpdGhvdXQgcGFydGlhbCBhbWJpZ3VpdHkKICAtLS0KICBkdXJhdGlvbl9tczogMTQuODA4NjI1CiAgLi4uCiMgU3VidGVzdDogV1A2MDMgZGVncmFkZXMgZm9yIG1pc3Npbmcgb3Igc3RhbGUgY29udGludWl0eSBldmlkZW5jZSBvdXRzaWRlIHRoZSB2aXNpYmxlIHJvdyBidWRnZXQKb2sgOCAtIFdQNjAzIGRlZ3JhZGVzIGZvciBtaXNzaW5nIG9yIHN0YWxlIGNvbnRpbnVpdHkgZXZpZGVuY2Ugb3V0c2lkZSB0aGUgdmlzaWJsZSByb3cgYnVkZ2V0CiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuMDU0MjkyCiAgLi4uCiMgU3VidGVzdDogV1A2MDMgcmVqZWN0cyBjcm9zcy1wcm9qZWN0LCBtYWxmb3JtZWQgYW5kIG92ZXItYnVkZ2V0IGlucHV0IGJlZm9yZSBpbnRlcnByZXRhdGlvbgpvayA5IC0gV1A2MDMgcmVqZWN0cyBjcm9zcy1wcm9qZWN0LCBtYWxmb3JtZWQgYW5kIG92ZXItYnVkZ2V0IGlucHV0IGJlZm9yZSBpbnRlcnByZXRhdGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiA5MC40NjI5NTkKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMyAxMDAwMC1mYWN0IGNvcnB1cyBtYXRjaGVzIGFuIGluZGVwZW5kZW50IHZpZXctY291bnQgb3JhY2xlIHdpdGhpbiBib3VuZGVkIG91dHB1dApvayAxMCAtIFdQNjAzIDEwMDAwLWZhY3QgY29ycHVzIG1hdGNoZXMgYW4gaW5kZXBlbmRlbnQgdmlldy1jb3VudCBvcmFjbGUgd2l0aGluIGJvdW5kZWQgb3V0cHV0CiAgLS0tCiAgZHVyYXRpb25fbXM6IDcyMi4wMTY2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMyBmZWF0dXJlIGFuZCBzdXJmYWNlIG1hbmlmZXN0cyBiaW5kIHRoZSBleGlzdGluZyByZWFkLW9ubHkgc2VhbQpvayAxMSAtIFdQNjAzIGZlYXR1cmUgYW5kIHN1cmZhY2UgbWFuaWZlc3RzIGJpbmQgdGhlIGV4aXN0aW5nIHJlYWQtb25seSBzZWFtCiAgLS0tCiAgZHVyYXRpb25fbXM6IDAuMzc0OTU4CiAgLi4uCjEuLjExCiMgdGVzdHMgMTEKIyBzdWl0ZXMgMAojIHBhc3MgMTEKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDkyOC4wOTM1Cg=="
+    }
+  }
+}

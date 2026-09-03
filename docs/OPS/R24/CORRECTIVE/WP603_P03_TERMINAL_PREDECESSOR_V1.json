@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "YALKEN_R24_WP603_P03_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "predecessorStageId": "P03_CONTEXT_RESTORATION",
+  "status": "VERIFIED_RELEASED_PREDECESSOR",
+  "receiptSha256": "316fb6fd0c389f820e03f515719744e4cc46f4e6084506a6b052c81147d1c84f",
+  "verificationSha256": "3f0241f47ec7aa5b6def2b49784aab0db3bd59f820920652d82c6318ebd42eb8",
+  "leaseReleaseDispositionSha256": "084ae4107b98f1b0337caf624af3e305e8bdf5cdc1cb064a849f92a29bf3c32c",
+  "predecessorFence": 84,
+  "predecessorLeaseStatus": "RELEASED",
+  "predecessorWip": 0,
+  "predecessorMergeSha": "39897a04b880391ee9224269a2691f52e9e8018f",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

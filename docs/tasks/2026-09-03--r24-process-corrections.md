@@ -22,6 +22,8 @@ P01 includes only the delivery compatibility needed by its new tests: freeze WP6
 
 The existing one ordinary terminal PR per bounded stage plus external verification is preserved. No recursive evidence/lease PR, second writer, new runtime, dependency, product final-cut expansion or process-node increment is authorized.
 
+Owner queue amendment, approved 2026-09-03T13:39:25Z: ordinary R2.4 product work resumes immediately after P03 terminal closure. P04 remains `DEFERRED_NON_BLOCKING` rather than done or prerequisite. P05 exact-build create/write/save/close/reopen/recovery/export scenarios run inside the acceptance of each relevant product contour rather than as a separate process package before product work.
+
 ## Baseline and measurement law
 
 Raw reconstructible baseline: [P01_PROCESS_BASELINE_V1.json](../OPS/R24/CORRECTIVE/P01_PROCESS_BASELINE_V1.json), copied without changing its bytes from the pre-mutation observation. Its SHA-256 is 1014d15f91e42731aedca2de0b26c63dc5fdf95986f352e13e0585386373dbaa.
@@ -48,4 +50,4 @@ P03 implementation is an exact-head successor at 87de5fdf38a03b25de5736664ce3df3
 
 P01 starts from clean isolated exact main with fence 83, after verified release of fence 82. Preserve all 267 protected worktrees, ten dirty entries, the frozen owned files, and the canonical user checkout. No reset, clean, stash, move, deletion or unrelated staging.
 
-Each task has one conceptual rollback through a normal reviewed revert, never an authority bypass. A failed oracle remains failed until an evidence-backed correction within scope or a separately admitted successor. Completion requires actual outcome, exact identities, positive/negative proofs, full required delivery, external terminal verification, released lease, WIP=0 and preserved unrelated work. No main-product selection before this process package closes.
+Each task has one conceptual rollback through a normal reviewed revert, never an authority bypass. A failed oracle remains failed until an evidence-backed correction within scope or a separately admitted successor. Completion requires actual outcome, exact identities, positive/negative proofs, full required delivery, external terminal verification, released lease, WIP=0 and preserved unrelated work. After P03 terminal closure, each ordinary product contour proceeds through its own fresh graph selection and admission.

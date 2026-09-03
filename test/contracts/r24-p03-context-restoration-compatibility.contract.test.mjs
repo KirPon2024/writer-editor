@@ -7,6 +7,7 @@ import {P03_CONTEXT_RESTORATION_EXPECTATION as E, verifyP03ContextRestorationPos
 const c='docs/OPS/R24/CORRECTIVE/',h=b=>crypto.createHash('sha256').update(b).digest('hex');
 const instance=JSON.parse(fs.readFileSync(E.instancePath)),ADMITTED=[...instance.operations.modifyPaths,...instance.operations.createPaths].sort();
 const candidate='f003f003f003f003f003f003f003f003f003f003',tree='a003a003a003a003a003a003a003a003a003a003';
+const P03_MERGE_SHA='39897a04b880391ee9224269a2691f52e9e8018f';
 const realGit=args=>execFileSync('git',args,{encoding:null,stdio:['ignore','pipe','pipe']});
 function fakeGit({delta=ADMITTED,missing=null,drift=null,ancestor=true,wrongBase=false,registryMutant=null}={}){
  return(args,{encoding=null}={})=>{
@@ -16,7 +17,7 @@ function fakeGit({delta=ADMITTED,missing=null,drift=null,ancestor=true,wrongBase
   else if(args[0]==='diff')value=Buffer.from(delta.join('\n'));
   else if(args[0]==='show'){
    const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
-   if(file===missing)throw Error('MISSING');value=sha===E.baseSha?realGit(args):fs.readFileSync(file);
+   if(file===missing)throw Error('MISSING');value=sha===E.baseSha?realGit(args):sha===candidate?realGit(['show',P03_MERGE_SHA+':'+file]):fs.readFileSync(file);
    if(registryMutant&&file===c+'P03_CARRIER_REGISTRY_V1.json'){const registry=JSON.parse(value);registryMutant(registry);value=Buffer.from(JSON.stringify(registry,null,2)+'\n');}
    if(file===drift)value=Buffer.concat([value,Buffer.from(' ')]);
   }else throw Error('UNEXPECTED_GIT');return encoding==='utf8'?value.toString():value;
@@ -51,9 +52,9 @@ test('context contract schema protocol and current CI retain no-authority and fu
  assert.equal(contract.contextCache.mutationAuthority,false);assert.equal(contract.contextCache.completionEvidence,false);assert.equal(contract.contextCache.tracker,false);assert.equal(contract.contextCache.cacheCannotSupplyFreshAuthority,true);
  assert.equal(schema.additionalProperties,false);assert.equal(schema.properties.mutationAuthority.const,false);assert.equal(schema.properties.completionEvidence.const,false);assert.equal(schema.properties.readClaim.const,'CALLER_REPORTED_FULL_READS_NOT_INDEPENDENT_EVIDENCE');
  const status=JSON.parse(fs.readFileSync('docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_STATUS.json')),specBytes=fs.readFileSync(status.activeSpecPath),spec=JSON.parse(specBytes);assert.equal(h(specBytes),status.activeSpecSha256);assert.equal(spec.contextRestoration.fullReadingOrderRetained,true);assert.equal(spec.contextRestoration.freshCallerPinnedRequestRequired,true);assert.equal(spec.contextRestoration.curatedHandoffOverwriteAllowed,false);
- const protocol=fs.readFileSync('docs/AGENT_START_PROTOCOL.md','utf8'),agents=fs.readFileSync('AGENTS.md','utf8'),workflow=fs.readFileSync('.github/workflows/oss-policy.yml','utf8');
+ const protocol=fs.readFileSync('docs/AGENT_START_PROTOCOL.md','utf8'),agents=fs.readFileSync('AGENTS.md','utf8'),workflow=fs.readFileSync('.github/workflows/oss-policy.yml','utf8'),historicalWorkflow=realGit(['show',P03_MERGE_SHA+':.github/workflows/oss-policy.yml']).toString('utf8');
  for(const text of ['VALIDATED_CONTEXT_CACHE','FULL_READ_REQUIRED','CALLER_REPORTED_FULL_READS_NOT_INDEPENDENT_EVIDENCE','Network автоматически не','До этой поставки','другом внешнем registry'])assert(protocol.includes(text),text);
  assert(agents.includes('До terminal delivery P03 действует прежний полный протокол'));
- assert(workflow.indexOf('Reject stale context caches')<workflow.indexOf('- run: npm ci --engine-strict'));assert(workflow.includes('run: npm run r24:test-inventory'));assert.equal(workflow.split('P03_GOVERNANCE_CHANGE_APPROVALS').length,4);
+ assert(workflow.indexOf('Reject stale context caches')<workflow.indexOf('- run: npm ci --engine-strict'));assert(workflow.includes('run: npm run r24:test-inventory'));assert.equal(historicalWorkflow.split('P03_GOVERNANCE_CHANGE_APPROVALS').length,4);assert.equal(workflow.split('WP603_GOVERNANCE_CHANGE_APPROVALS').length,4);
  const stamp=JSON.parse(fs.readFileSync('docs/OPS/R24/EVIDENCE/ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS.json'));assert(!stamp.claimBindings.some(binding=>binding.filePath===c+'C1B_TEST_INVENTORY_V1.json'));
 });

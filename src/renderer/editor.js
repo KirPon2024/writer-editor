@@ -132,6 +132,8 @@ import {
   ATLAS_SURFACE_VIEW,
   buildAtlasSurfacePresentation,
 } from './atlasSurfacePresentationModel.mjs';
+import { normalizeWseStateEvidencePresentation, wseRowEvidence } from './atlasWseStateEvidencePresentationModel.mjs';
+import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import {
   assertAtlasDossierPresentationParity,
   ATLAS_DEEP_LINK_KIND,
@@ -936,6 +938,8 @@ let atlasTemporalLayoutState = {
   unavailableReason: '',
 };
 let atlasContinuityLedgerExplicitOpen = false;
+let atlasContinuityWseView = 'storyStateDebugger';
+let atlasContinuityRequestEpoch = 0;
 let atlasContinuityLedgerState = {
   state: 'empty',
   projectId: '',
@@ -16692,6 +16696,9 @@ function normalizeAtlasContinuityLedgerSurface(result = {}) {
     keyboardContract: source.keyboardContract && typeof source.keyboardContract === 'object' && !Array.isArray(source.keyboardContract)
       ? source.keyboardContract
       : {},
+    wseStateEvidence: source.wseStateEvidence && typeof source.wseStateEvidence === 'object' && !Array.isArray(source.wseStateEvidence)
+      ? source.wseStateEvidence
+      : {},
   };
 }
 
@@ -16700,11 +16707,22 @@ function focusAtlasContinuityLedgerEvidence(button) {
   const sceneId = button.dataset.atlasContinuityEvidenceSceneId || '';
   const start = Number(button.dataset.atlasContinuityEvidenceStart || 0);
   const end = Number(button.dataset.atlasContinuityEvidenceEnd || 0);
+  const expectedQuote = button.dataset.atlasContinuityEvidenceQuote || '';
+  const expectedQuoteHash = button.dataset.atlasContinuityEvidenceQuoteHash || '';
+  const expectedSceneTextHash = button.dataset.atlasContinuityEvidenceSceneHash || '';
   if (!sceneId || sceneId !== currentDocumentId) {
     updateStatusText(`Atlas evidence route: ${sceneId || 'scene'} нужно открыть вручную`);
     return;
   }
   if (!Number.isFinite(start) || !Number.isFinite(end) || end < start) {
+    updateStatusText('Atlas continuity anchor устарел');
+    return;
+  }
+  const sceneText = getPlainText();
+  const currentQuote = sceneText.slice(start, end);
+  if (!expectedQuote || currentQuote !== expectedQuote
+    || hashCanonicalValue(currentQuote) !== expectedQuoteHash
+    || hashCanonicalValue(sceneText) !== expectedSceneTextHash) {
     updateStatusText('Atlas continuity anchor устарел');
     return;
   }
@@ -16729,6 +16747,12 @@ function handleAtlasContinuityLedgerClick(event) {
   const close = event.target instanceof Element ? event.target.closest('[data-atlas-continuity-ledger-close]') : null;
   if (close instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(close)) {
     closeAtlasContinuityLedgerSurface();
+    return;
+  }
+  const view = event.target instanceof Element ? event.target.closest('[data-atlas-wse-view]') : null;
+  if (view instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(view)) {
+    atlasContinuityWseView = view.dataset.atlasWseView || 'storyStateDebugger';
+    renderAtlasContinuityLedgerState();
     return;
   }
   const jump = event.target instanceof Element ? event.target.closest('[data-atlas-continuity-evidence-jump]') : null;
@@ -16774,6 +16798,9 @@ function appendAtlasContinuityLedgerRows(parent, rows) {
       button.dataset.atlasContinuityEvidenceSceneId = evidence.sceneId || '';
       button.dataset.atlasContinuityEvidenceStart = String(Number(evidence.startOffset || 0));
       button.dataset.atlasContinuityEvidenceEnd = String(Number(evidence.endOffset || evidence.startOffset || 0));
+      button.dataset.atlasContinuityEvidenceQuote = evidence.quote || '';
+      button.dataset.atlasContinuityEvidenceQuoteHash = evidence.jumpIntent?.target?.quoteHash || evidence.quoteHash || '';
+      button.dataset.atlasContinuityEvidenceSceneHash = evidence.jumpIntent?.target?.sceneTextHash || evidence.sceneTextHash || '';
       button.setAttribute('aria-label', `Jump to evidence ${evidence.anchorId || evidence.factId || 'anchor'}`);
       const quote = document.createElement('span');
       quote.className = 'right-rail-atlas-continuity-evidence-button__quote';
@@ -16806,6 +16833,111 @@ function appendAtlasContinuityLedgerRows(parent, rows) {
     list.appendChild(item);
   }
   parent.appendChild(list);
+}
+
+function appendAtlasWseEvidenceButton(parent, evidence) {
+  if (!evidence || typeof evidence !== 'object') return;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'right-rail-atlas-continuity-evidence-button';
+  button.dataset.atlasContinuityEvidenceJump = 'true';
+  button.dataset.atlasContinuityEvidenceSceneId = evidence.sceneId || '';
+  button.dataset.atlasContinuityEvidenceStart = String(Number(evidence.startOffset || 0));
+  button.dataset.atlasContinuityEvidenceEnd = String(Number(evidence.endOffset || evidence.startOffset || 0));
+  button.dataset.atlasContinuityEvidenceQuote = evidence.quote || '';
+  button.dataset.atlasContinuityEvidenceQuoteHash = evidence.quoteHash || '';
+  button.dataset.atlasContinuityEvidenceSceneHash = evidence.sceneTextHash || '';
+  button.setAttribute('aria-label', 'Open source ' + (evidence.anchorId || evidence.factId || 'evidence'));
+  const quote = document.createElement('span');
+  quote.className = 'right-rail-atlas-continuity-evidence-button__quote';
+  quote.textContent = evidence.quote || 'Source unavailable';
+  const detail = document.createElement('span');
+  detail.className = 'right-rail-atlas-continuity-evidence-button__detail';
+  detail.textContent = (evidence.sceneId || 'scene') + ' · ' + (evidence.evidenceState || 'unknown');
+  button.append(quote, detail);
+  parent.appendChild(button);
+}
+
+function appendAtlasWseView(parent, source) {
+  const presentation = normalizeWseStateEvidencePresentation(source, atlasContinuityWseView);
+  const tabList = document.createElement('div');
+  tabList.className = 'right-rail-atlas-wse-tabs';
+  tabList.setAttribute('role', 'tablist');
+  tabList.setAttribute('aria-label', 'Writer state evidence views');
+  for (const tab of presentation.tabs) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'right-rail-atlas-wse-tab';
+    button.dataset.atlasWseView = tab.id;
+    button.id = 'atlas-wse-tab-' + tab.id;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', tab.selected ? 'true' : 'false');
+    button.setAttribute('aria-controls', 'atlas-wse-panel-' + tab.id);
+    button.tabIndex = tab.selected ? 0 : -1;
+    button.textContent = tab.label;
+    tabList.appendChild(button);
+  }
+  parent.appendChild(tabList);
+  const section = document.createElement('section');
+  section.className = 'right-rail-atlas-wse-view';
+  section.id = 'atlas-wse-panel-' + presentation.viewId;
+  section.setAttribute('role', 'tabpanel');
+  section.setAttribute('aria-label', presentation.view.label);
+  section.setAttribute('aria-labelledby', 'atlas-wse-tab-' + presentation.viewId);
+  const status = document.createElement('div');
+  status.className = 'right-rail-atlas-wse-status';
+  status.textContent = presentation.view.visibleCount + ' of ' + presentation.view.totalCount + ' · missing = ' + presentation.openWorldLabel;
+  section.appendChild(status);
+  if (presentation.view.rows.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = 'No authored evidence in this view. Missing stays unknown.';
+    section.appendChild(empty);
+  }
+  for (const row of presentation.view.rows) {
+    const item = document.createElement('article');
+    item.className = 'right-rail-atlas-wse-row';
+    item.dataset.evidenceState = row.evidenceState || 'current';
+    const title = document.createElement('strong');
+    const detail = document.createElement('p');
+    if (presentation.viewId === 'storyStateDebugger') {
+      title.textContent = row.kind || row.id || 'Story state';
+      detail.textContent = row.summary || 'Review the linked story evidence.';
+    } else if (presentation.viewId === 'livingEvidenceBible') {
+      title.textContent = row.label || row.id || 'Evidence';
+      detail.textContent = (row.value || 'UNKNOWN') + ' · ' + (row.ledgerKind || 'fact') + ' · ' + (row.evidenceState || 'unknown');
+    } else if (presentation.viewId === 'sceneCockpit') {
+      title.textContent = row.sceneId || 'Scene';
+      detail.textContent = (row.factCount || 0) + ' facts · ' + (row.currentEvidenceCount || 0) + ' current · ' + (row.staleEvidenceCount || 0) + ' stale';
+    } else {
+      title.textContent = (row.subjectEntityId || 'Unknown') + ' → ' + (row.targetEntityId || 'Unknown');
+      detail.textContent = (row.claim || 'UNKNOWN') + ' · ' + (row.evidenceState || 'unknown');
+    }
+    item.append(title, detail);
+    appendAtlasWseEvidenceButton(item, wseRowEvidence(row));
+    section.appendChild(item);
+  }
+  if (presentation.view.omittedCount > 0) {
+    const omitted = document.createElement('div');
+    omitted.className = 'right-rail-atlas-state';
+    omitted.textContent = presentation.view.omittedCount + ' rows omitted by the bounded view.';
+    section.appendChild(omitted);
+  }
+  parent.appendChild(section);
+}
+
+function handleAtlasContinuityLedgerKeydown(event) {
+  const current = event.target instanceof Element ? event.target.closest('[data-atlas-wse-view]') : null;
+  if (!(current instanceof HTMLElement) || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+  const tabs = [...atlasContinuityLedgerHost.querySelectorAll('[data-atlas-wse-view]')];
+  const index = tabs.indexOf(current);
+  if (index < 0) return;
+  event.preventDefault();
+  const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
+    : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+  atlasContinuityWseView = tabs[nextIndex].dataset.atlasWseView || 'storyStateDebugger';
+  renderAtlasContinuityLedgerState();
+  atlasContinuityLedgerHost.querySelector('[data-atlas-wse-view="' + atlasContinuityWseView + '"]')?.focus();
 }
 
 function renderAtlasContinuityLedgerState() {
@@ -16850,6 +16982,7 @@ function renderAtlasContinuityLedgerState() {
   closeButton.textContent = 'Close';
   actionBar.appendChild(closeButton);
   atlasContinuityLedgerHost.appendChild(actionBar);
+  appendAtlasWseView(atlasContinuityLedgerHost, state.wseStateEvidence);
   appendAtlasContinuityAuthorControls(atlasContinuityLedgerHost);
 
   if (state.state === 'unavailable') {
@@ -16885,6 +17018,7 @@ function renderAtlasContinuityLedgerState() {
 }
 
 function closeAtlasContinuityLedgerSurface() {
+  atlasContinuityRequestEpoch += 1;
   atlasContinuityLedgerExplicitOpen = false;
   setCurrentAtlasSurface('matrices', { refresh: true });
   renderAtlasContinuityLedgerState();
@@ -16906,15 +17040,25 @@ async function refreshAtlasContinuityLedgerSurface() {
     projectId: currentProjectId || '',
   };
   renderAtlasContinuityLedgerState();
+  const requestProjectId = currentProjectId || '';
+  const requestEpoch = ++atlasContinuityRequestEpoch;
   const result = await invokeWorkspaceQueryBridge(ATLAS_CONTINUITY_LEDGER_SURFACE_QUERY_ID, {
-    projectId: currentProjectId,
+    projectId: requestProjectId,
     explicitOpen: atlasContinuityLedgerExplicitOpen === true,
     rowLimit: 16,
   });
+  if (requestEpoch !== atlasContinuityRequestEpoch || atlasContinuityLedgerExplicitOpen !== true
+    || currentRightTab !== 'atlas' || currentProjectId !== requestProjectId) return;
   const nextState = result && result.ok !== false && result.atlasContinuityLedgerSurface
-    ? result.atlasContinuityLedgerSurface
-    : { state: 'unavailable', unavailableReason: 'ATLAS_CONTINUITY_LEDGER_QUERY_FAILED' };
-  atlasContinuityLedgerState = normalizeAtlasContinuityLedgerSurface(nextState);
+    ? normalizeAtlasContinuityLedgerSurface(result.atlasContinuityLedgerSurface)
+    : normalizeAtlasContinuityLedgerSurface({ state: 'unavailable', unavailableReason: 'ATLAS_CONTINUITY_LEDGER_QUERY_FAILED' });
+  atlasContinuityLedgerState = nextState.projectId === requestProjectId
+    ? nextState
+    : normalizeAtlasContinuityLedgerSurface({
+      state: 'unavailable',
+      unavailableReason: 'ATLAS_CONTINUITY_LEDGER_PROJECT_MISMATCH',
+      projectId: requestProjectId,
+    });
   renderAtlasContinuityLedgerState();
 }
 
@@ -21634,6 +21778,7 @@ atlasHeatmapHost?.addEventListener('click', (event) => {
 });
 
 atlasContinuityLedgerHost?.addEventListener('click', handleAtlasContinuityLedgerClick);
+atlasContinuityLedgerHost?.addEventListener('keydown', handleAtlasContinuityLedgerKeydown);
 
 sceneHistoryHost?.addEventListener('click', (event) => {
   const checkpointButton = event.target instanceof Element

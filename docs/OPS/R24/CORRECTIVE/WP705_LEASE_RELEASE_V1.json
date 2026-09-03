@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "YALKEN_R24_WP705_LEASE_RELEASE_V1",
+  "stageId": "WP-705_NEGOTIATION_CORPUS",
+  "evidenceStampId": "ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "a58b2f1bb00d1d02f3d0c5f0ff2dc5562e55e55a61c11331b17c5a4dd305bdb0",
+    "acceptanceMatrixDigest": "60f36928bc9d0acf1546181b6588e75bce77ab86ca9cf26d008678d9990e41e8",
+    "effectiveStateDigest": "983f2a24e1e8bea17711603dca1c09aa0275a8c4cca3d17acdc93bb258372b5c",
+    "stageRegistryDigest": "66bd99e430d8a6253d500418334778998da9a983bda39b5b560e647d70e172f6",
+    "stageAdmissionDigest": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc"
+  },
+  "currentLease": {
+    "fencingCounter": 81,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "a58b2f1bb00d1d02f3d0c5f0ff2dc5562e55e55a61c11331b17c5a4dd305bdb0"
+  },
+  "targetLease": {
+    "fencingCounter": 81,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "885802454d9d3f07e236de84e4540454398f4c0338e683465f2c9672cb73cc50",
+    "beforeSnapshotDigest": "6976a6188583e90a48de8d926c6a1b51ee78ce77998cf00756cac7a0346e9474",
+    "completeDenominator": 265,
+    "presentDenominator": 265,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 10,
+    "protectedDirtySetDenominator": 10,
+    "unrelatedDirtyDenominator": 8,
+    "frozenOwnedDirtyDenominator": 2,
+    "frozenOwnedFileDenominator": 24,
+    "finalSnapshotRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_AND_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

@@ -1,0 +1,58 @@
+{
+  "schemaVersion": "WP705_EXACT_SYNTHETIC_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-705_NEGOTIATION_CORPUS",
+  "fixturePaths": [
+    "test/fixtures/r24-wp705-negotiation-corpus-fixtures.js"
+  ],
+  "origin": "NEW_SYNTHETIC_FIXTURES_ONLY_NO_USER_DOCUMENTS",
+  "profiles": [
+    "FOUR_FAMILY_EXACT_V1_SCHEMA_NEGOTIATION",
+    "DOCX_SEMANTIC_BOUNDED_V1_TO_TXT_UTF8_NFC_V1_PREVIEW"
+  ],
+  "classes": [
+    "CONTRACT_NEGATIVE",
+    "UNIT",
+    "INTEGRATION",
+    "IMPLEMENTATION_MUTANTS",
+    "HOSTILE_CORPUS",
+    "ROUNDTRIP"
+  ],
+  "dataFamilies": [
+    "NFC_LATIN_CYRILLIC_GREEK_CJK_ARABIC_HEBREW_ASTRAL",
+    "CROSS_RUN_NFC_TRAILING_LINEFEED_EMPTY_WHITESPACE",
+    "EXACT_DOCUMENT_PROJECT_REVIEW_EVIDENCE_IR",
+    "IMPORTED_DOCX_WITH_INHERITED_LEXICAL_LOSS",
+    "128_PARAGRAPHS_512_RUNS_COMPLETE_FIELD_LEDGER"
+  ],
+  "hostileFamilies": [
+    "UNKNOWN_LEGACY_FUTURE_SCHEMA_VERSION",
+    "STALE_IDENTITY_FOREIGN_FAMILY_BAD_DIGEST",
+    "OWN_DATA_ACCESSOR_PROXY_SYMBOL_CYCLE_DEPTH_BYTE_LIMIT",
+    "UNDECLARED_LOSS_OR_PREVIEW_AUTHORITY_LEAK",
+    "MUTABLE_SHARED_BYTE_BACKING",
+    "EXACT_PATH_MISMATCH_RETROACTIVE_ADMISSION_FALSE_RELEASE"
+  ],
+  "campaigns": {
+    "independentDocumentSeeds": [
+      0,
+      95
+    ],
+    "hostileSchemaVersions": [
+      2,
+      257
+    ],
+    "byteMutationSeeds": [
+      0,
+      255
+    ],
+    "localReplayHops": [
+      1,
+      6
+    ]
+  },
+  "physicalProvider": "NOT_APPLICABLE_NO_PROVIDER_IMPLEMENTATION_OR_QUALIFICATION_CHANGE",
+  "physicalProviderClaim": false,
+  "physicalOutput": "FIVE_TASK_OWNED_SYNTHETIC_FILES_WITH_EXACT_READBACK_AND_CLEANUP",
+  "noUserDocuments": true,
+  "programDone": false
+}

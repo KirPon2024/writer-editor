@@ -1,0 +1,112 @@
+{
+  "schemaVersion": "YALKEN_R24_WP705_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-705_NEGOTIATION_CORPUS",
+  "evidenceStampId": "ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
+  "denominator": 18,
+  "localPassCount": 12,
+  "localRequiredCount": 1,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc"
+    },
+    {
+      "id": "EXACT_38_PATH_CORRECTED_WRITE_SET",
+      "status": "PASS",
+      "evidence": "758adec78fb209f3fa8c1b596ad75972937fbe0ff53db092bf2ef74d4f7e556b"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE_AND_FROZEN_HISTORY",
+      "status": "PASS",
+      "evidence": "291477439ca8049e6588b0ef8afd85238b8a0b57428f25e6a10af3206d9965b5"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "2db0d9b1593029882ed261f03415a050d35b1f90b9ff1897a9f452c11e9a3bc3"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "c338978e919109ac75a17cde1fdc28cf87401348767761b9137b26be2f0b33b8"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "695dbf5276afa37d85d292d7e760f2449ebd46d625c153be924f4c560e43152a"
+    },
+    {
+      "id": "MUTANTS",
+      "status": "PASS",
+      "evidence": "2ea821401e2ee69ca9840ee5ecf6c7aa7e77a99c4fc15dc8fc1cfb5c611094ff"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "8bcdc190277e2fcde6a87955a7f95b074bed171db4dfbb2aea7504b5cae24075"
+    },
+    {
+      "id": "EXACT_SCHEMA_QUERY_NO_PAYLOAD_AUTHORITY",
+      "status": "PASS",
+      "evidence": "2db0d9b1593029882ed261f03415a050d35b1f90b9ff1897a9f452c11e9a3bc3"
+    },
+    {
+      "id": "EXPLICIT_DOWNGRADE_AND_COMPLETE_LOSS_REPLAY",
+      "status": "PASS",
+      "evidence": "c338978e919109ac75a17cde1fdc28cf87401348767761b9137b26be2f0b33b8"
+    },
+    {
+      "id": "FULL_REQUIRED_LOCAL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NO_PRODUCT_WRITE_OR_UNADMITTED_EFFECT_AUTHORITY",
+      "status": "PASS",
+      "evidence": "695dbf5276afa37d85d292d7e760f2449ebd46d625c153be924f4c560e43152a"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "NODE_ONLY_SCOPE"
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "claimCeiling": "WP705_NODE_ONLY"
+}

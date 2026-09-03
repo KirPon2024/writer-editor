@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "featureId": "yalken.interchange.negotiation.downgrade.v1",
+  "featureVersion": "1.0.0",
+  "domainOwner": "INTERCHANGE_ADAPTER_AUTHORITY",
+  "integrationMode": "PURE_SCHEMA_QUERY_AND_EXPLICIT_DERIVED_PREVIEW; NO_UI_MAIN_OR_PROVIDER_WIRING",
+  "authoritativeData": [
+    "PRODUCT_CORE_EXACT_IDENTITY_AND_IMMUTABLE_SOURCE_FROM_TRUSTED_CALLER"
+  ],
+  "derivedData": [
+    "IMMUTABLE_EXACT_IDENTITY_FOUR_FAMILY_IR",
+    "VALIDATED_DOCX_SEMANTIC_DOCUMENT",
+    "BOUNDED_UNTRUSTED_RECEIVER_SCHEMA_OFFERS"
+  ],
+  "commandIds": [
+    "NOT_APPLICABLE_NO_PRODUCT_COMMAND"
+  ],
+  "eventTypes": [
+    "NOT_APPLICABLE_NO_DURABLE_DOMAIN_EVENT"
+  ],
+  "queryIds": [
+    "NEGOTIATE_INTERCHANGE_SCHEMA",
+    "PREVIEW_DOCX_TEXT_DOWNGRADE",
+    "VERIFY_DOCX_TEXT_DOWNGRADE",
+    "REPLAY_DOCX_TEXT_DOWNGRADE"
+  ],
+  "productProjectionIds": [
+    "FOUR_INDEPENDENT_IR_V1_FAMILIES",
+    "DOCX_SEMANTIC_BOUNDED_V1",
+    "TXT_UTF8_NFC_V1"
+  ],
+  "capabilityIds": [
+    "NONE_GRANTED_BY_NEGOTIATION",
+    "NO_APPLY_OR_PRODUCT_WRITE"
+  ],
+  "authorityMap": {
+    "manuscriptMutation": "EXISTING_KERNEL_ONLY",
+    "schemaHandshake": "COMPATIBILITY_NOT_PAYLOAD_QUALIFICATION_OR_CAPABILITY",
+    "downgrade": "EXPLICIT_PREVIEW_DERIVED_BYTES_NO_FILESYSTEM",
+    "renderer": "UNCHANGED",
+    "provider": "NONE"
+  },
+  "identityKeys": [
+    "projectId",
+    "entityId",
+    "sourceRevision",
+    "generation",
+    "sourceEnvelopeSha256",
+    "sourceArtifactSha256",
+    "receiverOffersSha256"
+  ],
+  "revisionPolicy": "NEGOTIATION_NEVER_GRANTS_CAPABILITY; EXPLICIT_LOSSY_PREVIEW_REVALIDATES_SOURCE_AND_IDENTITY_AT_EACH_CALL; PUBLICATION_REMAINS_EXISTING_KERNEL_ONLY",
+  "writePath": "VALIDATED_SOURCE -> EXISTING_CODECS -> DERIVED_PREVIEW_BYTES_AND_COMPLETE_LOSS_LEDGER; NO_PUBLICATION",
+  "readPath": "BOUNDED_OWN_DATA -> EXACT_IR_AND_DOCX_SOURCE_REPLAY -> SCHEMA_OR_DOWNGRADE_QUERY",
+  "requiredProductPorts": [
+    "EXISTING_INTERCHANGE_IR_VALIDATOR",
+    "EXISTING_DOCX_SEMANTIC_PROFILE_AND_EXACT_SOURCE_REPLAY",
+    "EXISTING_TEXT_FORMAT_SERIALIZER_AND_PARSER"
+  ],
+  "requiredDesignOsPorts": [
+    "NOT_APPLICABLE_NO_INTERFACE_PLANE_CHANGE"
+  ],
+  "surfaceManifests": "NOT_APPLICABLE_NO_UI_SURFACE",
+  "slotRequirements": "NOT_APPLICABLE_NO_UI_SLOT",
+  "supportedWorkspaces": [
+    "NOT_APPLICABLE_PURE_API"
+  ],
+  "platformAvailability": {
+    "currentTarget": "PINNED_NODE_LOCAL_LOGIC",
+    "physicalProviderQualification": "NOT_CLAIMED"
+  },
+  "accessibilityRequirements": "NO_NEW_UI_OR_EXPORTED_PDF_SURFACE",
+  "fallbacks": [
+    "UNKNOWN_OR_LEGACY_SCHEMA_UNSUPPORTED_NO_IMPLICIT_MIGRATION",
+    "LOSSY_POLICY_DENIED_WITHOUT_OUTPUT",
+    "STALE_OR_TAMPERED_SOURCE_REJECTED"
+  ],
+  "stateClasses": [
+    "DERIVED_STATE"
+  ],
+  "persistenceClass": "NONE",
+  "migrations": "UNKNOWN_VERSIONS_UNSUPPORTED_NO_INVENTED_OLD_SCHEMA",
+  "recovery": "REPLAY_FROM_RETAINED_SOURCE_ONLY_NO_LOSSY_REVERSE_TRANSFORM_CLAIM",
+  "rollback": "REVERT_ONE_WP705_NODE_DELTA_BY_NEW_PROTECTED_COMMIT; PRESERVE_ALL_PREDECESSORS_FOREIGN_WIP_AND_FROZEN_WP703_FILES",
+  "performanceBudget": {
+    "maxOffers": 16,
+    "maxHops": 6,
+    "maxJsonBytes": 2097152,
+    "maxJsonNodes": 100000,
+    "maxDepth": 32,
+    "maxDocxParagraphs": 512,
+    "maxDocxRuns": 1024,
+    "typingPath": "NOT_APPLICABLE"
+  },
+  "securityBoundary": {
+    "networkRequests": 0,
+    "filesystemWrites": 0,
+    "processEffects": 0,
+    "sourceBytes": "EXACT_DOCX_REVALIDATION_REQUIRED_WHEN_IMPORTED",
+    "productAuthority": false
+  },
+  "lifecycle": [
+    "DECLARED",
+    "COMPONENT_PROVEN",
+    "INVALIDATED"
+  ],
+  "negativeBypassChecks": [
+    "OWN_DATA_PROXY_ACCESSOR_SYMBOL_CYCLE_DEPTH_NODE_BYTE_UNICODE_BOUNDS",
+    "ALL_FOUR_IR_FAMILIES_EXACT_V1_ACCEPTANCE_AND_UNKNOWN_VERSION_REJECTION",
+    "EXPLICIT_DOWNGRADE_ONLY_NO_PROVIDER_REVIEW_APPLY_OR_PRODUCT_WRITE",
+    "INDEPENDENT_FIELD_LEDGER_TEXT_READBACK_AND_MONOTONE_HASH_LINKED_REPLAY",
+    "DETERMINISTIC_SYNTHETIC_CORPUS_AND_REAL_IMPLEMENTATION_MUTANTS",
+    "ALL_264_PROTECTED_ENTRIES_NINE_DIRTY_AND_FROZEN_EIGHT_FILES_UNCHANGED"
+  ],
+  "evidenceBindings": {
+    "stageAdmissionDigest": "d9b2cb94245449432ab3ca938222bb9855d8530a4331a121c8a2643d2627cba2",
+    "sourceReadDigest": "02b9c57943d2f592e90d360f7243fa69b6a25aab5c63ccee87440539cc22f862"
+  },
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "currentReality": "IMPLEMENTATION_IN_PROGRESS_NO_COMPLETION_PRECLAIMED",
+  "programDone": false
+}

@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "WP705_DOWNGRADE_CONTRACT_V1",
+  "stageId": "WP-705_NEGOTIATION_CORPUS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "negotiation": {
+    "families": [
+      "DOCUMENT",
+      "EVIDENCE",
+      "PROJECT",
+      "REVIEW"
+    ],
+    "versionPolicy": "EXACT_CURRENT_V1_ONLY; KNOWN_FAMILY_UNKNOWN_VERSION_UNSUPPORTED",
+    "offerDenominator": "1_THROUGH_16_UNIQUE_EXACT_THREE_FIELD_ROWS",
+    "schemaMatchGrantsAuthority": false,
+    "payloadQualified": false
+  },
+  "downgrade": {
+    "sourceProfile": "DOCX_SEMANTIC_BOUNDED_V1",
+    "targetProfile": "TXT_UTF8_NFC_V1",
+    "targetSchema": "yalken.text-formats.v1",
+    "policy": "EXPLICIT_LOSSY_PREVIEW_V1",
+    "fieldDenominator": "1_PLUS_SUM_PER_PARAGRAPH_3_PLUS_4_PER_RUN",
+    "fieldPaths": "UNIQUE_POINTERS_FOR_PARAGRAPHS_ALIGNMENT_OUTLINE_RUNS_AND_EVERY_TEXT_BOLD_ITALIC_UNDERLINE",
+    "preservation": "ONLY_EXACT_SUBSTRING_TEXT_RANGES_MAY_BE_PRESERVED_TEXT",
+    "loss": "EVERY_OTHER_SOURCE_FIELD_RETAINS_TYPED_DISPOSITION_AND_SOURCE_VALUE_DIGEST; PRIOR_DOCX_LOSS_INHERITED",
+    "normalization": "EXISTING_TXT_PROFILE_WHITESPACE_EMPTY_PARAGRAPH_TRAILING_LF_AND_NFC_LAWS_EXPLICITLY_ACCOUNTED",
+    "reverse": "ONLY_RETAINED_SOURCE_CAN_RECOVER_RICH_FIELDS"
+  },
+  "replay": {
+    "hopRange": [
+      1,
+      6
+    ],
+    "firstHop": "DOCX_TO_TXT_PREVIEW",
+    "followingHops": "TXT_LOCAL_ROUNDTRIP",
+    "everyHopBound": [
+      "sourceSha256",
+      "targetSha256",
+      "schemaVersion",
+      "targetSchemaVersion",
+      "previousHopSha256",
+      "cumulativeLossDenominator",
+      "cumulativeLossSha256"
+    ],
+    "lossMonotone": true,
+    "physicalProviderClaim": false
+  },
+  "revalidation": {
+    "sourceEnvelope": true,
+    "exactIdentity": true,
+    "importedSourceBytes": true,
+    "receiptRecomputed": true,
+    "outputBytesExact": true
+  },
+  "nonClaims": [
+    "NO_NEW_SCHEMA_VERSION_OR_GENERIC_MIGRATION_ENGINE",
+    "NO_WORD_GOOGLE_APPLY_PROVIDER_OR_MAIN_UI_WIRING",
+    "NO_EVIDENCE_CAPSULE_PROFILE_QUALIFICATION",
+    "NO_PHYSICAL_PROVIDER_OR_CROSS_FORMAT_CLAIM_INHERITANCE"
+  ],
+  "programDone": false
+}

@@ -25,7 +25,10 @@ test('WP601 anchor repair preserves the original digest mutant and rejects incom
     else if(args[0]==='show'){
       const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
       if(file===missing)throw Error('MISSING');
-      result=sha===REPAIR.baseSha?realGit(root,args):fs.readFileSync(file);
+      // The immutable WP601 repair certifies the linter at its completed
+      // merge, not later append-only pin additions in the current checkout.
+      result=sha===REPAIR.baseSha?realGit(root,args):file==='scripts/ops/r24/docs-claim-lint.mjs'
+        ?realGit(root,['show','420fc31a7af6aca9c1b2aa60750b9f19e66f373d:'+file]):fs.readFileSync(file);
       if(file===drift)result=Buffer.concat([result,Buffer.from('\n')]);
     }else throw Error('UNEXPECTED_GIT');
     return encoding==='utf8'?result.toString():result;

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_P03_EFFECTIVE_STATE_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "evidenceStampId": "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_DELIVERY",
+  "lease": {
+    "fencingCounter": 84,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33"
+  },
+  "processTask": true,
+  "productGraphIncrement": 0,
+  "productGraph": {
+    "denominator": 109,
+    "done": 72,
+    "pending": 24,
+    "blockedTyped": 3,
+    "ineligibleOptional": 10
+  },
+  "nextMainProductNodeStarted": false,
+  "processPackageNextTask": "P04_PROVEN_DUPLICATE_CHECK_EQUIVALENCE_AFTER_P03_TERMINAL_CLOSE",
+  "acceptanceMatrixDigest": "6f6e2b8b261b93eb89cd60e254c2c373f363fb2d5fa451257676614a027c32a0",
+  "leaseTransitionDigest": "b4aa28f21dda38f8bdfdd265f3df1d0e1c8956d457abcf3f4c47b8047928e2da"
+}

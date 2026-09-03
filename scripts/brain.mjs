@@ -5,6 +5,7 @@ import process from "node:process";
 import { execFile } from "node:child_process";
 import { promisify } from "node:util";
 import { fileURLToPath } from "node:url";
+import {createHandoffCheckpoint} from './agent-context-restoration.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -14,7 +15,6 @@ const docsDir = path.join(repoRoot, "docs");
 const contextPath = path.join(docsDir, "CONTEXT.md");
 const worklogPath = path.join(docsDir, "WORKLOG.md");
 const processPath = path.join(docsDir, "PROCESS.md");
-const handoffPath = path.join(docsDir, "HANDOFF.md");
 
 const tasksDir = path.join(docsDir, "tasks");
 const featureTemplatePath = path.join(docsDir, "templates", "FEATURE_TZ.md");
@@ -181,7 +181,7 @@ function printHelp() {
 
 Usage:
   node scripts/brain.mjs status
-  node scripts/brain.mjs handoff
+  node scripts/brain.mjs handoff --request <absolute-json> --request-sha256 <caller-pin>
   node scripts/brain.mjs log "<message>"
   node scripts/brain.mjs new-task [short-name] "<title>"
   node scripts/brain.mjs savepoint "<commit message>"
@@ -189,7 +189,7 @@ Usage:
 
 Notes:
   - status: prints a quick snapshot (CONTEXT + recent WORKLOG + tasks).
-  - handoff: (re)generates docs/HANDOFF.md for onboarding a new agent.
+  - handoff: emits a pinned derived context checkpoint to stdout; never rewrites docs/HANDOFF.md.
   - log: appends a bullet under today's date in docs/WORKLOG.md.
   - new-task: creates docs/tasks/YYYY-MM-DD--short-name.md from FEATURE_TZ template.
   - savepoint: prints a safe git commit recipe for the current working tree.
@@ -288,85 +288,17 @@ async function cmdStatus() {
   }
 }
 
-async function cmdHandoff() {
-  const now = formatDateYYYYMMDD();
-  const context = (await fileExists(contextPath)) ? await fs.readFile(contextPath, "utf8") : "";
-  const worklog = (await fileExists(worklogPath)) ? await fs.readFile(worklogPath, "utf8") : "";
-  const lastWorklog = worklog ? extractLastDatedSection(worklog) : null;
-  const tasks = await listTaskFiles();
-
-  const contextProject = context ? extractMdSection(context, "## Проект") : null;
-  const contextConstraints = context ? extractMdSection(context, "## Ключевые правила (MVP)") : null;
-  const contextPerspective = context ? extractMdSection(context, "## Перспектива (после MVP)") : null;
-  const contextNextSteps = context ? extractMdSection(context, "## Следующие шаги (приоритет)") : null;
-
-  const lines = [];
-  lines.push("# HANDOFF (Craftsman)");
-  lines.push("");
-  lines.push(`_Generated: ${now}_`);
-  lines.push("");
-  lines.push("## Start Here");
-  lines.push(`- Read: \`${path.relative(repoRoot, contextPath)}\``);
-  lines.push(`- Process: \`${path.relative(repoRoot, processPath)}\``);
-  lines.push(`- Recent changes: \`${path.relative(repoRoot, worklogPath)}\``);
-  lines.push("");
-
-  lines.push("## Working Agreement (important)");
-  lines.push("- Mode 1 — ChatGPT (Чат): готовим ТЗ/план/проверки, задаём до 3 уточняющих вопросов. **Файлы репозитория не меняем**.");
-  lines.push("- Mode 2 — Codex (Агент): по готовому ТЗ **правит репозиторий по умолчанию**, этапами, с проверками.");
-  lines.push("- Commits/push: делает пользователь вручную, если явно не попросили агента сделать commit/push.");
-  lines.push("");
-
-  if (contextProject) {
-    lines.push("## Snapshot: Проект");
-    lines.push(stripFirstLineIfHeading(contextProject, "## Проект"));
-    lines.push("");
+async function cmdHandoff(args) {
+  // Handoff is a derived stdout artifact, never a rewrite of curated docs.
+  if (args.length !== 4) throw new Error("E_CONTEXT_HANDOFF_ARGUMENTS");
+  const values = {};
+  for (let index = 0; index < args.length; index += 2) {
+    const key = args[index];
+    if (!["--request", "--request-sha256"].includes(key) || Object.hasOwn(values, key) || !args[index + 1]) throw new Error("E_CONTEXT_HANDOFF_ARGUMENTS");
+    values[key] = args[index + 1];
   }
-  if (contextConstraints) {
-    lines.push("## Snapshot: MVP правила");
-    lines.push(stripFirstLineIfHeading(contextConstraints, "## Ключевые правила (MVP)"));
-    lines.push("");
-  }
-  if (contextNextSteps) {
-    lines.push("## Snapshot: Следующие шаги");
-    lines.push(stripFirstLineIfHeading(contextNextSteps, "## Следующие шаги (приоритет)"));
-    lines.push("");
-  }
-
-  if (contextPerspective) {
-    lines.push("## Snapshot: Перспектива (после MVP)");
-    lines.push(stripFirstLineIfHeading(contextPerspective, "## Перспектива (после MVP)"));
-    lines.push("");
-  }
-
-  if (lastWorklog) {
-    lines.push(`## Recent WORKLOG (${lastWorklog.date})`);
-    lines.push(stripFirstLineIfHeading(lastWorklog.body, `## ${lastWorklog.date}`));
-    lines.push("");
-  }
-
-  lines.push("## Tasks");
-  if (tasks.length === 0) {
-    lines.push("- (no task files yet)");
-  } else {
-    for (const filename of tasks) {
-      lines.push(`- \`docs/tasks/${filename}\``);
-    }
-  }
-  lines.push("");
-
-  lines.push("## Brain Commands");
-  lines.push("- `npm run brain:status`");
-  lines.push("- `npm run brain:handoff`");
-  lines.push("- `npm run brain:log -- \"...\"`");
-  lines.push("- `npm run brain:new-task -- \"...\"`");
-  lines.push("- `npm run brain:savepoint -- \"...\"`");
-  lines.push("- `npm run brain:refs -- \"...\"`");
-  lines.push("");
-
-  await ensureDir(docsDir);
-  await fs.writeFile(handoffPath, lines.join("\n"), "utf8");
-  console.log(`Wrote ${path.relative(repoRoot, handoffPath)}`);
+  const checkpoint = createHandoffCheckpoint({repoRoot, requestPath: values["--request"], requestDigest: values["--request-sha256"]});
+  process.stdout.write(JSON.stringify(checkpoint, null, 2) + "\n");
 }
 
 async function cmdLog(messageArgs) {
@@ -623,7 +555,7 @@ async function main() {
   }
 
   if (cmd === "handoff") {
-    await cmdHandoff();
+    await cmdHandoff(args);
     return;
   }
 

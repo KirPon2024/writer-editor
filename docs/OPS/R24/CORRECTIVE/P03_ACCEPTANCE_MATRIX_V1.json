@@ -1,0 +1,107 @@
+{
+  "schemaVersion": "YALKEN_R24_P03_ACCEPTANCE_MATRIX_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "evidenceStampId": "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_REQUIREMENTS_NOT_TERMINAL_ACCEPTANCE",
+  "rowDenominator": 15,
+  "rows": [
+    {
+      "id": "EXISTING_BOOTSTRAP_AND_HANDOFF_COMPACT_DERIVED_CHECKPOINT_NO_SECOND_CANON",
+      "index": 0,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "COMPLETE_ORDERED_SOURCE_DENOMINATOR_DIGESTS_AND_CALLER_REPORTED_READ_BOUNDARY",
+      "index": 1,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "FRESH_EXACT_HEAD_TREE_WORKTREE_ORIGIN_CANON_ADMISSION_AND_LEASE_BYTES",
+      "index": 2,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "CALLER_FRESHNESS_PINS_NEVER_DERIVED_FROM_CHECKPOINT",
+      "index": 3,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "MISSING_STALE_CHANGED_AUTHORITY_LEASE_SOURCE_OR_SCOPE_FAILS_COMPACT_REUSE",
+      "index": 4,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "BOUNDED_STRICT_JSON_PATH_SYMLINK_RACE_AND_INPUT_NEGATIVES",
+      "index": 5,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "HANDOFF_CURATED_BYTES_NEVER_OVERWRITTEN_BY_BRAIN_COMMAND",
+      "index": 6,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "CHECKPOINT_NEVER_GRANTS_WRITE_OR_COMPLETION_OR_AUTONOMY",
+      "index": 7,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "FULL_STARTUP_REMAINS_MANDATORY_UNTIL_P03_DELIVERY",
+      "index": 8,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "P01_COMPLETED_PREFIX_AND_P02_NO_CHANGE_EXACT_EVIDENCE_PRESERVED",
+      "index": 9,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "268_PROTECTED_WORKTREES_TEN_DIRTY_AND_24_FROZEN_OWNED_BYTES_UNCHANGED",
+      "index": 10,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE_FRESH_CANDIDATE_EXACT_POSTMERGE_FULL_GATES",
+      "index": 11,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "NON_RECURSIVE_EXTERNAL_TERMINAL_VERIFICATION",
+      "index": 12,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "LEASE_84_RELEASED_WIP_0",
+      "index": 13,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE_PRODUCT_GRAPH_UNCHANGED",
+      "index": 14,
+      "status": "REQUIRED_NOT_TERMINALLY_PRECLAIMED",
+      "requiredExternalResolution": true
+    }
+  ],
+  "registryDigest": "9218d8d46a1879cd2214b11e3446ca4dbbdc475aaf4d66a7dfe8491e2dad899a",
+  "terminalAcceptanceRule": "ALL_ROWS_EXECUTED_AND_PASS_AT_EXACT_EXTERNAL_DELIVERY_IDENTITY_NO_UNKNOWN_OR_PENDING_ROWS"
+}

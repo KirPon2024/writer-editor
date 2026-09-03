@@ -10,6 +10,8 @@ const root=process.cwd(),c='docs/OPS/R24/CORRECTIVE/',inventory=c+'C1B_TEST_INVE
 const instance=JSON.parse(fs.readFileSync(E.instancePath)),ADMITTED=[...instance.operations.modifyPaths,...instance.operations.createPaths].sort();
 const candidate='f001f001f001f001f001f001f001f001f001f001',tree='a001a001a001a001a001a001a001a001a001a001';
 const realGit=(args)=>execFileSync('git',args,{encoding:null,stdio:['ignore','pipe','pipe']});
+const P01_COMPLETED='87de5fdf38a03b25de5736664ce3df30eac8314d';
+const completedText=file=>realGit(['show',P01_COMPLETED+':'+file]).toString();
 function fakeGit({delta=ADMITTED,missing=null,drift=null,ancestor=true,wrongBase=false,registryMutant=null}={}){
   return(args,{encoding=null}={})=>{
     let value;
@@ -19,7 +21,7 @@ function fakeGit({delta=ADMITTED,missing=null,drift=null,ancestor=true,wrongBase
     else if(args[0]==='show'){
       const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
       if(file===missing)throw Error('MISSING');
-      value=sha===E.baseSha?realGit(args):fs.readFileSync(file);
+      value=sha===E.baseSha?realGit(args):realGit(['show',P01_COMPLETED+':'+file]);
       if(registryMutant&&file===c+'P01_CARRIER_REGISTRY_V1.json'){const registry=JSON.parse(value);registryMutant(registry);value=Buffer.from(JSON.stringify(registry,null,2)+'\n');}
       if(file===drift)value=Buffer.concat([value,Buffer.from(' ')]);
     }else throw Error('UNEXPECTED_GIT');
@@ -95,7 +97,7 @@ test('P01 does not create another frozen current-inventory claim while retaining
   const workflow=fs.readFileSync('.github/workflows/oss-policy.yml','utf8');assert(workflow.includes('run: npm run r24:test-inventory'));
 });
 test('plan and process preserve no-change closure full startup and non-recursive terminal publication',()=>{
-  const plan=fs.readFileSync('docs/tasks/2026-09-03--r24-process-corrections.md','utf8'),process=fs.readFileSync('docs/PROCESS.md','utf8'),workflow=fs.readFileSync('.github/workflows/oss-policy.yml','utf8');
+  const plan=completedText('docs/tasks/2026-09-03--r24-process-corrections.md'),process=completedText('docs/PROCESS.md'),workflow=completedText('.github/workflows/oss-policy.yml');
   for(const text of ['STATUS_AT_PREPARATION','NO_CHANGE','DELIVERY_NOT_APPLICABLE','No PR exists solely','full startup-reading protocol','next 3–5 comparable product stages'])assert(plan.includes(text),text);
   assert(process.includes('admission-preparation.mjs'));assert(process.includes('never chained global ID replacement'));
   assert(workflow.indexOf('Reject admission identity and complete output-set drift')<workflow.indexOf('- run: npm ci --engine-strict'));

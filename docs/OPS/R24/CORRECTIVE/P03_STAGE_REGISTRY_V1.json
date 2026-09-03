@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "YALKEN_R24_P03_STAGE_REGISTRY_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "evidenceStampId": "ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE",
+  "stageDenominator": 1,
+  "stages": [
+    {
+      "stageId": "P03_CONTEXT_RESTORATION",
+      "kind": "PROCESS_CORRECTION_NOT_PRODUCT_NODE",
+      "admission": {
+        "authorityDigest": "e89bf411151977760e1c474f94d749824e84660a2513914d66861c75cb73c0b2",
+        "stageInstanceDigest": "660a6a48aae93c0102ed0ee962b66cce4229e4bfcb363016da0c471dc57be054",
+        "stageAdmissionDigest": "2a8b3d09d5dddb64c3196716f8926bc06ec6b7b1717fc48e7c8bbf45f37c3ef2",
+        "writeSetDigest": "02f445f7d11be99d2c7e114a5947408feebced6ac7d9e981468f4b9ddfaf0fb4",
+        "commandScopeDigest": "7a8502d6df82971251d879121df7daa25fbbac1e2eafb0a461e26233b4c281d9",
+        "acceptanceSignalsDigest": "1d0f03725f060f663e611372b335316c8a72415f617b05ab7d37baff5eb3ca29"
+      },
+      "lease": {
+        "fencingCounter": 84,
+        "status": "ACTIVE",
+        "wip": 1,
+        "predecessorReleaseDigest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33"
+      },
+      "closure": "REQUIRES_EXACT_EXTERNAL_TERMINAL_VERIFICATION"
+    }
+  ],
+  "effectiveStateDigest": "2862dd0a37898db10750e54080adecfcbef073fb3fe6c36bc55b9a075042d710"
+}

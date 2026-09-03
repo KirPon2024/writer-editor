@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "status": "ACTIVE_AGENT_BOOTSTRAP_RESOLVER",
   "activeSpecPath": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json",
-  "activeSpecSha256": "ad3a04cf55d2234b3d0b30590e9611fdab06a44d11dc2e8c74896d731dc4399a",
+  "activeSpecSha256": "573f51a27baea0dedb2d27cc8ed09e287a35330357b0a9fa3f21ea77c92455cb",
   "supersedes": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_ONE_SHOT_SPEC_V1_0.json",
   "activationRule": "POLICY_REFERENCE_AND_REPOSITORY_GUARDRAIL_VALIDATION_REQUIRED",
   "rollback": "Repoint this resolver and CODEX_AUTOMATION_POLICY to V1 in one reviewed change"

@@ -23,6 +23,16 @@ fail-signal. Нельзя обходить bootstrap ручным выбором
 
 После bootstrap прочитать в указанном им порядке:
 
+Список ниже остаётся полным authority denominator. После поставки P03,
+при восстановлении уже прочитанного контекста той же задачи, допускается
+`VALIDATED_CONTEXT_CACHE` по `docs/AGENT_START_PROTOCOL.md`, раздел 2A.
+Всегда заново читать этот AGENTS.md, CANON_STATUS и сам startup protocol;
+bootstrap заново проверяет HEAD, canon/source bytes и отдельно закреплённые
+текущие admission/lease. Checkpoint не создаёт authority и не заменяет
+preflight, native StageAdmission, свежую remote-проверку или required gates.
+Без валидного checkpoint, при новом scope или любом invalidation — полный
+порядок чтения. До terminal delivery P03 действует прежний полный протокол.
+
 1. `docs/OPS/STATUS/CANON_STATUS.json`.
 2. Документ из `canonicalDocPath` resolver-а.
 3. `CANON.md`.

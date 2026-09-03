@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "R24_ADMISSION_PREPARATION_OUTPUTS_V1",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "predecessorStageId": "P01_ADMISSION_PREPARATION",
+  "entries": [
+    {
+      "operation": "modify",
+      "pathTemplate": ".github/workflows/oss-policy.yml"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "AGENTS.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/AGENT_START_PROTOCOL.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/HANDOFF.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_STATUS.json"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/PROCESS.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/architecture/AGENT_CONTEXT_PACKET_V1.schema.json"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/tasks/2026-09-03--r24-process-corrections.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "scripts/agent-bootstrap.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "scripts/brain.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "scripts/ops/r24/corrective/post-audit-certification-set.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_ACCEPTANCE_MATRIX_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_ADMISSION_PREPARATION_OUTPUTS_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_CARRIER_REGISTRY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_CONTEXT_RESTORATION_CONTRACT_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_EFFECTIVE_STATE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_GOVERNANCE_CHANGE_APPROVALS_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_LEASE_RELEASE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_OWNER_AUTHORITY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/${stage}_${predecessor}_TERMINAL_PREDECESSOR_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_P02_NO_CHANGE_BINDING_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_PROTECTED_WIP_BEFORE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_STAGE_ADMISSION_ATTESTATION_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_STAGE_INSTANCE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_STAGE_REGISTRY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P03_TERMINAL_RECEIPT_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/EVIDENCE/ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/architecture/AGENT_HANDOFF_CHECKPOINT_V1.schema.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "scripts/agent-context-restoration.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "test/contracts/agent-context-restoration.contract.test.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs"
+    }
+  ]
+}

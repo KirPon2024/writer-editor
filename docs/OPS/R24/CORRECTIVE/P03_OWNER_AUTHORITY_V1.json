@@ -1,0 +1,400 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_P03_CONTEXT_RESTORATION_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "87de5fdf38a03b25de5736664ce3df30eac8314d",
+  "baseTree": "6dce15379c752e85cb3847d2319478ad9d9eebaa",
+  "branch": "codex/r24-p03-context-restoration-v1-20260903",
+  "stageId": "P03_CONTEXT_RESTORATION",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json",
+      "sha256": "d561943bdb9ede7f0a2c6756ef89fb43165f797964c34712444614fa5aad9d62"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "40d39ae31903bf7859b2f301b3aef58ff5acb18308505dea70e28a736e3eeedb"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "sha256": "82e49d577b79b41b26b67e25b7ce0fd81f26fb973232194fef8d96d6c563c6f9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ed966a6227d948deac89eb7d45f53b0409ceb924e80b9ebf63beab7fbcb371a6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "84e06d35a017e74812641d92d2f079b4426e68376072ed9e2f2f867536a0b31d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP703_ADMISSION_PATH_CORRECTION_V1.json",
+      "sha256": "15f0c43aaddf0d96cc5df78c3da588744e8d242f4ac9199450ad48fd396bf82b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "1d1444402dcf18c78e9f88e220fcc13e8595048a0b6127e7c29bf1bcf5798052"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "cfc75249a01f154ed9c072cff65d0fb5febc82131da9f672b19cf0d4f7311533"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "9e7e1abfd9e6bbbca5e66bb91f685e6b70be5f660511f8f189394e18c4ab9536"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2a7711550833745107cd78c5e4c43c92416ea88f43eb0552b06c12d7596b9971"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1.json",
+      "sha256": "dace5b31e2eca6406612dcca9805f604899d775b00e4831a56d34986f260662d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP705_ADMISSION_PATH_CORRECTION_V1.json",
+      "sha256": "291477439ca8049e6588b0ef8afd85238b8a0b57428f25e6a10af3206d9965b5"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C9_MAIN_PRODUCT_AUTHORITY_BINDING_V1.json",
+      "sha256": "0f2620aa9bd791ffbba63ba486f5b6379a603f80da34a68ec889268b7307923f"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C9_MAIN_PRODUCT_AUTHORITY_TEMPLATE_V1.json",
+      "sha256": "a402d66646263d88f2006200faf31477b4c18d4b3b3c7239a83508dc702d8001"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "c2244c51c35fb29a19ff8d1ba3c0a5c8f7da69fe43370a230015b374dd4a4f1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "d0b65b56c9b8924958ca35d4aa714ebbd9307e495073621d296e9fc91f1d5144"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "51eac019b137d564b3cac87ffd03ea91ec57f2de8b4e062b6e2307957588e76f"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP602_CARRIER_REGISTRY_V1.json",
+      "sha256": "d0f246e33e43588752fc3f19409b429d058e6741f056495f94c8f70375b3efab"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_OWNER_AUTHORITY_V1.json",
+      "sha256": "96529524a212feb3dc28c04a4b6e1df34383d0348ed2dd7e85ae09614bb9a819"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_STAGE_INSTANCE_V1.json",
+      "sha256": "ea92d82beedfc8e60c72f2436c1a5df6df0e165900171296b7d7aed305086840"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ae1114bb5f060149a707c769d57341781fca25e148e4da0f99ead920f60f85b0"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_CARRIER_REGISTRY_V1.json",
+      "sha256": "0b973353b56c5aadbb55beda0958d6566902ba6bf1e4be717f0ad2d727dc9ebb"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective P03 context restoration",
+    "npm run agent:preflight -- --declaration /tmp/P03_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --repo-root BASE --authority P03_OWNER_AUTHORITY_V1.json --stage-instance P03_STAGE_INSTANCE_V1.json --stage-admission P03_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST",
+    "node scripts/ops/r24/corrective/admission-preparation.mjs --repo-root BASE --authority P03_OWNER_AUTHORITY_V1.json --stage-instance P03_STAGE_INSTANCE_V1.json --stage-admission P03_STAGE_ADMISSION_ATTESTATION_V1.json --expected-verifier-digest b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f --expected-authority-digest AUTHORITY_DIGEST --predecessor-receipt P01_ADMISSION_PREPARATION_TERMINAL_RECEIPT_V1.json --expected-predecessor-receipt-digest 27d34d96e95d906320d01f32b0786f818b5c3d0197ff39507352dbdfa2dc3feb --predecessor-verification P01_ADMISSION_PREPARATION_TERMINAL_VERIFICATION_V1.json --expected-predecessor-verification-digest 30864c951ef5f115e7f4052ea9d9b5a717532c9463e57eb062993907f2cef5e4 --expected-predecessor-stage-id P01_ADMISSION_PREPARATION --generated-plan P03_ADMISSION_PREPARATION_OUTPUTS_V1.json",
+    "node --test test/contracts/agent-context-restoration.contract.test.mjs test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs test/contracts/r24-admission-preparation.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs",
+    "node --test test/contracts/agent-architecture-guardrails.contract.test.js test/contracts/agent-bootstrap-spec.contract.test.js test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs",
+    "node scripts/brain.mjs handoff --request EXACT_EXTERNAL_REQUEST --request-sha256 CALLER_PIN",
+    "node scripts/agent-bootstrap.mjs --objective P03 --context-request EXACT_EXTERNAL_REQUEST --context-request-sha256 CALLER_PIN --checkpoint EXACT_EXTERNAL_CHECKPOINT --checkpoint-sha256 CALLER_PIN --json",
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/P03_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/P03_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/P03_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "node --test test/contracts/r24-admission-preparation.contract.test.mjs test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs",
+    "node --test test/contracts/r24-wp602-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp705-historical-inventory-claims.contract.test.mjs test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "npm run r24:test-inventory",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:atlas-graph",
+    "npm run test:atlas-event-contract",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm run agent:guardrails",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "node --test test/contracts/b3c08-support-bundle-privacy.contract.test.js test/unit/security-privacy-writing-path-smoke.mjs",
+    "node scripts/ops/r24/corrective/post-audit-merge-gate.mjs --check-live-ruleset",
+    "node scripts/ops/r24/corrective/post-audit-toolchain.mjs",
+    "node scripts/ops/r24/corrective/post-audit-corrections.mjs --check-static",
+    "node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check",
+    "node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs",
+    "node scripts/ops/r24/docs-claim-lint.mjs",
+    "GODEBUG=http2client=0 gh run watch RUN --exit-status --interval 30",
+    "node /tmp/P03_RUN_GATES_V1.mjs",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_P03_WRITE_SET",
+    "git commit -m Add exact-bound context restoration and non-destructive handoff",
+    "git fetch origin main",
+    "git merge --ff-only origin/main",
+    "git push origin codex/r24-p03-context-restoration-v1-20260903",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh workflow run ops-vector-close.yml",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs activeWriter=/Volumes/T7-Secure/worktrees/yalken/r24-p03-context-restoration-v1-20260903 predecessorWriter=/Volumes/T7-Secure/worktrees/yalken/r24-p01-admission-preparation-v1-20260903",
+    "node P03_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node P03_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "allowedOperations": {
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/P03_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_ADMISSION_PREPARATION_OUTPUTS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_CONTEXT_RESTORATION_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_P01_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_P02_NO_CHANGE_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P03_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS.json",
+      "docs/architecture/AGENT_HANDOFF_CHECKPOINT_V1.schema.json",
+      "scripts/agent-context-restoration.mjs",
+      "test/contracts/agent-context-restoration.contract.test.mjs",
+      "test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs"
+    ],
+    "deletePaths": [],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "AGENTS.md",
+      "docs/AGENT_START_PROTOCOL.md",
+      "docs/HANDOFF.md",
+      "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_REPOSITORY_NATIVE_V2_0.json",
+      "docs/OPERATIONS/STATUS/AGENT_BOOTSTRAP_STATUS.json",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "docs/PROCESS.md",
+      "docs/architecture/AGENT_CONTEXT_PACKET_V1.schema.json",
+      "docs/tasks/2026-09-03--r24-process-corrections.md",
+      "scripts/agent-bootstrap.mjs",
+      "scripts/brain.mjs",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs"
+    ],
+    "readPaths": [
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/OPERATIONS/STATUS/CODEX_AUTOMATION_POLICY.json",
+      "docs/OPS/R24/AUTONOMY_CONTROL_PLANE_R2_4.json",
+      "docs/OPS/R24/CORRECTIVE/C9_MAIN_PRODUCT_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C9_MAIN_PRODUCT_AUTHORITY_TEMPLATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_OWNER_DIRECT_SOURCE_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_PROCESS_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/P01_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP507_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP507_TERMINAL_RECEIPT_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP600_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP600_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP601_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP601_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP601_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP602_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP602_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP702_WP504_HISTORICAL_SURFACE_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_ADMISSION_PATH_CORRECTION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP703_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP705_ADMISSION_PATH_CORRECTION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "docs/OPS/R24/CORRECTIVE/WP705_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "docs/YALKEN_DESIGN_OS_FEATURE_INTEGRATION_DOCTRINE_V1.md",
+      "docs/architecture/AGENT_ARCHITECTURE_MANIFEST_V1.json",
+      "docs/corex/COREX.md",
+      "docs/corex/COREX.v2.md",
+      "docs/templates/AGENT_TASK_ARCHITECTURE_DECLARATION_V1.json",
+      "package.json",
+      "scripts/agent-guardrails-lib.mjs",
+      "scripts/agent-preflight.mjs",
+      "scripts/contracts/check-agent-bootstrap-spec.mjs",
+      "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier.mjs",
+      "src/core/atlas-associations-v1.mjs",
+      "src/core/atlas-book-snapshot-v1.mjs",
+      "src/core/atlas-decision-substrate-v1.mjs",
+      "src/core/atlas-projector-kernel-v1.mjs",
+      "src/core/browser-safe-hash.mjs",
+      "src/core/command-protocol-v1.cjs",
+      "src/core/domainEvents.mjs",
+      "src/core/frozen-feature-spec-query-ir-v1.mjs",
+      "src/core/local-automation-v1.mjs",
+      "src/core/runtime.mjs",
+      "src/product/stage10ApplicationCommandRoute.mjs",
+      "src/renderer/commands/capabilityPolicy.mjs",
+      "src/renderer/commands/registry.mjs",
+      "src/renderer/commands/runCommand.mjs",
+      "src/shared/commandCapabilityAuthority.cjs",
+      "src/shared/productCommandRegistry.cjs",
+      "test/contracts/agent-architecture-guardrails.contract.test.js",
+      "test/contracts/agent-bootstrap-spec.contract.test.js",
+      "test/contracts/r24-stage-admission-verifier-v2.contract.test.mjs",
+      "test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs",
+      "test/contracts/yalken-atlas-v5-e04-c04-atlas-entity-merge-split-reassign-restore.contract.test.js",
+      "test/fixtures/r24-wp600-featurespec-query-ir-fixtures.js",
+      "test/fixtures/r24-wp601-local-automation-fixtures.js",
+      "test/unit/r24-wp601-local-automation-integration.test.js",
+      "test/unit/r24-wp601-local-automation-mutants.test.js",
+      "test/unit/r24-wp601-local-automation.test.js"
+    ],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "EXISTING_BOOTSTRAP_AND_HANDOFF_COMPACT_DERIVED_CHECKPOINT_NO_SECOND_CANON",
+    "COMPLETE_ORDERED_SOURCE_DENOMINATOR_DIGESTS_AND_CALLER_REPORTED_READ_BOUNDARY",
+    "FRESH_EXACT_HEAD_TREE_WORKTREE_ORIGIN_CANON_ADMISSION_AND_LEASE_BYTES",
+    "CALLER_FRESHNESS_PINS_NEVER_DERIVED_FROM_CHECKPOINT",
+    "MISSING_STALE_CHANGED_AUTHORITY_LEASE_SOURCE_OR_SCOPE_FAILS_COMPACT_REUSE",
+    "BOUNDED_STRICT_JSON_PATH_SYMLINK_RACE_AND_INPUT_NEGATIVES",
+    "HANDOFF_CURATED_BYTES_NEVER_OVERWRITTEN_BY_BRAIN_COMMAND",
+    "CHECKPOINT_NEVER_GRANTS_WRITE_OR_COMPLETION_OR_AUTONOMY",
+    "FULL_STARTUP_REMAINS_MANDATORY_UNTIL_P03_DELIVERY",
+    "P01_COMPLETED_PREFIX_AND_P02_NO_CHANGE_EXACT_EVIDENCE_PRESERVED",
+    "268_PROTECTED_WORKTREES_TEN_DIRTY_AND_24_FROZEN_OWNED_BYTES_UNCHANGED",
+    "NORMAL_PROTECTED_MERGE_FRESH_CANDIDATE_EXACT_POSTMERGE_FULL_GATES",
+    "NON_RECURSIVE_EXTERNAL_TERMINAL_VERIFICATION",
+    "LEASE_84_RELEASED_WIP_0",
+    "PROGRAM_DONE_FALSE_PRODUCT_GRAPH_UNCHANGED"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "P01_EXTERNAL_TERMINAL_RECEIPT_V1",
+      "digest": "27d34d96e95d906320d01f32b0786f818b5c3d0197ff39507352dbdfa2dc3feb",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "P01_EXTERNAL_TERMINAL_VERIFICATION_V1",
+      "digest": "30864c951ef5f115e7f4052ea9d9b5a717532c9463e57eb062993907f2cef5e4",
+      "status": "PASS"
+    },
+    {
+      "id": "P01_EXTERNAL_DURABLE_CARRIER_V1",
+      "digest": "7d19dff2e5d97a41ae24a946c4f53d63fc8984b68b6f08d7357046665817f2a0",
+      "status": "ISSUED_AND_VERIFIED"
+    },
+    {
+      "id": "P01_EXTERNAL_LEASE_RELEASE_DISPOSITION",
+      "digest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "P02_READ_ONLY_NO_CHANGE_RECEIPT_V1",
+      "digest": "ffb83964d69ef7dfc05af27f2e1e2d888c189b4ea61bd0d575cdf35e3843f068",
+      "status": "NO_CHANGE_READ_ONLY_EXACT_87DE5FDF"
+    },
+    {
+      "id": "P02_READ_ONLY_NO_CHANGE_VERIFICATION_V1",
+      "digest": "0873885402333e85b909e784d819abbc80aeb15834239afb1272b5811b6e97c8",
+      "status": "NO_CHANGE_READ_ONLY_EXACT_87DE5FDF"
+    },
+    {
+      "id": "DIRECT_OWNER_PROCESS_PACKAGE_AUTHORITY_EXACT_USER_TEXT_UTF8",
+      "digest": "1dd01a8e6d15aee424cfe10b004d3a4946e073f5f69306af3920ebf72d77ceb3",
+      "status": "OWNER_AUTHORIZED_SCOPE_VERIFIED_FROM_DIRECT_USER_EVENT"
+    },
+    {
+      "id": "P03_PROTECTED_WIP_BEFORE_V1",
+      "digest": "1d45a333b80a5a85d3ca8d3e368b434646ce2051fffe3d858af167a421383209",
+      "status": "268_PROTECTED_ENTRIES_TEN_DIRTY"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 84,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "2b72a90cfd90ead061944aaddd71f3dcb671992a84b37046efa6b3731a0cde33"
+  }
+}

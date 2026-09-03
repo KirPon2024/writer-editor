@@ -1,0 +1,49 @@
+{
+  "schemaVersion": "YALKEN_R24_WP602_LEASE_RELEASE_V1",
+  "stageId": "WP-602_PROPOSAL_WORKFLOW",
+  "evidenceStampId": "ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "f4226a5b3e775ffa2a92ef8bb71ac8e0ece19ae17caa9bc8a722258482694589",
+    "acceptanceMatrixDigest": "81c17913194dce34dd3ece36c059336acf7759c5b6822934be657273a91b37a1",
+    "effectiveStateDigest": "f01aecf4db041dc4f13aae587ce7bed25965d1b44cc8ecca12013f87f97faf4d",
+    "stageRegistryDigest": "903932be2e5bfad46d7f85754248ae6fa8df35983d136174e7078296b5928b78",
+    "stageAdmissionDigest": "51eac019b137d564b3cac87ffd03ea91ec57f2de8b4e062b6e2307957588e76f"
+  },
+  "currentLease": {
+    "fencingCounter": 82,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "f4226a5b3e775ffa2a92ef8bb71ac8e0ece19ae17caa9bc8a722258482694589"
+  },
+  "targetLease": {
+    "fencingCounter": 82,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "06a42e2d9050660b93cba58e5111681175f1cdb9110537ac13b00f473afbdaef",
+    "beforeSnapshotDigest": "79be63c60400a2241bd72e26451d6e43ae9f689a8d430f2e4b92a181ff09e053",
+    "completeDenominator": 266,
+    "presentDenominator": 266,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 10,
+    "protectedDirtySetDenominator": 10,
+    "unrelatedDirtyDenominator": 8,
+    "frozenOwnedDirtyDenominator": 2,
+    "frozenOwnedFileDenominator": 24,
+    "finalSnapshotRequired": true,
+    "frozenOwnedFileHashReplayRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_AND_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

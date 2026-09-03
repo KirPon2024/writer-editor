@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "WP602_SEALED_SOURCE_READ_RECEIPT_V1",
+  "status": "VERIFIED_AND_READ",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "archive": {
+    "basename": "ФИНАЛ ПО ЯЛКЕНУ — R2.4 — АВТОНОМНЫЙ ИНЖЕНЕРНЫЙ ПАКЕТ 2026-08-19.zip",
+    "byteLength": 12903785,
+    "sha256": "168feabb6ef399ae34e21a39da972e0e6aad8e9b3b4f18c3b9ed38b90c9fa67c"
+  },
+  "member": {
+    "path": "YALKEN_FINAL_EVOLUTIONARY_ENGINEERING_PACKAGE_R2_4_2026-08-19/reference/R2_3_SEALED_BASELINE/machine/SEQUENTIAL_EXECUTION_MAP_R2_3.json",
+    "byteLength": 30050,
+    "sha256": "23e0c4cea39f3a393ae5e50eeb22d8ceb63e2f1ee9e4ef9d2e7bab2139af08e0"
+  },
+  "manifest": {
+    "path": "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+    "sha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff",
+    "rowIndex": 244,
+    "row": {
+      "path": "reference/R2_3_SEALED_BASELINE/machine/SEQUENTIAL_EXECUTION_MAP_R2_3.json",
+      "size": 30050,
+      "sha256": "23e0c4cea39f3a393ae5e50eeb22d8ceb63e2f1ee9e4ef9d2e7bab2139af08e0"
+    }
+  },
+  "selectedHistoricalNode": {
+    "id": "WP-602_PROPOSAL_WORKFLOW",
+    "outcome": "Candidate/evidence/diff/approval/command/rollback without silent mutation",
+    "ownerGate": null
+  },
+  "referenceRole": "REFERENCE_ONLY_NOT_ACTIVE_LAW",
+  "extracted": false,
+  "repositoryMutation": false,
+  "additionalReferenceMembers": [
+    {
+      "path": "YALKEN_FINAL_EVOLUTIONARY_ENGINEERING_PACKAGE_R2_4_2026-08-19/reference/R2_3_SEALED_BASELINE/03_FEATURE_AND_PRODUCT_SCOPE_R2_3.md",
+      "byteLength": 11460,
+      "sha256": "cdc2af32f6d9c53fcf4329b4d85a98bebb33254d74c70c1c0afb12461dc45fa2",
+      "manifest": {
+        "path": "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+        "sha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff",
+        "rowIndex": 44,
+        "row": {
+          "path": "reference/R2_3_SEALED_BASELINE/03_FEATURE_AND_PRODUCT_SCOPE_R2_3.md",
+          "size": 11460,
+          "sha256": "cdc2af32f6d9c53fcf4329b4d85a98bebb33254d74c70c1c0afb12461dc45fa2"
+        }
+      },
+      "readCompletelyBeforeImplementation": true,
+      "relevance": "Explicit proposal preview diff approval command and rollback; WSE derived evidence never grants truth or mutation authority."
+    }
+  ]
+}

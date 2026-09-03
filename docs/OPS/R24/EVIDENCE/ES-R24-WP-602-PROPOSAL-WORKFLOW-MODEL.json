@@ -1,0 +1,313 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-602_PROPOSAL_WORKFLOW",
+  "attemptId": "ATTEMPT-WP602-20260903",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP602_AUTHORITY_EPOCH_V1",
+  "profileId": "WSE_OPTIONAL_MODULES",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "888d3bc716b64dd6dfa16027cc4933bb775c6fdf",
+    "treeSha": "aa4c26d7cb8aeca5c5bf7ba5592e5af00d7745f2"
+  },
+  "createdAt": "2026-09-03T09:10:45Z",
+  "actor": "codex/r24-wp602-proposal-workflow-v1-20260903",
+  "stampId": "ES-R24-WP-602-PROPOSAL-WORKFLOW-MODEL",
+  "claim": {
+    "type": "WP602_PROPOSAL_WORKFLOW_MODEL",
+    "ceiling": "WP602_FIXED_PAIR_DERIVED_API_ONLY_NOT_HOST_UI_WSE_PROFILE_OR_PERSISTENCE_COMPLETION",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Eight explicit workflow phases and every successful transcript prefix checked in the first unit contract",
+    "evidenceClass": "MODEL",
+    "denominator": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-601-LOCAL-AUTOMATION-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "33fd1474b2623c0ba505c955893f47e227a6727e637a78b55c63b49cf7b6f7d6"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/proposal-workflow-v1.mjs",
+        "sha256": "c78954dc8814621e7e7a8e9e71f5b8c5b49c4bb6ca78aeee8692a8d088b8aee9"
+      },
+      {
+        "path": "test/fixtures/r24-wp602-proposal-workflow-fixtures.js",
+        "sha256": "c98bdbc96c87d94c1c83b544bdcf6e66d5dc7cf55ca55473505ee30a9da201d1"
+      },
+      {
+        "path": "test/unit/r24-wp602-proposal-workflow.test.js",
+        "sha256": "90667d3fbb7167ae795396520ef95b81a6383d85fbc7bafaa989ee607faf9c3d"
+      },
+      {
+        "path": "test/unit/r24-wp602-proposal-workflow-integration.test.js",
+        "sha256": "2ca056dd87d1eb84e4dac7e94962c2c73ceddc687baafb7d2b01f73919893c85"
+      },
+      {
+        "path": "test/unit/r24-wp602-proposal-workflow-mutants.test.js",
+        "sha256": "bce09aebc6aefa0d1387f4b9fe97663da9de760f5cd5e1106a8b2c757769046d"
+      }
+    ],
+    "observations": [
+      "DERIVED_ONLY",
+      "SEPARATE_FORWARD_AND_ROLLBACK_REVIEW",
+      "COMPLETE_DIFF_AND_EXACT_REPLAY"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "rawEvidence": {
+      "basename": "WP602_PRODUCT_FOCUSED_PREPUBLICATION_V2.tap",
+      "sha256": "b3dd56087291dc90b6868b4dfaa58d6aa11743c18a47a019fd3800be3e15008b",
+      "byteLength": 4424,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 14,
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test test/unit/r24-wp602-proposal-workflow.test.js test/unit/r24-wp602-proposal-workflow-integration.test.js test/unit/r24-wp602-proposal-workflow-mutants.test.js",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwMiBleGlzdGluZyBDb21tYW5kIEtlcm5lbCBibG9ja3MgZGlzYWJsZWQgY2FwYWJpbGl0eSBpbiBib3RoIGRpcmVjdGlvbnMgYW5kIGRlbGVnYXRlcyBhZG1pdHRlZCBjb21tYW5kcyB0byBDb3JlCm9rIDEgLSBXUDYwMiBleGlzdGluZyBDb21tYW5kIEtlcm5lbCBibG9ja3MgZGlzYWJsZWQgY2FwYWJpbGl0eSBpbiBib3RoIGRpcmVjdGlvbnMgYW5kIGRlbGVnYXRlcyBhZG1pdHRlZCBjb21tYW5kcyB0byBDb3JlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDg5LjI4NDUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBjdXJyZW50IENvcmUgcmVqZWN0cyBhIHN0YWxlIGVtaXR0ZWQgbWVyZ2UgYW5kIGEgc3RhbGUgcm9sbGJhY2sgd2l0aG91dCBtdXRhdGluZyBzeW50aGV0aWMgc3RhdGUKb2sgMiAtIFdQNjAyIGN1cnJlbnQgQ29yZSByZWplY3RzIGEgc3RhbGUgZW1pdHRlZCBtZXJnZSBhbmQgYSBzdGFsZSByb2xsYmFjayB3aXRob3V0IG11dGF0aW5nIHN5bnRoZXRpYyBzdGF0ZQogIC0tLQogIGR1cmF0aW9uX21zOiA2MS45MzMwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBkZXRlcm1pbmlzdGljIGluZGVwZW5kZW50IHJlZmVyZW5jZSBjb3JwdXMgY292ZXJzIDEyOCBjb21wbGV0ZSB3b3JrZmxvd3MgYW5kIDEwMjQgcmVwbGF5ZWQgZXZlbnRzCm9rIDMgLSBXUDYwMiBkZXRlcm1pbmlzdGljIGluZGVwZW5kZW50IHJlZmVyZW5jZSBjb3JwdXMgY292ZXJzIDEyOCBjb21wbGV0ZSB3b3JrZmxvd3MgYW5kIDEwMjQgcmVwbGF5ZWQgZXZlbnRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDkxMDguNzI4NjI1CiAgLi4uCiMgeyJ3b3JrZmxvd3MiOjEyOCwiZXZlbnREZW5vbWluYXRvciI6MTAyNCwiZmllbGRDaGFuZ2VzIjoyNDMyLCJyb3VuZFRyaXBzIjoxMjgsImxvY2FsZXMiOjgsImNvcnB1c0RpZ2VzdCI6InNoYTI1Njo1ZGJhMmMxNTMxYzUxZjhhYmIxYzQ1NjIzZjhjZTdiMzkyMjcwM2ZkYjI1YWFkZTlhNTMwM2MyMDBlOThiMTE2IiwidXNlckRvY3VtZW50TXV0YXRpb25zIjowfQojIFN1YnRlc3Q6IFdQNjAyIDE2MDAwMC13b3JkIHN5bnRoZXRpYyBtYW51c2NyaXB0IHJlbWFpbnMgYnl0ZS1pZGVudGljYWwgdGhyb3VnaCBwcmV2aWV3IGhhbmRvZmYgYW5kIHJvbGxiYWNrCm9rIDQgLSBXUDYwMiAxNjAwMDAtd29yZCBzeW50aGV0aWMgbWFudXNjcmlwdCByZW1haW5zIGJ5dGUtaWRlbnRpY2FsIHRocm91Z2ggcHJldmlldyBoYW5kb2ZmIGFuZCByb2xsYmFjawogIC0tLQogIGR1cmF0aW9uX21zOiAyOTc4Ljg2NjA4MwogIC4uLgojIHsic3ludGhldGljV29yZHMiOjE2MDAwMCwibWFudXNjcmlwdEJ5dGVzIjo3OTk5OTksIm1hbnVzY3JpcHREaWdlc3QiOiJzaGEyNTY6NmQwNjlmMGQwM2M2YWYxNjUyMTFlMDAyZTMzZTc2MDYwYjE2NDRjNTVmYTlkZTkyNGY1NGRjNDQ1OTUxNWNhYyIsImV2ZW50RGVub21pbmF0b3IiOjgsInVuY2hhbmdlZCI6dHJ1ZX0KIyBTdWJ0ZXN0OiBXUDYwMiBwdXJlIG1vZHVsZSBoYXMgZXhhY3RseSB0aGUgZXhpc3RpbmcgZGVwZW5kZW5jaWVzIGFuZCBubyBob3N0IGRpc3BhdGNoZXIgcHJvdmlkZXIgb3Igc3RvcmFnZSBlZmZlY3Qgc2VhbQpvayA1IC0gV1A2MDIgcHVyZSBtb2R1bGUgaGFzIGV4YWN0bHkgdGhlIGV4aXN0aW5nIGRlcGVuZGVuY2llcyBhbmQgbm8gaG9zdCBkaXNwYXRjaGVyIHByb3ZpZGVyIG9yIHN0b3JhZ2UgZWZmZWN0IHNlYW0KICAtLS0KICBkdXJhdGlvbl9tczogMC45NDgwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgMjYgYWN0dWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgd2l0aG91dCBlZGl0aW5nIHByb2R1Y3Rpb24gc291cmNlCm9rIDYgLSBXUDYwMiBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgMjYgYWN0dWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgd2l0aG91dCBlZGl0aW5nIHByb2R1Y3Rpb24gc291cmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEyMTQuMDI3MjA4CiAgLi4uCiMgeyJpbXBsZW1lbnRhdGlvbk11dGFudHMiOjI2LCJraWxsZWQiOjI2LCJzdXJ2aXZvcnMiOjAsInByb2R1Y3Rpb25Tb3VyY2VNdXRhdGlvbnMiOjAsImltcGxlbWVudGF0aW9uRGlnZXN0Ijoic2hhMjU2OmM3ODk1NGRjODgxNDYyMWU3ZTdhOGU5ZTcxZjViOGM1YjQ5YzRiYjZjYTc4YWVlZTg2OTJhOGQwODhiOGFlZTkifQojIFN1YnRlc3Q6IFdQNjAyIGV4cGxpY2l0IHJldmlldyBnYXRlcyBib3RoIGZpeGVkIGNvbW1hbmRzOyBldmVyeSBzdWNjZXNzZnVsIHByZWZpeCBoYXMgYW4gZXhhY3QgcmVwbGF5Cm9rIDcgLSBXUDYwMiBleHBsaWNpdCByZXZpZXcgZ2F0ZXMgYm90aCBmaXhlZCBjb21tYW5kczsgZXZlcnkgc3VjY2Vzc2Z1bCBwcmVmaXggaGFzIGFuIGV4YWN0IHJlcGxheQogIC0tLQogIGR1cmF0aW9uX21zOiAyODMuMjkzNzkyCiAgLi4uCiMgU3VidGVzdDogV1A2MDIgZXZlcnkgcHJvamVjdCBsaWZlY3ljbGUgcmV2aXNpb24gc25hcHNob3QgcHJvamVjdGlvbiBnZW5lcmF0aW9uIGFuZCBDb3JlIGRpZ2VzdCBpcyByZXZhbGlkYXRlZCBiZWZvcmUgaGFuZG9mZgpvayA4IC0gV1A2MDIgZXZlcnkgcHJvamVjdCBsaWZlY3ljbGUgcmV2aXNpb24gc25hcHNob3QgcHJvamVjdGlvbiBnZW5lcmF0aW9uIGFuZCBDb3JlIGRpZ2VzdCBpcyByZXZhbGlkYXRlZCBiZWZvcmUgaGFuZG9mZgogIC0tLQogIGR1cmF0aW9uX21zOiA4NDAuODE4OTU4CiAgLi4uCiMgeyJpZGVudGl0eUd1YXJkTmVnYXRpdmVzIjoyOCwicmVqZWN0ZWQiOjI4fQojIFN1YnRlc3Q6IFdQNjAyIGNhbm9uaWNhbCBieXRlIGJvdW5kYXJ5IHJlZnVzZXMgb2JqZWN0cyBnZXR0ZXJzIHByb3hpZXMgZHVwbGljYXRlIGtleXMgdW5zYWZlIGtleXMgYW5kIGJvdW5kcyBhdG9taWNhbGx5Cm9rIDkgLSBXUDYwMiBjYW5vbmljYWwgYnl0ZSBib3VuZGFyeSByZWZ1c2VzIG9iamVjdHMgZ2V0dGVycyBwcm94aWVzIGR1cGxpY2F0ZSBrZXlzIHVuc2FmZSBrZXlzIGFuZCBib3VuZHMgYXRvbWljYWxseQogIC0tLQogIGR1cmF0aW9uX21zOiA3MC4xODMyMDgKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBvbmx5IHZlcmlmaWVkIHB1Ymxpc2hlZCBjb21wbGV0ZSBtYXRjaGluZy1wYWlyIGV2aWRlbmNlIHBlcm1pdHMgYSBwcm9wb3NhbApvayAxMCAtIFdQNjAyIG9ubHkgdmVyaWZpZWQgcHVibGlzaGVkIGNvbXBsZXRlIG1hdGNoaW5nLXBhaXIgZXZpZGVuY2UgcGVybWl0cyBhIHByb3Bvc2FsCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI0OS4xNjkKICAuLi4KIyB7ImV2aWRlbmNlTmVnYXRpdmVzIjoxNywicmVqZWN0ZWQiOjE3fQojIFN1YnRlc3Q6IFdQNjAyIGFwcHJvdmFscyBhbmQgaGFuZG9mZnMgYXJlIG9uZS1zaG90OyBjcm9zcy13b3JrZmxvdyBhbmQgZm9yd2FyZC10by1yb2xsYmFjayBhcHByb3ZhbHMgY2Fubm90IGJlIHJldXNlZApvayAxMSAtIFdQNjAyIGFwcHJvdmFscyBhbmQgaGFuZG9mZnMgYXJlIG9uZS1zaG90OyBjcm9zcy13b3JrZmxvdyBhbmQgZm9yd2FyZC10by1yb2xsYmFjayBhcHByb3ZhbHMgY2Fubm90IGJlIHJldXNlZAogIC0tLQogIGR1cmF0aW9uX21zOiAxMTAuMDcwMTI1CiAgLi4uCiMgU3VidGVzdDogV1A2MDIgcmVqZWN0IGFuZCBjYW5jZWwgZGlzY2FyZCBkZXJpdmVkIHdvcmsgd2l0aG91dCBwcm9kdWN0IG11dGF0aW9uIG9yIGltcGxpY2l0IHJvbGxiYWNrCm9rIDEyIC0gV1A2MDIgcmVqZWN0IGFuZCBjYW5jZWwgZGlzY2FyZCBkZXJpdmVkIHdvcmsgd2l0aG91dCBwcm9kdWN0IG11dGF0aW9uIG9yIGltcGxpY2l0IHJvbGxiYWNrCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE0Mi45NDg1NDEKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBvYnNlcnZhdGlvbiBjb21wYXJlcyBleGFjdCBzdGF0ZSBhbmQgYW4gYWR2YW5jZWQgY29udGV4dCB3aXRob3V0IGNlcnRpZnlpbmcgZXhlY3V0aW9uCm9rIDEzIC0gV1A2MDIgb2JzZXJ2YXRpb24gY29tcGFyZXMgZXhhY3Qgc3RhdGUgYW5kIGFuIGFkdmFuY2VkIGNvbnRleHQgd2l0aG91dCBjZXJ0aWZ5aW5nIGV4ZWN1dGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiA0NzMuNDIxCiAgLi4uCiMgeyJvYnNlcnZhdGlvbk5lZ2F0aXZlcyI6MTQsInJlamVjdGVkIjoxNH0KIyBTdWJ0ZXN0OiBXUDYwMiByZXBsYXkgcGlucyB0aGUgY29tcGxldGUgZXZlbnQgZGVub21pbmF0b3IgYW5kIHJlY29tcHV0ZXMgYWxsIG91dHB1dCBieXRlcwpvayAxNCAtIFdQNjAyIHJlcGxheSBwaW5zIHRoZSBjb21wbGV0ZSBldmVudCBkZW5vbWluYXRvciBhbmQgcmVjb21wdXRlcyBhbGwgb3V0cHV0IGJ5dGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE5NC4wMDg1CiAgLi4uCjEuLjE0CiMgdGVzdHMgMTQKIyBzdWl0ZXMgMAojIHBhc3MgMTQKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyMzE2LjE4NjY2Ngo="
+    },
+    "testEnvelope": {
+      "schemaVersion": "WP602_TEST_ASSURANCE_ENVELOPE_V1",
+      "riskClasses": [
+        "T2_STATE_OR_AUTHORITY",
+        "T5_CONTROL_PLANE"
+      ],
+      "profileId": "WSE_OPTIONAL_MODULES",
+      "dimensionDenominator": 14,
+      "dimensions": [
+        {
+          "id": "functional-semantics",
+          "disposition": "REQUIRED",
+          "oracle": "128_INDEPENDENT_REFERENCE_WORKFLOWS_1024_REPLAY_EVENTS_2432_EXPLICIT_FIELD_CHANGES"
+        },
+        {
+          "id": "negative-admission-denial",
+          "disposition": "REQUIRED",
+          "oracle": "CLOSED_CANONICAL_JSON_EXACT_REVIEW_HANDOFF_DENIAL_AND_PINNED_31_PATH_ADMISSION"
+        },
+        {
+          "id": "boundary-malformed",
+          "disposition": "REQUIRED",
+          "oracle": "BYTE_DEPTH_CORE_STATE_EVENT_TRANSCRIPT_AND_COMPLETE_DIFF_BOUNDS"
+        },
+        {
+          "id": "state-transition-transaction",
+          "disposition": "REQUIRED",
+          "oracle": "ATOMIC_PROPOSE_REVIEW_HANDOFF_OBSERVE_ROLLBACK_REVIEW_HANDOFF_OBSERVE_WITH_REJECT_AND_CANCEL"
+        },
+        {
+          "id": "concurrency-reordering-idempotency",
+          "disposition": "REQUIRED",
+          "oracle": "ONE_SHOT_PHASES_CROSS_WORKFLOW_REVIEW_BINDING_STALE_CONTEXT_AND_COMPLETE_ORDERED_REPLAY"
+        },
+        {
+          "id": "crash-fault-killpoint-physical-interruption",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "Pure in-memory derived workflow; no durable store or effect. Replaying its bytes never executes a command. It does not claim crash-durable execution, persistence or exactly-once physical effects."
+        },
+        {
+          "id": "security-capability-privacy",
+          "disposition": "REQUIRED",
+          "oracle": "REAL_EXISTING_COMMAND_KERNEL_DISABLED_CAPABILITY_DENIAL_BOTH_DIRECTIONS_NO_CALLBACK_HOST_STORE_OR_PROVIDER_AUTHORITY"
+        },
+        {
+          "id": "unicode-ime-i18n-coordinates",
+          "disposition": "REQUIRED",
+          "oracle": "EIGHT_LEGITIMATE_NFC_UNICODE_WORKFLOW_IDS_AND_NON_NFC_DENIAL; EIGHT_LOCALE_ENTITY_NAMES_PRESERVED; NO_IME_OR_COORDINATE_WRITE"
+        },
+        {
+          "id": "performance-resource-cancellation-liveness",
+          "disposition": "REQUIRED",
+          "oracle": "160000_SYNTHETIC_WORDS_BYTE_IDENTICAL_ACROSS_BOTH_PREVIEWS_AND_REPLAY; BOUNDED_CALLER_STEPS_NOT_WALL_CLOCK_SLA"
+        },
+        {
+          "id": "accessibility-keyboard-focus-reflow-graph-parity",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "No renderer, UI surface, keyboard, focus, graph layout or host wiring in the admitted implementation."
+        },
+        {
+          "id": "compatibility-version-migration-downgrade",
+          "disposition": "REQUIRED",
+          "oracle": "EXISTING_WP601_REPLAY_CORE_ENTITY_MERGE_SPLIT_RESTORE_AND_COMMAND_KERNEL_REUSED_WITH_NO_NEW_DEPENDENCY_OR_DURABLE_SCHEMA"
+        },
+        {
+          "id": "observability-receipt-provenance-claim-ceiling",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_CALLER_PINNED_EVENT_DENOMINATOR_AND_OUTPUT_REPLAY; OBSERVED_EQUIVALENCE_IS_NOT_EXECUTION_AUTHENTICATION_OR_PERSISTENCE"
+        },
+        {
+          "id": "mutation-oracle-quality",
+          "disposition": "REQUIRED",
+          "oracle": "26_REAL_SOURCE_MUTANTS_KILLED_BY_BEHAVIORAL_ASSERTIONS_NOT_IMPORT_ERRORS"
+        },
+        {
+          "id": "postmerge-survivor-cleanup",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_CANDIDATE_MERGE_CI_TERMINAL_266_PROTECTED_WORKTREES_TEN_DIRTY_AND_24_FROZEN_OWNED_FILES",
+          "status": "REQUIRED_NOT_PRECLAIMED"
+        }
+      ],
+      "deterministicCampaign": {
+        "generatorVersion": "WP602_FIXED_PAIR_REFERENCE_CARTESIAN_V1",
+        "seed": "EXHAUSTIVE_INTEGER_SEEDS_0_THROUGH_127",
+        "workflows": 128,
+        "eventDenominator": 1024,
+        "fieldChanges": 2432,
+        "roundTrips": 128,
+        "locales": 8,
+        "corpusDigest": "sha256:5dba2c1531c51f8abb1c45623f8ce7b3922703fdb25aade9a5303c200e98b116",
+        "userDocumentMutations": 0,
+        "fixtureSha256": "c98bdbc96c87d94c1c83b544bdcf6e66d5dc7cf55ca55473505ee30a9da201d1",
+        "randomCampaignClaim": false
+      },
+      "largeCorpus": {
+        "syntheticWords": 160000,
+        "manuscriptBytes": 799999,
+        "manuscriptDigest": "sha256:6d069f0d03c6af165211e002e33e76060b1644c55fa9de924f54dc4459515cac",
+        "eventDenominator": 8,
+        "unchanged": true
+      },
+      "rawEvidence": {
+        "basename": "WP602_PRODUCT_FOCUSED_PREPUBLICATION_V2.tap",
+        "sha256": "b3dd56087291dc90b6868b4dfaa58d6aa11743c18a47a019fd3800be3e15008b",
+        "byteLength": 4424,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 14,
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp602-proposal-workflow.test.js test/unit/r24-wp602-proposal-workflow-integration.test.js test/unit/r24-wp602-proposal-workflow-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwMiBleGlzdGluZyBDb21tYW5kIEtlcm5lbCBibG9ja3MgZGlzYWJsZWQgY2FwYWJpbGl0eSBpbiBib3RoIGRpcmVjdGlvbnMgYW5kIGRlbGVnYXRlcyBhZG1pdHRlZCBjb21tYW5kcyB0byBDb3JlCm9rIDEgLSBXUDYwMiBleGlzdGluZyBDb21tYW5kIEtlcm5lbCBibG9ja3MgZGlzYWJsZWQgY2FwYWJpbGl0eSBpbiBib3RoIGRpcmVjdGlvbnMgYW5kIGRlbGVnYXRlcyBhZG1pdHRlZCBjb21tYW5kcyB0byBDb3JlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDg5LjI4NDUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBjdXJyZW50IENvcmUgcmVqZWN0cyBhIHN0YWxlIGVtaXR0ZWQgbWVyZ2UgYW5kIGEgc3RhbGUgcm9sbGJhY2sgd2l0aG91dCBtdXRhdGluZyBzeW50aGV0aWMgc3RhdGUKb2sgMiAtIFdQNjAyIGN1cnJlbnQgQ29yZSByZWplY3RzIGEgc3RhbGUgZW1pdHRlZCBtZXJnZSBhbmQgYSBzdGFsZSByb2xsYmFjayB3aXRob3V0IG11dGF0aW5nIHN5bnRoZXRpYyBzdGF0ZQogIC0tLQogIGR1cmF0aW9uX21zOiA2MS45MzMwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBkZXRlcm1pbmlzdGljIGluZGVwZW5kZW50IHJlZmVyZW5jZSBjb3JwdXMgY292ZXJzIDEyOCBjb21wbGV0ZSB3b3JrZmxvd3MgYW5kIDEwMjQgcmVwbGF5ZWQgZXZlbnRzCm9rIDMgLSBXUDYwMiBkZXRlcm1pbmlzdGljIGluZGVwZW5kZW50IHJlZmVyZW5jZSBjb3JwdXMgY292ZXJzIDEyOCBjb21wbGV0ZSB3b3JrZmxvd3MgYW5kIDEwMjQgcmVwbGF5ZWQgZXZlbnRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDkxMDguNzI4NjI1CiAgLi4uCiMgeyJ3b3JrZmxvd3MiOjEyOCwiZXZlbnREZW5vbWluYXRvciI6MTAyNCwiZmllbGRDaGFuZ2VzIjoyNDMyLCJyb3VuZFRyaXBzIjoxMjgsImxvY2FsZXMiOjgsImNvcnB1c0RpZ2VzdCI6InNoYTI1Njo1ZGJhMmMxNTMxYzUxZjhhYmIxYzQ1NjIzZjhjZTdiMzkyMjcwM2ZkYjI1YWFkZTlhNTMwM2MyMDBlOThiMTE2IiwidXNlckRvY3VtZW50TXV0YXRpb25zIjowfQojIFN1YnRlc3Q6IFdQNjAyIDE2MDAwMC13b3JkIHN5bnRoZXRpYyBtYW51c2NyaXB0IHJlbWFpbnMgYnl0ZS1pZGVudGljYWwgdGhyb3VnaCBwcmV2aWV3IGhhbmRvZmYgYW5kIHJvbGxiYWNrCm9rIDQgLSBXUDYwMiAxNjAwMDAtd29yZCBzeW50aGV0aWMgbWFudXNjcmlwdCByZW1haW5zIGJ5dGUtaWRlbnRpY2FsIHRocm91Z2ggcHJldmlldyBoYW5kb2ZmIGFuZCByb2xsYmFjawogIC0tLQogIGR1cmF0aW9uX21zOiAyOTc4Ljg2NjA4MwogIC4uLgojIHsic3ludGhldGljV29yZHMiOjE2MDAwMCwibWFudXNjcmlwdEJ5dGVzIjo3OTk5OTksIm1hbnVzY3JpcHREaWdlc3QiOiJzaGEyNTY6NmQwNjlmMGQwM2M2YWYxNjUyMTFlMDAyZTMzZTc2MDYwYjE2NDRjNTVmYTlkZTkyNGY1NGRjNDQ1OTUxNWNhYyIsImV2ZW50RGVub21pbmF0b3IiOjgsInVuY2hhbmdlZCI6dHJ1ZX0KIyBTdWJ0ZXN0OiBXUDYwMiBwdXJlIG1vZHVsZSBoYXMgZXhhY3RseSB0aGUgZXhpc3RpbmcgZGVwZW5kZW5jaWVzIGFuZCBubyBob3N0IGRpc3BhdGNoZXIgcHJvdmlkZXIgb3Igc3RvcmFnZSBlZmZlY3Qgc2VhbQpvayA1IC0gV1A2MDIgcHVyZSBtb2R1bGUgaGFzIGV4YWN0bHkgdGhlIGV4aXN0aW5nIGRlcGVuZGVuY2llcyBhbmQgbm8gaG9zdCBkaXNwYXRjaGVyIHByb3ZpZGVyIG9yIHN0b3JhZ2UgZWZmZWN0IHNlYW0KICAtLS0KICBkdXJhdGlvbl9tczogMC45NDgwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgMjYgYWN0dWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgd2l0aG91dCBlZGl0aW5nIHByb2R1Y3Rpb24gc291cmNlCm9rIDYgLSBXUDYwMiBiZWhhdmlvcmFsIG9yYWNsZXMga2lsbCBhbGwgMjYgYWN0dWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgd2l0aG91dCBlZGl0aW5nIHByb2R1Y3Rpb24gc291cmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEyMTQuMDI3MjA4CiAgLi4uCiMgeyJpbXBsZW1lbnRhdGlvbk11dGFudHMiOjI2LCJraWxsZWQiOjI2LCJzdXJ2aXZvcnMiOjAsInByb2R1Y3Rpb25Tb3VyY2VNdXRhdGlvbnMiOjAsImltcGxlbWVudGF0aW9uRGlnZXN0Ijoic2hhMjU2OmM3ODk1NGRjODgxNDYyMWU3ZTdhOGU5ZTcxZjViOGM1YjQ5YzRiYjZjYTc4YWVlZTg2OTJhOGQwODhiOGFlZTkifQojIFN1YnRlc3Q6IFdQNjAyIGV4cGxpY2l0IHJldmlldyBnYXRlcyBib3RoIGZpeGVkIGNvbW1hbmRzOyBldmVyeSBzdWNjZXNzZnVsIHByZWZpeCBoYXMgYW4gZXhhY3QgcmVwbGF5Cm9rIDcgLSBXUDYwMiBleHBsaWNpdCByZXZpZXcgZ2F0ZXMgYm90aCBmaXhlZCBjb21tYW5kczsgZXZlcnkgc3VjY2Vzc2Z1bCBwcmVmaXggaGFzIGFuIGV4YWN0IHJlcGxheQogIC0tLQogIGR1cmF0aW9uX21zOiAyODMuMjkzNzkyCiAgLi4uCiMgU3VidGVzdDogV1A2MDIgZXZlcnkgcHJvamVjdCBsaWZlY3ljbGUgcmV2aXNpb24gc25hcHNob3QgcHJvamVjdGlvbiBnZW5lcmF0aW9uIGFuZCBDb3JlIGRpZ2VzdCBpcyByZXZhbGlkYXRlZCBiZWZvcmUgaGFuZG9mZgpvayA4IC0gV1A2MDIgZXZlcnkgcHJvamVjdCBsaWZlY3ljbGUgcmV2aXNpb24gc25hcHNob3QgcHJvamVjdGlvbiBnZW5lcmF0aW9uIGFuZCBDb3JlIGRpZ2VzdCBpcyByZXZhbGlkYXRlZCBiZWZvcmUgaGFuZG9mZgogIC0tLQogIGR1cmF0aW9uX21zOiA4NDAuODE4OTU4CiAgLi4uCiMgeyJpZGVudGl0eUd1YXJkTmVnYXRpdmVzIjoyOCwicmVqZWN0ZWQiOjI4fQojIFN1YnRlc3Q6IFdQNjAyIGNhbm9uaWNhbCBieXRlIGJvdW5kYXJ5IHJlZnVzZXMgb2JqZWN0cyBnZXR0ZXJzIHByb3hpZXMgZHVwbGljYXRlIGtleXMgdW5zYWZlIGtleXMgYW5kIGJvdW5kcyBhdG9taWNhbGx5Cm9rIDkgLSBXUDYwMiBjYW5vbmljYWwgYnl0ZSBib3VuZGFyeSByZWZ1c2VzIG9iamVjdHMgZ2V0dGVycyBwcm94aWVzIGR1cGxpY2F0ZSBrZXlzIHVuc2FmZSBrZXlzIGFuZCBib3VuZHMgYXRvbWljYWxseQogIC0tLQogIGR1cmF0aW9uX21zOiA3MC4xODMyMDgKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBvbmx5IHZlcmlmaWVkIHB1Ymxpc2hlZCBjb21wbGV0ZSBtYXRjaGluZy1wYWlyIGV2aWRlbmNlIHBlcm1pdHMgYSBwcm9wb3NhbApvayAxMCAtIFdQNjAyIG9ubHkgdmVyaWZpZWQgcHVibGlzaGVkIGNvbXBsZXRlIG1hdGNoaW5nLXBhaXIgZXZpZGVuY2UgcGVybWl0cyBhIHByb3Bvc2FsCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI0OS4xNjkKICAuLi4KIyB7ImV2aWRlbmNlTmVnYXRpdmVzIjoxNywicmVqZWN0ZWQiOjE3fQojIFN1YnRlc3Q6IFdQNjAyIGFwcHJvdmFscyBhbmQgaGFuZG9mZnMgYXJlIG9uZS1zaG90OyBjcm9zcy13b3JrZmxvdyBhbmQgZm9yd2FyZC10by1yb2xsYmFjayBhcHByb3ZhbHMgY2Fubm90IGJlIHJldXNlZApvayAxMSAtIFdQNjAyIGFwcHJvdmFscyBhbmQgaGFuZG9mZnMgYXJlIG9uZS1zaG90OyBjcm9zcy13b3JrZmxvdyBhbmQgZm9yd2FyZC10by1yb2xsYmFjayBhcHByb3ZhbHMgY2Fubm90IGJlIHJldXNlZAogIC0tLQogIGR1cmF0aW9uX21zOiAxMTAuMDcwMTI1CiAgLi4uCiMgU3VidGVzdDogV1A2MDIgcmVqZWN0IGFuZCBjYW5jZWwgZGlzY2FyZCBkZXJpdmVkIHdvcmsgd2l0aG91dCBwcm9kdWN0IG11dGF0aW9uIG9yIGltcGxpY2l0IHJvbGxiYWNrCm9rIDEyIC0gV1A2MDIgcmVqZWN0IGFuZCBjYW5jZWwgZGlzY2FyZCBkZXJpdmVkIHdvcmsgd2l0aG91dCBwcm9kdWN0IG11dGF0aW9uIG9yIGltcGxpY2l0IHJvbGxiYWNrCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE0Mi45NDg1NDEKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwMiBvYnNlcnZhdGlvbiBjb21wYXJlcyBleGFjdCBzdGF0ZSBhbmQgYW4gYWR2YW5jZWQgY29udGV4dCB3aXRob3V0IGNlcnRpZnlpbmcgZXhlY3V0aW9uCm9rIDEzIC0gV1A2MDIgb2JzZXJ2YXRpb24gY29tcGFyZXMgZXhhY3Qgc3RhdGUgYW5kIGFuIGFkdmFuY2VkIGNvbnRleHQgd2l0aG91dCBjZXJ0aWZ5aW5nIGV4ZWN1dGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiA0NzMuNDIxCiAgLi4uCiMgeyJvYnNlcnZhdGlvbk5lZ2F0aXZlcyI6MTQsInJlamVjdGVkIjoxNH0KIyBTdWJ0ZXN0OiBXUDYwMiByZXBsYXkgcGlucyB0aGUgY29tcGxldGUgZXZlbnQgZGVub21pbmF0b3IgYW5kIHJlY29tcHV0ZXMgYWxsIG91dHB1dCBieXRlcwpvayAxNCAtIFdQNjAyIHJlcGxheSBwaW5zIHRoZSBjb21wbGV0ZSBldmVudCBkZW5vbWluYXRvciBhbmQgcmVjb21wdXRlcyBhbGwgb3V0cHV0IGJ5dGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE5NC4wMDg1CiAgLi4uCjEuLjE0CiMgdGVzdHMgMTQKIyBzdWl0ZXMgMAojIHBhc3MgMTQKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyMzE2LjE4NjY2Ngo="
+      },
+      "ciLanes": [
+        "BASELINE_REQUIRED",
+        "ATLAS_RISK"
+      ],
+      "claimCeiling": "FIXED_PAIR_DERIVED_PROPOSAL_API_NOT_HOST_UI_WSE_PROFILE_OR_PRODUCT_PERSISTENCE_COMPLETION"
+    },
+    "featureIntegrationManifest": {
+      "featureId": "yalken.proposalWorkflow.v1",
+      "featureVersion": 1,
+      "integrationMode": "EXISTING_SEAM:LOCAL_AUTOMATION_REPLAY_CORE_PREVIEW_AND_FIXED_COMMAND_HANDOFF",
+      "domainOwner": "DERIVED_PROJECTOR_AUTHORITY",
+      "authoritativeData": "EXISTING_CORE_NOT_WORKFLOW_STATE",
+      "derivedData": "CANDIDATE_EVIDENCE_DIFF_REVIEW_HANDOFF_AND_OBSERVED_EQUIVALENCE",
+      "commandIds": [
+        "atlas.entity.merge",
+        "atlas.entity.splitRestore"
+      ],
+      "eventTypes": [
+        "EXPLICIT_LOCAL_WORKFLOW_INPUT_REPLAY_ONLY"
+      ],
+      "queryIds": [
+        "proposalWorkflow.read.v1",
+        "proposalWorkflow.replay.v1"
+      ],
+      "productProjectionIds": [
+        "yalken.proposalWorkflowState.v1"
+      ],
+      "capabilityIds": [
+        "EXISTING_CAP_ATLAS_ENTITY_MERGE_AND_SPLIT_RESTORE"
+      ],
+      "authorityMap": "EXPLICIT_INTENT_AND_HANDOFF_NEVER_AUTHENTICATION_OR_PRODUCT_CAPABILITY",
+      "identityKeys": [
+        "workflowId",
+        "projectId",
+        "projectRevisionId",
+        "snapshotId",
+        "projectionDigest",
+        "generation",
+        "lifecycleId",
+        "coreStateDigest",
+        "jobId",
+        "proposalDigest",
+        "reviewDigest",
+        "decisionDigest",
+        "handoffDigest"
+      ],
+      "revisionPolicy": "EXACT_CALLER_READ_BINDING_AT_REVIEW_AND_HANDOFF_ADVANCED_CONTEXT_AT_OBSERVATION",
+      "writePath": "IN_MEMORY_DERIVED_STATE_ONLY",
+      "readPath": "VERIFIED_AUTOMATION_AND_CALLER_PINNED_CORE_SNAPSHOT",
+      "requiredProductPorts": [
+        "EXISTING_LOCAL_AUTOMATION_REPLAY",
+        "EXISTING_DISPOSABLE_CORE_REDUCER",
+        "EXISTING_COMMAND_KERNEL_NOT_WIRED"
+      ],
+      "requiredDesignOsPorts": [
+        "NOT_APPLICABLE_NO_UI_CHANGE"
+      ],
+      "adapterRequirements": [
+        "FIXED_PAIR_NO_DYNAMIC_CODE_OR_CALLBACK"
+      ],
+      "surfaceManifests": [
+        "NOT_APPLICABLE_NO_SURFACE"
+      ],
+      "slotRequirements": [
+        "NOT_APPLICABLE"
+      ],
+      "supportedWorkspaces": [
+        "NOT_APPLICABLE"
+      ],
+      "platformAvailability": "PLATFORM_NEUTRAL_PURE_JAVASCRIPT",
+      "accessibilityRequirements": "NOT_APPLICABLE_NO_INTERACTIVE_SURFACE",
+      "fallbacks": [
+        "REJECT",
+        "CANCEL",
+        "STALE_REJECTION",
+        "UNKNOWN_OR_ABSTAIN_NO_PROPOSAL"
+      ],
+      "stateClasses": [
+        "DERIVED_STATE"
+      ],
+      "persistenceClass": "NOT_PERSISTED",
+      "migrations": [
+        "NOT_APPLICABLE_NO_DURABLE_SCHEMA"
+      ],
+      "recovery": "BOUNDED_EXACT_TRANSCRIPT_REPLAY_OR_DISCARD_DERIVED_STATE",
+      "rollback": "SEPARATE_EXPLICIT_REVIEW_AND_HANDOFF_TO_EXISTING_SPLIT_RESTORE_NOT_DESTRUCTIVE_RESET",
+      "performanceBudget": {
+        "maxEvents": 16,
+        "maxInputBytes": 8388608,
+        "maxTranscriptBytes": 33554432,
+        "maxCoreStateBytes": 2097152,
+        "maxPublicStateBytes": 2097152,
+        "maxChanges": 10000
+      },
+      "lifecycle": "EXPLICIT_BOUNDED_STEPS_OFF_TYPING_PATH_NO_DAEMON",
+      "securityBoundary": "CANONICAL_JSON_ONLY_NO_DISPATCH_STORAGE_NETWORK_PROVIDERS_OR_USER_DOCUMENT_WRITES",
+      "negativeBypassChecks": [
+        "UNPUBLISHED_EVIDENCE",
+        "STALE_CONTEXT",
+        "APPROVAL_REUSE",
+        "ROLLBACK_WITHOUT_REVIEW",
+        "TAMPERED_REPLAY"
+      ],
+      "evidenceBindings": [
+        "WP602_MODEL_CONTRACT_INTEGRATION_MUTANTS"
+      ],
+      "currentReality": "FIXED_PAIR_PURE_API_NO_HOST_UI_WIRING_OR_PROFILE_WIDE_CLAIM",
+      "observationCeiling": "EXACT_STATE_EQUIVALENCE_IS_NOT_EXECUTION_AUTHENTICATION_OR_PERSISTENCE_CERTIFICATION"
+    },
+    "providerCandidateAndPostmergeEvidenceRequired": true,
+    "programDone": false
+  }
+}

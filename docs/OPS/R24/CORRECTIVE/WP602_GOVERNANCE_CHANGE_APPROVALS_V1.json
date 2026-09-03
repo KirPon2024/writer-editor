@@ -1,0 +1,223 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "a357c272c11be59cc283424e34199040209318c1f0e3fb8ea85f330360a098a0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "aa27bde53c1705191956fcbcf3f96f3b922ec502e132780cea1188a7057880e7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "81c17913194dce34dd3ece36c059336acf7759c5b6822934be657273a91b37a1",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_CARRIER_REGISTRY_V1.json",
+      "sha256": "d0f246e33e43588752fc3f19409b429d058e6741f056495f94c8f70375b3efab",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "ba973cfdb34c6045015110a5cbe81951e680b25c26544a5ae90f56da8690f3f6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_EFFECTIVE_STATE_V1.json",
+      "sha256": "f01aecf4db041dc4f13aae587ce7bed25965d1b44cc8ecca12013f87f97faf4d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_LEASE_RELEASE_V1.json",
+      "sha256": "879f278eac9191727d915743e95e591acb8fc1b3c335657028450115f89130f0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "c2244c51c35fb29a19ff8d1ba3c0a5c8f7da69fe43370a230015b374dd4a4f1a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "1d12cd32a7dc0f864f9cd26e308ed30702bd23e0a5ff3c72df900c34f367288d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "51eac019b137d564b3cac87ffd03ea91ec57f2de8b4e062b6e2307957588e76f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "d0b65b56c9b8924958ca35d4aa714ebbd9307e495073621d296e9fc91f1d5144",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "06a42e2d9050660b93cba58e5111681175f1cdb9110537ac13b00f473afbdaef",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_SEALED_SOURCE_READ_RECEIPT_V1.json",
+      "sha256": "be44e582cf767412ae02f4c9301c510ba406fa42704b3999a928b6c5749a1fd6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_STAGE_REGISTRY_V1.json",
+      "sha256": "903932be2e5bfad46d7f85754248ae6fa8df35983d136174e7078296b5928b78",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_TERMINAL_RECEIPT_V1.json",
+      "sha256": "cba55f1f35b2a9d896aaf5bf507fa4a97641752cb68dedf6aebf3ec3fb2ef730",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "0fe34ef3cd3861ff4889418bd98febc61fbdac576068e246184e1e32caea98fa",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP602_WP705_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "d3aa333899104d5b757c230bd5734a0da7295ed30af3a24ac9ead168505dc9ad",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS.json",
+      "sha256": "ef55a2e1647dc330de04bd5f9e50a93b19c980f9add1d606dbb56055e7e54b3c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-CONTRACT.json",
+      "sha256": "2ebad53a06c1d15d17d88cee7d099a6e6ccda5ff27ccda97393fb2f858426a40",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-INTEGRATION.json",
+      "sha256": "cc1ae9243a8194ee964697966b744d5a6f307fe35d5e8b2ab6f6b9dd570fe6de",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-MODEL.json",
+      "sha256": "fdf788d51e7dfcb68ca2991c9499f79d5e97f36488e9f782b5709a1ff8bcaada",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-602-PROPOSAL-WORKFLOW-MUTANTS.json",
+      "sha256": "0405d5f202ce2f2457fe8a4dfd3ab009f550eb8a387524eb129b8b1a63aa9bf8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "0001359501526bea52ed307865fadf1f03431c41d46d222be2648054aae832ed",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "src/core/proposal-workflow-v1.mjs",
+      "sha256": "c78954dc8814621e7e7a8e9e71f5b8c5b49c4bb6ca78aeee8692a8d088b8aee9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp602-post-audit-compatibility.contract.test.mjs",
+      "sha256": "e4e74ad4ea7b6e44927288b7c4640d85185430faae48c1c3517326abaaffc794",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp602-terminal-carriers.contract.test.mjs",
+      "sha256": "fada5bf149430551ebd8e8c00a070d9c6aedf2f90eef6854060a18168ccbef8a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp602-proposal-workflow-fixtures.js",
+      "sha256": "c98bdbc96c87d94c1c83b544bdcf6e66d5dc7cf55ca55473505ee30a9da201d1",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp602-proposal-workflow-integration.test.js",
+      "sha256": "2ca056dd87d1eb84e4dac7e94962c2c73ceddc687baafb7d2b01f73919893c85",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp602-proposal-workflow-mutants.test.js",
+      "sha256": "bce09aebc6aefa0d1387f4b9fe97663da9de760f5cd5e1106a8b2c757769046d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp602-proposal-workflow.test.js",
+      "sha256": "90667d3fbb7167ae795396520ef95b81a6383d85fbc7bafaa989ee607faf9c3d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP602_PROPOSAL_WORKFLOW_V1",
+      "approvedAtUtc": "2026-09-03T09:10:45Z",
+      "rationale": "Exact fence-82 admitted fixed-pair proposal review and rollback handoff API, focused tests and non-recursive conditional terminal carriers. Preserve all 266 protected worktrees, ten dirty entries and 24 frozen owned files. No automatic product dispatch, host UI, provider, persistence, release or unrelated graph-node authority."
+    }
+  ]
+}

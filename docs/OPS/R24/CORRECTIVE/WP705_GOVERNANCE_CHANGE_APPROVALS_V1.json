@@ -11,17 +11,17 @@
   "approvals": [
     {
       "filePath": ".github/workflows/oss-policy.yml",
-      "sha256": "5364afd1a9a895ef1c8538ccae5d707c6502354e264f47c8f812d3e797b99668",
-      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
-      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
-      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+      "sha256": "156e74b44ee5fe3544cefc57c4dc6510c0dcd606de3aaa58c998bd138d8e9102",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.262Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "552808dfd9771f954f6b5a9c5482abd978bd8aa4373c951d802daa5e93ebc788",
-      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
-      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
-      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+      "sha256": "30189701838cf3bc456ac4b616f37ce41e7021f07413b3a96ea890502286d502",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.264Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP705_ACCEPTANCE_MATRIX_V1.json",
@@ -78,6 +78,34 @@
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
       "approvedAtUtc": "2026-09-03T06:20:18.839Z",
       "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_OWNER_AUTHORITY_V1.json",
+      "sha256": "66e422196cb0c7a24e6a1c2761ea08ca0972c994753a59950080a4b5cc3ffdb9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2a7711550833745107cd78c5e4c43c92416ea88f43eb0552b06c12d7596b9971",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_STAGE_INSTANCE_V1.json",
+      "sha256": "f3d3948555b18b35fc769deff08126297b810720206aaadeb6f1d5c92c19be0b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1.json",
+      "sha256": "dace5b31e2eca6406612dcca9805f604899d775b00e4831a56d34986f260662d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP705_LEASE_RELEASE_V1.json",
@@ -214,10 +242,17 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "edecdcaff9a0d75e1e34de92a11823c611acac072197c67ce4ff4db60441366a",
-      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
-      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
-      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+      "sha256": "c5fb5c2e0e4de57801b9539d9fb727210ab7bacbfdc2c1488fa6b0de362c7988",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "0ee08cc4f5d40a39a8241c1518e23770c9fbce5fee7e3434780b3391c5a8ce46",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
     },
     {
       "filePath": "src/core/interchange-negotiation-v1.mjs",
@@ -225,6 +260,20 @@
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
       "approvedAtUtc": "2026-09-03T06:20:18.839Z",
       "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs",
+      "sha256": "16da5827934bbf3d0ec9143d4c312b3beee6c7fe0b08b8c56da49788b4e13be7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp705-historical-inventory-claims.contract.test.mjs",
+      "sha256": "319505bc89d665954d2052b0a8771ac32c36aa651f652eaf5a4bb9c8ee56771c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_HISTORICAL_INVENTORY_SUCCESSOR_V1",
+      "approvedAtUtc": "2026-09-03T06:48:43.265Z",
+      "rationale": "Exact admitted eleven-path WP705 historical inventory successor under existing standing scope: preserve all original product and immutable carriers, retain V1 pins and E0 mutant anchor, add two introduction-object-only pins and hostile non-coverage tests. Same sole writer and fence 81; no new product or external authority."
     },
     {
       "filePath": "test/contracts/r24-wp705-post-audit-compatibility.contract.test.mjs",

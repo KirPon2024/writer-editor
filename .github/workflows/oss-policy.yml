@@ -69,6 +69,8 @@ jobs:
         run: node --test test/unit/r24-wp704-pdf-archive-review.test.js test/unit/r24-wp704-pdf-archive-review-integration.test.js test/unit/r24-wp704-pdf-archive-review-mutants.test.js test/contracts/r24-wp704-terminal-carriers.contract.test.mjs test/contracts/r24-wp704-post-audit-compatibility.contract.test.mjs
       - name: Verify WP-705 exact schema negotiation, loss-accounted downgrade and corrected admission
         run: node --test test/unit/r24-wp705-negotiation-corpus.test.js test/unit/r24-wp705-negotiation-corpus-integration.test.js test/unit/r24-wp705-negotiation-corpus-mutants.test.js test/contracts/r24-wp705-terminal-carriers.contract.test.mjs test/contracts/r24-wp705-post-audit-compatibility.contract.test.mjs
+      - name: Verify WP-705 exact historical inventory pins and hostile non-coverage cases
+        run: node --test test/contracts/r24-wp705-historical-inventory-claims.contract.test.mjs test/contracts/r24-wp601-historical-inventory-claims.contract.test.mjs
 
   e0-mutants:
     runs-on: ubuntu-latest

@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "YALKEN_R24_WP602_TERMINAL_SUPPLEMENT_V1",
+  "stageId": "WP-602_PROPOSAL_WORKFLOW",
+  "evidenceStampId": "ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "repositoryEvidenceStampId": "ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS",
+  "bindings": {
+    "terminalReceiptDigest": "cba55f1f35b2a9d896aaf5bf507fa4a97641752cb68dedf6aebf3ec3fb2ef730",
+    "authorityDigest": "c2244c51c35fb29a19ff8d1ba3c0a5c8f7da69fe43370a230015b374dd4a4f1a",
+    "stageInstanceDigest": "d0b65b56c9b8924958ca35d4aa714ebbd9307e495073621d296e9fc91f1d5144",
+    "stageAdmissionDigest": "51eac019b137d564b3cac87ffd03ea91ec57f2de8b4e062b6e2307957588e76f",
+    "writeSetDigest": "c5e7cca3723c35327e87451714c4a34cf62bc1de56f00a9af045c2e07b453011",
+    "commandScopeDigest": "8305c34cceb3c32c9e368508db7ae231183f04711933748d83f839475cfba61b",
+    "acceptanceSignalsDigest": "6ba1c793c972963c1550e95eebee70c64cc44440fff13821cf3675484e64b1ab",
+    "selectionReceiptDigest": "1d12cd32a7dc0f864f9cd26e308ed30702bd23e0a5ff3c72df900c34f367288d",
+    "wp705TerminalPredecessorDigest": "d3aa333899104d5b757c230bd5734a0da7295ed30af3a24ac9ead168505dc9ad",
+    "effectiveGraphBaselineDigest": "ba973cfdb34c6045015110a5cbe81951e680b25c26544a5ae90f56da8690f3f6",
+    "protectedWipBeforeRawDigest": "06a42e2d9050660b93cba58e5111681175f1cdb9110537ac13b00f473afbdaef",
+    "sealedSourceReadReceiptDigest": "be44e582cf767412ae02f4c9301c510ba406fa42704b3999a928b6c5749a1fd6",
+    "modelEvidenceDigest": "fdf788d51e7dfcb68ca2991c9499f79d5e97f36488e9f782b5709a1ff8bcaada",
+    "contractEvidenceDigest": "2ebad53a06c1d15d17d88cee7d099a6e6ccda5ff27ccda97393fb2f858426a40",
+    "integrationEvidenceDigest": "cc1ae9243a8194ee964697966b744d5a6f307fe35d5e8b2ab6f6b9dd570fe6de",
+    "mutantsEvidenceDigest": "0405d5f202ce2f2457fe8a4dfd3ab009f550eb8a387524eb129b8b1a63aa9bf8"
+  },
+  "compatibilityReview": {
+    "wp705MergeSha": "888d3bc716b64dd6dfa16027cc4933bb775c6fdf",
+    "wp705TreeSha": "aa4c26d7cb8aeca5c5bf7ba5592e5af00d7745f2",
+    "wp705ExternalTerminalReceiptDigest": "33fd1474b2623c0ba505c955893f47e227a6727e637a78b55c63b49cf7b6f7d6",
+    "differential": {
+      "workflows": 128,
+      "eventDenominator": 1024,
+      "fieldChanges": 2432,
+      "roundTrips": 128,
+      "locales": 8,
+      "corpusDigest": "sha256:5dba2c1531c51f8abb1c45623f8ce7b3922703fdb25aade9a5303c200e98b116",
+      "userDocumentMutations": 0
+    },
+    "largeCorpus": {
+      "syntheticWords": 160000,
+      "manuscriptBytes": 799999,
+      "manuscriptDigest": "sha256:6d069f0d03c6af165211e002e33e76060b1644c55fa9de924f54dc4459515cac",
+      "eventDenominator": 8,
+      "unchanged": true
+    },
+    "implementationMutantDenominator": 26,
+    "fixedCommandPair": [
+      "atlas.entity.merge",
+      "atlas.entity.splitRestore"
+    ],
+    "productMutationAuthority": false,
+    "runtimeRegistryAuthority": false,
+    "providerAuthority": false,
+    "hostWiring": false,
+    "persistenceCertification": false
+  },
+  "currentLease": {
+    "fencingCounter": 82,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "f4226a5b3e775ffa2a92ef8bb71ac8e0ece19ae17caa9bc8a722258482694589"
+  },
+  "targetLease": {
+    "fencingCounter": 82,
+    "status": "RELEASED",
+    "wip": 0
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "absoluteExclusionsRetained": true,
+  "nextGraphNodeStarted": false
+}

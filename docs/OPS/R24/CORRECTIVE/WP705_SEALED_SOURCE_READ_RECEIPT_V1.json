@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "WP705_SEALED_SOURCE_READ_RECEIPT_V1",
+  "status": "VERIFIED_AND_READ",
+  "archive": {
+    "basename": "ФИНАЛ ПО ЯЛКЕНУ — R2.4 — АВТОНОМНЫЙ ИНЖЕНЕРНЫЙ ПАКЕТ 2026-08-19.zip",
+    "byteLength": 12903785,
+    "sha256": "168feabb6ef399ae34e21a39da972e0e6aad8e9b3b4f18c3b9ed38b90c9fa67c"
+  },
+  "member": {
+    "path": "YALKEN_FINAL_EVOLUTIONARY_ENGINEERING_PACKAGE_R2_4_2026-08-19/reference/R2_3_SEALED_BASELINE/machine/SEQUENTIAL_EXECUTION_MAP_R2_3.json",
+    "byteLength": 30050,
+    "sha256": "23e0c4cea39f3a393ae5e50eeb22d8ceb63e2f1ee9e4ef9d2e7bab2139af08e0"
+  },
+  "manifest": {
+    "path": "docs/OPS/R24/PACKAGE_MANIFEST_R2_4.json",
+    "sha256": "a437bb4de86b12dd6027218f55ef55216e5b18c40b48fb33725ccc752c60e7ff",
+    "rowIndex": 244,
+    "row": {
+      "path": "reference/R2_3_SEALED_BASELINE/machine/SEQUENTIAL_EXECUTION_MAP_R2_3.json",
+      "size": 30050,
+      "sha256": "23e0c4cea39f3a393ae5e50eeb22d8ceb63e2f1ee9e4ef9d2e7bab2139af08e0"
+    }
+  },
+  "additionalReferenceMembers": [
+    {
+      "path": "YALKEN_FINAL_EVOLUTIONARY_ENGINEERING_PACKAGE_R2_4_2026-08-19/reference/R2_3_SEALED_BASELINE/13_TEST_ASSURANCE_AND_INTERCHANGE_QUALIFICATION_LAW_R2_3.md",
+      "byteLength": 18743,
+      "sha256": "04d8cb8b59f4289e6bbfc010c10e406ecc60eb3ab9edd7aef8fa1ed11fcbc1fb",
+      "rowIndex": 54,
+      "row": {
+        "path": "reference/R2_3_SEALED_BASELINE/13_TEST_ASSURANCE_AND_INTERCHANGE_QUALIFICATION_LAW_R2_3.md",
+        "size": 18743,
+        "sha256": "04d8cb8b59f4289e6bbfc010c10e406ecc60eb3ab9edd7aef8fa1ed11fcbc1fb"
+      }
+    },
+    {
+      "path": "YALKEN_FINAL_EVOLUTIONARY_ENGINEERING_PACKAGE_R2_4_2026-08-19/reference/R2_3_SEALED_BASELINE/machine/INTERCHANGE_QUALIFICATION_MATRIX_R2_3.json",
+      "byteLength": 4921,
+      "sha256": "69a81ee971aeac6a284a0a8fa9482de47be7db34ec583569d4d0292e109d09f4",
+      "rowIndex": 237,
+      "row": {
+        "path": "reference/R2_3_SEALED_BASELINE/machine/INTERCHANGE_QUALIFICATION_MATRIX_R2_3.json",
+        "size": 4921,
+        "sha256": "69a81ee971aeac6a284a0a8fa9482de47be7db34ec583569d4d0292e109d09f4"
+      }
+    }
+  ],
+  "selectedHistoricalNode": {
+    "id": "WP-705_NEGOTIATION_CORPUS",
+    "outcome": "Schema negotiation, downgrade, golden/hostile/fuzz/roundtrip evidence",
+    "ownerGate": null
+  },
+  "referenceRole": "REFERENCE_ONLY_NOT_ACTIVE_LAW",
+  "extracted": false,
+  "repositoryMutation": false
+}

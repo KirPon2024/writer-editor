@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "YALKEN_R24_WP705_STAGE_REGISTRY_V1",
+  "stageId": "WP-705_NEGOTIATION_CORPUS",
+  "evidenceStampId": "ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+  "authorityDigest": "93dae06d626d66d726d6bdcc5ab671523667463e3d76f1883c16883312581b41",
+  "stageInstanceDigest": "c0b449a46ddca49aeb841e545f9e785fe42eca5d4e0562cfa8d7c4efa594629a",
+  "stageAdmissionDigest": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc",
+  "writeSetDigest": "758adec78fb209f3fa8c1b596ad75972937fbe0ff53db092bf2ef74d4f7e556b",
+  "commandScopeDigest": "5d4a55683a04c7cda7fc603affb222914d50d0a327294dd211fcbd64b8d1eb31",
+  "acceptanceSignalsDigest": "1a3e15ecea6dd95d4f753b948fbce84621bad9a7dc6e440f9d8c95f0ee5e5f48",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "selectionReceiptDigest": "8f985402f2e31e420df5d6e97ff64a397c7d29b871312181f79679c310ae53a8",
+  "wp704TerminalPredecessorDigest": "31aa249dfa84fab5e62bc910eedc180fcb3bac3e06b887edd0e935d16dc5a9fc",
+  "effectiveGraphBaselineDigest": "66566838053e935ef4f1f8c3ed807402312a2ff278315d55e8486bb1e53b1967",
+  "protectedWipBeforeRawDigest": "885802454d9d3f07e236de84e4540454398f4c0338e683465f2c9672cb73cc50",
+  "historicalProtectedWipBeforeRawDigest": "f3e8d603117287d8b85d247f60f0fce77de9d75816be4ec91cc6f8a0ff541d16",
+  "admissionPathCorrectionDigest": "291477439ca8049e6588b0ef8afd85238b8a0b57428f25e6a10af3206d9965b5",
+  "sealedSourceReadDigest": "02b9c57943d2f592e90d360f7243fa69b6a25aab5c63ccee87440539cc22f862",
+  "baseSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+  "baseTree": "0fc51d530c971f54700efb5decc5c6fbdf4bc0d4",
+  "lease": {
+    "fencingCounter": 81,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "a58b2f1bb00d1d02f3d0c5f0ff2dc5562e55e55a61c11331b17c5a4dd305bdb0"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1"
+}

@@ -1,0 +1,272 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "5364afd1a9a895ef1c8538ccae5d707c6502354e264f47c8f812d3e797b99668",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "fd5708bbe764edb3dbf3d99a9ca5c38a7fa49334b776e68dc34369f0468ee782",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "60f36928bc9d0acf1546181b6588e75bce77ab86ca9cf26d008678d9990e41e8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_ADMISSION_PATH_CORRECTION_V1.json",
+      "sha256": "291477439ca8049e6588b0ef8afd85238b8a0b57428f25e6a10af3206d9965b5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_CARRIER_REGISTRY_V1.json",
+      "sha256": "8bcdc190277e2fcde6a87955a7f95b074bed171db4dfbb2aea7504b5cae24075",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_DOWNGRADE_CONTRACT_V1.json",
+      "sha256": "d4c7b92c4d0e2f3f0c1e6a94da69ebc0bb084264c839ba83686106ee8f027173",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "66566838053e935ef4f1f8c3ed807402312a2ff278315d55e8486bb1e53b1967",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_EFFECTIVE_STATE_V1.json",
+      "sha256": "983f2a24e1e8bea17711603dca1c09aa0275a8c4cca3d17acdc93bb258372b5c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "d1cb20273c6c8bb6731e6f3cec44d2e2be3f753de1d18eaa083c978bda6a37eb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_FIXTURE_MANIFEST_V1.json",
+      "sha256": "cf09e127ba869c42329a0d8269bde32012a49031f7e8645322d842b42cffa7af",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_LEASE_RELEASE_V1.json",
+      "sha256": "cdc869156315c9495293ecd179ee8b7d671022dccec3d8d0672491d753f3786d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "93dae06d626d66d726d6bdcc5ab671523667463e3d76f1883c16883312581b41",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "25e6b71470ead4a0e486e65195d43165a45f082ac2d77071a57da2e123405260",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8f985402f2e31e420df5d6e97ff64a397c7d29b871312181f79679c310ae53a8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d9b2cb94245449432ab3ca938222bb9855d8530a4331a121c8a2643d2627cba2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "5cd3d9435674833fcf611bcd6abdd64101469f0cb23eba12d8e78f17be2c1a13",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "c0b449a46ddca49aeb841e545f9e785fe42eca5d4e0562cfa8d7c4efa594629a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f3e8d603117287d8b85d247f60f0fce77de9d75816be4ec91cc6f8a0ff541d16",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_SEALED_SOURCE_READ_RECEIPT_V1.json",
+      "sha256": "02b9c57943d2f592e90d360f7243fa69b6a25aab5c63ccee87440539cc22f862",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_STAGE_REGISTRY_V1.json",
+      "sha256": "66bd99e430d8a6253d500418334778998da9a983bda39b5b560e647d70e172f6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_TERMINAL_RECEIPT_V1.json",
+      "sha256": "1bedc834103b275adbbccef5086c9b35f9f53d8f18493ab476a28d9b84dd398a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "694351b49f2768f178b5e40516edfd3de6a2d5565718a023a0a50a769f62472a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_WP704_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "31aa249dfa84fab5e62bc910eedc180fcb3bac3e06b887edd0e935d16dc5a9fc",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS.json",
+      "sha256": "8a115fc86172547d9d39c04bb357778533f47d4290dac0c570fc7dcf6c23318b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-705-NEGOTIATION-CORPUS-CONTRACT.json",
+      "sha256": "c338978e919109ac75a17cde1fdc28cf87401348767761b9137b26be2f0b33b8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-705-NEGOTIATION-CORPUS-INTEGRATION.json",
+      "sha256": "695dbf5276afa37d85d292d7e760f2449ebd46d625c153be924f4c560e43152a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-705-NEGOTIATION-CORPUS-MODEL.json",
+      "sha256": "2db0d9b1593029882ed261f03415a050d35b1f90b9ff1897a9f452c11e9a3bc3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-705-NEGOTIATION-CORPUS-MUTANTS.json",
+      "sha256": "2ea821401e2ee69ca9840ee5ecf6c7aa7e77a99c4fc15dc8fc1cfb5c611094ff",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "edecdcaff9a0d75e1e34de92a11823c611acac072197c67ce4ff4db60441366a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "src/core/interchange-negotiation-v1.mjs",
+      "sha256": "aec88806b18224164f8f18d1b4f3d5d0926d9776353f067e87f0e98389619bcd",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp705-post-audit-compatibility.contract.test.mjs",
+      "sha256": "db2a8fdef24a83eaacb7c1acec35013e8ccfbcc9f3538a819d6120e6e9f700f0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/contracts/r24-wp705-terminal-carriers.contract.test.mjs",
+      "sha256": "9e1b5a7bef93fb7ee4fe8c941f02591c8e4bb38abbd341c1464e4a53df9a08ec",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp705-negotiation-corpus-fixtures.js",
+      "sha256": "1d654e043335e32f0b9244939c7490a794eab713e3c0e0d73538b140abf84045",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp705-negotiation-corpus-integration.test.js",
+      "sha256": "1b157febae38b6a7cd60f6ef277e196d4cd4ecf25769706a7103778d65dedd41",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp705-negotiation-corpus-mutants.test.js",
+      "sha256": "fe6cf035bd7f69509319463fdc2e91e89b0444f8960a7744a76e4378984dd61f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    },
+    {
+      "filePath": "test/unit/r24-wp705-negotiation-corpus.test.js",
+      "sha256": "d86e28c1cd0555d501cfbbd952de21582b9df86840b87390033e2053006a3224",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP705_NEGOTIATION_CORPUS_PATH_CORRECTION_V1",
+      "approvedAtUtc": "2026-09-03T06:20:18.839Z",
+      "rationale": "Exact fence-81 admitted WP705 schema negotiation and preview-only downgrade, append-only nonsemantic scope correction, focused tests and conditional single-PR terminal carriers under standing authority. Preserve all 265 protected worktrees, ten dirty entries and 24 frozen owned file hashes. No retroactive approval, user document, product persistence, provider, daemon, release or unrelated graph-node authority."
+    }
+  ]
+}

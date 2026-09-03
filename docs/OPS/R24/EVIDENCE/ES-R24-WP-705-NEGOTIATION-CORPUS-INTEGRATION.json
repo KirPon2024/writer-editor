@@ -1,0 +1,238 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-705_NEGOTIATION_CORPUS",
+  "attemptId": "ATTEMPT-WP705-SCOPE-CORRECTION-20260903",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP705_AUTHORITY_EPOCH_V2",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+    "treeSha": "0fc51d530c971f54700efb5decc5c6fbdf4bc0d4"
+  },
+  "createdAt": "2026-09-03T06:20:18.839Z",
+  "actor": "codex/r24-wp705-negotiation-corpus-scope-correction-v1-20260903",
+  "stampId": "ES-R24-WP-705-NEGOTIATION-CORPUS-INTEGRATION",
+  "claim": {
+    "type": "WP705_NEGOTIATION_CORPUS_INTEGRATION",
+    "ceiling": "WP705_SCHEMA_AND_DERIVED_DOWNGRADE_PREVIEW_ONLY",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Six integration contracts with independent field enumeration, real local files and hostile corpus",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "12f8a0e289d1865caefbe7944b64309842a6d14b9c12aa2f218134d2ef813d3c"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/interchange-negotiation-v1.mjs",
+        "sha256": "aec88806b18224164f8f18d1b4f3d5d0926d9776353f067e87f0e98389619bcd"
+      },
+      {
+        "path": "test/fixtures/r24-wp705-negotiation-corpus-fixtures.js",
+        "sha256": "1d654e043335e32f0b9244939c7490a794eab713e3c0e0d73538b140abf84045"
+      },
+      {
+        "path": "test/unit/r24-wp705-negotiation-corpus.test.js",
+        "sha256": "d86e28c1cd0555d501cfbbd952de21582b9df86840b87390033e2053006a3224"
+      },
+      {
+        "path": "test/unit/r24-wp705-negotiation-corpus-integration.test.js",
+        "sha256": "1b157febae38b6a7cd60f6ef277e196d4cd4ecf25769706a7103778d65dedd41"
+      },
+      {
+        "path": "test/unit/r24-wp705-negotiation-corpus-mutants.test.js",
+        "sha256": "fe6cf035bd7f69509319463fdc2e91e89b0444f8960a7744a76e4378984dd61f"
+      }
+    ],
+    "observations": [
+      "96_DOCUMENTS_3781_SOURCE_FIELDS",
+      "576_LOCAL_HOPS",
+      "FIVE_SYNTHETIC_FILES_FOUR_IR_FAMILIES",
+      "512_HOSTILES_REJECTED",
+      "NINE_TIMEZONE_LOCALE_PROCESSES",
+      "2433_LARGE_SOURCE_FIELDS",
+      "NO_SHARED_BUFFER_RACE"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "rawEvidence": {
+      "basename": "WP705_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "2d0b2b9e727750c8000dc224fa0c93fb995d2e26a93866884032dd9b614847d1",
+      "byteLength": 4777,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 16,
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test test/unit/r24-wp705-negotiation-corpus.test.js test/unit/r24-wp705-negotiation-corpus-integration.test.js test/unit/r24-wp705-negotiation-corpus-mutants.test.js",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDcwNSBkZXRlcm1pbmlzdGljIGNvcnB1cyBpbmRlcGVuZGVudGx5IGNoZWNrcyBldmVyeSBzb3VyY2UgZmllbGQgYW5kIG91dHB1dCB0ZXh0IGFjcm9zcyBzaXggbG9jYWwgaG9wcwpvayAxIC0gV1A3MDUgZGV0ZXJtaW5pc3RpYyBjb3JwdXMgaW5kZXBlbmRlbnRseSBjaGVja3MgZXZlcnkgc291cmNlIGZpZWxkIGFuZCBvdXRwdXQgdGV4dCBhY3Jvc3Mgc2l4IGxvY2FsIGhvcHMKICAtLS0KICBkdXJhdGlvbl9tczogNTM4Ljg0MDgzMwogIC4uLgojIHsiaW5kZXBlbmRlbnREb2N1bWVudENhc2VzIjo5NiwiZXhhY3RTb3VyY2VGaWVsZENvbXBhcmlzb25zIjozNzgxLCJwcmVzZXJ2ZWRUZXh0Q29tcGFyaXNvbnMiOjY2NywiZXhwbGljaXRMb3NzQ29tcGFyaXNvbnMiOjMxMTQsInJlcGxheUhvcERlbm9taW5hdG9yIjo1NzYsImdlbmVyYXRvciI6IldQNzA1X1hPUlNISUZUMzJfU0VFRFNfMF9USFJPVUdIXzk1X1YxIn0KIyBTdWJ0ZXN0OiBXUDcwNSBmb3VyIGluZGVwZW5kZW50IElSIGZhbWlsaWVzIGFuZCBkb3duZ3JhZGUgYXJ0aWZhY3RzIHN1cnZpdmUgYWN0dWFsIHN5bnRoZXRpYyBmaWxlIHJlYWRiYWNrCm9rIDIgLSBXUDcwNSBmb3VyIGluZGVwZW5kZW50IElSIGZhbWlsaWVzIGFuZCBkb3duZ3JhZGUgYXJ0aWZhY3RzIHN1cnZpdmUgYWN0dWFsIHN5bnRoZXRpYyBmaWxlIHJlYWRiYWNrCiAgLS0tCiAgZHVyYXRpb25fbXM6IDM4LjMxNzI1CiAgLi4uCiMgeyJwaHlzaWNhbExvY2FsRmlsZURlbm9taW5hdG9yIjo1LCJpbmRlcGVuZGVudEZhbWlseURlbm9taW5hdG9yIjo0LCJjbGVhbnVwIjoiUkVNT1ZFRF9PTkxZX0RJU1BPU0FCTEVfVEVTVF9ESVJFQ1RPUlkiLCJwaHlzaWNhbFByb3ZpZGVyQ2xhaW0iOmZhbHNlfQojIFN1YnRlc3Q6IFdQNzA1IGRldGVybWluaXN0aWMgaG9zdGlsZSB2ZXJzaW9uIGFuZCBjb3JydXB0LWJ5dGUgZnV6eiBuZXZlciB1cGdyYWRlcyBhdXRob3JpdHkKb2sgMyAtIFdQNzA1IGRldGVybWluaXN0aWMgaG9zdGlsZSB2ZXJzaW9uIGFuZCBjb3JydXB0LWJ5dGUgZnV6eiBuZXZlciB1cGdyYWRlcyBhdXRob3JpdHkKICAtLS0KICBkdXJhdGlvbl9tczogMzMyLjg3ODMzNAogIC4uLgojIHsiZGV0ZXJtaW5pc3RpY0hvc3RpbGVDYXNlcyI6NTEyLCJyZWplY3RlZCI6NTEyLCJ1bnJlc29sdmVkQ291bnRlcmV4YW1wbGVzIjowLCJjYW1wYWlnbiI6IkVYSEFVU1RJVkVfVkVSU0lPTl8yX1RPXzI1N19BTkRfMjU2X0JZVEVfTVVUQVRJT05TX1YxIiwicmFuZG9tQ2FtcGFpZ25DbGFpbSI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgb3V0cHV0cyBhcmUgZGV0ZXJtaW5pc3RpYyBhY3Jvc3MgbmluZSBpbmRlcGVuZGVudCB0aW1lem9uZSBhbmQgbG9jYWxlIHByb2Nlc3NlcwpvayA0IC0gV1A3MDUgb3V0cHV0cyBhcmUgZGV0ZXJtaW5pc3RpYyBhY3Jvc3MgbmluZSBpbmRlcGVuZGVudCB0aW1lem9uZSBhbmQgbG9jYWxlIHByb2Nlc3NlcwogIC0tLQogIGR1cmF0aW9uX21zOiA3MDMuMDg4ODMzCiAgLi4uCiMgeyJpbmRlcGVuZGVudFRpbWV6b25lTG9jYWxlUHJvY2Vzc2VzIjo5LCJ1bmlxdWVQcmV2aWV3QW5kQXJ0aWZhY3REaWdlc3RzIjoxfQojIFN1YnRlc3Q6IFdQNzA1IGxhcmdlIGJvdW5kZWQgc291cmNlIGhhcyBhIGNvbXBsZXRlIGluZGVwZW5kZW50bHkgZW51bWVyYXRlZCBsZWRnZXIgYW5kIHNhZmUgcmVzb3VyY2UgcmVqZWN0aW9uCm9rIDUgLSBXUDcwNSBsYXJnZSBib3VuZGVkIHNvdXJjZSBoYXMgYSBjb21wbGV0ZSBpbmRlcGVuZGVudGx5IGVudW1lcmF0ZWQgbGVkZ2VyIGFuZCBzYWZlIHJlc291cmNlIHJlamVjdGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiAxNTguMDY5OTE3CiAgLi4uCiMgeyJsYXJnZVNvdXJjZVBhcmFncmFwaHMiOjEyOCwibGFyZ2VTb3VyY2VSdW5zIjo1MTIsImV4YWN0RmllbGREZW5vbWluYXRvciI6MjQzMywib3V0cHV0Qnl0ZXMiOjc5Njg3LCJlbGFwc2VkTXMiOjE1Mi4zOTE4MzQwMDAwMDAwMiwicnNzRGVsdGEiOjI0MzMwMjQwLCJ3YWxsQ2xvY2tTbGFDbGFpbSI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgYnl0ZSBhY2Nlc3NvcnMgc2hhcmVkIGJhY2tpbmcgYW5kIHByb3hpZXMgY2Fubm90IGV4ZWN1dGUgb3IgcmFjZSB2ZXJpZmljYXRpb24Kb2sgNiAtIFdQNzA1IGJ5dGUgYWNjZXNzb3JzIHNoYXJlZCBiYWNraW5nIGFuZCBwcm94aWVzIGNhbm5vdCBleGVjdXRlIG9yIHJhY2UgdmVyaWZpY2F0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuODI5MzMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDUgdHdlbnR5LXR3byByZWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgYXJlIGtpbGxlZCBvbmx5IGJ5IG5hbWVkIGJlaGF2aW9yYWwgYXNzZXJ0aW9ucwpvayA3IC0gV1A3MDUgdHdlbnR5LXR3byByZWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgYXJlIGtpbGxlZCBvbmx5IGJ5IG5hbWVkIGJlaGF2aW9yYWwgYXNzZXJ0aW9ucwogIC0tLQogIGR1cmF0aW9uX21zOiAxNTQuNDA4NzA4CiAgLi4uCiMgeyJpbXBsZW1lbnRhdGlvbk11dGFudHMiOjIyLCJraWxsZWQiOjIyLCJzdXJ2aXZvcnMiOjAsInN5bnRheE9ySW1wb3J0RmFpbHVyZXNDb3VudGVkQXNLaWxscyI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgZXhhY3QgZm91ci1mYW1pbHkgc2NoZW1hIG5lZ290aWF0aW9uIG5ldmVyIGdyYW50cyBwYXlsb2FkIG9yIG11dGF0aW9uIGF1dGhvcml0eQpvayA4IC0gV1A3MDUgZXhhY3QgZm91ci1mYW1pbHkgc2NoZW1hIG5lZ290aWF0aW9uIG5ldmVyIGdyYW50cyBwYXlsb2FkIG9yIG11dGF0aW9uIGF1dGhvcml0eQogIC0tLQogIGR1cmF0aW9uX21zOiAxOC4xMjg4MzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNSBldmVyeSBzY2hlbWEvaWRlbnRpdHkvb2ZmZXIgY29uanVuY3QgcmVqZWN0cyBpbmRlcGVuZGVudGx5Cm9rIDkgLSBXUDcwNSBldmVyeSBzY2hlbWEvaWRlbnRpdHkvb2ZmZXIgY29uanVuY3QgcmVqZWN0cyBpbmRlcGVuZGVudGx5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuMDU0ODM0CiAgLi4uCiMgeyJzY2hlbWFOZWdhdGl2ZUNvbmp1bmN0RGVub21pbmF0b3IiOjE4LCJyZWplY3RlZCI6MTh9CiMgU3VidGVzdDogV1A3MDUgYWNjZXNzb3JzIHByb3hpZXMgaGlkZGVuIGZpZWxkcyBhbmQgZXhlY3V0YWJsZSBKU09OIGFyZSBkZW5pZWQgd2l0aG91dCBpbnZvY2F0aW9uCm9rIDEwIC0gV1A3MDUgYWNjZXNzb3JzIHByb3hpZXMgaGlkZGVuIGZpZWxkcyBhbmQgZXhlY3V0YWJsZSBKU09OIGFyZSBkZW5pZWQgd2l0aG91dCBpbnZvY2F0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMTc1NjI1CiAgLi4uCiMgU3VidGVzdDogV1A3MDUgZG93bmdyYWRlIHJlcXVpcmVzIGV4YWN0IGV4cGxpY2l0IHBvbGljeSB0YXJnZXQgc291cmNlIGFuZCBjdXJyZW50IGlkZW50aXR5Cm9rIDExIC0gV1A3MDUgZG93bmdyYWRlIHJlcXVpcmVzIGV4YWN0IGV4cGxpY2l0IHBvbGljeSB0YXJnZXQgc291cmNlIGFuZCBjdXJyZW50IGlkZW50aXR5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMTA3MDQxCiAgLi4uCiMgU3VidGVzdDogV1A3MDUgZ29sZGVuIGRvd25ncmFkZSBjb3ZlcnMgZXZlcnkgc2VtYW50aWMgZmllbGQgYW5kIGV2ZXJ5IG5vbnByZXNlcnZlZCBmaWVsZCBpbiBsb3NzCm9rIDEyIC0gV1A3MDUgZ29sZGVuIGRvd25ncmFkZSBjb3ZlcnMgZXZlcnkgc2VtYW50aWMgZmllbGQgYW5kIGV2ZXJ5IG5vbnByZXNlcnZlZCBmaWVsZCBpbiBsb3NzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIwLjUwNDU4MwogIC4uLgojIFN1YnRlc3Q6IFdQNzA1IGNyb3NzLXJ1biBORkMgdHJhaWxpbmcgbGluZWZlZWQgZW1wdHkgYW5kIHdoaXRlc3BhY2UgbG9zcyBpcyBleHBsaWNpdApvayAxMyAtIFdQNzA1IGNyb3NzLXJ1biBORkMgdHJhaWxpbmcgbGluZWZlZWQgZW1wdHkgYW5kIHdoaXRlc3BhY2UgbG9zcyBpcyBleHBsaWNpdAogIC0tLQogIGR1cmF0aW9uX21zOiA2LjIxNjI1CiAgLi4uCiMgU3VidGVzdDogV1A3MDUgaW1wb3J0ZWQgRE9DWCBleGFjdCBzb3VyY2UgcmVwbGF5IHJldGFpbnMgdXBzdHJlYW0gbGV4aWNhbCBsb3NzCm9rIDE0IC0gV1A3MDUgaW1wb3J0ZWQgRE9DWCBleGFjdCBzb3VyY2UgcmVwbGF5IHJldGFpbnMgdXBzdHJlYW0gbGV4aWNhbCBsb3NzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEzLjkwODc5MgogIC4uLgojIFN1YnRlc3Q6IFdQNzA1IHZlcmlmaWNhdGlvbiByZWNvbXB1dGVzIHJlY2VpcHQgYW5kIG91dHB1dCBhbmQgcmVqZWN0cyBldmVyeSBhY2NvdW50aW5nIG92ZXJjbGFpbQpvayAxNSAtIFdQNzA1IHZlcmlmaWNhdGlvbiByZWNvbXB1dGVzIHJlY2VpcHQgYW5kIG91dHB1dCBhbmQgcmVqZWN0cyBldmVyeSBhY2NvdW50aW5nIG92ZXJjbGFpbQogIC0tLQogIGR1cmF0aW9uX21zOiAzMy41MTc0NTgKICAuLi4KIyB7InByZXZpZXdIb3N0aWxlRGVub21pbmF0b3IiOjEzLCJyZWplY3RlZCI6MTN9CiMgU3VidGVzdDogV1A3MDUgb25lIHRocm91Z2ggc2l4IGV4YWN0IGxvY2FsIGhvcHMgcHJlc2VydmUgbW9ub3RvbmUgbG9zcyBhbmQgaW5kZXBlbmRlbnQgaGFzaCBsaW5rcwpvayAxNiAtIFdQNzA1IG9uZSB0aHJvdWdoIHNpeCBleGFjdCBsb2NhbCBob3BzIHByZXNlcnZlIG1vbm90b25lIGxvc3MgYW5kIGluZGVwZW5kZW50IGhhc2ggbGlua3MKICAtLS0KICBkdXJhdGlvbl9tczogMTUuMjgzNDE3CiAgLi4uCjEuLjE2CiMgdGVzdHMgMTYKIyBzdWl0ZXMgMAojIHBhc3MgMTYKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDE4NDcuMzczNzA5Cg=="
+    },
+    "testEnvelope": {
+      "schemaVersion": "WP705_TEST_ASSURANCE_ENVELOPE_V1",
+      "riskClasses": [
+        "T2_STATE_OR_AUTHORITY",
+        "T3_SECURITY_OR_PARSER",
+        "T4_INTERCHANGE_OR_PROVIDER"
+      ],
+      "controlPlaneAdmissionClass": "T5_CONTROL_PLANE",
+      "profileId": "INTERCHANGE_COMMON",
+      "candidateIdentityRole": "ADMISSION_BASE_PLUS_EXACT_IMPLEMENTATION_ARTIFACTS; FINAL_CANDIDATE_AND_MERGE_BOUND_EXTERNALLY",
+      "dimensionDenominator": 14,
+      "dimensions": [
+        {
+          "id": "functional-semantics",
+          "disposition": "REQUIRED",
+          "oracle": "FOUR_EXACT_IR_FAMILIES_96_DOCUMENTS_3781_SOURCE_FIELDS_667_PRESERVED_3114_EXPLICIT_LOSS"
+        },
+        {
+          "id": "negative-admission-denial",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_PINNED_38_PATH_SUCCESSOR_V1_HISTORY_PRESERVED_18_SCHEMA_CONJUNCTS_13_PREVIEW_HOSTILES"
+        },
+        {
+          "id": "boundary-malformed",
+          "disposition": "REQUIRED",
+          "oracle": "OWN_DATA_PROXY_ACCESSOR_SYMBOL_SPARSE_UNICODE_DEPTH_BYTES_AND_SHARED_BACKING_REJECTION"
+        },
+        {
+          "id": "state-transition-transaction",
+          "disposition": "REQUIRED",
+          "oracle": "SOURCE_IMMUTABLE_EXPLICIT_DERIVED_PREVIEW_OR_TYPED_REJECT_NO_PRODUCT_TRANSACTION"
+        },
+        {
+          "id": "concurrency-reordering-idempotency",
+          "disposition": "REQUIRED",
+          "oracle": "ORDER_INDEPENDENT_OFFERS_EXACT_RECEIPT_REPLAY_SHARED_BACKING_DENIED_NINE_TIMEZONE_LOCALE_PROCESSES"
+        },
+        {
+          "id": "crash-fault-killpoint-physical-interruption",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "Pure synchronous disposable projections introduce no persistence transaction, async worker, process or provider effect. No crash-durable transaction or physical killpoint claim. Existing persistence baseline remains mandatory."
+        },
+        {
+          "id": "security-capability-privacy",
+          "disposition": "REQUIRED",
+          "oracle": "SCHEMA_MATCH_NOT_PAYLOAD_QUALIFICATION_NO_APPLY_OR_PROVIDER_AUTHORITY_NO_FS_NETWORK_PROCESS_IN_MODULE"
+        },
+        {
+          "id": "unicode-ime-i18n-coordinates",
+          "disposition": "REQUIRED",
+          "oracle": "NFC_MIXED_SCRIPTS_ASTRAL_TEXT_EXACT_UTF16_RANGES_AND_EXPLICIT_CROSS_RUN_NFC_WHITESPACE_LINEFEED_LOSS_NO_IME_CLAIM"
+        },
+        {
+          "id": "performance-resource-cancellation-liveness",
+          "disposition": "REQUIRED",
+          "oracle": "128_PARAGRAPHS_512_RUNS_2433_FIELDS_79687_OUTPUT_BYTES_WITH_HARD_BUDGETS_NO_WALL_CLOCK_SLA"
+        },
+        {
+          "id": "accessibility-keyboard-focus-reflow-graph-parity",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "No UI, keyboard, focus, layout or graph presentation change. No new accessibility surface or exported PDF."
+        },
+        {
+          "id": "compatibility-version-migration-downgrade",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_V1_FOUR_FAMILY_NEGOTIATION_UNSUPPORTED_OLD_FUTURE_VERSIONS_AND_EXPLICIT_DOCX_TO_TXT_ONLY"
+        },
+        {
+          "id": "observability-receipt-provenance-claim-ceiling",
+          "disposition": "REQUIRED",
+          "oracle": "COMPLETE_SOURCE_FIELD_DENOMINATOR_INHERITED_LOSS_MONOTONE_HASH_LINKED_LOCAL_REPLAY_AND_CORRECTED_ADMISSION"
+        },
+        {
+          "id": "mutation-oracle-quality",
+          "disposition": "REQUIRED",
+          "oracle": "22_REAL_SOURCE_MUTANTS_KILLED_BY_BEHAVIORAL_ASSERTIONS_NOT_IMPORT_OR_SYNTAX_ERRORS"
+        },
+        {
+          "id": "postmerge-survivor-cleanup",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_CANDIDATE_MERGE_CI_TERMINAL_265_ENTRIES_TEN_DIRTY_AND_24_FROZEN_OWNED_FILE_HASHES",
+          "status": "REQUIRED_NOT_PRECLAIMED"
+        }
+      ],
+      "deterministicCampaign": {
+        "independentDocumentCases": 96,
+        "exactSourceFieldComparisons": 3781,
+        "preservedTextComparisons": 667,
+        "explicitLossComparisons": 3114,
+        "replayHopDenominator": 576,
+        "generator": "WP705_XORSHIFT32_SEEDS_0_THROUGH_95_V1",
+        "independentTimezoneLocaleProcesses": 9,
+        "uniquePreviewAndArtifactDigests": 1,
+        "fixtureSha256": "1d654e043335e32f0b9244939c7490a794eab713e3c0e0d73538b140abf84045",
+        "randomCampaignClaim": false
+      },
+      "hostileCorpus": {
+        "deterministicHostileCases": 512,
+        "rejected": 512,
+        "unresolvedCounterexamples": 0,
+        "campaign": "EXHAUSTIVE_VERSION_2_TO_257_AND_256_BYTE_MUTATIONS_V1",
+        "randomCampaignClaim": false
+      },
+      "physicalLocalFiles": {
+        "physicalLocalFileDenominator": 5,
+        "independentFamilyDenominator": 4,
+        "cleanup": "REMOVED_ONLY_DISPOSABLE_TEST_DIRECTORY",
+        "physicalProviderClaim": false
+      },
+      "implementationMutants": {
+        "implementationMutants": 22,
+        "killed": 22,
+        "survivors": 0,
+        "syntaxOrImportFailuresCountedAsKills": false
+      },
+      "largeCorpus": {
+        "largeSourceParagraphs": 128,
+        "largeSourceRuns": 512,
+        "exactFieldDenominator": 2433,
+        "outputBytes": 79687,
+        "elapsedMs": 152.39183400000002,
+        "rssDelta": 24330240,
+        "wallClockSlaClaim": false
+      },
+      "rawEvidence": {
+        "basename": "WP705_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "2d0b2b9e727750c8000dc224fa0c93fb995d2e26a93866884032dd9b614847d1",
+        "byteLength": 4777,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 16,
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp705-negotiation-corpus.test.js test/unit/r24-wp705-negotiation-corpus-integration.test.js test/unit/r24-wp705-negotiation-corpus-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDcwNSBkZXRlcm1pbmlzdGljIGNvcnB1cyBpbmRlcGVuZGVudGx5IGNoZWNrcyBldmVyeSBzb3VyY2UgZmllbGQgYW5kIG91dHB1dCB0ZXh0IGFjcm9zcyBzaXggbG9jYWwgaG9wcwpvayAxIC0gV1A3MDUgZGV0ZXJtaW5pc3RpYyBjb3JwdXMgaW5kZXBlbmRlbnRseSBjaGVja3MgZXZlcnkgc291cmNlIGZpZWxkIGFuZCBvdXRwdXQgdGV4dCBhY3Jvc3Mgc2l4IGxvY2FsIGhvcHMKICAtLS0KICBkdXJhdGlvbl9tczogNTM4Ljg0MDgzMwogIC4uLgojIHsiaW5kZXBlbmRlbnREb2N1bWVudENhc2VzIjo5NiwiZXhhY3RTb3VyY2VGaWVsZENvbXBhcmlzb25zIjozNzgxLCJwcmVzZXJ2ZWRUZXh0Q29tcGFyaXNvbnMiOjY2NywiZXhwbGljaXRMb3NzQ29tcGFyaXNvbnMiOjMxMTQsInJlcGxheUhvcERlbm9taW5hdG9yIjo1NzYsImdlbmVyYXRvciI6IldQNzA1X1hPUlNISUZUMzJfU0VFRFNfMF9USFJPVUdIXzk1X1YxIn0KIyBTdWJ0ZXN0OiBXUDcwNSBmb3VyIGluZGVwZW5kZW50IElSIGZhbWlsaWVzIGFuZCBkb3duZ3JhZGUgYXJ0aWZhY3RzIHN1cnZpdmUgYWN0dWFsIHN5bnRoZXRpYyBmaWxlIHJlYWRiYWNrCm9rIDIgLSBXUDcwNSBmb3VyIGluZGVwZW5kZW50IElSIGZhbWlsaWVzIGFuZCBkb3duZ3JhZGUgYXJ0aWZhY3RzIHN1cnZpdmUgYWN0dWFsIHN5bnRoZXRpYyBmaWxlIHJlYWRiYWNrCiAgLS0tCiAgZHVyYXRpb25fbXM6IDM4LjMxNzI1CiAgLi4uCiMgeyJwaHlzaWNhbExvY2FsRmlsZURlbm9taW5hdG9yIjo1LCJpbmRlcGVuZGVudEZhbWlseURlbm9taW5hdG9yIjo0LCJjbGVhbnVwIjoiUkVNT1ZFRF9PTkxZX0RJU1BPU0FCTEVfVEVTVF9ESVJFQ1RPUlkiLCJwaHlzaWNhbFByb3ZpZGVyQ2xhaW0iOmZhbHNlfQojIFN1YnRlc3Q6IFdQNzA1IGRldGVybWluaXN0aWMgaG9zdGlsZSB2ZXJzaW9uIGFuZCBjb3JydXB0LWJ5dGUgZnV6eiBuZXZlciB1cGdyYWRlcyBhdXRob3JpdHkKb2sgMyAtIFdQNzA1IGRldGVybWluaXN0aWMgaG9zdGlsZSB2ZXJzaW9uIGFuZCBjb3JydXB0LWJ5dGUgZnV6eiBuZXZlciB1cGdyYWRlcyBhdXRob3JpdHkKICAtLS0KICBkdXJhdGlvbl9tczogMzMyLjg3ODMzNAogIC4uLgojIHsiZGV0ZXJtaW5pc3RpY0hvc3RpbGVDYXNlcyI6NTEyLCJyZWplY3RlZCI6NTEyLCJ1bnJlc29sdmVkQ291bnRlcmV4YW1wbGVzIjowLCJjYW1wYWlnbiI6IkVYSEFVU1RJVkVfVkVSU0lPTl8yX1RPXzI1N19BTkRfMjU2X0JZVEVfTVVUQVRJT05TX1YxIiwicmFuZG9tQ2FtcGFpZ25DbGFpbSI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgb3V0cHV0cyBhcmUgZGV0ZXJtaW5pc3RpYyBhY3Jvc3MgbmluZSBpbmRlcGVuZGVudCB0aW1lem9uZSBhbmQgbG9jYWxlIHByb2Nlc3NlcwpvayA0IC0gV1A3MDUgb3V0cHV0cyBhcmUgZGV0ZXJtaW5pc3RpYyBhY3Jvc3MgbmluZSBpbmRlcGVuZGVudCB0aW1lem9uZSBhbmQgbG9jYWxlIHByb2Nlc3NlcwogIC0tLQogIGR1cmF0aW9uX21zOiA3MDMuMDg4ODMzCiAgLi4uCiMgeyJpbmRlcGVuZGVudFRpbWV6b25lTG9jYWxlUHJvY2Vzc2VzIjo5LCJ1bmlxdWVQcmV2aWV3QW5kQXJ0aWZhY3REaWdlc3RzIjoxfQojIFN1YnRlc3Q6IFdQNzA1IGxhcmdlIGJvdW5kZWQgc291cmNlIGhhcyBhIGNvbXBsZXRlIGluZGVwZW5kZW50bHkgZW51bWVyYXRlZCBsZWRnZXIgYW5kIHNhZmUgcmVzb3VyY2UgcmVqZWN0aW9uCm9rIDUgLSBXUDcwNSBsYXJnZSBib3VuZGVkIHNvdXJjZSBoYXMgYSBjb21wbGV0ZSBpbmRlcGVuZGVudGx5IGVudW1lcmF0ZWQgbGVkZ2VyIGFuZCBzYWZlIHJlc291cmNlIHJlamVjdGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiAxNTguMDY5OTE3CiAgLi4uCiMgeyJsYXJnZVNvdXJjZVBhcmFncmFwaHMiOjEyOCwibGFyZ2VTb3VyY2VSdW5zIjo1MTIsImV4YWN0RmllbGREZW5vbWluYXRvciI6MjQzMywib3V0cHV0Qnl0ZXMiOjc5Njg3LCJlbGFwc2VkTXMiOjE1Mi4zOTE4MzQwMDAwMDAwMiwicnNzRGVsdGEiOjI0MzMwMjQwLCJ3YWxsQ2xvY2tTbGFDbGFpbSI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgYnl0ZSBhY2Nlc3NvcnMgc2hhcmVkIGJhY2tpbmcgYW5kIHByb3hpZXMgY2Fubm90IGV4ZWN1dGUgb3IgcmFjZSB2ZXJpZmljYXRpb24Kb2sgNiAtIFdQNzA1IGJ5dGUgYWNjZXNzb3JzIHNoYXJlZCBiYWNraW5nIGFuZCBwcm94aWVzIGNhbm5vdCBleGVjdXRlIG9yIHJhY2UgdmVyaWZpY2F0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuODI5MzMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDUgdHdlbnR5LXR3byByZWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgYXJlIGtpbGxlZCBvbmx5IGJ5IG5hbWVkIGJlaGF2aW9yYWwgYXNzZXJ0aW9ucwpvayA3IC0gV1A3MDUgdHdlbnR5LXR3byByZWFsIGltcGxlbWVudGF0aW9uIG11dGFudHMgYXJlIGtpbGxlZCBvbmx5IGJ5IG5hbWVkIGJlaGF2aW9yYWwgYXNzZXJ0aW9ucwogIC0tLQogIGR1cmF0aW9uX21zOiAxNTQuNDA4NzA4CiAgLi4uCiMgeyJpbXBsZW1lbnRhdGlvbk11dGFudHMiOjIyLCJraWxsZWQiOjIyLCJzdXJ2aXZvcnMiOjAsInN5bnRheE9ySW1wb3J0RmFpbHVyZXNDb3VudGVkQXNLaWxscyI6ZmFsc2V9CiMgU3VidGVzdDogV1A3MDUgZXhhY3QgZm91ci1mYW1pbHkgc2NoZW1hIG5lZ290aWF0aW9uIG5ldmVyIGdyYW50cyBwYXlsb2FkIG9yIG11dGF0aW9uIGF1dGhvcml0eQpvayA4IC0gV1A3MDUgZXhhY3QgZm91ci1mYW1pbHkgc2NoZW1hIG5lZ290aWF0aW9uIG5ldmVyIGdyYW50cyBwYXlsb2FkIG9yIG11dGF0aW9uIGF1dGhvcml0eQogIC0tLQogIGR1cmF0aW9uX21zOiAxOC4xMjg4MzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNSBldmVyeSBzY2hlbWEvaWRlbnRpdHkvb2ZmZXIgY29uanVuY3QgcmVqZWN0cyBpbmRlcGVuZGVudGx5Cm9rIDkgLSBXUDcwNSBldmVyeSBzY2hlbWEvaWRlbnRpdHkvb2ZmZXIgY29uanVuY3QgcmVqZWN0cyBpbmRlcGVuZGVudGx5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuMDU0ODM0CiAgLi4uCiMgeyJzY2hlbWFOZWdhdGl2ZUNvbmp1bmN0RGVub21pbmF0b3IiOjE4LCJyZWplY3RlZCI6MTh9CiMgU3VidGVzdDogV1A3MDUgYWNjZXNzb3JzIHByb3hpZXMgaGlkZGVuIGZpZWxkcyBhbmQgZXhlY3V0YWJsZSBKU09OIGFyZSBkZW5pZWQgd2l0aG91dCBpbnZvY2F0aW9uCm9rIDEwIC0gV1A3MDUgYWNjZXNzb3JzIHByb3hpZXMgaGlkZGVuIGZpZWxkcyBhbmQgZXhlY3V0YWJsZSBKU09OIGFyZSBkZW5pZWQgd2l0aG91dCBpbnZvY2F0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMTc1NjI1CiAgLi4uCiMgU3VidGVzdDogV1A3MDUgZG93bmdyYWRlIHJlcXVpcmVzIGV4YWN0IGV4cGxpY2l0IHBvbGljeSB0YXJnZXQgc291cmNlIGFuZCBjdXJyZW50IGlkZW50aXR5Cm9rIDExIC0gV1A3MDUgZG93bmdyYWRlIHJlcXVpcmVzIGV4YWN0IGV4cGxpY2l0IHBvbGljeSB0YXJnZXQgc291cmNlIGFuZCBjdXJyZW50IGlkZW50aXR5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMTA3MDQxCiAgLi4uCiMgU3VidGVzdDogV1A3MDUgZ29sZGVuIGRvd25ncmFkZSBjb3ZlcnMgZXZlcnkgc2VtYW50aWMgZmllbGQgYW5kIGV2ZXJ5IG5vbnByZXNlcnZlZCBmaWVsZCBpbiBsb3NzCm9rIDEyIC0gV1A3MDUgZ29sZGVuIGRvd25ncmFkZSBjb3ZlcnMgZXZlcnkgc2VtYW50aWMgZmllbGQgYW5kIGV2ZXJ5IG5vbnByZXNlcnZlZCBmaWVsZCBpbiBsb3NzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIwLjUwNDU4MwogIC4uLgojIFN1YnRlc3Q6IFdQNzA1IGNyb3NzLXJ1biBORkMgdHJhaWxpbmcgbGluZWZlZWQgZW1wdHkgYW5kIHdoaXRlc3BhY2UgbG9zcyBpcyBleHBsaWNpdApvayAxMyAtIFdQNzA1IGNyb3NzLXJ1biBORkMgdHJhaWxpbmcgbGluZWZlZWQgZW1wdHkgYW5kIHdoaXRlc3BhY2UgbG9zcyBpcyBleHBsaWNpdAogIC0tLQogIGR1cmF0aW9uX21zOiA2LjIxNjI1CiAgLi4uCiMgU3VidGVzdDogV1A3MDUgaW1wb3J0ZWQgRE9DWCBleGFjdCBzb3VyY2UgcmVwbGF5IHJldGFpbnMgdXBzdHJlYW0gbGV4aWNhbCBsb3NzCm9rIDE0IC0gV1A3MDUgaW1wb3J0ZWQgRE9DWCBleGFjdCBzb3VyY2UgcmVwbGF5IHJldGFpbnMgdXBzdHJlYW0gbGV4aWNhbCBsb3NzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEzLjkwODc5MgogIC4uLgojIFN1YnRlc3Q6IFdQNzA1IHZlcmlmaWNhdGlvbiByZWNvbXB1dGVzIHJlY2VpcHQgYW5kIG91dHB1dCBhbmQgcmVqZWN0cyBldmVyeSBhY2NvdW50aW5nIG92ZXJjbGFpbQpvayAxNSAtIFdQNzA1IHZlcmlmaWNhdGlvbiByZWNvbXB1dGVzIHJlY2VpcHQgYW5kIG91dHB1dCBhbmQgcmVqZWN0cyBldmVyeSBhY2NvdW50aW5nIG92ZXJjbGFpbQogIC0tLQogIGR1cmF0aW9uX21zOiAzMy41MTc0NTgKICAuLi4KIyB7InByZXZpZXdIb3N0aWxlRGVub21pbmF0b3IiOjEzLCJyZWplY3RlZCI6MTN9CiMgU3VidGVzdDogV1A3MDUgb25lIHRocm91Z2ggc2l4IGV4YWN0IGxvY2FsIGhvcHMgcHJlc2VydmUgbW9ub3RvbmUgbG9zcyBhbmQgaW5kZXBlbmRlbnQgaGFzaCBsaW5rcwpvayAxNiAtIFdQNzA1IG9uZSB0aHJvdWdoIHNpeCBleGFjdCBsb2NhbCBob3BzIHByZXNlcnZlIG1vbm90b25lIGxvc3MgYW5kIGluZGVwZW5kZW50IGhhc2ggbGlua3MKICAtLS0KICBkdXJhdGlvbl9tczogMTUuMjgzNDE3CiAgLi4uCjEuLjE2CiMgdGVzdHMgMTYKIyBzdWl0ZXMgMAojIHBhc3MgMTYKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDE4NDcuMzczNzA5Cg=="
+      },
+      "ciLanes": [
+        "BASELINE_REQUIRED",
+        "INTERCHANGE_RISK"
+      ],
+      "claimCeiling": "EXACT_SCHEMA_NEGOTIATION_AND_PREVIEW_ONLY_DOCX_TO_TXT_LOCAL_CORPUS_NO_PRODUCT_PROVIDER_OR_UI_AUTHORITY"
+    },
+    "providerCandidateAndPostmergeEvidenceRequired": true,
+    "physicalProviderClaim": false,
+    "programDone": false
+  }
+}

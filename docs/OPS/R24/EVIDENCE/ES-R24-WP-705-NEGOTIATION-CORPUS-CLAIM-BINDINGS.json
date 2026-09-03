@@ -1,0 +1,291 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-705-NEGOTIATION-CORPUS-CLAIM-BINDINGS",
+  "contourId": "WP-705_NEGOTIATION_CORPUS",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+  "originMainSha": "77d93dae2f9565f9cb6f0750c5e5044864abaf93",
+  "generatedAtUtc": "2026-09-03T06:20:18.839Z",
+  "oracle": "Exact admitted worktree-byte bindings only; base SHA identifies admission, not future artifact contents. Required gates and external delivery remain unclaimed predicates.",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "fd5708bbe764edb3dbf3d99a9ca5c38a7fa49334b776e68dc34369f0468ee782",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_ADMISSION_PATH_CORRECTION_V1.json",
+      "sha256": "291477439ca8049e6588b0ef8afd85238b8a0b57428f25e6a10af3206d9965b5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_DOWNGRADE_CONTRACT_V1.json",
+      "sha256": "d4c7b92c4d0e2f3f0c1e6a94da69ebc0bb084264c839ba83686106ee8f027173",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "66566838053e935ef4f1f8c3ed807402312a2ff278315d55e8486bb1e53b1967",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "d1cb20273c6c8bb6731e6f3cec44d2e2be3f753de1d18eaa083c978bda6a37eb",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_FIXTURE_MANIFEST_V1.json",
+      "sha256": "cf09e127ba869c42329a0d8269bde32012a49031f7e8645322d842b42cffa7af",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "93dae06d626d66d726d6bdcc5ab671523667463e3d76f1883c16883312581b41",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "25e6b71470ead4a0e486e65195d43165a45f082ac2d77071a57da2e123405260",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8f985402f2e31e420df5d6e97ff64a397c7d29b871312181f79679c310ae53a8",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d9b2cb94245449432ab3ca938222bb9855d8530a4331a121c8a2643d2627cba2",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "aae9890fe8b3cc879c7b6946d6240fe00c5b759f42660301193deeab07e127fc",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "5cd3d9435674833fcf611bcd6abdd64101469f0cb23eba12d8e78f17be2c1a13",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "c0b449a46ddca49aeb841e545f9e785fe42eca5d4e0562cfa8d7c4efa594629a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f3e8d603117287d8b85d247f60f0fce77de9d75816be4ec91cc6f8a0ff541d16",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_SEALED_SOURCE_READ_RECEIPT_V1.json",
+      "sha256": "02b9c57943d2f592e90d360f7243fa69b6a25aab5c63ccee87440539cc22f862",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_WP704_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "31aa249dfa84fab5e62bc910eedc180fcb3bac3e06b887edd0e935d16dc5a9fc",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_CARRIER_REGISTRY_V1.json",
+      "sha256": "8bcdc190277e2fcde6a87955a7f95b074bed171db4dfbb2aea7504b5cae24075",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "60f36928bc9d0acf1546181b6588e75bce77ab86ca9cf26d008678d9990e41e8",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_EFFECTIVE_STATE_V1.json",
+      "sha256": "983f2a24e1e8bea17711603dca1c09aa0275a8c4cca3d17acdc93bb258372b5c",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_STAGE_REGISTRY_V1.json",
+      "sha256": "66bd99e430d8a6253d500418334778998da9a983bda39b5b560e647d70e172f6",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_LEASE_RELEASE_V1.json",
+      "sha256": "cdc869156315c9495293ecd179ee8b7d671022dccec3d8d0672491d753f3786d",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_TERMINAL_RECEIPT_V1.json",
+      "sha256": "1bedc834103b275adbbccef5086c9b35f9f53d8f18493ab476a28d9b84dd398a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP705_TERMINAL_SUPPLEMENT_V1.json",
+      "sha256": "694351b49f2768f178b5e40516edfd3de6a2d5565718a023a0a50a769f62472a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/interchange-negotiation-v1.mjs",
+      "sha256": "aec88806b18224164f8f18d1b4f3d5d0926d9776353f067e87f0e98389619bcd",
+      "terms": [
+        "WP705_EXACT_SCHEMA_AND_PREVIEW_ONLY_DOWNGRADE_NO_PRODUCT_OR_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp705-negotiation-corpus-fixtures.js",
+      "sha256": "1d654e043335e32f0b9244939c7490a794eab713e3c0e0d73538b140abf84045",
+      "terms": [
+        "WP705_EXACT_SCHEMA_AND_PREVIEW_ONLY_DOWNGRADE_NO_PRODUCT_OR_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp705-negotiation-corpus.test.js",
+      "sha256": "d86e28c1cd0555d501cfbbd952de21582b9df86840b87390033e2053006a3224",
+      "terms": [
+        "WP705_EXACT_SCHEMA_AND_PREVIEW_ONLY_DOWNGRADE_NO_PRODUCT_OR_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp705-negotiation-corpus-integration.test.js",
+      "sha256": "1b157febae38b6a7cd60f6ef277e196d4cd4ecf25769706a7103778d65dedd41",
+      "terms": [
+        "WP705_EXACT_SCHEMA_AND_PREVIEW_ONLY_DOWNGRADE_NO_PRODUCT_OR_PROVIDER_AUTHORITY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp705-negotiation-corpus-mutants.test.js",
+      "sha256": "fe6cf035bd7f69509319463fdc2e91e89b0444f8960a7744a76e4378984dd61f",
+      "terms": [
+        "WP705_EXACT_SCHEMA_AND_PREVIEW_ONLY_DOWNGRADE_NO_PRODUCT_OR_PROVIDER_AUTHORITY"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_BASE_TREE_CONTENT_CLAIM_FOR_NEW_ADMITTED_WORKTREE_BYTES",
+    "NO_RUNTIME_REGISTRY_OR_PRODUCT_MUTATION_AUTHORITY",
+    "NO_WP705_DONE_BEFORE_REQUIRED_GATES_AND_EXTERNAL_TERMINAL_PROOF",
+    "NO_RETROACTIVE_ADMISSION_CLAIM",
+    "EXTERNAL_SOURCE_PLAN_DIGEST:1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "COMPILED_PROGRAM_FILE_DIGEST:da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "SOURCE_AND_COMPILED_DIGEST_ROLES_DISTINCT",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

@@ -1,0 +1,539 @@
+{
+  "schemaVersion": "EvidenceStampV2",
+  "missionId": "YALKEN-R2.4-GUIDED-BOOTSTRAP-2026-08-19",
+  "contourId": "WP-704_PDF_ARCHIVE_REVIEW",
+  "attemptId": "ATTEMPT-WP704-20260903",
+  "authorityEpoch": "YALKEN_R24_MAIN_PRODUCT_WP704_AUTHORITY_EPOCH_V1",
+  "profileId": "INTERCHANGE_COMMON",
+  "repo": {
+    "canonicalPath": "/Volumes/T7-Secure/storage/yalken/canonical/writer-editor-codex",
+    "originUrl": "https://github.com/KirPonomarev/writer-editor.git",
+    "headSha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+    "treeSha": "f5b4e63210cd820bd5bdba37c4e75990fe2b916a"
+  },
+  "createdAt": "2026-09-03T04:22:43.414Z",
+  "actor": "codex/r24-wp704-pdf-archive-review-v1-20260903",
+  "stampId": "ES-R24-WP-704-PDF-ARCHIVE-REVIEW-INTEGRATION",
+  "claim": {
+    "type": "WP704_PDF_ARCHIVE_REVIEW_INTEGRATION",
+    "ceiling": "WP704_BOUNDED_PROFILE_APIS_AND_OFFLINE_PORT_ONLY",
+    "verdict": "PASS"
+  },
+  "test": {
+    "oracleId": "Seven integration contracts plus separately bound real Electron, independent pypdf and direct visual proof",
+    "evidenceClass": "INTEGRATION",
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "exitCode": 0
+  },
+  "causal": {
+    "parentStampIds": [
+      "ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS"
+    ],
+    "predecessorReceiptDigest": "3643f684a2f2a07d4bb11165e93b6c4f3e0c0e25ee16addf7316b6c4f51cd2f9"
+  },
+  "artifact": {
+    "byteIdentityRole": "EXACT_ADMITTED_WORKTREE_BYTES_NOT_BASE_GIT_OBJECTS",
+    "baseShaIsAdmissionIdentityOnly": true,
+    "implementationArtifacts": [
+      {
+        "path": "src/core/pdf-archive-review-profile-v1.mjs",
+        "sha256": "ad0ac06c66f8656092eb1f87a73f16f1eeebf1fe980acabf2e138e3d26025182"
+      },
+      {
+        "path": "src/core/electron-pdf-profile-port-v1.cjs",
+        "sha256": "c22c61c067746bec4fe88d0421c052198f9a35d9b3728e95141cda3997e6e325"
+      },
+      {
+        "path": "scripts/ops/r24/wp704-physical-pdf.cjs",
+        "sha256": "d25c678294c4292ae084f1c3fbf83f875b180065a334d0ad3f95849fbec77fd4"
+      },
+      {
+        "path": "test/fixtures/r24-wp704-pdf-archive-review-fixtures.js",
+        "sha256": "d355de8268a619571eb6d04f2f0e08f6582c5fe5992ff645548496799f4b7e11"
+      },
+      {
+        "path": "test/unit/r24-wp704-pdf-archive-review.test.js",
+        "sha256": "3dfc48df5c37b6773f36cca06bfb27574e32ff092650744df356cbeb4eb75a19"
+      },
+      {
+        "path": "test/unit/r24-wp704-pdf-archive-review-integration.test.js",
+        "sha256": "e5617e35dd90108976766d4c21828d4d045f059fdc5f3c578f7dff95441b8eef"
+      },
+      {
+        "path": "test/unit/r24-wp704-pdf-archive-review-mutants.test.js",
+        "sha256": "8174eb9eaea4a61d48df1e33db3f8df8140cbb775ad68405eda9d14a766316a5"
+      }
+    ],
+    "observations": [
+      "96_ARCHIVE_CASES_720_EXACT_FILE_COMPARISONS",
+      "NINE_TIMEZONE_LOCALE_PROCESSES",
+      "ACTUAL_SYNTHETIC_FILE_ROUNDTRIP",
+      "OFFLINE_PORT_OPTIONS_AND_DESTROY",
+      "360157_SOURCE_BYTES_512_PARAGRAPHS",
+      "STALLED_NAVIGATION_DEADLINE_NO_PARTIAL_OUTPUT"
+    ],
+    "sourcePlanRoles": {
+      "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+      "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+      "rolesDistinct": true
+    },
+    "rawEvidence": {
+      "basename": "WP704_PRODUCT_FOCUSED_PREPUBLICATION_V2.tap",
+      "sha256": "34f8005a591b3a4610975046f1ca49f59b37e2b84622df6609b847c9b410513c",
+      "byteLength": 4729,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 18,
+      "passed": 18,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test test/unit/r24-wp704-pdf-archive-review.test.js test/unit/r24-wp704-pdf-archive-review-integration.test.js test/unit/r24-wp704-pdf-archive-review-mutants.test.js",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDcwNCBpbmRlcGVuZGVudCBjb21wbGV0ZSBhcmNoaXZlIGRpZmZlcmVudGlhbCBjb3JwdXMgYW5kIHRocmVlLWhvcCBieXRlIHJlcGxheQpvayAxIC0gV1A3MDQgaW5kZXBlbmRlbnQgY29tcGxldGUgYXJjaGl2ZSBkaWZmZXJlbnRpYWwgY29ycHVzIGFuZCB0aHJlZS1ob3AgYnl0ZSByZXBsYXkKICAtLS0KICBkdXJhdGlvbl9tczogMjQwLjMyOTY2NwogIC4uLgojIHsiaW5kZXBlbmRlbnRBcmNoaXZlQ2FzZXMiOjk2LCJleGFjdEZpbGVDb21wYXJpc29ucyI6NzIwLCJpbmRlcGVuZGVudE9yYWNsZSI6IkxPQ0FMX1pJUF9SRUNPUkRfQllURVNfTk9UX1BST0RVQ1RJT05fUEFSU0VSIn0KIyBTdWJ0ZXN0OiBXUDcwNCBhcmNoaXZlIGJ5dGVzIGFyZSBzdGFibGUgYWNyb3NzIGluZGVwZW5kZW50IHRpbWV6b25lIGFuZCBsb2NhbGUgcHJvY2Vzc2VzCm9rIDIgLSBXUDcwNCBhcmNoaXZlIGJ5dGVzIGFyZSBzdGFibGUgYWNyb3NzIGluZGVwZW5kZW50IHRpbWV6b25lIGFuZCBsb2NhbGUgcHJvY2Vzc2VzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDc5OS44ODg3NQogIC4uLgojIHsiaW5kZXBlbmRlbnRUaW1lem9uZUxvY2FsZVByb2Nlc3NlcyI6OSwidW5pcXVlQXJjaGl2ZURpZ2VzdHMiOjF9CiMgU3VidGVzdDogV1A3MDQgYWN0dWFsIGFyY2hpdmUgYW5kIG5hdGl2ZSBwYWNrZXQgZmlsZSByZWFkYmFjayBwcmVzZXJ2ZXMgc291cmNlIGFuZCBjb21wbGV0ZSBpZGVudGl0eQpvayAzIC0gV1A3MDQgYWN0dWFsIGFyY2hpdmUgYW5kIG5hdGl2ZSBwYWNrZXQgZmlsZSByZWFkYmFjayBwcmVzZXJ2ZXMgc291cmNlIGFuZCBjb21wbGV0ZSBpZGVudGl0eQogIC0tLQogIGR1cmF0aW9uX21zOiA2LjA0NzA4NAogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IFBERiBwb3J0IHBpbnMgYWN0dWFsIEVsZWN0cm9uIG9wdGlvbnMsIGRlbmllcyByZXNvdXJjZSBuYXZpZ2F0aW9uIGFuZCBhbHdheXMgZGVzdHJveXMgd2luZG93cwpvayA0IC0gV1A3MDQgUERGIHBvcnQgcGlucyBhY3R1YWwgRWxlY3Ryb24gb3B0aW9ucywgZGVuaWVzIHJlc291cmNlIG5hdmlnYXRpb24gYW5kIGFsd2F5cyBkZXN0cm95cyB3aW5kb3dzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuMzQ2ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgcHVyZSBwcm9maWxlcyByZWplY3QgZGlyZWN0b3J5IGFtYmlndWl0eSwgZHVwbGljYXRlIHByb3Bvc2FsIGlkcyBhbmQgcmVzb2x2ZWQgZGVjaXNpb25zCm9rIDUgLSBXUDcwNCBwdXJlIHByb2ZpbGVzIHJlamVjdCBkaXJlY3RvcnkgYW1iaWd1aXR5LCBkdXBsaWNhdGUgcHJvcG9zYWwgaWRzIGFuZCByZXNvbHZlZCBkZWNpc2lvbnMKICAtLS0KICBkdXJhdGlvbl9tczogMC43MDg1NDEKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBib3VuZGVkIGxhcmdlIGFyY2hpdmUgYW5kIGRvY3VtZW50IHByb2ZpbGVzIGhhdmUgbWVhc3VyZWQgbm9uemVybyBjb3ZlcmFnZQpvayA2IC0gV1A3MDQgYm91bmRlZCBsYXJnZSBhcmNoaXZlIGFuZCBkb2N1bWVudCBwcm9maWxlcyBoYXZlIG1lYXN1cmVkIG5vbnplcm8gY292ZXJhZ2UKICAtLS0KICBkdXJhdGlvbl9tczogMTYyLjI1NzA4MwogIC4uLgojIHsibGFyZ2VBcmNoaXZlU291cmNlQnl0ZXMiOjM2MDE1NywibGFyZ2VEb2N1bWVudFBhcmFncmFwaHMiOjUxMiwiZWxhcHNlZE1zIjoxNjEuMTk3NzkxOTk5OTk5OTQsInJzc0RlbHRhIjo1MzM0NjMwNCwid2FsbENsb2NrU2xhQ2xhaW0iOmZhbHNlfQojIFN1YnRlc3Q6IFdQNzA0IGFkYXB0ZXIgZGVhZGxpbmUgZGVzdHJveXMgYSBzdGFsbGVkIHdpbmRvdyBhbmQgbmV2ZXIgcHVibGlzaGVzIHBhcnRpYWwgYnl0ZXMKb2sgNyAtIFdQNzA0IGFkYXB0ZXIgZGVhZGxpbmUgZGVzdHJveXMgYSBzdGFsbGVkIHdpbmRvdyBhbmQgbmV2ZXIgcHVibGlzaGVzIHBhcnRpYWwgYnl0ZXMKICAtLS0KICBkdXJhdGlvbl9tczogMi43NDk5MTcKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCByZWFsIHNvdXJjZSBtdXRhbnRzIGFyZSBraWxsZWQgYnkgYmVoYXZpb3JhbCBhc3NlcnRpb25zLCBub3QgaW1wb3J0IG9yIHN5bnRheCBmYWlsdXJlCm9rIDggLSBXUDcwNCByZWFsIHNvdXJjZSBtdXRhbnRzIGFyZSBraWxsZWQgYnkgYmVoYXZpb3JhbCBhc3NlcnRpb25zLCBub3QgaW1wb3J0IG9yIHN5bnRheCBmYWlsdXJlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE3Ny41NTkyOTEKICAuLi4KIyB7ImltcGxlbWVudGF0aW9uTXV0YW50cyI6MjAsImtpbGxlZCI6MjAsInN1cnZpdm9ycyI6MCwic3ludGF4T3JJbXBvcnRGYWlsdXJlc0NvdW50ZWRBc0tpbGxzIjpmYWxzZX0KIyBTdWJ0ZXN0OiBXUDcwNCBQREYgcHJvamVjdGlvbiBwcmVzZXJ2ZXMgYm91bmRlZCBzZW1hbnRpYyBkb2N1bWVudCB3aXRoIGVzY2FwZWQgb2ZmbGluZSBtYXJrdXAKb2sgOSAtIFdQNzA0IFBERiBwcm9qZWN0aW9uIHByZXNlcnZlcyBib3VuZGVkIHNlbWFudGljIGRvY3VtZW50IHdpdGggZXNjYXBlZCBvZmZsaW5lIG1hcmt1cAogIC0tLQogIGR1cmF0aW9uX21zOiA3Mi4zODI2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBtZXRhZGF0YSB0cmFuc2Zvcm0gY2hhbmdlcyBleGFjdGx5IHR3byB4cmVmLWFkZHJlc3NlZCBkYXRlcyBhbmQgcHJlc2VydmVzIG9mZnNldHMKb2sgMTAgLSBXUDcwNCBtZXRhZGF0YSB0cmFuc2Zvcm0gY2hhbmdlcyBleGFjdGx5IHR3byB4cmVmLWFkZHJlc3NlZCBkYXRlcyBhbmQgcHJlc2VydmVzIG9mZnNldHMKICAtLS0KICBkdXJhdGlvbl9tczogMS40NTg5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBhc3luY2hyb25vdXMgcmVuZGVyIHJlamVjdHMgc3RhbGUgaWRlbnRpdHkgYmVmb3JlIGFuZCBhZnRlciB3b3JrIGFuZCBwcmVzZXJ2ZXMgZmFpbHVyZQpvayAxMSAtIFdQNzA0IGFzeW5jaHJvbm91cyByZW5kZXIgcmVqZWN0cyBzdGFsZSBpZGVudGl0eSBiZWZvcmUgYW5kIGFmdGVyIHdvcmsgYW5kIHByZXNlcnZlcyBmYWlsdXJlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDcuNjU5ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgY29tcGxldGUgYXJjaGl2ZSByb3VuZHRyaXAgcHJlc2VydmVzIGV2ZXJ5IHNvdXJjZSBieXRlIGluY2x1ZGluZyBlbXB0eSBhbmQgVW5pY29kZSBuYW1lcwpvayAxMiAtIFdQNzA0IGNvbXBsZXRlIGFyY2hpdmUgcm91bmR0cmlwIHByZXNlcnZlcyBldmVyeSBzb3VyY2UgYnl0ZSBpbmNsdWRpbmcgZW1wdHkgYW5kIFVuaWNvZGUgbmFtZXMKICAtLS0KICBkdXJhdGlvbl9tczogNy42OTkwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBhcmNoaXZlIHJlamVjdHMgZW1wdHkgZHVwbGljYXRlIG5vcm1hbGl6ZWQgY2FzZSBjb25mdXNhYmxlIGFuZCB0cmF2ZXJzYWwgYW1iaWd1aXR5Cm9rIDEzIC0gV1A3MDQgYXJjaGl2ZSByZWplY3RzIGVtcHR5IGR1cGxpY2F0ZSBub3JtYWxpemVkIGNhc2UgY29uZnVzYWJsZSBhbmQgdHJhdmVyc2FsIGFtYmlndWl0eQogIC0tLQogIGR1cmF0aW9uX21zOiAyLjM3ODk1OQogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IGxlZ2FjeSB6ZXJvLWNvdW50IGZhbHNlIGdyZWVuIGlzIHJlamVjdGVkIGJ5IGNvbXBsZXRlLWRlbm9taW5hdG9yIHByb2ZpbGUKb2sgMTQgLSBXUDcwNCBsZWdhY3kgemVyby1jb3VudCBmYWxzZSBncmVlbiBpcyByZWplY3RlZCBieSBjb21wbGV0ZS1kZW5vbWluYXRvciBwcm9maWxlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQuMjY2ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgYXJjaGl2ZSBlbnZlbG9wZSBkZW5vbWluYXRvciBkaWdlc3QgYW5kIGxvc3MgdGFtcGVyaW5nIGNhbm5vdCBzZWxmLWNlcnRpZnkKb2sgMTUgLSBXUDcwNCBhcmNoaXZlIGVudmVsb3BlIGRlbm9taW5hdG9yIGRpZ2VzdCBhbmQgbG9zcyB0YW1wZXJpbmcgY2Fubm90IHNlbGYtY2VydGlmeQogIC0tLQogIGR1cmF0aW9uX21zOiA0LjMzNDI5MgogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IG5hdGl2ZSBSZXZpZXcgUGFja2V0IGhhcyBleGFjdCBwcm9wb3NhbC1vbmx5IHNlbWFudGljIGJ5dGUgcm91bmR0cmlwCm9rIDE2IC0gV1A3MDQgbmF0aXZlIFJldmlldyBQYWNrZXQgaGFzIGV4YWN0IHByb3Bvc2FsLW9ubHkgc2VtYW50aWMgYnl0ZSByb3VuZHRyaXAKICAtLS0KICBkdXJhdGlvbl9tczogMy4yOTE1NDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBSZXZpZXcgUGFja2V0IHJlamVjdHMgYXV0aG9yaXR5IGluamVjdGlvbiBkZWNpc2lvbnMgZm9yZWlnbiBpZGVudGl0aWVzIGFuZCBzaWxlbnQgbm9ybWFsaXphdGlvbgpvayAxNyAtIFdQNzA0IFJldmlldyBQYWNrZXQgcmVqZWN0cyBhdXRob3JpdHkgaW5qZWN0aW9uIGRlY2lzaW9ucyBmb3JlaWduIGlkZW50aXRpZXMgYW5kIHNpbGVudCBub3JtYWxpemF0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuNzcwMTY2CiAgLi4uCiMgU3VidGVzdDogV1A3MDQgYm91bmRhcmllcyByZWplY3QgZXhlY3V0YWJsZSBvYmplY3QgdHJhcHMgbWFsZm9ybWVkIGFycmF5cyBidWRnZXRzIGFuZCBmYWxzZSBmYW1pbHkgY2xhaW1zCm9rIDE4IC0gV1A3MDQgYm91bmRhcmllcyByZWplY3QgZXhlY3V0YWJsZSBvYmplY3QgdHJhcHMgbWFsZm9ybWVkIGFycmF5cyBidWRnZXRzIGFuZCBmYWxzZSBmYW1pbHkgY2xhaW1zCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuMTE0MjkyCiAgLi4uCjEuLjE4CiMgdGVzdHMgMTgKIyBzdWl0ZXMgMAojIHBhc3MgMTgKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyOTEuNzQ3NTQyCg=="
+    },
+    "testEnvelope": {
+      "schemaVersion": "WP704_TEST_ASSURANCE_ENVELOPE_V1",
+      "riskClasses": [
+        "T2_STATE_OR_AUTHORITY",
+        "T3_SECURITY_OR_PARSER",
+        "T4_INTERCHANGE_OR_PROVIDER"
+      ],
+      "controlPlaneAdmissionClass": "T5_CONTROL_PLANE",
+      "profileId": "INTERCHANGE_COMMON",
+      "candidateIdentityRole": "ADMISSION_BASE_PLUS_EXACT_IMPLEMENTATION_ARTIFACTS; FINAL_CANDIDATE_AND_MERGE_BOUND_EXTERNALLY",
+      "dimensionDenominator": 14,
+      "dimensions": [
+        {
+          "id": "functional-semantics",
+          "disposition": "REQUIRED",
+          "oracle": "96_ARCHIVE_CASES_720_INDEPENDENT_EXACT_FILE_BYTE_COMPARISONS_AND_NATIVE_REVIEW_PROPOSAL_REPLAY"
+        },
+        {
+          "id": "negative-admission-denial",
+          "disposition": "REQUIRED",
+          "oracle": "CLOSED_CANONICAL_JSON_CONTROL_SHAPES_AND_PINNED_EXACT_35_PATH_ADMISSION"
+        },
+        {
+          "id": "boundary-malformed",
+          "disposition": "REQUIRED",
+          "oracle": "QUARANTINE_CRC_CLOSED_MANIFEST_PATH_COLLISION_PDF_XREF_INFO_AND_REVIEW_JSON_BOUNDARIES"
+        },
+        {
+          "id": "state-transition-transaction",
+          "disposition": "REQUIRED",
+          "oracle": "IMMUTABLE_IR_TO_DERIVED_BYTES_OR_REJECT_WITHOUT_PRODUCT_PUBLICATION"
+        },
+        {
+          "id": "concurrency-reordering-idempotency",
+          "disposition": "REQUIRED",
+          "oracle": "PRE_AND_POST_ASYNC_IDENTITY_FENCE_THREE_HOP_ARCHIVE_REPLAY_NINE_TIMEZONE_LOCALE_PROCESSES_TWO_PHYSICAL_RENDERS"
+        },
+        {
+          "id": "crash-fault-killpoint-physical-interruption",
+          "disposition": "REQUIRED",
+          "oracle": "RENDER_THROW_AND_STALLED_NAVIGATION_DETERMINISTIC_CLOCK_DEADLINE_ALWAYS_DESTROY_WINDOW; NO_CRASH_DURABLE_TRANSACTION_OR_PHYSICAL_KILLPOINT_CLAIM"
+        },
+        {
+          "id": "security-capability-privacy",
+          "disposition": "REQUIRED",
+          "oracle": "OFFLINE_SANDBOX_JAVASCRIPT_OFF_RESOURCE_NAVIGATION_DENY_NO_REVIEW_APPLY_OR_WRITE_AUTHORITY"
+        },
+        {
+          "id": "unicode-ime-i18n-coordinates",
+          "disposition": "REQUIRED",
+          "oracle": "MIXED_SCRIPT_ARCHIVE_NAMES_AND_PDF_TEXT_READBACK_WITH_EXPLICIT_CMAP_COMPATIBILITY_LOSS; NO_IME_OR_EXACT_PDF_COPYPASTE_CLAIM"
+        },
+        {
+          "id": "performance-resource-cancellation-liveness",
+          "disposition": "REQUIRED",
+          "oracle": "360157_ARCHIVE_BYTES_512_PARAGRAPHS_BOUNDED_RESOURCES_AND_30000MS_ADAPTER_CLOCK_DEADLINE; NO_WALL_CLOCK_SLA"
+        },
+        {
+          "id": "accessibility-keyboard-focus-reflow-graph-parity",
+          "disposition": "NOT_APPLICABLE",
+          "reason": "No product renderer, keyboard, focus or graph presentation change; exported PDF is untagged and carries no accessibility-conformance claim. All three synthetic PDF pages visually inspected for readability."
+        },
+        {
+          "id": "compatibility-version-migration-downgrade",
+          "disposition": "REQUIRED",
+          "oracle": "EXISTING_DOCUMENT_PROJECT_REVIEW_IR_DOCX_QUARANTINE_ARCHIVE_NATIVE_REVIEW_PORTS_REUSED_NO_PACKAGE_OR_SCHEMA_MIGRATION"
+        },
+        {
+          "id": "observability-receipt-provenance-claim-ceiling",
+          "disposition": "REQUIRED",
+          "oracle": "COMPLETE_ARTIFACT_DENOMINATOR_PHYSICAL_READER_AND_VISUAL_PROOFS_EXPLICIT_LOSS_AND_CONDITIONAL_TERMINAL"
+        },
+        {
+          "id": "mutation-oracle-quality",
+          "disposition": "REQUIRED",
+          "oracle": "20_REAL_SOURCE_MUTANTS_KILLED_BY_BEHAVIORAL_ASSERTIONS_NOT_IMPORT_ERRORS"
+        },
+        {
+          "id": "postmerge-survivor-cleanup",
+          "disposition": "REQUIRED",
+          "oracle": "EXACT_CANDIDATE_MERGE_CI_TERMINAL_AND_263_ENTRY_NINE_DIRTY_EIGHT_FROZEN_BYTES_AFTER_PROOF",
+          "status": "REQUIRED_NOT_PRECLAIMED"
+        }
+      ],
+      "deterministicCampaign": {
+        "generatorVersion": "WP704_ARCHIVE_THREE_HOP_V1",
+        "seed": "EXHAUSTIVE_INTEGER_SEEDS_0_THROUGH_31",
+        "independentArchiveCases": 96,
+        "exactFileComparisons": 720,
+        "independentOracle": "LOCAL_ZIP_RECORD_BYTES_NOT_PRODUCTION_PARSER",
+        "independentTimezoneLocaleProcesses": 9,
+        "uniqueArchiveDigests": 1,
+        "fixtureSha256": "d355de8268a619571eb6d04f2f0e08f6582c5fe5992ff645548496799f4b7e11",
+        "randomCampaignClaim": false
+      },
+      "largeCorpus": {
+        "largeArchiveSourceBytes": 360157,
+        "largeDocumentParagraphs": 512,
+        "elapsedMs": 161.19779199999994,
+        "rssDelta": 53346304,
+        "wallClockSlaClaim": false
+      },
+      "rawEvidence": {
+        "basename": "WP704_PRODUCT_FOCUSED_PREPUBLICATION_V2.tap",
+        "sha256": "34f8005a591b3a4610975046f1ca49f59b37e2b84622df6609b847c9b410513c",
+        "byteLength": 4729,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 18,
+        "passed": 18,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp704-pdf-archive-review.test.js test/unit/r24-wp704-pdf-archive-review-integration.test.js test/unit/r24-wp704-pdf-archive-review-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDcwNCBpbmRlcGVuZGVudCBjb21wbGV0ZSBhcmNoaXZlIGRpZmZlcmVudGlhbCBjb3JwdXMgYW5kIHRocmVlLWhvcCBieXRlIHJlcGxheQpvayAxIC0gV1A3MDQgaW5kZXBlbmRlbnQgY29tcGxldGUgYXJjaGl2ZSBkaWZmZXJlbnRpYWwgY29ycHVzIGFuZCB0aHJlZS1ob3AgYnl0ZSByZXBsYXkKICAtLS0KICBkdXJhdGlvbl9tczogMjQwLjMyOTY2NwogIC4uLgojIHsiaW5kZXBlbmRlbnRBcmNoaXZlQ2FzZXMiOjk2LCJleGFjdEZpbGVDb21wYXJpc29ucyI6NzIwLCJpbmRlcGVuZGVudE9yYWNsZSI6IkxPQ0FMX1pJUF9SRUNPUkRfQllURVNfTk9UX1BST0RVQ1RJT05fUEFSU0VSIn0KIyBTdWJ0ZXN0OiBXUDcwNCBhcmNoaXZlIGJ5dGVzIGFyZSBzdGFibGUgYWNyb3NzIGluZGVwZW5kZW50IHRpbWV6b25lIGFuZCBsb2NhbGUgcHJvY2Vzc2VzCm9rIDIgLSBXUDcwNCBhcmNoaXZlIGJ5dGVzIGFyZSBzdGFibGUgYWNyb3NzIGluZGVwZW5kZW50IHRpbWV6b25lIGFuZCBsb2NhbGUgcHJvY2Vzc2VzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDc5OS44ODg3NQogIC4uLgojIHsiaW5kZXBlbmRlbnRUaW1lem9uZUxvY2FsZVByb2Nlc3NlcyI6OSwidW5pcXVlQXJjaGl2ZURpZ2VzdHMiOjF9CiMgU3VidGVzdDogV1A3MDQgYWN0dWFsIGFyY2hpdmUgYW5kIG5hdGl2ZSBwYWNrZXQgZmlsZSByZWFkYmFjayBwcmVzZXJ2ZXMgc291cmNlIGFuZCBjb21wbGV0ZSBpZGVudGl0eQpvayAzIC0gV1A3MDQgYWN0dWFsIGFyY2hpdmUgYW5kIG5hdGl2ZSBwYWNrZXQgZmlsZSByZWFkYmFjayBwcmVzZXJ2ZXMgc291cmNlIGFuZCBjb21wbGV0ZSBpZGVudGl0eQogIC0tLQogIGR1cmF0aW9uX21zOiA2LjA0NzA4NAogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IFBERiBwb3J0IHBpbnMgYWN0dWFsIEVsZWN0cm9uIG9wdGlvbnMsIGRlbmllcyByZXNvdXJjZSBuYXZpZ2F0aW9uIGFuZCBhbHdheXMgZGVzdHJveXMgd2luZG93cwpvayA0IC0gV1A3MDQgUERGIHBvcnQgcGlucyBhY3R1YWwgRWxlY3Ryb24gb3B0aW9ucywgZGVuaWVzIHJlc291cmNlIG5hdmlnYXRpb24gYW5kIGFsd2F5cyBkZXN0cm95cyB3aW5kb3dzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuMzQ2ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgcHVyZSBwcm9maWxlcyByZWplY3QgZGlyZWN0b3J5IGFtYmlndWl0eSwgZHVwbGljYXRlIHByb3Bvc2FsIGlkcyBhbmQgcmVzb2x2ZWQgZGVjaXNpb25zCm9rIDUgLSBXUDcwNCBwdXJlIHByb2ZpbGVzIHJlamVjdCBkaXJlY3RvcnkgYW1iaWd1aXR5LCBkdXBsaWNhdGUgcHJvcG9zYWwgaWRzIGFuZCByZXNvbHZlZCBkZWNpc2lvbnMKICAtLS0KICBkdXJhdGlvbl9tczogMC43MDg1NDEKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBib3VuZGVkIGxhcmdlIGFyY2hpdmUgYW5kIGRvY3VtZW50IHByb2ZpbGVzIGhhdmUgbWVhc3VyZWQgbm9uemVybyBjb3ZlcmFnZQpvayA2IC0gV1A3MDQgYm91bmRlZCBsYXJnZSBhcmNoaXZlIGFuZCBkb2N1bWVudCBwcm9maWxlcyBoYXZlIG1lYXN1cmVkIG5vbnplcm8gY292ZXJhZ2UKICAtLS0KICBkdXJhdGlvbl9tczogMTYyLjI1NzA4MwogIC4uLgojIHsibGFyZ2VBcmNoaXZlU291cmNlQnl0ZXMiOjM2MDE1NywibGFyZ2VEb2N1bWVudFBhcmFncmFwaHMiOjUxMiwiZWxhcHNlZE1zIjoxNjEuMTk3NzkxOTk5OTk5OTQsInJzc0RlbHRhIjo1MzM0NjMwNCwid2FsbENsb2NrU2xhQ2xhaW0iOmZhbHNlfQojIFN1YnRlc3Q6IFdQNzA0IGFkYXB0ZXIgZGVhZGxpbmUgZGVzdHJveXMgYSBzdGFsbGVkIHdpbmRvdyBhbmQgbmV2ZXIgcHVibGlzaGVzIHBhcnRpYWwgYnl0ZXMKb2sgNyAtIFdQNzA0IGFkYXB0ZXIgZGVhZGxpbmUgZGVzdHJveXMgYSBzdGFsbGVkIHdpbmRvdyBhbmQgbmV2ZXIgcHVibGlzaGVzIHBhcnRpYWwgYnl0ZXMKICAtLS0KICBkdXJhdGlvbl9tczogMi43NDk5MTcKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCByZWFsIHNvdXJjZSBtdXRhbnRzIGFyZSBraWxsZWQgYnkgYmVoYXZpb3JhbCBhc3NlcnRpb25zLCBub3QgaW1wb3J0IG9yIHN5bnRheCBmYWlsdXJlCm9rIDggLSBXUDcwNCByZWFsIHNvdXJjZSBtdXRhbnRzIGFyZSBraWxsZWQgYnkgYmVoYXZpb3JhbCBhc3NlcnRpb25zLCBub3QgaW1wb3J0IG9yIHN5bnRheCBmYWlsdXJlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE3Ny41NTkyOTEKICAuLi4KIyB7ImltcGxlbWVudGF0aW9uTXV0YW50cyI6MjAsImtpbGxlZCI6MjAsInN1cnZpdm9ycyI6MCwic3ludGF4T3JJbXBvcnRGYWlsdXJlc0NvdW50ZWRBc0tpbGxzIjpmYWxzZX0KIyBTdWJ0ZXN0OiBXUDcwNCBQREYgcHJvamVjdGlvbiBwcmVzZXJ2ZXMgYm91bmRlZCBzZW1hbnRpYyBkb2N1bWVudCB3aXRoIGVzY2FwZWQgb2ZmbGluZSBtYXJrdXAKb2sgOSAtIFdQNzA0IFBERiBwcm9qZWN0aW9uIHByZXNlcnZlcyBib3VuZGVkIHNlbWFudGljIGRvY3VtZW50IHdpdGggZXNjYXBlZCBvZmZsaW5lIG1hcmt1cAogIC0tLQogIGR1cmF0aW9uX21zOiA3Mi4zODI2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBtZXRhZGF0YSB0cmFuc2Zvcm0gY2hhbmdlcyBleGFjdGx5IHR3byB4cmVmLWFkZHJlc3NlZCBkYXRlcyBhbmQgcHJlc2VydmVzIG9mZnNldHMKb2sgMTAgLSBXUDcwNCBtZXRhZGF0YSB0cmFuc2Zvcm0gY2hhbmdlcyBleGFjdGx5IHR3byB4cmVmLWFkZHJlc3NlZCBkYXRlcyBhbmQgcHJlc2VydmVzIG9mZnNldHMKICAtLS0KICBkdXJhdGlvbl9tczogMS40NTg5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBhc3luY2hyb25vdXMgcmVuZGVyIHJlamVjdHMgc3RhbGUgaWRlbnRpdHkgYmVmb3JlIGFuZCBhZnRlciB3b3JrIGFuZCBwcmVzZXJ2ZXMgZmFpbHVyZQpvayAxMSAtIFdQNzA0IGFzeW5jaHJvbm91cyByZW5kZXIgcmVqZWN0cyBzdGFsZSBpZGVudGl0eSBiZWZvcmUgYW5kIGFmdGVyIHdvcmsgYW5kIHByZXNlcnZlcyBmYWlsdXJlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDcuNjU5ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgY29tcGxldGUgYXJjaGl2ZSByb3VuZHRyaXAgcHJlc2VydmVzIGV2ZXJ5IHNvdXJjZSBieXRlIGluY2x1ZGluZyBlbXB0eSBhbmQgVW5pY29kZSBuYW1lcwpvayAxMiAtIFdQNzA0IGNvbXBsZXRlIGFyY2hpdmUgcm91bmR0cmlwIHByZXNlcnZlcyBldmVyeSBzb3VyY2UgYnl0ZSBpbmNsdWRpbmcgZW1wdHkgYW5kIFVuaWNvZGUgbmFtZXMKICAtLS0KICBkdXJhdGlvbl9tczogNy42OTkwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBhcmNoaXZlIHJlamVjdHMgZW1wdHkgZHVwbGljYXRlIG5vcm1hbGl6ZWQgY2FzZSBjb25mdXNhYmxlIGFuZCB0cmF2ZXJzYWwgYW1iaWd1aXR5Cm9rIDEzIC0gV1A3MDQgYXJjaGl2ZSByZWplY3RzIGVtcHR5IGR1cGxpY2F0ZSBub3JtYWxpemVkIGNhc2UgY29uZnVzYWJsZSBhbmQgdHJhdmVyc2FsIGFtYmlndWl0eQogIC0tLQogIGR1cmF0aW9uX21zOiAyLjM3ODk1OQogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IGxlZ2FjeSB6ZXJvLWNvdW50IGZhbHNlIGdyZWVuIGlzIHJlamVjdGVkIGJ5IGNvbXBsZXRlLWRlbm9taW5hdG9yIHByb2ZpbGUKb2sgMTQgLSBXUDcwNCBsZWdhY3kgemVyby1jb3VudCBmYWxzZSBncmVlbiBpcyByZWplY3RlZCBieSBjb21wbGV0ZS1kZW5vbWluYXRvciBwcm9maWxlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQuMjY2ODMzCiAgLi4uCiMgU3VidGVzdDogV1A3MDQgYXJjaGl2ZSBlbnZlbG9wZSBkZW5vbWluYXRvciBkaWdlc3QgYW5kIGxvc3MgdGFtcGVyaW5nIGNhbm5vdCBzZWxmLWNlcnRpZnkKb2sgMTUgLSBXUDcwNCBhcmNoaXZlIGVudmVsb3BlIGRlbm9taW5hdG9yIGRpZ2VzdCBhbmQgbG9zcyB0YW1wZXJpbmcgY2Fubm90IHNlbGYtY2VydGlmeQogIC0tLQogIGR1cmF0aW9uX21zOiA0LjMzNDI5MgogIC4uLgojIFN1YnRlc3Q6IFdQNzA0IG5hdGl2ZSBSZXZpZXcgUGFja2V0IGhhcyBleGFjdCBwcm9wb3NhbC1vbmx5IHNlbWFudGljIGJ5dGUgcm91bmR0cmlwCm9rIDE2IC0gV1A3MDQgbmF0aXZlIFJldmlldyBQYWNrZXQgaGFzIGV4YWN0IHByb3Bvc2FsLW9ubHkgc2VtYW50aWMgYnl0ZSByb3VuZHRyaXAKICAtLS0KICBkdXJhdGlvbl9tczogMy4yOTE1NDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDcwNCBSZXZpZXcgUGFja2V0IHJlamVjdHMgYXV0aG9yaXR5IGluamVjdGlvbiBkZWNpc2lvbnMgZm9yZWlnbiBpZGVudGl0aWVzIGFuZCBzaWxlbnQgbm9ybWFsaXphdGlvbgpvayAxNyAtIFdQNzA0IFJldmlldyBQYWNrZXQgcmVqZWN0cyBhdXRob3JpdHkgaW5qZWN0aW9uIGRlY2lzaW9ucyBmb3JlaWduIGlkZW50aXRpZXMgYW5kIHNpbGVudCBub3JtYWxpemF0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuNzcwMTY2CiAgLi4uCiMgU3VidGVzdDogV1A3MDQgYm91bmRhcmllcyByZWplY3QgZXhlY3V0YWJsZSBvYmplY3QgdHJhcHMgbWFsZm9ybWVkIGFycmF5cyBidWRnZXRzIGFuZCBmYWxzZSBmYW1pbHkgY2xhaW1zCm9rIDE4IC0gV1A3MDQgYm91bmRhcmllcyByZWplY3QgZXhlY3V0YWJsZSBvYmplY3QgdHJhcHMgbWFsZm9ybWVkIGFycmF5cyBidWRnZXRzIGFuZCBmYWxzZSBmYW1pbHkgY2xhaW1zCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuMTE0MjkyCiAgLi4uCjEuLjE4CiMgdGVzdHMgMTgKIyBzdWl0ZXMgMAojIHBhc3MgMTgKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyOTEuNzQ3NTQyCg=="
+      },
+      "ciLanes": [
+        "BASELINE_REQUIRED",
+        "INTERCHANGE_RISK"
+      ],
+      "claimCeiling": "BOUNDED_PDF_ARCHIVE_REVIEW_PROFILE_APIS_AND_OFFLINE_PORT_NOT_UI_MAIN_REWIRING_OR_CROSS_PLATFORM_PDF_BYTE_EQUALITY"
+    },
+    "physicalEvidence": {
+      "render": {
+        "schemaVersion": "WP704_PHYSICAL_PDF_RENDER_V1",
+        "status": "PASS",
+        "syntheticOnly": true,
+        "profileId": "ELECTRON_41_10_3_OFFLINE_CLASSIC_PDF_V1",
+        "electron": "41.10.3",
+        "chromium": "146.0.7680.216",
+        "platform": "darwin",
+        "architecture": "arm64",
+        "osRelease": "25.6.0",
+        "identity": {
+          "projectId": "synthetic-wp704",
+          "entityId": "synthetic-document",
+          "sourceRevision": "synthetic-revision-1",
+          "generation": 1
+        },
+        "inputDocumentSha256": "221b56f4c7b88550f194d8c69771fcb1938ba7b58e321450d771aa3180c8b393",
+        "htmlSha256": "98d7fbdd985f564dcf0fdd3c3c297147e6cdc8334637ed8a2c2fce32602e8516",
+        "semanticSha256": "b6fb69fcbeec290263e7e6603823ee0d1effe15f58b1682582964d195d618dfc",
+        "paragraphDenominator": 41,
+        "fieldDenominator": 288,
+        "pdfSha256": "f324812c8b33c7f3cae1cada697822b311ad7b2b9f5560061480f438a65b17d9",
+        "pdfBytes": 71922,
+        "pdfObjectDenominator": 49,
+        "repeatedRenderDenominator": 2,
+        "repeatedEqual": true,
+        "normalizedDatesPerRender": 2,
+        "independentSemanticVisualVerificationRequired": true,
+        "crossPlatformByteEqualityClaim": false,
+        "implementationArtifacts": [
+          {
+            "path": "src/core/pdf-archive-review-profile-v1.mjs",
+            "sha256": "ad0ac06c66f8656092eb1f87a73f16f1eeebf1fe980acabf2e138e3d26025182"
+          },
+          {
+            "path": "src/core/electron-pdf-profile-port-v1.cjs",
+            "sha256": "c22c61c067746bec4fe88d0421c052198f9a35d9b3728e95141cda3997e6e325"
+          },
+          {
+            "path": "scripts/ops/r24/wp704-physical-pdf.cjs",
+            "sha256": "d25c678294c4292ae084f1c3fbf83f875b180065a334d0ad3f95849fbec77fd4"
+          }
+        ],
+        "lossLedger": {
+          "itemDenominator": 2,
+          "items": [
+            {
+              "code": "FIXED_PDF_PRINT_PROFILE",
+              "disposition": "TRANSFORMED_LOSSY",
+              "detail": "A4 fixed print form; source layout and editable document structure not retained."
+            },
+            {
+              "code": "PDF_TEXT_EXTRACTION_NOT_EXACT",
+              "disposition": "TRANSFORMED_LOSSY",
+              "detail": "Platform font CMaps can map CJK glyphs to compatibility radicals; bidi extraction can differ in order. Exact Unicode copy-paste and editable roundtrip are not claimed. Source IR and HTML remain exact."
+            }
+          ]
+        }
+      },
+      "independent": {
+        "schemaVersion": "WP704_INDEPENDENT_PDF_READBACK_V1",
+        "status": "PASS",
+        "oracle": "pypdf",
+        "oracleVersion": "6.10.0",
+        "pdfSha256": "f324812c8b33c7f3cae1cada697822b311ad7b2b9f5560061480f438a65b17d9",
+        "pageDenominator": 3,
+        "textCheckDenominator": 47,
+        "exactTextChecks": 46,
+        "declaredLossChecks": 1,
+        "failedChecks": 0,
+        "rows": [
+          {
+            "id": "paragraph-0",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-1",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-3",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-4",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-5",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-6",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-7",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-8",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-9",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-10",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-11",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-12",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-13",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-14",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-15",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-16",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-17",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-18",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-19",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-20",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-21",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-22",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-23",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-24",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-25",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-26",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-27",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-28",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-29",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-30",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-31",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-32",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-33",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-34",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-35",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-36",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-37",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-38",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-39",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "paragraph-40",
+            "disposition": "EXACT_TEXT_AFTER_LINE_REFLOW"
+          },
+          {
+            "id": "unicode-мир",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-Καλημέρα",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-café",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-العربية",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-עברית",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-😀",
+            "disposition": "EXACT_CODEPOINTS"
+          },
+          {
+            "id": "unicode-日本語",
+            "disposition": "DECLARED_TRANSFORMED_LOSSY",
+            "expectedCodepoints": [
+              "U+65E5",
+              "U+672C",
+              "U+8A9E"
+            ],
+            "observedCodepoints": [
+              "U+2F47",
+              "U+672C",
+              "U+8A9E"
+            ],
+            "rule": "EXACT_KNOWN_CMAP_COMPATIBILITY_MAPPING_NOT_GENERAL_NORMALIZATION"
+          }
+        ],
+        "pageGeometry": [
+          [
+            594.95996,
+            841.91998
+          ],
+          [
+            594.95996,
+            841.91998
+          ],
+          [
+            594.95996,
+            841.91998
+          ]
+        ],
+        "exactUnicodeRoundtripClaim": false,
+        "visualInspectionStillRequired": true
+      },
+      "visual": {
+        "schemaVersion": "WP704_PDF_VISUAL_READBACK_V1",
+        "status": "PASS",
+        "oracle": "MAIN_WRITER_DIRECT_PNG_INSPECTION_NOT_INDEPENDENT_AUDITOR",
+        "pdfSha256": "f324812c8b33c7f3cae1cada697822b311ad7b2b9f5560061480f438a65b17d9",
+        "pageDenominator": 3,
+        "pages": [
+          {
+            "page": 1,
+            "pngSha256": "6b2c2dc9d98466d61a13828778b9a83761e35d8d30851efb8c4ec740d50b5a4f",
+            "disposition": "READABLE_NO_CLIPPING_OR_OVERLAP"
+          },
+          {
+            "page": 2,
+            "pngSha256": "6278443a9800ac0dc8c4014fe807b8d57a502189956410d9bff8f55a8ce66ba5",
+            "disposition": "READABLE_NO_CLIPPING_OR_OVERLAP"
+          },
+          {
+            "page": 3,
+            "pngSha256": "4392d6b465347055ff7ba144d22ee195d9886691da370d783a6c9cb3b8ce39e1",
+            "disposition": "READABLE_NO_CLIPPING_OR_OVERLAP"
+          }
+        ],
+        "equivalenceRule": "PREVIOUS_RENDER_PNGS_REUSED_ONLY_AFTER_EXACT_PDF_SHA256_EQUALITY",
+        "pdfTaggedAccessibilityClaim": false,
+        "exactUnicodeExtractionClaim": false
+      }
+    },
+    "providerCandidateAndPostmergeEvidenceRequired": true,
+    "programDone": false
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "YALKEN_R24_WP704_STAGE_REGISTRY_V1",
+  "stageId": "WP-704_PDF_ARCHIVE_REVIEW",
+  "evidenceStampId": "ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP704_PDF_ARCHIVE_REVIEW_V1",
+  "authorityDigest": "8419a5b5eb45ea78cc201a2b9ead3f0e57a75b721807c57679edf12eb857879b",
+  "stageInstanceDigest": "8ba6431912aab50f2be949e214888dfbc1e7b03fae5661d252536fc88bf371c9",
+  "stageAdmissionDigest": "672508ae87af2e5111f9aa7e08446b721a77bf9726ca784ece2bd7e1aba18c69",
+  "writeSetDigest": "c4ee3ea64e99104bb69cd27ed54dc0a63bc07d7936b0f53c46cd17e0f9a4b363",
+  "commandScopeDigest": "55942984ae4abfb9fc14aea06fa36272b8afd13b010062af46dcc2f7d27f6dad",
+  "acceptanceSignalsDigest": "41c0ebb627d8986bede150afe70108bfff6aa760b2491b3126596459a84a6e18",
+  "selectionReceiptDigest": "71a010feebe3134db1afd9ab9a1af0503df630c5962338e9cc74eabefcc466d5",
+  "wp601TerminalPredecessorDigest": "b3cf28f727da6195abf4a7858ab08cc9e51dc45c40a2e30af052c4fcfff6b67c",
+  "effectiveGraphBaselineDigest": "c5254ffd9f598e7ffaf9daf92533aeaa07b44e5c23544eb6c7a042dec81a1067",
+  "protectedWipBeforeRawDigest": "e416b842fe751ff8753544c4a3c586c517c40177eee93466f7b98680b15683b3",
+  "sealedSourceReadDigest": "c212ec2ea2bcb10bc9fd6ac3981135bc14f8ac1eee9adb298e9e69e674b8d249",
+  "baseSha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+  "baseTree": "f5b4e63210cd820bd5bdba37c4e75990fe2b916a",
+  "lease": {
+    "fencingCounter": 80,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "f35cdca1963b8b1b9c637a5b039193e5258289f2fcb742170be95a31e21feef5"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1"
+}

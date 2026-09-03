@@ -1,0 +1,141 @@
+{
+  "schemaVersion": "YALKEN_R24_WP704_CARRIER_REGISTRY_V1",
+  "stageId": "WP-704_PDF_ARCHIVE_REVIEW",
+  "evidenceStampId": "ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "baseIdentity": {
+    "sha": "420fc31a7af6aca9c1b2aa60750b9f19e66f373d",
+    "tree": "f5b4e63210cd820bd5bdba37c4e75990fe2b916a"
+  },
+  "carrierDenominator": 26,
+  "verifiedCarrierCount": 26,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "c5a8ae3cd9093b5dfd7c4eabc57669a372327fc4b2c3d2f0a9135ce544298419"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "d2fb096e242d00b68a821136c68cc441f0dd76f72d126998f9307bafff781d2e"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "c5254ffd9f598e7ffaf9daf92533aeaa07b44e5c23544eb6c7a042dec81a1067"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "f7b8abc6d56c89059e0ba1ea872558e304e4825030779640801dbd9576f3aee8"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_FIXTURE_MANIFEST_V1.json",
+      "sha256": "259fabf3a002554ba987bdd55726849cfe1f65f59bf8cb910613c4590d45cbd7"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "8419a5b5eb45ea78cc201a2b9ead3f0e57a75b721807c57679edf12eb857879b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "71a010feebe3134db1afd9ab9a1af0503df630c5962338e9cc74eabefcc466d5"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "672508ae87af2e5111f9aa7e08446b721a77bf9726ca784ece2bd7e1aba18c69"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "8ba6431912aab50f2be949e214888dfbc1e7b03fae5661d252536fc88bf371c9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "e416b842fe751ff8753544c4a3c586c517c40177eee93466f7b98680b15683b3"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_SEALED_SOURCE_READ_RECEIPT_V1.json",
+      "sha256": "c212ec2ea2bcb10bc9fd6ac3981135bc14f8ac1eee9adb298e9e69e674b8d249"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP704_WP601_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "b3cf28f727da6195abf4a7858ab08cc9e51dc45c40a2e30af052c4fcfff6b67c"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CONTRACT.json",
+      "sha256": "f179a4f244bc345ab1836616d33e852d06d0490d515d6dc670a405bb2395052f"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-704-PDF-ARCHIVE-REVIEW-INTEGRATION.json",
+      "sha256": "72a01c97d394dca1554f6b4c11f84f335c036168fd6011b084b0bc85bdd133bb"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-704-PDF-ARCHIVE-REVIEW-MODEL.json",
+      "sha256": "996a9e970020a8c42efeb76f6c49d5eb24c3d4e9f6feebb275eecbab0f714e6a"
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-704-PDF-ARCHIVE-REVIEW-MUTANTS.json",
+      "sha256": "e8150d8e079ff879746272d259e016109967fe0d4dbf6bb370cf0a198f88d6d5"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "0abf995b126955d890da986a25259c38e258ddafc9271b215477b6e3c42bb77b"
+    },
+    {
+      "path": "scripts/ops/r24/wp704-physical-pdf.cjs",
+      "sha256": "d25c678294c4292ae084f1c3fbf83f875b180065a334d0ad3f95849fbec77fd4"
+    },
+    {
+      "path": "src/core/electron-pdf-profile-port-v1.cjs",
+      "sha256": "c22c61c067746bec4fe88d0421c052198f9a35d9b3728e95141cda3997e6e325"
+    },
+    {
+      "path": "src/core/pdf-archive-review-profile-v1.mjs",
+      "sha256": "ad0ac06c66f8656092eb1f87a73f16f1eeebf1fe980acabf2e138e3d26025182"
+    },
+    {
+      "path": "test/contracts/r24-wp704-post-audit-compatibility.contract.test.mjs",
+      "sha256": "7ddb3044b132c7c73d5cb28d5b3bcffa6db69fcde531010fee8ea537e8d0f1f0"
+    },
+    {
+      "path": "test/contracts/r24-wp704-terminal-carriers.contract.test.mjs",
+      "sha256": "eba2905fd4ce6840da3a05a85a672622e4a375031b3b74b1cc499039474f9534"
+    },
+    {
+      "path": "test/fixtures/r24-wp704-pdf-archive-review-fixtures.js",
+      "sha256": "d355de8268a619571eb6d04f2f0e08f6582c5fe5992ff645548496799f4b7e11"
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review-integration.test.js",
+      "sha256": "e5617e35dd90108976766d4c21828d4d045f059fdc5f3c578f7dff95441b8eef"
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review-mutants.test.js",
+      "sha256": "8174eb9eaea4a61d48df1e33db3f8df8140cbb775ad68405eda9d14a766316a5"
+    },
+    {
+      "path": "test/unit/r24-wp704-pdf-archive-review.test.js",
+      "sha256": "3dfc48df5c37b6773f36cca06bfb27574e32ff092650744df356cbeb4eb75a19"
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP704_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_TERMINAL_SUPPLEMENT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP704_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-704-PDF-ARCHIVE-REVIEW-CLAIM-BINDINGS.json"
+  ],
+  "exactWriteSetDenominator": 35,
+  "committedEvaluationRule": "FIRST_COMMIT_CONTAINING_THIS_IMMUTABLE_CARRIER_NOT_AMBIENT_FUTURE_HEAD",
+  "currentTreeFallbackAllowed": false
+}

@@ -6,8 +6,39 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { HISTORICAL_INVENTORY_CLAIM_PINS_V1 as PINS, verifyHistoricalInventoryClaim, lintDocsClaims } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 import { WP601_HISTORICAL_INVENTORY_ADMISSION_EXPECTATION as E, verifyWp601HistoricalInventoryPostEvaluationException } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
+import { WP601_HISTORICAL_INVENTORY_ANCHOR_REPAIR_ADMISSION_EXPECTATION as REPAIR, verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 const inventory='docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',root=process.cwd();
 const realGit=(rootDir,args)=>execFileSync('git',args,{cwd:rootDir,encoding:null});
+test('WP601 anchor repair preserves the original digest mutant and rejects incomplete or drifted nine-path successors',()=>{
+  const source=fs.readFileSync('scripts/ops/r24/docs-claim-lint.mjs','utf8');
+  const anchor="if (actual !== binding.sha256) {\n      failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);\n      continue;\n    }";
+  assert.equal(source.split(anchor).length-1,1);
+  assert(source.indexOf('const historical = verifyHistoricalInventoryClaim')<source.indexOf(anchor));
+  const repairInstance=JSON.parse(fs.readFileSync(REPAIR.instancePath));
+  const paths=[...repairInstance.operations.modifyPaths,...repairInstance.operations.createPaths].sort();
+  const candidate='f601f601f601f601f601f601f601f601f601f601',tree='a601a601a601a601a601a601a601a601a601a601';
+  const fake=({delta=paths,missing=null,drift=null,ancestor=true}={})=>(args,{encoding=null}={})=>{
+    let result;
+    if(args[0]==='rev-parse')result=Buffer.from(args[1]==='HEAD'?candidate:args[1]===REPAIR.baseSha+'^{tree}'?REPAIR.baseTree:args[1]===candidate+'^{tree}'?tree:args[1]);
+    else if(args[0]==='merge-base'){if(!ancestor)throw Error('NOT_ANCESTOR');result=Buffer.alloc(0);}
+    else if(args[0]==='diff')result=Buffer.from(delta.join('\n'));
+    else if(args[0]==='show'){
+      const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
+      if(file===missing)throw Error('MISSING');
+      result=sha===REPAIR.baseSha?realGit(root,args):fs.readFileSync(file);
+      if(file===drift)result=Buffer.concat([result,Buffer.from('\n')]);
+    }else throw Error('UNEXPECTED_GIT');
+    return encoding==='utf8'?result.toString():result;
+  };
+  const result=verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException({git:fake()});
+  assert.equal(result.status,'PASS');assert.equal(result.admittedPathDenominator,9);assert.equal(result.successorDigest,REPAIR.successorDigest);
+  assert.equal(result.sourcePlanRoles.externalSourcePlanDigest,'1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a');
+  assert.equal(result.sourcePlanRoles.compiledProgramFileDigest,'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a');
+  for(const delta of [paths.slice(1),[...paths,'src/main.js'].sort(),[...paths,paths[0]].sort()])assert.throws(()=>verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException({git:fake({delta})}),/E_WP601_ANCHOR_REPAIR_EXACT_ADMITTED_DELTA/);
+  for(const missing of repairInstance.operations.createPaths)assert.throws(()=>verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException({git:fake({missing})}));
+  for(const drift of [REPAIR.authorityPath,REPAIR.instancePath,REPAIR.admissionPath,REPAIR.successorPath,E.successorPath,'scripts/ops/r24/docs-claim-lint.mjs'])assert.throws(()=>verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException({git:fake({drift})}));
+  assert.throws(()=>verifyWp601HistoricalInventoryAnchorRepairPostEvaluationException({git:fake({ancestor:false})}),/E_WP601_ANCHOR_REPAIR_BASE_NOT_ANCESTOR/);
+});
 function inputs(pin){const stampBytes=fs.readFileSync(`docs/OPS/R24/EVIDENCE/${pin.stampId}.json`),stamp=JSON.parse(stampBytes);return{rootDir:root,stamp,stampBytes,binding:stamp.claimBindings.find(b=>b.filePath===inventory)};}
 const instance=JSON.parse(fs.readFileSync(E.instancePath)),admitted=[...instance.operations.modifyPaths,...instance.operations.createPaths].sort();
 function candidateGit({paths=admitted,missing=null,drift=null,ancestor=true}={}){
@@ -20,7 +51,9 @@ function candidateGit({paths=admitted,missing=null,drift=null,ancestor=true}={})
     else if(args[0]==='show'){
       const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
       if(file===missing)throw Error('MISSING');
-      result=sha===E.baseSha?realGit(root,args):fs.readFileSync(file);
+      // This predecessor oracle certifies its immutable introduction tree,
+      // never the later anchor-repair worktree bytes used by this test file.
+      result=realGit(root,['show',(sha===E.baseSha?E.baseSha:'894eeb0411f1d8897c5274889fe3bfdceb2c2528')+':'+file]);
       if(file===drift)result=Buffer.concat([result,Buffer.from('\n')]);
     }else throw Error('UNEXPECTED_GIT');
     return encoding==='utf8'?result.toString():result;

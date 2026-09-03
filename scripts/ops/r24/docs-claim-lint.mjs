@@ -94,11 +94,14 @@ function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, histori
       continue;
     }
     const actual = sha256hex(fs.readFileSync(normalizedTarget));
-    if (actual !== binding.sha256) {
+    if (actual !== binding.sha256 && relativePath === INVENTORY_PATH
+      && HISTORICAL_INVENTORY_CLAIM_PINS_V1.some(pin => pin.stampId === stamp.stampId)) {
       try {
         const historical = verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes: fs.readFileSync(file), binding });
         if (historical) { historicalBindings.push(historical); continue; }
       } catch (error) { failures.push(`${error.code || 'E_HISTORICAL_INVENTORY_BINDING'}:${relativePath}`); continue; }
+    }
+    if (actual !== binding.sha256) {
       failures.push(`E_CLAIM_BINDING_DIGEST_MISMATCH:${relativePath}`);
       continue;
     }

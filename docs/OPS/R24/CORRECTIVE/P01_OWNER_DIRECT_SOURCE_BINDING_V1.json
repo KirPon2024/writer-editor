@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_OWNER_DIRECT_SOURCE_BINDING_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "evidenceStampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "ownerSource": {
+    "taskId": "01a05e55-ac3b-7b42-a9a4-9586f3aa0aea",
+    "sessionBasename": "rollout-2026-09-01T21-57-48-01a05e55-ac3b-7b42-a9a4-9586f3aa0aea.jsonl",
+    "line": 10481,
+    "eventOrdinal": 10478,
+    "timestamp": "2026-09-03T09:42:29.880Z",
+    "role": "user",
+    "exactUtf8TextSha256": "1dd01a8e6d15aee424cfe10b004d3a4946e073f5f69306af3920ebf72d77ceb3",
+    "eventLineWithoutLfSha256": "e226f752d442ff18958e3d14759d6f3cd3686fdd2b78f80885e6cfbc8c18fc4a",
+    "textByteLength": 720,
+    "sourceDisclosure": "LOCATOR_AND_DIGEST_ONLY_NO_PRIVATE_MESSAGE_CONTENT"
+  },
+  "scope": "OWNER_AUTHORIZED_PROCESS_CORRECTIONS_PACKAGE_WITH_SEPARATE_EXACT_ADMISSIONS_NO_PRODUCT_SCOPE_EXPANSION",
+  "delegatedScope": {
+    "taskId": "01a054af-7d71-75f1-94a1-f6c3204fde05",
+    "sessionBasename": "rollout-2026-08-31T00-59-42-01a054af-7d71-75f1-94a1-f6c3204fde05.jsonl",
+    "line": 74519,
+    "eventOrdinal": 74518,
+    "timestamp": "2026-09-03T09:45:11.160Z"
+  },
+  "programDone": false
+}

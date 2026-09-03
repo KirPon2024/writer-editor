@@ -16,6 +16,7 @@ _Updated: 2026-08-04_
 - Documentation law: `docs/DOCUMENTATION_CONSTITUTION.md`
 - Factual context: `docs/CONTEXT.md`
 - Process: `docs/PROCESS.md`
+- R2.4 process rollout: `docs/tasks/2026-09-03--r24-process-corrections.md` owns the plan and preparation-time baseline; resolve `P01_TERMINAL_RECEIPT_V1.json` plus its separate exact external terminal verification for P01 completion. This pointer is not a product-progress increment or a replacement for fresh HEAD/canon/admission/lease checks.
 - Recent changes: `docs/WORKLOG.md`
 
 ## Reading Order

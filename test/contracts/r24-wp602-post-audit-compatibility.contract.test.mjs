@@ -20,7 +20,9 @@ function fakeGit({changedPaths=ADMITTED,baseTreeDrift=false,missingArtifact=null
     if(args[0]==='show'){
       const split=args[1].indexOf(':'),sha=args[1].slice(0,split),file=args[1].slice(split+1);
       if(file===missingArtifact)throw new Error('MISSING');
-      let bytes=sha===E.baseSha?execFileSync('git',args,{encoding:null}):fs.readFileSync(file);
+      // The completed WP602 registry certifies its own immutable tree, not
+      // the later P01 workflow/inventory compatibility changes.
+      let bytes=execFileSync('git',['show',(sha===E.baseSha?E.baseSha:'dd2e7925715b3a8a16b7b226d8c305371ae431c7')+':'+file],{encoding:null});
       if(registryMutant&&file==='docs/OPS/R24/CORRECTIVE/WP602_CARRIER_REGISTRY_V1.json'){
         const value=JSON.parse(bytes);registryMutant(value);bytes=Buffer.from(JSON.stringify(value,null,2)+'\n');
       }

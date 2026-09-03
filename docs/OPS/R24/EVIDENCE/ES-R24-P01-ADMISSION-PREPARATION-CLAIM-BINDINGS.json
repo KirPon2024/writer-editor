@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "contourId": "P01_ADMISSION_PREPARATION",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+  "originMainSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+  "generatedAtUtc": "2026-09-03T10:26:52.461Z",
+  "oracle": "Exact admitted worktree-byte claim bindings only. Base SHA is admission identity, not the tree containing future artifacts. Required local/CI/delivery and terminal predicates are not preclaimed.",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "5b777fb56ca8a7ad78704642b5935238f6804ccc664b8734bb699f97fe683c5f",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_ADMISSION_PREPARATION_OUTPUTS_V1.json",
+      "sha256": "19ba1fbf6fa6ba193d4515e976a2d114fc4bab6cb714d61d95d746535e7a3b03",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_CARRIER_REGISTRY_V1.json",
+      "sha256": "0b973353b56c5aadbb55beda0958d6566902ba6bf1e4be717f0ad2d727dc9ebb",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_EFFECTIVE_STATE_V1.json",
+      "sha256": "db62d7af23e94919181a0cc652ab10abfaf5ea9d9f45148941b880ecde119244",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_LEASE_RELEASE_V1.json",
+      "sha256": "742a75dd8ff0cd0fa14453ee07539a98df8cb7f6c225d279a2840c6f2ad1d419",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_OWNER_AUTHORITY_V1.json",
+      "sha256": "96529524a212feb3dc28c04a4b6e1df34383d0348ed2dd7e85ae09614bb9a819",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_OWNER_DIRECT_SOURCE_BINDING_V1.json",
+      "sha256": "3ec79bd228829face0cf8c0764f91494a341cdec83fd04a097b539b4b0ac1382",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_PROCESS_BASELINE_V1.json",
+      "sha256": "1014d15f91e42731aedca2de0b26c63dc5fdf95986f352e13e0585386373dbaa",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "1a17e93ad26a302b1674324a2007b1d27c4aa7fdcd89876473afb80638c44977",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ae1114bb5f060149a707c769d57341781fca25e148e4da0f99ead920f60f85b0",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_STAGE_INSTANCE_V1.json",
+      "sha256": "ea92d82beedfc8e60c72f2436c1a5df6df0e165900171296b7d7aed305086840",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_STAGE_REGISTRY_V1.json",
+      "sha256": "777cedc8a247f3bc1d8edf1c4c6034d5eeef644d02b0c22cc306152b18270734",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_TERMINAL_RECEIPT_V1.json",
+      "sha256": "87a93947f02096e4e0ee8c04d83d792cd429b5e73bfd28f2d0d43a48f0b2ed7c",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/P01_WP602_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "2595271c08a138673a43aba6276469e1c86648b819f4e97aa25f170a4e1a0d76",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "NOT_TERMINAL_ACCEPTANCE",
+    "NOT_CANDIDATE_OR_POSTMERGE_CI",
+    "NOT_PRODUCT_GRAPH_PROGRESS",
+    "NOT_USER_SCENARIO_OR_SPEEDUP_PROOF",
+    "NOT_NEW_AUTHORITY_OR_NATIVE_VERIFIER_REPLACEMENT"
+  ]
+}

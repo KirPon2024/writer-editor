@@ -1,0 +1,119 @@
+{
+  "schemaVersion": "R24_ADMISSION_PREPARATION_OUTPUTS_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "predecessorStageId": "WP-602_PROPOSAL_WORKFLOW",
+  "entries": [
+    {
+      "operation": "modify",
+      "pathTemplate": ".github/workflows/oss-policy.yml"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/HANDOFF.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "docs/PROCESS.md"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "scripts/ops/r24/corrective/post-audit-certification-set.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "scripts/ops/r24/docs-claim-lint.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "test/contracts/r24-wp602-post-audit-compatibility.contract.test.mjs"
+    },
+    {
+      "operation": "modify",
+      "pathTemplate": "test/contracts/r24-wp705-historical-inventory-claims.contract.test.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_ACCEPTANCE_MATRIX_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_ADMISSION_PREPARATION_OUTPUTS_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_CARRIER_REGISTRY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_EFFECTIVE_STATE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_GOVERNANCE_CHANGE_APPROVALS_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_LEASE_RELEASE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_OWNER_AUTHORITY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_OWNER_DIRECT_SOURCE_BINDING_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_PROCESS_BASELINE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_PROTECTED_WIP_BEFORE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_STAGE_ADMISSION_ATTESTATION_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_STAGE_INSTANCE_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_STAGE_REGISTRY_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/P01_TERMINAL_RECEIPT_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/CORRECTIVE/${stage}_${predecessor}_TERMINAL_PREDECESSOR_V1.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/OPS/R24/EVIDENCE/ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS.json"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "docs/tasks/2026-09-03--r24-process-corrections.md"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "scripts/ops/r24/corrective/admission-preparation.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "test/contracts/r24-admission-preparation.contract.test.mjs"
+    },
+    {
+      "operation": "create",
+      "pathTemplate": "test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs"
+    }
+  ]
+}

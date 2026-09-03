@@ -43,6 +43,41 @@ classes, точный scope, clean writer или delivery policy, результ
   - Merge выполняется только через PR path по канону.
 
 ## Hard Git Delivery Discipline
+
+### Admission preparation before first repository write
+
+For an R2.4 StageAdmission V2 write contour, prepare the complete output set
+through `scripts/ops/r24/corrective/admission-preparation.mjs` before applying
+the first repository edit. This is a read-only adjunct, not a new authority
+source: it invokes the caller-pinned native V2 verifier, then rechecks clean
+HEAD, tree, branch and origin/main. The owner authority, source-plan roles,
+fixed bindings and existing path/symlink/confusable laws remain mandatory.
+
+Use separate stage and actual predecessor identities. The predecessor comes
+from caller-pinned terminal bytes and their separately verified receipt,
+already bound in the admitted instance; it is not inferred from an old file
+name. Use single-pass `${stage}` and `${predecessor}` path tokens or exact
+literal paths, never chained global ID replacement. Supply every generated
+create/modify/delete path and both rename sides in
+`R24_ADMISSION_PREPARATION_OUTPUTS_V1`; omissions, extras, wrong operation
+classes and duplicate paths fail before any write.
+
+The predecessor carrier's canonical name is independently derived from both
+verified roles even for literal paths; an equally wrong admission and plan
+cannot validate one another. Shared StageInstance/Admission stage, authority,
+owner/source identity, exact Git identity and lease must also match.
+The helper does not write the files, approve their contents, expand scope,
+validate a new ZIP authority,
+or replace existing sealed-source, environment-input and delivery contracts.
+Apply only the resulting exact set under the admitted write authority;
+regenerate and revalidate before first write if the planned output changes.
+
+The bounded rollout and measured baseline are in
+`docs/tasks/2026-09-03--r24-process-corrections.md`. Historical completed
+receipts certify their own immutable commit/tree/artifacts; they never count
+as current candidate coverage. Full startup reads remain in force until the
+separate context-restoration protocol change is delivered.
+
 - Любая write-задача запускается только с явной `DELIVERY_POLICY`.
 - Канонический набор флагов: `COMMIT_REQUIRED`, `PUSH_REQUIRED`, `PR_REQUIRED`, `MERGE_REQUIRED`.
 - Если флаги не переопределены задачей, действует жёсткий режим `true/true/true/true`.

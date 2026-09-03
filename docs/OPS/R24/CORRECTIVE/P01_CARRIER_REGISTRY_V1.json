@@ -1,0 +1,128 @@
+{
+  "schemaVersion": "YALKEN_R24_P01_CARRIER_REGISTRY_V1",
+  "stageId": "P01_ADMISSION_PREPARATION",
+  "evidenceStampId": "ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "baseSha": "dd2e7925715b3a8a16b7b226d8c305371ae431c7",
+  "baseTree": "ca85eca9303d0da3b4ed6fc421baba746b1461a8",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 20,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "85ca544db72b8859a4628a7b0846e91d94e0bccd6a2bf6ada2378eb8402e5d99",
+      "byteLength": 13529
+    },
+    {
+      "path": "docs/HANDOFF.md",
+      "sha256": "051658e97660f936538515c71ea5bdcf4a9ba0084d965c1d046c7d03fc929ea9",
+      "byteLength": 66637
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "ee661b08b238afac0b64f457b8fdce1095061a219a961d0797c533d1180a1a10",
+      "byteLength": 413537
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_ADMISSION_PREPARATION_OUTPUTS_V1.json",
+      "sha256": "19ba1fbf6fa6ba193d4515e976a2d114fc4bab6cb714d61d95d746535e7a3b03",
+      "byteLength": 3549
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_OWNER_AUTHORITY_V1.json",
+      "sha256": "96529524a212feb3dc28c04a4b6e1df34383d0348ed2dd7e85ae09614bb9a819",
+      "byteLength": 19338
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_OWNER_DIRECT_SOURCE_BINDING_V1.json",
+      "sha256": "3ec79bd228829face0cf8c0764f91494a341cdec83fd04a097b539b4b0ac1382",
+      "byteLength": 1430
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_PROCESS_BASELINE_V1.json",
+      "sha256": "1014d15f91e42731aedca2de0b26c63dc5fdf95986f352e13e0585386373dbaa",
+      "byteLength": 19415
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "1a17e93ad26a302b1674324a2007b1d27c4aa7fdcd89876473afb80638c44977",
+      "byteLength": 105207
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ae1114bb5f060149a707c769d57341781fca25e148e4da0f99ead920f60f85b0",
+      "byteLength": 1778
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_STAGE_INSTANCE_V1.json",
+      "sha256": "ea92d82beedfc8e60c72f2436c1a5df6df0e165900171296b7d7aed305086840",
+      "byteLength": 19644
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/P01_WP602_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "2595271c08a138673a43aba6276469e1c86648b819f4e97aa25f170a4e1a0d76",
+      "byteLength": 145392
+    },
+    {
+      "path": "docs/PROCESS.md",
+      "sha256": "53ca9e053094c7a1a1650d36181fec30fb53d1e5f79ad6f38112d194b4732751",
+      "byteLength": 38452
+    },
+    {
+      "path": "docs/tasks/2026-09-03--r24-process-corrections.md",
+      "sha256": "5ebea21075b3bd1e30c05a285a461635ede90fa86e87f34e11d61f3f6159739a",
+      "byteLength": 6447
+    },
+    {
+      "path": "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "sha256": "04b4e13f3046535e8d4a396a29605ef1dadbc6bc1d92810e57f1fef1d29b050f",
+      "byteLength": 11927
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "a27ad427cde79e9236df15d04cc38c3bceb3390dd240ce9405c13f9c29e17c33",
+      "byteLength": 538394
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "c535829ed4917d94374fca0634dbe028d9004a860959f1580138b625e0b7bf09",
+      "byteLength": 10613
+    },
+    {
+      "path": "test/contracts/r24-admission-preparation.contract.test.mjs",
+      "sha256": "7a8c1784714f02be713f3d3eec51c9cd0d23caac4ed8bd40a611ab0669f5c7d0",
+      "byteLength": 21056
+    },
+    {
+      "path": "test/contracts/r24-p01-admission-preparation-compatibility.contract.test.mjs",
+      "sha256": "363d172bc26613789dc645d80ae83d8b7a77dd87c1254d7c5dca1789b312b420",
+      "byteLength": 10455
+    },
+    {
+      "path": "test/contracts/r24-wp602-post-audit-compatibility.contract.test.mjs",
+      "sha256": "de7bc2d8acebbd5689f8f84ac415f2c92d3db7db1eed30a8844ff8d86fa113f6",
+      "byteLength": 6404
+    },
+    {
+      "path": "test/contracts/r24-wp705-historical-inventory-claims.contract.test.mjs",
+      "sha256": "5dda35cf171edb5899668238cccbeafd154f8b0ba0b6b69ac26186f55758af4a",
+      "byteLength": 8681
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/P01_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/P01_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-P01-ADMISSION-PREPARATION-CLAIM-BINDINGS.json"
+  ]
+}

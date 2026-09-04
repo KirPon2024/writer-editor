@@ -32,10 +32,10 @@ const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGI
 function load() { return Object.fromEntries(Object.entries(paths).map(([key, file]) => [key, read(file)])); }
 
 function verify(values) {
-  assert.equal(h(bytes(paths.authority)), '00786da29691ab148317c966a14f43d3cebdddd7f546b93686c821cbbcc16d2e');
-  assert.equal(h(bytes(paths.instance)), 'ea0bda1251758d7e524d5edf3cdf1a465c4e8dce0930f3a53d62afac6ad4208d');
-  assert.equal(h(bytes(paths.admission)), 'e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030');
-  assert.equal(values.admission.writeSetDigest, '8aba630ed074fa35dfbd9103719bed86231928c24e799dbefcad6952ef8ae043');
+  assert.equal(h(bytes(paths.authority)), '81faa2dbb754f2ddd89c91a0369a86f1f84e48e8c1a37cac0b1afc4bab62299d');
+  assert.equal(h(bytes(paths.instance)), 'c585b9f8033e9312291d56692a3e1c14ad43e16496bfe0add0d5ffcea7847685');
+  assert.equal(h(bytes(paths.admission)), '53f34a1872384858d950a602b6c504587175f8529586219ae74e77e35dae020f');
+  assert.equal(values.admission.writeSetDigest, '0b976826cf2fd12b66dc5821df8ac072af37f98abc9dd922da35172909b81052');
   assert.deepEqual(values.instance.lease, { fencingCounter: 86, status: 'ACTIVE', wip: 1, predecessorReleaseDigest: '32f36dfe323cf1400b4082188a1ba78002734f6e74a8c64d97b9f6a776fc8976' });
   const { snapshotSha256, ...payload } = values.before;
   assert.equal(h(Buffer.from(JSON.stringify(payload) + '\n')), snapshotSha256);
@@ -56,8 +56,8 @@ function verify(values) {
   const admitted = [...values.instance.operations.modifyPaths, ...values.instance.operations.createPaths].sort();
   const allCarriers = [...values.registry.carriers.map((row) => row.path), ...values.registry.excludedDependentCarriers].sort();
   assert.deepEqual(allCarriers, admitted);
-  assert.equal(new Set(allCarriers).size, 42);
-  assert.equal(values.registry.carrierDenominator, 34);
+  assert.equal(new Set(allCarriers).size, 43);
+  assert.equal(values.registry.carrierDenominator, 35);
   assert.equal(values.registry.currentTreeFallbackAllowed, false);
   for (const binding of values.registry.carriers) {
     assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);

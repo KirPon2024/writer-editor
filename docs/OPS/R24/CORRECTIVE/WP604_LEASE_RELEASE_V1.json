@@ -11,10 +11,10 @@
   "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
   "bindings": {
     "predecessorReleaseDigest": "32f36dfe323cf1400b4082188a1ba78002734f6e74a8c64d97b9f6a776fc8976",
-    "acceptanceMatrixDigest": "2d5bfb3d5b844532b6701bdb5af65d7eb93c0bbe7231caeab171a46814cbe725",
-    "effectiveStateDigest": "695e207b3bd01eff827c3008c969f04b280c68baeba2490808500168c61bec16",
-    "stageRegistryDigest": "8181062fde6e3925c082ca1650cf3a594b2b886452d2ed975c12f23faf2ca92f",
-    "stageAdmissionDigest": "e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030"
+    "acceptanceMatrixDigest": "99d2deca0e888eefa902f10c6539eb38d48eaaa69e8922a095ea53f12b9fc46a",
+    "effectiveStateDigest": "25ea01f829994d7a9da41c69c9a986073a559512efd6f51a5f3ec02ad0f47c12",
+    "stageRegistryDigest": "ab806ac051ee9c54a70a12753e4c69e8a430b8a7a3bda40bca5cbf35bcaf928c",
+    "stageAdmissionDigest": "53f34a1872384858d950a602b6c504587175f8529586219ae74e77e35dae020f"
   },
   "currentLease": {
     "fencingCounter": 86,

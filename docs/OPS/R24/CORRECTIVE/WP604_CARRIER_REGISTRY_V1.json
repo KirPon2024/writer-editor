@@ -14,8 +14,8 @@
     "sha": "bf3b3c3c57e8f2268dc5f0be213c27de0002e5ff",
     "tree": "cfe9d94520d922a04c333be358875988dd15eb2e"
   },
-  "carrierDenominator": 34,
-  "verifiedCarrierCount": 34,
+  "carrierDenominator": 35,
+  "verifiedCarrierCount": 35,
   "missingCarrierCount": 0,
   "mismatchedCarrierCount": 0,
   "carriers": [
@@ -26,7 +26,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "7fd536ea4179d958c4cba8fd20b5dfc49457ed6c45e9c8f5c4b5864c820dd3d4",
+      "sha256": "ed1f50c0265e6dc52b685ad160b4a0f491b2e9726e586f9e8526442f0ca0848c",
       "byteLength": 417075
     },
     {
@@ -41,8 +41,8 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
-      "sha256": "00786da29691ab148317c966a14f43d3cebdddd7f546b93686c821cbbcc16d2e",
-      "byteLength": 10500
+      "sha256": "81faa2dbb754f2ddd89c91a0369a86f1f84e48e8c1a37cac0b1afc4bab62299d",
+      "byteLength": 10652
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
@@ -51,13 +51,13 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
-      "sha256": "e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030",
+      "sha256": "53f34a1872384858d950a602b6c504587175f8529586219ae74e77e35dae020f",
       "byteLength": 1671
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
-      "sha256": "ea0bda1251758d7e524d5edf3cdf1a465c4e8dce0930f3a53d62afac6ad4208d",
-      "byteLength": 11152
+      "sha256": "c585b9f8033e9312291d56692a3e1c14ad43e16496bfe0add0d5ffcea7847685",
+      "byteLength": 11304
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_PROTECTED_WIP_BEFORE_V1.json",
@@ -96,7 +96,7 @@
     },
     {
       "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "9dfbf4f97e9c5b6de796b342af4b2d720ff9eeb584ae55868c4c69ff285f203f",
+      "sha256": "da40730507da998f884887d65cee0b075d8500bbe0d58fbaeb30d31cd9dc9d80",
       "byteLength": 590135
     },
     {
@@ -145,13 +145,18 @@
       "byteLength": 8424
     },
     {
+      "path": "test/contracts/r24-wp603-post-audit-compatibility.contract.test.mjs",
+      "sha256": "a9e934322b0a2325d7670f21a271ee86e589262b0ee0513a69e1db1847b75bfe",
+      "byteLength": 4755
+    },
+    {
       "path": "test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs",
-      "sha256": "a2ebe1aa9f0bfa9f50b9566bd6f24b4be4d3083c7779549c29ce12055ad9ff6a",
+      "sha256": "f11cc17c578ea43036e984d3a6fb6d669636721e051d1d205e217d02689028b9",
       "byteLength": 4504
     },
     {
       "path": "test/contracts/r24-wp604-terminal-carriers.contract.test.mjs",
-      "sha256": "496a45267a833cf12e56aa68a8af51ff325f76aa27368a7a3fe1fbb4e2886dab",
+      "sha256": "155fd836d356b0595b590d357277e3967f7e57de8ab94c9e5e16429db015dd7a",
       "byteLength": 8460
     },
     {

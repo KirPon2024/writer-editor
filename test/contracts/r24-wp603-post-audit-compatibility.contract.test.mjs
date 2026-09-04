@@ -4,11 +4,13 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import {
   WP603_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
+  WP604_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   verifyWp603MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FINAL_SHA = 'f603f603f603f603f603f603f603f603f603f603';
 const FINAL_TREE = 'a603a603a603a603a603a603a603a603a603a603';
+const HISTORICAL_CANDIDATE = WP604_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha;
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? String(value) + '\n' : Buffer.from(String(value) + '\n');
@@ -33,7 +35,7 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       if (file === missingArtifact) throw new Error('MISSING');
       let bytes = sha === E.baseSha
         ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
-        : fs.readFileSync(file);
+        : execFileSync('git', ['show', `${HISTORICAL_CANDIDATE}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 });
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
         mutateJson.apply(value);

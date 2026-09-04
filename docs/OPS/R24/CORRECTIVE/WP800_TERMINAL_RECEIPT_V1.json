@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP800_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-04T18:55:24.000Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "b9b0737b56024f17595341438aba9b2722270d9b",
+    "treeSha": "a0fa1c41b866cd23a17c64083b87181a9c8ff2bb"
+  },
+  "bindings": {
+    "authorityDigest": "263f19347430b354e3b6aa86f401216b9522a7273e9b5947925191cb1c51bd67",
+    "stageInstanceDigest": "acfc5620dc03208e048f8d7d3d1ec670e937b1eda0dceacef7b223c0fdbf8444",
+    "stageAdmissionDigest": "96679cf17b8f92cb2278d4e6eae4d390b05e7176ee7717310461a963dd1489fe",
+    "writeSetDigest": "580564c9f3fcb1c1025a0c999b2c684e95f0bb607d3c7e07f7ee1768b846bf07",
+    "commandScopeDigest": "5ed42749c2ed076002edf15e084c06eed16e21e5dfd2d5944408922875475fcc",
+    "acceptanceSignalsDigest": "5ec69b1346e566196163f9322971e0ef9d0fd434ccdd42abcc2ea06170331b87",
+    "selectionReceiptDigest": "26596bf354778d1e1964e3f69ee10e907894fafff899ee5d7d4da286eaf1ed68",
+    "wp607TerminalPredecessorDigest": "4b9120dff99e5e0c05a9a5c94191d6fba218443552c4705eee22bd2cb3fbcdf3",
+    "pulseMetricPrivacyContractDigest": "5183088bdfbb3c6de4417c23e2be4ab4a2b7ce5b6e6e40f19215de34ce0a9f4c",
+    "effectiveGraphBaselineDigest": "3d3dff9980bdf30de8f0421aa265407b1e6bcead8029fe87abd79fff3960a4a5",
+    "protectedWipBeforeRawDigest": "b99d727d2fca3f72f8de2e069f031d1b3843278a26bef715fb66b495f9c8de98",
+    "fixtureManifestDigest": "6b670951eff829cbef33f01f7ad89267a9715993432a8d3a52a3b9d1cd23b495",
+    "featureIntegrationManifestDigest": "e3901e3ae18af9da177aff164717f77e09aa6c40b8a1aa5391da651eb8b474ef",
+    "acceptanceMatrixDigest": "121cff128d2afa5f553f13a1293007e9f047cad8faff117537ad3f100aaac5a3",
+    "carrierRegistryDigest": "e64305736652f18e32cac63b93e16adc79f2f7ebcb50ad54a21b019eb6cee458",
+    "effectiveStateDigest": "fa24d5fb9226975ef991fdde635e1a55f12e71228b3dcbb097fc6180bc684b1c",
+    "stageRegistryDigest": "f73dc17c15ecf8f1de74cc7245e617766bedfcb2c627cf79287ea3805c33f9de",
+    "leaseReleaseDigest": "f90fbdbc78ec988a8a925c7309d6a9a3ef0beea6e7260723dd659592cb3b13c7"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/pulse-policy-codec-v1.mjs",
+      "sha256": "b7156aa083f855c25315afc1fb84814b69f6694323f3d14b0a6c2002c61a3a3a"
+    },
+    {
+      "path": "test/fixtures/r24-wp800-pulse-policy-codec-fixtures.js",
+      "sha256": "9ffe4dca6ca19520eb2a511de5396b2e5f0d7125500d70c2c2b0d9fec1791636"
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec.test.js",
+      "sha256": "e8e6d8d30cd11b5ee7349ab881573617e13d97c76cd4df35b4e0676369a6f819"
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-integration.test.js",
+      "sha256": "3359662f378489afb3d98e92d2e6e8816544cb489e0480e5b79ab5774e7b833f"
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+      "sha256": "4a85df2332c85a8dba384deb75307a4e4e132fef6515f0ab6358e1c3298d6948"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp800": {
+      "tests": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "registeredNegativeCases": 38,
+      "rejectedNegativeCases": 38,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP800_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "714abe1fd95541c324cca4d54f7cdc721b525771ea18cb0abb049f68326ac612",
+        "byteLength": 1416,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 6,
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test --test-reporter=tap test/unit/r24-wp800-pulse-policy-codec.test.js test/unit/r24-wp800-pulse-policy-codec-integration.test.js test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDgwMCBjYW5vbmljYWwgZW5jb2RlL2RlY29kZSByb3VuZHRyaXAgcHJlc2VydmVzIGRpZ2VzdCBhbmQgY3VycmVudCByZXZpc2lvbiBiaW5kaW5nCm9rIDEgLSBXUDgwMCBjYW5vbmljYWwgZW5jb2RlL2RlY29kZSByb3VuZHRyaXAgcHJlc2VydmVzIGRpZ2VzdCBhbmQgY3VycmVudCByZXZpc2lvbiBiaW5kaW5nCiAgLS0tCiAgZHVyYXRpb25fbXM6IDkuNTM3ODc1CiAgLi4uCiMgU3VidGVzdDogV1A4MDAgZGVjb2RlIGZhaWxzIGNsb3NlZCBvbiBzdGFsZSBnZW5lcmF0aW9uIG9yIHNvdXJjZSByZXZpc2lvbgpvayAyIC0gV1A4MDAgZGVjb2RlIGZhaWxzIGNsb3NlZCBvbiBzdGFsZSBnZW5lcmF0aW9uIG9yIHNvdXJjZSByZXZpc2lvbgogIC0tLQogIGR1cmF0aW9uX21zOiAyLjYwNDQxNwogIC4uLgojIFN1YnRlc3Q6IFdQODAwIHJlamVjdHMgZXZlcnkgY29udGVudCwgaWRlbnRpdHksIHBhdGgsIG5ldHdvcmssIGV4cG9ydCBhbmQgdGVsZW1ldHJ5IGF1dGhvcml0eSBtdXRhbnQKb2sgMyAtIFdQODAwIHJlamVjdHMgZXZlcnkgY29udGVudCwgaWRlbnRpdHksIHBhdGgsIG5ldHdvcmssIGV4cG9ydCBhbmQgdGVsZW1ldHJ5IGF1dGhvcml0eSBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogNi43MzA3MDkKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMCByZWplY3RzIHJlY2VpcHQgdGFtcGVyIGFuZCBub24tY2Fub25pY2FsIG9yIGhvc3RpbGUgYnl0ZSBlbmNvZGluZ3MKb2sgNCAtIFdQODAwIHJlamVjdHMgcmVjZWlwdCB0YW1wZXIgYW5kIG5vbi1jYW5vbmljYWwgb3IgaG9zdGlsZSBieXRlIGVuY29kaW5ncwogIC0tLQogIGR1cmF0aW9uX21zOiA1LjkwODQ1OAogIC4uLgojIFN1YnRlc3Q6IFdQODAwIGNyZWF0ZXMgYSBkZXRlcm1pbmlzdGljIGltbXV0YWJsZSByZWNlaXB0IGZyb20gdGhlIGZpeGVkIGxvY2FsIGFnZ3JlZ2F0ZSBhbGxvd2xpc3QKb2sgNSAtIFdQODAwIGNyZWF0ZXMgYSBkZXRlcm1pbmlzdGljIGltbXV0YWJsZSByZWNlaXB0IGZyb20gdGhlIGZpeGVkIGxvY2FsIGFnZ3JlZ2F0ZSBhbGxvd2xpc3QKICAtLS0KICBkdXJhdGlvbl9tczogNy40OTM4MzQKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMCBjYW5vbmljYWwgcmVjZWlwdCBjb250YWlucyBvbmx5IG51bWVyaWMgYWdncmVnYXRlcyBhbmQgZml4ZWQgcG9saWN5IHN0cmluZ3MKb2sgNiAtIFdQODAwIGNhbm9uaWNhbCByZWNlaXB0IGNvbnRhaW5zIG9ubHkgbnVtZXJpYyBhZ2dyZWdhdGVzIGFuZCBmaXhlZCBwb2xpY3kgc3RyaW5ncwogIC0tLQogIGR1cmF0aW9uX21zOiAwLjQxNjkxNgogIC4uLgoxLi42CiMgdGVzdHMgNgojIHN1aXRlcyAwCiMgcGFzcyA2CiMgZmFpbCAwCiMgY2FuY2VsbGVkIDAKIyBza2lwcGVkIDAKIyB0b2RvIDAKIyBkdXJhdGlvbl9tcyA4NS4xOTk1ODQK"
+      }
+    },
+    "exactDesktopFixtureScenarios": {
+      "create": 1,
+      "write": 1,
+      "save": 1,
+      "close": 1,
+      "reopen": 1,
+      "recovery": 1,
+      "export": 1,
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 79,
+    "blockedTypedCount": 3,
+    "pendingCount": 17,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_STORAGE_COMMAND_IPC_UI_RUNTIME_NETWORK_OR_CLOUD_AUTHORITY",
+    "NO_WP800_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

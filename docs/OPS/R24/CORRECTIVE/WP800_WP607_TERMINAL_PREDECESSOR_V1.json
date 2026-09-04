@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_WP607_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "predecessorStageId": "WP-607_WSE_CLAIMS",
+  "status": "VERIFIED_RELEASED_PREDECESSOR",
+  "predecessorMergeSha": "b9b0737b56024f17595341438aba9b2722270d9b",
+  "predecessorMergeTree": "a0fa1c41b866cd23a17c64083b87181a9c8ff2bb",
+  "predecessorTerminalReceiptSha256": "44577bd6e1398cde38e428c27d03a90ea1c2db706c0ec20875cded69253232cd",
+  "predecessorTerminalArchiveSha256": "490974426291fc3250a440beb94820457ae50a263696c49e12881b6a0fa02d41",
+  "predecessorTerminalVerificationSha256": "4efc75372286c0b63486823f607e7fe73c2eb0f427243a75cb43efb7f0ba3f96",
+  "predecessorLeaseReleaseDispositionSha256": "5d6677f745c514ab7b98f38834cf0ef9c938b39c27c23b407eb7c0da368e0579",
+  "predecessorDurableReleaseSha256": "aee16f7c3aded12e3b5779a4e46ddd7d5410a69fa43b8b73e520259cd351c567",
+  "predecessorLeaseStatus": "RELEASED",
+  "predecessorWip": 0,
+  "predecessorGraphCounts": {
+    "DONE": 78,
+    "PENDING": 18,
+    "BLOCKED_TYPED": 3,
+    "INELIGIBLE_OPTIONAL": 10
+  },
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessorTerminalVerification": {
+    "status": "PASS",
+    "acceptancePassed": 27,
+    "acceptanceDenominator": 27,
+    "digestAvailableInExternalReceipt": true
+  }
+}

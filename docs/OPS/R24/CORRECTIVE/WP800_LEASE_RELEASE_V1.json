@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_LEASE_RELEASE_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "5d6677f745c514ab7b98f38834cf0ef9c938b39c27c23b407eb7c0da368e0579",
+    "acceptanceMatrixDigest": "121cff128d2afa5f553f13a1293007e9f047cad8faff117537ad3f100aaac5a3",
+    "effectiveStateDigest": "fa24d5fb9226975ef991fdde635e1a55f12e71228b3dcbb097fc6180bc684b1c",
+    "stageRegistryDigest": "f73dc17c15ecf8f1de74cc7245e617766bedfcb2c627cf79287ea3805c33f9de",
+    "stageAdmissionDigest": "96679cf17b8f92cb2278d4e6eae4d390b05e7176ee7717310461a963dd1489fe"
+  },
+  "currentLease": {
+    "fencingCounter": 91,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "5d6677f745c514ab7b98f38834cf0ef9c938b39c27c23b407eb7c0da368e0579"
+  },
+  "targetLease": {
+    "fencingCounter": 91,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "b99d727d2fca3f72f8de2e069f031d1b3843278a26bef715fb66b495f9c8de98",
+    "beforeSnapshotDigest": "3fdc1c022eea93977ecb27045ce2c0f348d6bbec9558fe5b1017bbb0e04abcbc",
+    "completeDenominator": 282,
+    "presentDenominator": 282,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 10,
+    "protectedDirtySetDenominator": 10,
+    "finalSnapshotRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_CLEAN_ENGINE_EXACT_DESKTOP_FIXTURE_SCENARIOS_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

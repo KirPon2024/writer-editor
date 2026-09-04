@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "status": "OWNER_SELECTED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-04T18:55:24.000Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "b9b0737b56024f17595341438aba9b2722270d9b",
+  "baseTree": "a0fa1c41b866cd23a17c64083b87181a9c8ff2bb",
+  "readySet": [
+    "WP-800_PULSE_POLICY_CODEC"
+  ],
+  "ownerGate": {
+    "gateId": "PULSE_METRIC_PRIVACY_ADR",
+    "decision": "APPROVED_BY_DIRECT_OWNER_DECISION",
+    "decisionArtifactSha256": "bb8a3c9392949a299132cda36dd53a6d76a23af3475c7a678783d48b1ce0bb46",
+    "authorityDigest": "263f19347430b354e3b6aa86f401216b9522a7273e9b5947925191cb1c51bd67"
+  },
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 78,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 18
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 90,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "5d6677f745c514ab7b98f38834cf0ef9c938b39c27c23b407eb7c0da368e0579"
+  },
+  "mutationAdmissionGranted": false
+}

@@ -1,0 +1,64 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-INTEGRATION",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "kind": "INTEGRATION",
+  "status": "PASS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "src/core/pulse-policy-codec-v1.mjs",
+        "sha256": "b7156aa083f855c25315afc1fb84814b69f6694323f3d14b0a6c2002c61a3a3a"
+      },
+      {
+        "path": "test/fixtures/r24-wp800-pulse-policy-codec-fixtures.js",
+        "sha256": "9ffe4dca6ca19520eb2a511de5396b2e5f0d7125500d70c2c2b0d9fec1791636"
+      },
+      {
+        "path": "test/unit/r24-wp800-pulse-policy-codec.test.js",
+        "sha256": "e8e6d8d30cd11b5ee7349ab881573617e13d97c76cd4df35b4e0676369a6f819"
+      },
+      {
+        "path": "test/unit/r24-wp800-pulse-policy-codec-integration.test.js",
+        "sha256": "3359662f378489afb3d98e92d2e6e8816544cb489e0480e5b79ab5774e7b833f"
+      },
+      {
+        "path": "test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+        "sha256": "4a85df2332c85a8dba384deb75307a4e4e132fef6515f0ab6358e1c3298d6948"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP800_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "714abe1fd95541c324cca4d54f7cdc721b525771ea18cb0abb049f68326ac612",
+      "byteLength": 1416,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test --test-reporter=tap test/unit/r24-wp800-pulse-policy-codec.test.js test/unit/r24-wp800-pulse-policy-codec-integration.test.js test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDgwMCBjYW5vbmljYWwgZW5jb2RlL2RlY29kZSByb3VuZHRyaXAgcHJlc2VydmVzIGRpZ2VzdCBhbmQgY3VycmVudCByZXZpc2lvbiBiaW5kaW5nCm9rIDEgLSBXUDgwMCBjYW5vbmljYWwgZW5jb2RlL2RlY29kZSByb3VuZHRyaXAgcHJlc2VydmVzIGRpZ2VzdCBhbmQgY3VycmVudCByZXZpc2lvbiBiaW5kaW5nCiAgLS0tCiAgZHVyYXRpb25fbXM6IDkuNTM3ODc1CiAgLi4uCiMgU3VidGVzdDogV1A4MDAgZGVjb2RlIGZhaWxzIGNsb3NlZCBvbiBzdGFsZSBnZW5lcmF0aW9uIG9yIHNvdXJjZSByZXZpc2lvbgpvayAyIC0gV1A4MDAgZGVjb2RlIGZhaWxzIGNsb3NlZCBvbiBzdGFsZSBnZW5lcmF0aW9uIG9yIHNvdXJjZSByZXZpc2lvbgogIC0tLQogIGR1cmF0aW9uX21zOiAyLjYwNDQxNwogIC4uLgojIFN1YnRlc3Q6IFdQODAwIHJlamVjdHMgZXZlcnkgY29udGVudCwgaWRlbnRpdHksIHBhdGgsIG5ldHdvcmssIGV4cG9ydCBhbmQgdGVsZW1ldHJ5IGF1dGhvcml0eSBtdXRhbnQKb2sgMyAtIFdQODAwIHJlamVjdHMgZXZlcnkgY29udGVudCwgaWRlbnRpdHksIHBhdGgsIG5ldHdvcmssIGV4cG9ydCBhbmQgdGVsZW1ldHJ5IGF1dGhvcml0eSBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogNi43MzA3MDkKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMCByZWplY3RzIHJlY2VpcHQgdGFtcGVyIGFuZCBub24tY2Fub25pY2FsIG9yIGhvc3RpbGUgYnl0ZSBlbmNvZGluZ3MKb2sgNCAtIFdQODAwIHJlamVjdHMgcmVjZWlwdCB0YW1wZXIgYW5kIG5vbi1jYW5vbmljYWwgb3IgaG9zdGlsZSBieXRlIGVuY29kaW5ncwogIC0tLQogIGR1cmF0aW9uX21zOiA1LjkwODQ1OAogIC4uLgojIFN1YnRlc3Q6IFdQODAwIGNyZWF0ZXMgYSBkZXRlcm1pbmlzdGljIGltbXV0YWJsZSByZWNlaXB0IGZyb20gdGhlIGZpeGVkIGxvY2FsIGFnZ3JlZ2F0ZSBhbGxvd2xpc3QKb2sgNSAtIFdQODAwIGNyZWF0ZXMgYSBkZXRlcm1pbmlzdGljIGltbXV0YWJsZSByZWNlaXB0IGZyb20gdGhlIGZpeGVkIGxvY2FsIGFnZ3JlZ2F0ZSBhbGxvd2xpc3QKICAtLS0KICBkdXJhdGlvbl9tczogNy40OTM4MzQKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMCBjYW5vbmljYWwgcmVjZWlwdCBjb250YWlucyBvbmx5IG51bWVyaWMgYWdncmVnYXRlcyBhbmQgZml4ZWQgcG9saWN5IHN0cmluZ3MKb2sgNiAtIFdQODAwIGNhbm9uaWNhbCByZWNlaXB0IGNvbnRhaW5zIG9ubHkgbnVtZXJpYyBhZ2dyZWdhdGVzIGFuZCBmaXhlZCBwb2xpY3kgc3RyaW5ncwogIC0tLQogIGR1cmF0aW9uX21zOiAwLjQxNjkxNgogIC4uLgoxLi42CiMgdGVzdHMgNgojIHN1aXRlcyAwCiMgcGFzcyA2CiMgZmFpbCAwCiMgY2FuY2VsbGVkIDAKIyBza2lwcGVkIDAKIyB0b2RvIDAKIyBkdXJhdGlvbl9tcyA4NS4xOTk1ODQK"
+    }
+  },
+  "test": {
+    "denominator": 2,
+    "passed": 2,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "claim": {
+    "ceiling": "WP800_NODE_ONLY",
+    "canonicalRoundtrip": true,
+    "revisionAndGenerationGuard": true,
+    "runtimeNetwork": false
+  }
+}

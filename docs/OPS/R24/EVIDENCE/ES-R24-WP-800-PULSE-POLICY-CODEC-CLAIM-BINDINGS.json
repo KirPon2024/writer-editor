@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "contourId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "b9b0737b56024f17595341438aba9b2722270d9b",
+  "originMainSha": "b9b0737b56024f17595341438aba9b2722270d9b",
+  "generatedAtUtc": "2026-09-04T18:55:24.000Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "3d3dff9980bdf30de8f0421aa265407b1e6bcead8029fe87abd79fff3960a4a5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "e3901e3ae18af9da177aff164717f77e09aa6c40b8a1aa5391da651eb8b474ef",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "26596bf354778d1e1964e3f69ee10e907894fafff899ee5d7d4da286eaf1ed68",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_PULSE_METRIC_PRIVACY_CONTRACT_V1.json",
+      "sha256": "5183088bdfbb3c6de4417c23e2be4ab4a2b7ce5b6e6e40f19215de34ce0a9f4c",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_TERMINAL_RECEIPT_V1.json",
+      "sha256": "1eb0f17ac9e5007f2f2f84552ce5f677e3c5428f5ef2418a9b5b141eba7b6395",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP800_WP607_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "4b9120dff99e5e0c05a9a5c94191d6fba218443552c4705eee22bd2cb3fbcdf3",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-policy-codec-v1.mjs",
+      "sha256": "b7156aa083f855c25315afc1fb84814b69f6694323f3d14b0a6c2002c61a3a3a",
+      "terms": [
+        "WP800_LOCAL_AGGREGATE_PRIVACY_CODEC"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp800-pulse-policy-codec-fixtures.js",
+      "sha256": "9ffe4dca6ca19520eb2a511de5396b2e5f0d7125500d70c2c2b0d9fec1791636",
+      "terms": [
+        "WP800_LOCAL_AGGREGATE_PRIVACY_CODEC"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec.test.js",
+      "sha256": "e8e6d8d30cd11b5ee7349ab881573617e13d97c76cd4df35b4e0676369a6f819",
+      "terms": [
+        "WP800_LOCAL_AGGREGATE_PRIVACY_CODEC"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-integration.test.js",
+      "sha256": "3359662f378489afb3d98e92d2e6e8816544cb489e0480e5b79ab5774e7b833f",
+      "terms": [
+        "WP800_LOCAL_AGGREGATE_PRIVACY_CODEC"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+      "sha256": "4a85df2332c85a8dba384deb75307a4e4e132fef6515f0ab6358e1c3298d6948",
+      "terms": [
+        "WP800_LOCAL_AGGREGATE_PRIVACY_CODEC"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test --test-reporter=tap test/unit/r24-wp800-pulse-policy-codec.test.js test/unit/r24-wp800-pulse-policy-codec-integration.test.js test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 6,
+        "fail": 0
+      }
+    },
+    {
+      "command": "registered hostile inputs",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 38,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_STORAGE_COMMAND_IPC_UI_RUNTIME_NETWORK_OR_CLOUD_AUTHORITY",
+    "NO_WP800_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

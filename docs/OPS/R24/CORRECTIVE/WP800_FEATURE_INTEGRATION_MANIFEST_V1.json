@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "CALLER_SUPPLIED_LOCAL_NUMERIC_AGGREGATES_UNDER_FIXED_OWNER_POLICY",
+    "mutation": "NONE_PURE_CODEC"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.pulseLocalAggregateReceiptCodec"
+    ],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "PURE_IN_PROCESS_PRODUCT_CORE_CODEC_RETURN_VALUE"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schema": "yalken.r24.pulseLocalAggregateReceipt.v1",
+    "immutable": true,
+    "identityGuards": [
+      "sourceRevisionOrdinal",
+      "generation",
+      "payloadDigest"
+    ],
+    "metricDenominator": 5,
+    "maximumBytes": 4096
+  },
+  "fallbacks": [
+    "DENY_UNKNOWN_METRIC",
+    "DENY_UNKNOWN_FIELD",
+    "DENY_NONCANONICAL_BYTES",
+    "DENY_TAMPER",
+    "DENY_STALE_REVISION_OR_GENERATION"
+  ],
+  "recovery": "RECREATE_FROM_CURRENT_LOCAL_AGGREGATE_INPUT",
+  "performance": {
+    "maxMetrics": 5,
+    "maxReceiptBytes": 4096,
+    "maxAggregateValue": 1000000000
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "CONTENT",
+    "IDENTITY",
+    "PATH",
+    "NETWORK",
+    "EXPORT",
+    "TELEMETRY",
+    "UNKNOWN_METRIC",
+    "DUPLICATE_METRIC",
+    "EXTRA_FIELD",
+    "NONINTEGER",
+    "OVERSIZE",
+    "NONCANONICAL",
+    "DIGEST_TAMPER",
+    "STALE_REVISION",
+    "STALE_GENERATION"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

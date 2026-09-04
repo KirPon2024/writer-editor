@@ -1,0 +1,72 @@
+{
+  "schemaVersion": "YALKEN_R24_WP710_EXPORT_CONTRACT_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "evidenceStampId": "ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "productOutcome": "ATLAS_WSE_PULSE_EVIDENCE_METADATA_AS_DETERMINISTIC_EVIDENCE_IR_BYTES",
+  "inputContract": {
+    "exactFields": [
+      "capsuleId",
+      "currentIdentity",
+      "expectedIdentity",
+      "records",
+      "requestedProfiles"
+    ],
+    "identity": [
+      "entityId",
+      "generation",
+      "projectId",
+      "sourceRevision"
+    ],
+    "profiles": [
+      "ATLAS",
+      "PULSE",
+      "WSE"
+    ],
+    "recordMetadataOnly": [
+      "anchorIds",
+      "evidenceDigest",
+      "evidenceId",
+      "evidenceKind",
+      "generation",
+      "profileId",
+      "projectId",
+      "sourceRevision",
+      "status"
+    ]
+  },
+  "outputContract": {
+    "envelopeSchema": "yalken.interchange.ir-envelope.v1",
+    "familySchema": "yalken.interchange.evidence-ir.v1",
+    "payloadSchema": "yalken.interchange.evidence-capsule.v1",
+    "canonicalUtf8Lf": true,
+    "profileAvailability": "AVAILABLE_OR_UNAVAILABLE_EXPLICIT"
+  },
+  "authority": {
+    "productMutation": false,
+    "command": false,
+    "path": false,
+    "provider": false,
+    "artifactPublication": false
+  },
+  "security": {
+    "sourceContent": false,
+    "secretMaterial": false,
+    "positiveMetadataAllowlist": true,
+    "secretLikeIdentifiersRejected": true,
+    "runtimeNetwork": false
+  },
+  "bounds": {
+    "records": 4096,
+    "anchorsPerRecord": 128,
+    "envelopeBytes": 1048576,
+    "profiles": 3
+  },
+  "physicalEffect": "CALLER_OWNED_LOCAL_ARTIFACT_EFFECT_ONLY",
+  "rollback": "REVERT_SINGLE_WP710_MERGE"
+}

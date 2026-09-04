@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "YALKEN_R24_WP710_WP605_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "predecessorStageId": "WP-605_WSE_REVISION_TIME_OBJECT",
+  "status": "VERIFIED_RELEASED_PREDECESSOR",
+  "predecessorMergeSha": "725b47c254895a5075c381ce5182592a40c31b45",
+  "predecessorMergeTree": "d81b51239ef10aa03ae57a96ac0e9ddc5d809d7b",
+  "predecessorTerminalReceiptSha256": "c1155ae04027b00d33bcf7d47aa3b6d0241895aa712973c1706c8f94ba903222",
+  "predecessorTerminalArchiveSha256": "8ac7495d38dddf0dcf55b72022f7db47c09b09a2ef8f2677cd0e8af4b53f9269",
+  "predecessorTerminalVerificationSha256": "34466a6964e1dd74f82f05b93833b699c25cf15a766f24a4436099d4978d72ca",
+  "predecessorLeaseReleaseDispositionSha256": "d87ca4ba2f91029ccaf14447a71ba17e565dfd1fe08220bea6fe497b44ba2f39",
+  "predecessorDurableReleaseSha256": "a0abe8714fc5c6024643a652bfacfadc2669aadd2cd4fe4ac0f6fbc5241a01b7",
+  "predecessorLeaseStatus": "RELEASED",
+  "predecessorWip": 0,
+  "predecessorGraphCounts": {
+    "DONE": 75,
+    "PENDING": 21,
+    "BLOCKED_TYPED": 3,
+    "INELIGIBLE_OPTIONAL": 10
+  },
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "predecessorTerminalVerification": {
+    "status": "VERIFIED_TERMINAL",
+    "acceptancePassed": 23,
+    "acceptanceDenominator": 23,
+    "digestAvailableInExternalReceipt": true
+  }
+}

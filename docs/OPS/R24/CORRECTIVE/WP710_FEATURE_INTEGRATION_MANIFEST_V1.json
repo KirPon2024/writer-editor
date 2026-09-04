@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "evidenceStampId": "ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "INTERCHANGE_ADAPTER_AUTHORITY",
+    "sourceTruth": "PRODUCT_CORE_AND_VERIFIED_DERIVED_EVIDENCE_METADATA",
+    "mutation": "NONE"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "READ_CURRENT_ATLAS_WSE_PULSE_EVIDENCE_METADATA"
+    ],
+    "events": [],
+    "effects": [
+      "CALLER_OWNED_LOCAL_ARTIFACT_WRITE"
+    ],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "PURE_EVIDENCE_CAPSULE_BYTES_RETURN_VALUE"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schema": "yalken.interchange.evidence-capsule.v1",
+    "immutable": true,
+    "identityGuards": [
+      "projectId",
+      "entityId",
+      "sourceRevision",
+      "generation"
+    ]
+  },
+  "fallbacks": [
+    "EXPLICIT_UNAVAILABLE_PROFILE",
+    "TYPED_REJECTION_NO_OUTPUT"
+  ],
+  "recovery": "DETERMINISTIC_REBUILD_FROM_CURRENT_METADATA",
+  "performance": {
+    "maxRecords": 4096,
+    "maxAnchorsPerRecord": 128,
+    "maxEnvelopeBytes": 1048576
+  },
+  "accessibility": "NOT_APPLICABLE_NO_UI_CHANGE",
+  "negativeProofs": [
+    "STALE_IDENTITY",
+    "FORBIDDEN_FIELD",
+    "SECRET_LIKE_IDENTIFIER",
+    "AUTHORITY_OVERCLAIM",
+    "ACCOUNTING_TAMPER",
+    "NON_CANONICAL_BYTES"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

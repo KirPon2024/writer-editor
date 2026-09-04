@@ -4810,6 +4810,21 @@ body.dark-theme [data-right-panel-atlas]:not([hidden]) {
   border-inline-start: 2px solid rgba(138, 111, 46, 0.5);
 }
 
+.right-rail-atlas-wse-thread-heading {
+  margin-top: 8px;
+}
+
+.right-rail-atlas-wse-thread-row[data-wse-thread-status="REVIEW"],
+.right-rail-atlas-wse-thread-row[data-wse-thread-status="BROKEN"],
+.right-rail-atlas-wse-thread-row[data-wse-thread-status="CONTRADICTORY"] {
+  border-inline-start: 2px solid rgba(138, 111, 46, 0.5);
+}
+
+.right-rail-atlas-wse-thread-row[data-wse-thread-status="UNKNOWN"],
+.right-rail-atlas-wse-thread-row[data-wse-thread-status="ABSTAIN"] {
+  border-inline-start: 2px solid var(--divider);
+}
+
 .right-rail-atlas-heatmap td[data-atlas-heatmap-tile="true"] {
   text-align: center;
   color: var(--atlas-rail-muted);

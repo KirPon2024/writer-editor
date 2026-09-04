@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "YALKEN_R24_WP604_CARRIER_REGISTRY_V1",
+  "stageId": "WP-604_WSE_THREADS_EXPLANATION",
+  "evidenceStampId": "ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "baseIdentity": {
+    "sha": "bf3b3c3c57e8f2268dc5f0be213c27de0002e5ff",
+    "tree": "cfe9d94520d922a04c333be358875988dd15eb2e"
+  },
+  "carrierDenominator": 33,
+  "verifiedCarrierCount": 33,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "67f9d50da0266140e52a7be16ff28d99b037656c828d344eb611e5ad9fbb9d72",
+      "byteLength": 14815
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "d35320e785790c3b82d4605bd83659ca305a0f68de5e09595d564aee248750e6",
+      "byteLength": 417075
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "8265e6f6fc0c35839365822b22523dd0e2d090737ee3b6205d56ef98e97804b0",
+      "byteLength": 5921
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_FIXTURE_MANIFEST_V1.json",
+      "sha256": "46223b499ff5801fba74796afa8bab3b57355c54f0ad591c39c7062e46a8ec4c",
+      "byteLength": 1337
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "238dc44fb7dce0caf1aa363ff835f3f14f536ea9f46662759ca6309fd65c94e7",
+      "byteLength": 10275
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "d02f255749fde605634a465568b426a4e4eb7bb130ff14855da6fe385bc1d184",
+      "byteLength": 944
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980",
+      "byteLength": 1671
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "5a1b15eff2ff94a63c74e17d78bfaddcded9ba791dd57eeb35e42e387d98e794",
+      "byteLength": 10927
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "59bc01e668e59e0d9c94068253d576937fbfde56aa7c81ee0067b70c9f7fe35a",
+      "byteLength": 107303
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "74297a29ba75dd9c6c9e40fa2ce4db2e22a98b726b6254b0803c38f7389faa34",
+      "byteLength": 1827
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP604_WP603_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "23f8e738358cf3a6f765cfbf030190d57e0c40ce1381bdf463095375d9dd3386",
+      "byteLength": 1259
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-CONTRACT.json",
+      "sha256": "e6d613a3ef0d7484d92ba64559b1ad42d56ecafa03ca8f7c1afb1b99dd0c69b8",
+      "byteLength": 6960
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-INTEGRATION.json",
+      "sha256": "42fb8fe37a7f8c15b97ba68f6dde314a8704a91692e28bf0bc013531d5dd22a3",
+      "byteLength": 6964
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-MODEL.json",
+      "sha256": "112b716aabb006e43a94bd0fffd057e3175f059b58646109005b44a5b694d707",
+      "byteLength": 6952
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-MUTANTS.json",
+      "sha256": "4bed23f2110aba23d40615e2734f025703eccd99db4c15150d8595d053a7daf6",
+      "byteLength": 6958
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "378a9768b407263aae91934be6d890214014807d6b635079d3844a5634e33a5e",
+      "byteLength": 590135
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "b1a90b1a74c208e5bbbe38ead229aaf01c7083330214f6380c4c9090f305bfed",
+      "byteLength": 11935
+    },
+    {
+      "path": "scripts/ops/r24/tests/wp603-recovery-post-audit.test.mjs",
+      "sha256": "953c93519fdd132ecf3e665d070ac4a373f91e05fc0fa99da5584b8340d1e38a",
+      "byteLength": 3076
+    },
+    {
+      "path": "src/core/wse-threads-explanation-v1.mjs",
+      "sha256": "3c59b7328273f50d087982b1f2e32b327790b609afe0e46cc5c65111eed0db2c",
+      "byteLength": 24749
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "0c967d24319ff22466ff86eaa5f6dc20b43dc2c5d6dbdd4d7a0b133baeeda66f",
+      "byteLength": 16995
+    },
+    {
+      "path": "src/renderer/atlasWseThreadsExplanationPresentationModel.mjs",
+      "sha256": "41b796a4bb78cccddd186469fcd9b4ada6900ee6ab211290844adb3dae55f369",
+      "byteLength": 2303
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "f456a1503ca2a269d916e32fe6519b4d1a5713ba66ddf9972685068397e94100",
+      "byteLength": 1317236
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "b22ea774845b2376e1c8ecd76b2bd32878fdaa2c7b7a8e459416d8781e2ca561",
+      "byteLength": 931801
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "4b7efec6c9e4a550fff9c8d012db9de95a7dad9bc03820e59a5ce20f85f107d1",
+      "byteLength": 221421
+    },
+    {
+      "path": "test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs",
+      "sha256": "8b71500bc10fafeac264b048a2ee44b9bbfe306d91d7013feb2a98918d990673",
+      "byteLength": 4504
+    },
+    {
+      "path": "test/contracts/r24-wp604-terminal-carriers.contract.test.mjs",
+      "sha256": "212ccc2feeaac8cdf494c7f89ffe1c3a683a5521fd4d40f25c137584edd4b723",
+      "byteLength": 8900
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "a8fdcc1a7c46e05f79fec3507a7fb3fea7c372b4cc2050458b8a6493b7ecd406",
+      "byteLength": 94253
+    },
+    {
+      "path": "test/fixtures/r24-wp604-wse-threads-explanation-fixtures.js",
+      "sha256": "61c8e5b8c4de8a2313b46df25a2df0de318820d27e0200202aa87613b8620596",
+      "byteLength": 5828
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "e9847f52d4ec3c74ce41d5168241473b6958987fa4b89b0874310cc260cb39c5",
+      "byteLength": 5897
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-integration.test.js",
+      "sha256": "cb7baa7bc3d0afb41b9737287fd1e6581f0284767e9e78f42334d71545dc4b4a",
+      "byteLength": 4908
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-mutants.test.js",
+      "sha256": "240c15e842c036619d73a23b6cd7243e75dbf1ad32545bd16cb560ba74a26185",
+      "byteLength": 3488
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-ui-e2e-smoke.mjs",
+      "sha256": "e9176ec6719d4f6d0d0a7d08d4561e04427beeb598cbfc297dbeec6f4c2ccbf0",
+      "byteLength": 1226
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js",
+      "sha256": "312237256c5bb7700a4e3a3adad4e0249221f918fc89bb279e4e95fd428fe315",
+      "byteLength": 5898
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP604_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP604_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS.json"
+  ],
+  "currentTreeFallbackAllowed": false
+}

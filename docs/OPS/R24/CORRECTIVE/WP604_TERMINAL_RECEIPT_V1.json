@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "YALKEN_R24_WP604_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-604_WSE_THREADS_EXPLANATION",
+  "evidenceStampId": "ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP604_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-04T04:25:00Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "bf3b3c3c57e8f2268dc5f0be213c27de0002e5ff",
+    "treeSha": "cfe9d94520d922a04c333be358875988dd15eb2e"
+  },
+  "bindings": {
+    "authorityDigest": "238dc44fb7dce0caf1aa363ff835f3f14f536ea9f46662759ca6309fd65c94e7",
+    "stageInstanceDigest": "5a1b15eff2ff94a63c74e17d78bfaddcded9ba791dd57eeb35e42e387d98e794",
+    "stageAdmissionDigest": "696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980",
+    "writeSetDigest": "4b1fa4e650c91406de84045a3c526e2153bc8398362f71cbf96f299c4b3dc1ad",
+    "selectionReceiptDigest": "d02f255749fde605634a465568b426a4e4eb7bb130ff14855da6fe385bc1d184",
+    "wp603TerminalPredecessorDigest": "23f8e738358cf3a6f765cfbf030190d57e0c40ce1381bdf463095375d9dd3386",
+    "effectiveGraphBaselineDigest": "8265e6f6fc0c35839365822b22523dd0e2d090737ee3b6205d56ef98e97804b0",
+    "protectedWipBeforeRawDigest": "59bc01e668e59e0d9c94068253d576937fbfde56aa7c81ee0067b70c9f7fe35a",
+    "fixtureManifestDigest": "46223b499ff5801fba74796afa8bab3b57355c54f0ad591c39c7062e46a8ec4c",
+    "carrierRegistryDigest": "bc71d80debade0797e9c976731a07fedc7461cab870cd26fa032fb276fa5a8a8",
+    "acceptanceMatrixDigest": "c8ee12b6a802152c1b3f89f512c71585ae5c18f48ca74accb6662cdfd120dfee",
+    "effectiveStateDigest": "29df7693259c8d5154087ba83482f3d9072458093dbb68f72d1b15cb19e1b95e",
+    "stageRegistryDigest": "a84a933caffaba09e4031f970a4266834bfb60e9b9463d94c9fa2d6297c7ca62",
+    "leaseReleaseDigest": "b4fa4c80826f0b4cc390f9b3f0cb7f6d40d714e18a613fb2e558272257f39520"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/wse-threads-explanation-v1.mjs",
+      "sha256": "3c59b7328273f50d087982b1f2e32b327790b609afe0e46cc5c65111eed0db2c"
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "0c967d24319ff22466ff86eaa5f6dc20b43dc2c5d6dbdd4d7a0b133baeeda66f"
+    },
+    {
+      "path": "src/renderer/atlasWseThreadsExplanationPresentationModel.mjs",
+      "sha256": "41b796a4bb78cccddd186469fcd9b4ada6900ee6ab211290844adb3dae55f369"
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "b22ea774845b2376e1c8ecd76b2bd32878fdaa2c7b7a8e459416d8781e2ca561"
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "f456a1503ca2a269d916e32fe6519b4d1a5713ba66ddf9972685068397e94100"
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "4b7efec6c9e4a550fff9c8d012db9de95a7dad9bc03820e59a5ce20f85f107d1"
+    },
+    {
+      "path": "test/fixtures/r24-wp604-wse-threads-explanation-fixtures.js",
+      "sha256": "61c8e5b8c4de8a2313b46df25a2df0de318820d27e0200202aa87613b8620596"
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js",
+      "sha256": "312237256c5bb7700a4e3a3adad4e0249221f918fc89bb279e4e95fd428fe315"
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-integration.test.js",
+      "sha256": "cb7baa7bc3d0afb41b9737287fd1e6581f0284767e9e78f42334d71545dc4b4a"
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-mutants.test.js",
+      "sha256": "240c15e842c036619d73a23b6cd7243e75dbf1ad32545bd16cb560ba74a26185"
+    },
+    {
+      "path": "test/unit/r24-wp604-wse-threads-explanation-ui-e2e-smoke.mjs",
+      "sha256": "e9176ec6719d4f6d0d0a7d08d4561e04427beeb598cbfc297dbeec6f4c2ccbf0"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp604": {
+      "tests": 11,
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0,
+      "registeredHostileCases": 13,
+      "rejectedHostileCases": 13,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP604_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "95dc42d8000f59ad36a2590f26115edf7946f118f055d4434757a6232a3198c1",
+        "byteLength": 2679,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 11,
+        "passed": 11,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test --test-reporter=tap test/unit/r24-wp604-wse-threads-explanation.test.js test/unit/r24-wp604-wse-threads-explanation-integration.test.js test/unit/r24-wp604-wse-threads-explanation-mutants.test.js test/unit/r24-wp604-wse-threads-explanation-ui-e2e-smoke.mjs",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwNCBleGlzdGluZyBDb250aW51aXR5IHF1ZXJ5IGRlcml2ZXMgYW4gZXZpZGVuY2UtYm91bmQgc2V0dXAvcGF5b2ZmIGJvYXJkIGZyb20gYXV0aG9yZWQgcHJvamVjdCBmYWN0cwpvayAxIC0gV1A2MDQgZXhpc3RpbmcgQ29udGludWl0eSBxdWVyeSBkZXJpdmVzIGFuIGV2aWRlbmNlLWJvdW5kIHNldHVwL3BheW9mZiBib2FyZCBmcm9tIGF1dGhvcmVkIHByb2plY3QgZmFjdHMKICAtLS0KICBkdXJhdGlvbl9tczogNTEuMjA5NzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNCByZW5kZXJlciBtb2RlbCBrZWVwcyBhbGwgbmF0aXZlIHZpZXdzLCBob25lc3QgY291bnRzIGFuZCBhdXRob3JlZCBldmlkZW5jZSByb3V0ZXMKb2sgMiAtIFdQNjA0IHJlbmRlcmVyIG1vZGVsIGtlZXBzIGFsbCBuYXRpdmUgdmlld3MsIGhvbmVzdCBjb3VudHMgYW5kIGF1dGhvcmVkIGV2aWRlbmNlIHJvdXRlcwogIC0tLQogIGR1cmF0aW9uX21zOiAxLjU4MjI5MgogIC4uLgojIFN1YnRlc3Q6IFdQNjA0IHJlbmRlcmVyIHdpcmluZyBhZGRzIG5vIHByb2R1Y3QgY29tbWFuZCwgcGVyc2lzdGVuY2UsIG5ldHdvcmsgb3IgaW1wbGljaXQgcmVsYXRpb24gYXV0aG9yaXR5Cm9rIDMgLSBXUDYwNCByZW5kZXJlciB3aXJpbmcgYWRkcyBubyBwcm9kdWN0IGNvbW1hbmQsIHBlcnNpc3RlbmNlLCBuZXR3b3JrIG9yIGltcGxpY2l0IHJlbGF0aW9uIGF1dGhvcml0eQogIC0tLQogIGR1cmF0aW9uX21zOiAyLjkxNTc5MgogIC4uLgojIFN1YnRlc3Q6IFdQNjA0IHJlamVjdHMgYWxsIDEzIHJlZ2lzdGVyZWQgYm91bmRhcnksIGFkdmVyc2FyaWFsIGFuZCBjb3VudGVyZXhhbXBsZSBtdXRhbnRzCm9rIDQgLSBXUDYwNCByZWplY3RzIGFsbCAxMyByZWdpc3RlcmVkIGJvdW5kYXJ5LCBhZHZlcnNhcmlhbCBhbmQgY291bnRlcmV4YW1wbGUgbXV0YW50cwogIC0tLQogIGR1cmF0aW9uX21zOiAyMzYuNDIxNjY3CiAgLi4uCiMgU3VidGVzdDogV1A2MDQgY3VycmVudCBpZGVudGl0eSByZWplY3RzIHN0YWxlLCBjcm9zcy1wcm9qZWN0IGFuZCBkaWdlc3QtdGFtcGVyZWQgcHJvamVjdGlvbnMKb2sgNSAtIFdQNjA0IGN1cnJlbnQgaWRlbnRpdHkgcmVqZWN0cyBzdGFsZSwgY3Jvc3MtcHJvamVjdCBhbmQgZGlnZXN0LXRhbXBlcmVkIHByb2plY3Rpb25zCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE2LjU2MDQ1OAogIC4uLgojIFN1YnRlc3Q6IFdQNjA0IGJ1aWx0IENvbnRpbnVpdHkgc3VyZmFjZSBleHBvc2VzIGZvdXIga2V5Ym9hcmQtcmVhZGFibGUgc3RvcnktdGhyZWFkIHZpZXdzCm9rIDYgLSBXUDYwNCBidWlsdCBDb250aW51aXR5IHN1cmZhY2UgZXhwb3NlcyBmb3VyIGtleWJvYXJkLXJlYWRhYmxlIHN0b3J5LXRocmVhZCB2aWV3cwogIC0tLQogIGR1cmF0aW9uX21zOiA0LjA2MjA4MwogIC4uLgojIFN1YnRlc3Q6IFdQNjA0IGV4cG9zZXMgYm91bmRlZCBzZXR1cC9wYXlvZmYsIGRlcGVuZGVuY3ksIENhbm9uIENJIGFuZCB3aHkgdmlld3MgZnJvbSBleHBsaWNpdCBldmlkZW5jZQpvayA3IC0gV1A2MDQgZXhwb3NlcyBib3VuZGVkIHNldHVwL3BheW9mZiwgZGVwZW5kZW5jeSwgQ2Fub24gQ0kgYW5kIHdoeSB2aWV3cyBmcm9tIGV4cGxpY2l0IGV2aWRlbmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQ3LjI1MjA0MgogIC4uLgojIFN1YnRlc3Q6IFdQNjA0IHdoeSBvciB3aHktbm90IHJldHVybnMgZXhwbGljaXQgZGlyZWN0IGV2aWRlbmNlIGFuZCBuZXZlciBpbmZlcnMgYSB0cmFuc2l0aXZlIGVkZ2UKb2sgOCAtIFdQNjA0IHdoeSBvciB3aHktbm90IHJldHVybnMgZXhwbGljaXQgZGlyZWN0IGV2aWRlbmNlIGFuZCBuZXZlciBpbmZlcnMgYSB0cmFuc2l0aXZlIGVkZ2UKICAtLS0KICBkdXJhdGlvbl9tczogMTYuNjU2NTQyCiAgLi4uCiMgU3VidGVzdDogV1A2MDQgYWJzZW50IGNhdXNhbCBzb3VyY2Ugc3RheXMgdW5rbm93biBldmVuIHdoZW4gcHJvbWlzZSBmYWN0cyBoYXZlIHJlbGF0ZWQgZW50aXRpZXMKb2sgOSAtIFdQNjA0IGFic2VudCBjYXVzYWwgc291cmNlIHN0YXlzIHVua25vd24gZXZlbiB3aGVuIHByb21pc2UgZmFjdHMgaGF2ZSByZWxhdGVkIGVudGl0aWVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuNjcyNzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNCByb3cgYnVkZ2V0IHJlcG9ydHMgY29tcGxldGUgZGVub21pbmF0b3JzIGFuZCBxdWVyeSBhYnN0YWlucyBiZXlvbmQgdGhlIHZpc2libGUgYm91bmQKb2sgMTAgLSBXUDYwNCByb3cgYnVkZ2V0IHJlcG9ydHMgY29tcGxldGUgZGVub21pbmF0b3JzIGFuZCBxdWVyeSBhYnN0YWlucyBiZXlvbmQgdGhlIHZpc2libGUgYm91bmQKICAtLS0KICBkdXJhdGlvbl9tczogMjMuODE3CiAgLi4uCiMgU3VidGVzdDogV1A2MDQgZmVhdHVyZSBhbmQgc3VyZmFjZSBtYW5pZmVzdHMga2VlcCB0aGUgZXhpc3RpbmcgcmVhZC1vbmx5IENvbnRpbnVpdHkgc2VhbQpvayAxMSAtIFdQNjA0IGZlYXR1cmUgYW5kIHN1cmZhY2UgbWFuaWZlc3RzIGtlZXAgdGhlIGV4aXN0aW5nIHJlYWQtb25seSBDb250aW51aXR5IHNlYW0KICAtLS0KICBkdXJhdGlvbl9tczogMTQuNzQ1Mzc1CiAgLi4uCjEuLjExCiMgdGVzdHMgMTEKIyBzdWl0ZXMgMAojIHBhc3MgMTEKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDMyMC4zNTg0NTkK"
+      }
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "PASS"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "exactDesktopBuildLifecycle": {
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 74,
+    "blockedTypedCount": 3,
+    "pendingCount": 22,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_PRODUCT_CORE_STORAGE_PLATFORM_OR_NETWORK_MUTATION_AUTHORITY",
+    "NO_IMPLICIT_CAUSAL_INFERENCE",
+    "NO_WP604_DONE_BEFORE_EXACT_BUILD_LIFECYCLE_REQUIRED_GATES_EXTERNAL_TERMINAL_AND_RELEASE",
+    "NO_REAL_OWNER_DOCUMENTS",
+    "NO_PRODUCT_RELEASE_CLAIM"
+  ]
+}

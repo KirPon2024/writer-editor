@@ -101,7 +101,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_CARRIER_REGISTRY_V1.json",
-      "sha256": "1a0753fb2738a084f6bcbbae1ff43a768c8ffabbd591f7f483317a192bbaa261",
+      "sha256": "44323495b18b78c87371447fe0bdce230f922f6ebbe6a1c30fbcab1a92552ab0",
       "claimTerms": [
         "READY",
         "PASS",
@@ -111,7 +111,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "838f487c301f5c406bca42c5ae9ebfa01929831ac36fc63b6ea9da10c13d4032",
+      "sha256": "504481e7454cbd67c1ddb5a70cdcf789cb3372f2f434b956dfb6502b9b587530",
       "claimTerms": [
         "READY",
         "PASS",
@@ -121,7 +121,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_EFFECTIVE_STATE_V1.json",
-      "sha256": "08947f0a8dce893163d5c5ac1bf73231fbcd172702fe72f1b2b1365941982697",
+      "sha256": "790f60f6129d539776c485592667f6b4d9434db19be88ee4bad1454b9276e124",
       "claimTerms": [
         "READY",
         "PASS",
@@ -131,7 +131,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_STAGE_REGISTRY_V1.json",
-      "sha256": "74055345bd67d376472bc0da946fcf51cbebc5f84bc2985839e9585377a1089d",
+      "sha256": "8bdac9413fab7a06f3bd1b1f1c9227dd7b5cf2b1bae81fe14a6635703b8030db",
       "claimTerms": [
         "READY",
         "PASS",
@@ -141,7 +141,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_LEASE_RELEASE_V1.json",
-      "sha256": "bcde0ad30efb4b74ab026544fb190336356471b8264716e83c321899230ff9e4",
+      "sha256": "158d0ebca97b8a8e8a302aceca2a4f3e5d0db103212d1de7dadbe8962a8a7383",
       "claimTerms": [
         "READY",
         "PASS",
@@ -151,7 +151,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP605_TERMINAL_RECEIPT_V1.json",
-      "sha256": "68f58be10b35f62fe3af981826567a9bc29cc13933b22183db8ca7935148fb39",
+      "sha256": "70d2088d7584827c39971f818d4a6614fa4a26fa96c601d7a5f3ca7f07913dff",
       "claimTerms": [
         "READY",
         "PASS",

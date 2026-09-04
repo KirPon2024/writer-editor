@@ -21,8 +21,8 @@
     "effectiveGraphBaselineDigest": "1e2649fe79c5f3da9448648181bc77b0db75470feba3bf269dba5a81a755265b",
     "protectedWipBeforeRawDigest": "5bb3f215850f044aaddc1cc5718a308e488fadc0037f8ab044e3fd5c5bbb67b6",
     "fixtureManifestDigest": "74118c17c2a7a0465de2debce1bbd94dab4e23d0777d1fe4b619c568cee3476b",
-    "acceptanceMatrixDigest": "838f487c301f5c406bca42c5ae9ebfa01929831ac36fc63b6ea9da10c13d4032",
-    "carrierRegistryDigest": "1a0753fb2738a084f6bcbbae1ff43a768c8ffabbd591f7f483317a192bbaa261"
+    "acceptanceMatrixDigest": "504481e7454cbd67c1ddb5a70cdcf789cb3372f2f434b956dfb6502b9b587530",
+    "carrierRegistryDigest": "44323495b18b78c87371447fe0bdce230f922f6ebbe6a1c30fbcab1a92552ab0"
   },
   "completeGraphDenominator": 109,
   "currentCounts": {

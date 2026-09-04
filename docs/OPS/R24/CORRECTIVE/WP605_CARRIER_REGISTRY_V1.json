@@ -26,8 +26,8 @@
   "carriers": [
     {
       "path": ".github/workflows/oss-policy.yml",
-      "sha256": "67999eb93cc87b16fb5b7850c1f6b2d99f373e990176ef337db4985c8ce6d2cb",
-      "byteLength": 15366
+      "sha256": "6821d78aecb870d710327c75ce4f5efc428ed7845ba947655b044aed36fe076e",
+      "byteLength": 15305
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",

@@ -22,7 +22,7 @@
   "carriers": [
     {
       "path": ".github/workflows/oss-policy.yml",
-      "sha256": "99321ffbcaab4ce5665ce3a67e88fb982a57ec289a1fc0d80edd582b6140dfd9",
+      "sha256": "357ffe6572090e20b53379121306ef7c68302403497924ab4b04f5ba6bbbf878",
       "byteLength": 17291
     },
     {

@@ -38,7 +38,7 @@
   },
   "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
   "effectiveGraphBaselineDigest": "3d3dff9980bdf30de8f0421aa265407b1e6bcead8029fe87abd79fff3960a4a5",
-  "carrierRegistryDigest": "2565b5c4a457e5ec82f3667e5e4b0f1e499aeb722cf632749265383bf502d89f",
+  "carrierRegistryDigest": "936f620c92a745d98e74a0cf7b8b3ab91d6562f1a053e5b42f871ab239e2c158",
   "acceptanceMatrixDigest": "121cff128d2afa5f553f13a1293007e9f047cad8faff117537ad3f100aaac5a3",
-  "effectiveStateDigest": "7eeb8053fd40522f774c43625f5c22be39a6d146cbff9f1ec3e48e1e216ef1d2"
+  "effectiveStateDigest": "ce6ace66439df49b7cb9942c1454728bef28b2ec3104e4614df03ca372e00377"
 }

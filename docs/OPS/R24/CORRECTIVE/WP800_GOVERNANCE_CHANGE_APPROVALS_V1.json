@@ -15,7 +15,7 @@
   "approvals": [
     {
       "filePath": ".github/workflows/oss-policy.yml",
-      "sha256": "99321ffbcaab4ce5665ce3a67e88fb982a57ec289a1fc0d80edd582b6140dfd9",
+      "sha256": "357ffe6572090e20b53379121306ef7c68302403497924ab4b04f5ba6bbbf878",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
@@ -36,7 +36,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_CARRIER_REGISTRY_V1.json",
-      "sha256": "2565b5c4a457e5ec82f3667e5e4b0f1e499aeb722cf632749265383bf502d89f",
+      "sha256": "936f620c92a745d98e74a0cf7b8b3ab91d6562f1a053e5b42f871ab239e2c158",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
@@ -50,7 +50,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_EFFECTIVE_STATE_V1.json",
-      "sha256": "7eeb8053fd40522f774c43625f5c22be39a6d146cbff9f1ec3e48e1e216ef1d2",
+      "sha256": "ce6ace66439df49b7cb9942c1454728bef28b2ec3104e4614df03ca372e00377",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
@@ -71,7 +71,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_LEASE_RELEASE_V1.json",
-      "sha256": "c4dd2a8f6907c4b64b6e1eb78458d71caee2a2b0f0455b512466bc87bf0adb50",
+      "sha256": "18837622b416e372b42ce53a5c3a9772616eabe2c30d5afa82cad143bd7ea7de",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
@@ -127,14 +127,14 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_STAGE_REGISTRY_V1.json",
-      "sha256": "ef19e1f8748b4f41ac554614337f155a2ea8a502d695cf36f33cb338fcb824df",
+      "sha256": "6ef1bf9fbda824830b478b7927cc0052b6008114ff0ee440a90f05e41b664e28",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_TERMINAL_RECEIPT_V1.json",
-      "sha256": "06db6e20732b5871814958d665e8952bb51cfa46141ccec0affe2035588c4298",
+      "sha256": "66f123d2edb6ff938fde151677732cb89df0c340d3db42bc259bf819e174de6c",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."
@@ -148,7 +148,7 @@
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS.json",
-      "sha256": "e901cfc8e6b426576297553f3f1934a841dd612c4713cd75d198cf687192a728",
+      "sha256": "1afa04b7d79b978f2fdec427fb7076b8503df0362e782f4bc6037452dc4314e0",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP800_PULSE_POLICY_CODEC_V1",
       "approvedAtUtc": "2026-09-04T18:55:24.000Z",
       "rationale": "Owner-authorized WP800 delivery binds a strict local aggregate-only Pulse receipt codec and denies content, identity, path, network, export and telemetry data."

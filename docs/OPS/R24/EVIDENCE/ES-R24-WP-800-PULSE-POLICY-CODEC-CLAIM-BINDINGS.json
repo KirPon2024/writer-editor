@@ -51,7 +51,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP800_TERMINAL_RECEIPT_V1.json",
-      "sha256": "06db6e20732b5871814958d665e8952bb51cfa46141ccec0affe2035588c4298",
+      "sha256": "66f123d2edb6ff938fde151677732cb89df0c340d3db42bc259bf819e174de6c",
       "claimTerms": [
         "READY",
         "PASS",

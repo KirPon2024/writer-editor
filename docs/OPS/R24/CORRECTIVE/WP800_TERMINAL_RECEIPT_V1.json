@@ -31,10 +31,10 @@
     "fixtureManifestDigest": "6b670951eff829cbef33f01f7ad89267a9715993432a8d3a52a3b9d1cd23b495",
     "featureIntegrationManifestDigest": "e3901e3ae18af9da177aff164717f77e09aa6c40b8a1aa5391da651eb8b474ef",
     "acceptanceMatrixDigest": "121cff128d2afa5f553f13a1293007e9f047cad8faff117537ad3f100aaac5a3",
-    "carrierRegistryDigest": "2565b5c4a457e5ec82f3667e5e4b0f1e499aeb722cf632749265383bf502d89f",
-    "effectiveStateDigest": "7eeb8053fd40522f774c43625f5c22be39a6d146cbff9f1ec3e48e1e216ef1d2",
-    "stageRegistryDigest": "ef19e1f8748b4f41ac554614337f155a2ea8a502d695cf36f33cb338fcb824df",
-    "leaseReleaseDigest": "c4dd2a8f6907c4b64b6e1eb78458d71caee2a2b0f0455b512466bc87bf0adb50"
+    "carrierRegistryDigest": "936f620c92a745d98e74a0cf7b8b3ab91d6562f1a053e5b42f871ab239e2c158",
+    "effectiveStateDigest": "ce6ace66439df49b7cb9942c1454728bef28b2ec3104e4614df03ca372e00377",
+    "stageRegistryDigest": "6ef1bf9fbda824830b478b7927cc0052b6008114ff0ee440a90f05e41b664e28",
+    "leaseReleaseDigest": "18837622b416e372b42ce53a5c3a9772616eabe2c30d5afa82cad143bd7ea7de"
   },
   "implementationArtifacts": [
     {

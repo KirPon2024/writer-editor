@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS",
+  "contourId": "WP-801_PULSE_LEDGER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "acfbd6896cd9830ab48f794bbbb2a433bd72b42d",
+  "originMainSha": "acfbd6896cd9830ab48f794bbbb2a433bd72b42d",
+  "generatedAtUtc": "2026-09-04T20:09:16.915Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "34177303a94333ed7e017b0bce8dcc2970284bbe43a80d0e81b5ac8cc22f7a87",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "5fa2e638b58273b450409d346ddf5c46b4dcfb03cfe88992c3a2f2ff4ea95177",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "86e537a056e7ce6f297cc2ae5da72306c1c5f0080b379d568f645ad54428e793",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_PULSE_LEDGER_CONTRACT_V1.json",
+      "sha256": "a91d676ae9d28f868c7ca0b8b893f00e00477a737ac022ae3c33f192b0faaca5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_TERMINAL_RECEIPT_V1.json",
+      "sha256": "5ed4e512ad21732e120f2389eda899605d7314c30281da8d53de491986fc2f02",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP801_WP800_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "405365fd9c6062e15569d160d4f52b27e838ae82f5f338a1c31830b2a5c4df31",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-ledger-v1.mjs",
+      "sha256": "2a48104ea16ef4f6d0672d270331164fbb302990b21c486f93a60e1bda1794fa",
+      "terms": [
+        "WP801_DURABLE_PULSE_LEDGER"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp801-pulse-ledger-fixtures.js",
+      "sha256": "13eeb8afbb5c8f864717b7ecbf4b4d2c9a0e16f77240e0b9212536ce29fabd82",
+      "terms": [
+        "WP801_DURABLE_PULSE_LEDGER"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger.test.js",
+      "sha256": "61f8042054f28e28cc6869a2eb4d0b6044eb70214165091fc1d0be2e781970f8",
+      "terms": [
+        "WP801_DURABLE_PULSE_LEDGER"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger-integration.test.js",
+      "sha256": "dfdb99ad8880e5a24e5bcce7f0afe7ad668f9efa3a2ea4b443ba441b038cee07",
+      "terms": [
+        "WP801_DURABLE_PULSE_LEDGER"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger-mutants.test.js",
+      "sha256": "0142e446ff51fd9ae4547c0b76356e196102b8d975e4e3fcd6f025081d8747a2",
+      "terms": [
+        "WP801_DURABLE_PULSE_LEDGER"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test --test-reporter=tap test/unit/r24-wp801-pulse-ledger.test.js test/unit/r24-wp801-pulse-ledger-integration.test.js test/unit/r24-wp801-pulse-ledger-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 19,
+        "fail": 0
+      }
+    },
+    {
+      "command": "registered ledger and journal mutants",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 8,
+        "survived": 0
+      }
+    },
+    {
+      "command": "five acknowledged-write loss phases",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 5,
+        "fail": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP801_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

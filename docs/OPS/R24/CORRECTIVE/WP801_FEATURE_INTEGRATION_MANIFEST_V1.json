@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-801_PULSE_LEDGER",
+  "evidenceStampId": "ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "STRICT_WP800_LOCAL_AGGREGATE_RECEIPTS",
+    "mutation": "APPEND_ONLY_LOGICAL_LEDGER_VIA_EXISTING_ATOMIC_SAVE_PORT"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.pulseLedgerSnapshot"
+    ],
+    "events": [
+      "pulse.aggregateReceiptAdmitted",
+      "pulse.ledgerEntryAppended"
+    ],
+    "effects": [
+      "effect.atomicLocalPulseLedgerSave"
+    ],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "durableSaveTransaction"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schema": "yalken.r24.pulseLedgerSnapshot.v1",
+    "immutable": true,
+    "identityGuards": [
+      "sequence",
+      "previousEntryDigest",
+      "entryDigest",
+      "receiptDigest"
+    ],
+    "maximumEntries": 4096,
+    "maximumFileBytes": 16777216
+  },
+  "fallbacks": [
+    "REJECT_CAS_MISMATCH",
+    "REJECT_IDEMPOTENCY_CONFLICT",
+    "REJECT_CHAIN_TAMPER",
+    "REJECT_JOURNAL_DIVERGENCE",
+    "REPAIR_INVALID_TORN_FINAL_JSON_ONLY"
+  ],
+  "recovery": "RECONCILE_ONLY_PROVABLE_DURABLE_PHASES_WITH_EXACT_RECEIPT_AND_ENTRY_DIGESTS",
+  "performance": {
+    "maximumEntries": 4096,
+    "maximumFileBytes": 16777216,
+    "serializedPerDirectory": true
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "UNTRUSTED_DIRECTORY",
+    "UNTRUSTED_SAVE_PORT",
+    "INVALID_IDEMPOTENCY_KEY",
+    "CAS_MISMATCH",
+    "IDEMPOTENCY_CONFLICT",
+    "LEDGER_SEQUENCE",
+    "PREVIOUS_DIGEST",
+    "ENTRY_DIGEST",
+    "RECEIPT_DIGEST",
+    "INTENT_RECEIPT",
+    "OUTBOX_DIVERGENCE",
+    "MISSING_FINAL_LF",
+    "MIDDLE_CORRUPTION",
+    "CAPACITY"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

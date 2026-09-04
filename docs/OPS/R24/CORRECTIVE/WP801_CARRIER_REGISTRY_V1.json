@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "YALKEN_R24_WP801_CARRIER_REGISTRY_V1",
+  "stageId": "WP-801_PULSE_LEDGER",
+  "evidenceStampId": "ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CANDIDATE_BYTE_MANIFEST_COMPLETE",
+  "baseIdentity": {
+    "sha": "acfbd6896cd9830ab48f794bbbb2a433bd72b42d",
+    "treeSha": "1981f9b3d7a9963b54472ea3b0d47b40f13fa359"
+  },
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 33,
+  "verifiedCarrierCount": 33,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "9fa195b49686f7f3e3e213251429e3614745c112ead1942fb573e40e957c97e9",
+      "byteLength": 17867
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "67f41cf7aec9ea96b4369dbb30a6bed7a38ac100183c50fac8c37f0e2f0feffb",
+      "byteLength": 426413
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "34177303a94333ed7e017b0bce8dcc2970284bbe43a80d0e81b5ac8cc22f7a87",
+      "byteLength": 5428
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "5fa2e638b58273b450409d346ddf5c46b4dcfb03cfe88992c3a2f2ff4ea95177",
+      "byteLength": 2305
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_FIXTURE_MANIFEST_V1.json",
+      "sha256": "35ac2971204e4a20c751659be654b3f02051f5efc638bf25500f3ed35b8d6fbe",
+      "byteLength": 1284
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "75d3cde6716eec93bfb540c1a9364c9c8e159499417dd0937fd79bc3300fc67a",
+      "byteLength": 9929
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "86e537a056e7ce6f297cc2ae5da72306c1c5f0080b379d568f645ad54428e793",
+      "byteLength": 840
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "c936d54dbd11acdfae7599aea720b1b5db43304e69737780a047b1fc3c824498",
+      "byteLength": 1626
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "34754d8797c4d1495a712ce079ea892eeaa17c010130a31acdbb6690a636822c",
+      "byteLength": 10317
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "b2b8192c3f5895a80acefb4784357501bb69c58d89c32cf3a2d1a1f98978ef0e",
+      "byteLength": 111399
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_PULSE_LEDGER_CONTRACT_V1.json",
+      "sha256": "a91d676ae9d28f868c7ca0b8b893f00e00477a737ac022ae3c33f192b0faaca5",
+      "byteLength": 2088
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "772ccd30c8b3bbc4ac04f6fa8dbc6d80d2985be0f88491a530e34fda7db8a3ce",
+      "byteLength": 2081
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP801_WP800_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "405365fd9c6062e15569d160d4f52b27e838ae82f5f338a1c31830b2a5c4df31",
+      "byteLength": 1525
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-801-PULSE-LEDGER-CONTRACT.json",
+      "sha256": "0c3834b847f82fc08fbcb1342ad80784d2f0a423ddb2d10aae382d940d14100a",
+      "byteLength": 7048
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-801-PULSE-LEDGER-INTEGRATION.json",
+      "sha256": "f34a72b9cca266a742a2f569b087d8ba668adab891aaf004598eca2b23e0133b",
+      "byteLength": 7066
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-801-PULSE-LEDGER-MODEL.json",
+      "sha256": "5ff0b544cce6cd333926285dc651ef19950feca61a9c49fcfc208fea3a6a1d5d",
+      "byteLength": 7011
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-801-PULSE-LEDGER-MUTANTS.json",
+      "sha256": "6e6dd116f40809e100a9a45d1800e469df738122fcd10aee904164d0d71f2ddb",
+      "byteLength": 7038
+    },
+    {
+      "path": "scripts/ops/r24/corrective/admission-preparation-v2.mjs",
+      "sha256": "f27b8ce5308f9a27d23f2fa2b402e87aea0c3132ec41c5d11ef03d15398d31ec",
+      "byteLength": 11944
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "78b4eabe822db72c4059d1255449e3785556ef54b8d4db7acdb54bfad2950be6",
+      "byteLength": 648400
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v3.mjs",
+      "sha256": "aa3ee410111bc245b6d5fa2e13864957887bd4634795be839a68d7ed507cd542",
+      "byteLength": 13049
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "f1ccca81f5fe2423190761af2a81d453947f0a3f29d296a9bf33dd12f148effe",
+      "byteLength": 15726
+    },
+    {
+      "path": "src/core/pulse-ledger-v1.mjs",
+      "sha256": "2a48104ea16ef4f6d0672d270331164fbb302990b21c486f93a60e1bda1794fa",
+      "byteLength": 16647
+    },
+    {
+      "path": "test/contracts/r24-admission-preparation-v2.contract.test.mjs",
+      "sha256": "c9e2606da3b49e714813e6227e70a184727d5a8c115bb9b7773d48b31d24188d",
+      "byteLength": 21256
+    },
+    {
+      "path": "test/contracts/r24-stage-admission-verifier-v3.contract.test.mjs",
+      "sha256": "34bb9cc0fe828cc2c1d7cd911c7b79388ad7e4e5839361a49599262799f8b87e",
+      "byteLength": 11562
+    },
+    {
+      "path": "test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs",
+      "sha256": "143b2ad6f03b8455c7fd61fba727676bf77a365508de41577ada8a3a0d1057d8",
+      "byteLength": 1709
+    },
+    {
+      "path": "test/contracts/r24-wp800-terminal-carriers.contract.test.mjs",
+      "sha256": "f845d1a2bc014d751c74d560d144a58c4fb194e785951dbfe4e41b83b74b17c9",
+      "byteLength": 9280
+    },
+    {
+      "path": "test/contracts/r24-wp801-post-audit-compatibility.contract.test.mjs",
+      "sha256": "87ac0e0b9cc23225f97c77c1abb03933853a027115f12e52c2b2b54059928f0d",
+      "byteLength": 5137
+    },
+    {
+      "path": "test/contracts/r24-wp801-terminal-carriers.contract.test.mjs",
+      "sha256": "ab09935e590522e0bad364ead77d55432cc8e784c39111cc6d5238674ba1f099",
+      "byteLength": 9090
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "42087b2f6c9ae00bd62baa5100855b26b7914b3ee629645cbf349f90e85fa775",
+      "byteLength": 94235
+    },
+    {
+      "path": "test/fixtures/r24-wp801-pulse-ledger-fixtures.js",
+      "sha256": "13eeb8afbb5c8f864717b7ecbf4b4d2c9a0e16f77240e0b9212536ce29fabd82",
+      "byteLength": 647
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger-integration.test.js",
+      "sha256": "dfdb99ad8880e5a24e5bcce7f0afe7ad668f9efa3a2ea4b443ba441b038cee07",
+      "byteLength": 3428
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger-mutants.test.js",
+      "sha256": "0142e446ff51fd9ae4547c0b76356e196102b8d975e4e3fcd6f025081d8747a2",
+      "byteLength": 2691
+    },
+    {
+      "path": "test/unit/r24-wp801-pulse-ledger.test.js",
+      "sha256": "61f8042054f28e28cc6869a2eb4d0b6044eb70214165091fc1d0be2e781970f8",
+      "byteLength": 4114
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP801_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP801_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS.json"
+  ]
+}

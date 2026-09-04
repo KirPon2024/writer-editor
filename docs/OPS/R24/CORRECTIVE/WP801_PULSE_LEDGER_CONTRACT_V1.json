@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "YALKEN_R24_WP801_PULSE_LEDGER_CONTRACT_V1",
+  "stageId": "WP-801_PULSE_LEDGER",
+  "evidenceStampId": "ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "logicalAppendOnly": true,
+  "files": {
+    "ledger": "pulse-ledger.v1.jsonl",
+    "intents": "pulse-ledger-intents.v1.jsonl",
+    "outbox": "pulse-ledger-outbox.v1.jsonl"
+  },
+  "persistence": {
+    "port": "durableSaveTransaction",
+    "atomicReplacement": true,
+    "physicalAppendRequired": false,
+    "readableUtf8JsonLines": true
+  },
+  "protocol": {
+    "strictWp800AggregateReceipt": true,
+    "expectedSequenceCompareAndSwap": true,
+    "hashChainedEntries": true,
+    "idempotentReplay": true,
+    "idempotencyConflictOnDifferentReceipt": true,
+    "idempotencyKeyHashedBeforePersistence": true,
+    "durableOrder": [
+      "INTENT_ADMITTED",
+      "OUTBOX_PENDING",
+      "LEDGER_APPENDED",
+      "OUTBOX_COMMITTED",
+      "INTENT_APPLIED"
+    ]
+  },
+  "recovery": {
+    "provablePendingPhases": [
+      "INTENT_ADMITTED",
+      "OUTBOX_PENDING",
+      "LEDGER_APPENDED",
+      "OUTBOX_COMMITTED",
+      "INTENT_APPLIED"
+    ],
+    "tornFinalInvalidJsonOnly": true,
+    "validMissingFinalLfRejected": true,
+    "middleCorruptionRejected": true,
+    "ledgerJournalDivergenceRejected": true
+  },
+  "capacity": {
+    "maximumEntries": 4096,
+    "maximumFileBytes": 16777216
+  },
+  "projection": {
+    "immutableDeepFrozenSnapshot": true,
+    "sequenceBound": true,
+    "headDigestBound": true
+  },
+  "authority": {
+    "productCore": true,
+    "storageViaExistingPortOnly": true,
+    "commandKernel": false,
+    "renderer": false,
+    "ipc": false,
+    "network": false,
+    "cloud": false
+  },
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

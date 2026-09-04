@@ -1,12 +1,13 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
-import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
 import { HISTORICAL_INVENTORY_CLAIM_PINS_V10 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
+const TERMINAL_MERGE = 'acfbd6896cd9830ab48f794bbbb2a433bd72b42d';
 const h = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 const paths = {
   authority: C + 'WP800_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json',
@@ -26,7 +27,7 @@ const paths = {
   lease: C + 'WP800_LEASE_RELEASE_V1.json',
   terminal: C + 'WP800_TERMINAL_RECEIPT_V1.json',
 };
-const bytes = (file) => fs.readFileSync(file);
+const bytes = (file) => execFileSync('git', ['show', `${TERMINAL_MERGE}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 });
 const read = (file) => JSON.parse(bytes(file));
 const roles = { externalSourcePlanDigest: '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a', compiledProgramFileDigest: 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a', rolesDistinct: true };
 const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGIBLE_OPTIONAL', 'PENDING'].map((state) => [state, Object.values(states).filter((value) => value === state).length]));

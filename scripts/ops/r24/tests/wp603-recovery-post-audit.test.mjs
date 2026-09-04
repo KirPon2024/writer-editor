@@ -16,8 +16,9 @@ test('WP603 recovery post-audit accepts the exact append-only admission union',(
   const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
   assert.equal(result.status,'PASS');
   assert.equal(result.admissionDenominator,8);
-  assert.equal(result.admittedPathDenominator,99);
+  assert.equal(result.admittedPathDenominator,100);
   assert.equal(result.changedPathDenominator,99);
+  assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
   assert.equal(result.recovery.recoveryStageDenominator,7);
 });
@@ -26,7 +27,8 @@ test('WP603 recovery post-audit rejects a tampered admission carrier',()=>{
   const tamperedGit=(args,options={})=>{
     const output=realGit(args,options);
     if(args[0]==='show'&&args[1]?.endsWith(`:${POST_AUDIT_ADMISSION}`)){
-      return Buffer.isBuffer(output)?Buffer.concat([output,Buffer.from('tampered')]):`${output}tampered`;
+      const tampered=String(output).replace('"ADMITTED"','"ADM1TTED"');
+      return options.encoding==='utf8'?tampered:Buffer.from(tampered);
     }
     return output;
   };

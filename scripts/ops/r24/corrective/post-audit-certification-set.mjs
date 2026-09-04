@@ -2203,7 +2203,12 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
     recovery=verifyWp603RecoveryAdmissionChain({candidateSha:resolvedCandidate,git});
     admitted=[...new Set([...originalAdmitted,...recovery.admittedPaths])].sort();
   }
-  assert(JSON.stringify(changed)===JSON.stringify(admitted),'E_WP603_EXACT_ADMITTED_DELTA',changed.length+':'+admitted.length);
+  const expectedChanged=admitted.filter(artifactPath=>{
+    let baseBytes;
+    try{baseBytes=objectBytes(git,e.baseSha,artifactPath);}catch{return true;}
+    return !baseBytes.equals(objectBytes(git,resolvedCandidate,artifactPath));
+  });
+  assert(JSON.stringify(changed)===JSON.stringify(expectedChanged),'E_WP603_EXACT_ADMITTED_DELTA',changed.length+':'+expectedChanged.length);
   for(const required of admitted){let bytes;try{bytes=objectBytes(git,resolvedCandidate,required);}catch{fail('E_WP603_REQUIRED_ARTIFACT',required);}assert(bytes.length>0,'E_WP603_REQUIRED_ARTIFACT',required);}
   const registry=read('docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json').value;
   const dependent=['CARRIER_REGISTRY','ACCEPTANCE_MATRIX','EFFECTIVE_STATE','STAGE_REGISTRY','LEASE_RELEASE','TERMINAL_RECEIPT','TERMINAL_SUPPLEMENT','GOVERNANCE_CHANGE_APPROVALS']
@@ -2214,7 +2219,7 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
   const registryObjectSha=recovery?.recoveryBaseSha??resolvedCandidate;
   if(recovery)assert(evaluationTree(git,registryObjectSha)===recovery.recoveryBaseTree,'E_WP603_HISTORICAL_CANDIDATE_TREE');
   for(const binding of registry.carriers){const bytes=objectBytes(git,registryObjectSha,binding.path);assert(h(bytes)===binding.sha256&&bytes.length===binding.byteLength,'E_WP603_CANDIDATE_MEMBER_BYTES',binding.path);}
-  return{schemaVersion:'WP603_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',baseSha:e.baseSha,baseTree:e.baseTree,candidateSha:resolvedCandidate,candidateTree:evaluationTree(git,resolvedCandidate),admissionDenominator:1+(recovery?.recoveryStageDenominator??0),admittedPathDenominator:admitted.length,changedPathDenominator:changed.length,admittedPaths:admitted,changedPaths:changed,protectedWipBeforeDigest:before.digest,protectedWipSnapshotDigest:snapshotSha256,protectedWipDenominator:269,protectedDirtyDenominator:10,admission:{authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:e.writeSetDigest,commandScopeDigest:e.commandScopeDigest,acceptanceSignalsDigest:e.acceptanceSignalsDigest},recovery,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
+  return{schemaVersion:'WP603_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',baseSha:e.baseSha,baseTree:e.baseTree,candidateSha:resolvedCandidate,candidateTree:evaluationTree(git,resolvedCandidate),admissionDenominator:1+(recovery?.recoveryStageDenominator??0),admittedPathDenominator:admitted.length,changedPathDenominator:changed.length,admittedPaths:admitted,changedPaths:changed,unchangedAdmittedPaths:admitted.filter(artifactPath=>!expectedChanged.includes(artifactPath)),protectedWipBeforeDigest:before.digest,protectedWipSnapshotDigest:snapshotSha256,protectedWipDenominator:269,protectedDirtyDenominator:10,admission:{authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:e.writeSetDigest,commandScopeDigest:e.commandScopeDigest,acceptanceSignalsDigest:e.acceptanceSignalsDigest},recovery,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
 }
 
 export function verifyWp602MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){

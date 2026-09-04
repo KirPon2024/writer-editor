@@ -208,9 +208,9 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "63c077f0315af34e7122e1efc606bdcb2c9ab9a5ae42bdb0fecab2662def7d66",
+      "sha256": "2b82aeed5e3bb7dc83595ba4b5645b3f67a6b50d8698297ee752f1fbc2b08f55",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_V1",
-      "approvedAtUtc": "2026-09-04T01:20:51.618Z",
+      "approvedAtUtc": "2026-09-04T01:22:48.814Z",
       "rationale": "Owner-authorized WP603 terminal recovery binds the post-audit exception to the exact append-only original and recovery admissions. Carrier tamper and every extra unadmitted changed path fail closed; the historical WP603 carrier registry remains bound to the merged candidate bytes. No product runtime, UI, dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
     },
     {
@@ -229,9 +229,9 @@
     },
     {
       "filePath": "scripts/ops/r24/tests/wp603-recovery-post-audit.test.mjs",
-      "sha256": "8f46ef2b67b13ccd2cf7e0a979a8044cd72a73f842960e7af2dd6292ea5ea1e3",
+      "sha256": "68673935866177d085c769bf9fa641ecce23ce4c2680b5288a13e983362068e2",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_V1",
-      "approvedAtUtc": "2026-09-04T01:20:51.618Z",
+      "approvedAtUtc": "2026-09-04T01:22:48.814Z",
       "rationale": "Owner-authorized WP603 terminal recovery binds the post-audit exception to the exact append-only original and recovery admissions. Carrier tamper and every extra unadmitted changed path fail closed; the historical WP603 carrier registry remains bound to the merged candidate bytes. No product runtime, UI, dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
     },
     {

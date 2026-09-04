@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "normalizedShapeVersion": "v1",
+  "determinism": {
+    "mergeOrder": [
+      "base",
+      "platform",
+      "profile",
+      "workspace",
+      "user",
+      "plugin"
+    ],
+    "stableKeyOrder": true,
+    "stableArrayOrder": true
+  },
+  "normalizedItemRequiredFields": [
+    "id",
+    "canonicalCmdId",
+    "enabledWhenAst",
+    "visibilityPolicy",
+    "disabledReasonCode",
+    "origin",
+    "sourceRefs"
+  ],
+  "normalizedItemOptionalFields": [
+    "accelerator",
+    "items",
+    "label",
+    "labelKey",
+    "mode",
+    "profile",
+    "role",
+    "stage",
+    "submenuFrom",
+    "type"
+  ],
+  "normalizedRootOptionalFields": [
+    "localeCatalog",
+    "sourceRefs"
+  ],
+  "localizedLabelRules": {
+    "labelKeyRequiredWhenLabelPresent": true,
+    "embeddedLocaleCatalogRequired": true,
+    "supportedLocales": [
+      "base",
+      "ru",
+      "en"
+    ],
+    "baseLabelMustMatchCanonicalLabel": true
+  },
+  "visibilityPolicyValues": [
+    "visible_enabled",
+    "visible_disabled",
+    "hidden"
+  ],
+  "originValues": [
+    "base",
+    "platform",
+    "profile",
+    "workspace",
+    "user",
+    "plugin"
+  ],
+  "rules": {
+    "forbidActionIdInNormalizedOutput": true,
+    "forbidNonCanonicalCommandIdsInNormalizedOutput": true,
+    "enabledWhenAstOnly": true,
+    "preserveAllowedSubmenuFromPlaceholders": true
+  }
+}

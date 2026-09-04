@@ -1,0 +1,55 @@
+{
+  "version": "v1",
+  "allowedOperators": [
+    "all",
+    "any",
+    "not",
+    "eq",
+    "neq",
+    "in",
+    "flag",
+    "modeIs",
+    "profileIs",
+    "platformIs",
+    "stageGte"
+  ],
+  "allowedOperands": [
+    "mode",
+    "profile",
+    "platform",
+    "stage",
+    "hasDocument",
+    "selectionExists",
+    "flowModeActive"
+  ],
+  "allowedModeValues": [
+    "Write",
+    "Plan",
+    "Review"
+  ],
+  "allowedProfileValues": [
+    "Minimal",
+    "Pro",
+    "Guru"
+  ],
+  "allowedPlatformValues": [
+    "mac",
+    "win",
+    "linux",
+    "web",
+    "android",
+    "ios"
+  ],
+  "allowedStageValues": [
+    "X0",
+    "X1",
+    "X2",
+    "X3",
+    "X4"
+  ],
+  "maxDepth": 4,
+  "maxNodes": 32,
+  "noRegex": true,
+  "noDynamicKeys": true,
+  "determinismRule": true
+}

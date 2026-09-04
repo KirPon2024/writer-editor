@@ -325,9 +325,17 @@ function getAutonomousAppPathRoot() {
     : '';
   if (!rawRoot) return '';
   const resolvedRoot = path.resolve(rawRoot);
-  const tmpRoot = path.resolve(os.tmpdir());
-  if (!isPathInsideLaunchBoundary(tmpRoot, resolvedRoot)) return '';
-  return resolvedRoot;
+  const resolvedTmpRoot = path.resolve(os.tmpdir());
+  let canonicalRoot;
+  let canonicalTmpRoot;
+  try {
+    canonicalRoot = fsSync.realpathSync.native(resolvedRoot);
+    canonicalTmpRoot = fsSync.realpathSync.native(resolvedTmpRoot);
+  } catch {
+    return '';
+  }
+  if (!isPathInsideLaunchBoundary(canonicalTmpRoot, canonicalRoot)) return '';
+  return canonicalRoot;
 }
 
 function applyAutonomousAppPathRoot() {
@@ -402,7 +410,7 @@ function resolveRepoRootForAbout() {
 }
 
 function resolveAboutLicenseTextPath() {
-  return path.join(resolveRepoRootForAbout(), 'docs', 'OPERATIONS', 'ABOUT_LICENSE_TEXT.md');
+  return path.join(__dirname, 'runtime-governance', 'docs', 'OPERATIONS', 'ABOUT_LICENSE_TEXT.md');
 }
 
 function extractNoticeFromAboutLicenseText(raw) {
@@ -11655,7 +11663,7 @@ function getInternalCommandSurfaceKernel() {
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_SAVE]: async () => {
       const saved = await handleSave();
-      return { ok: saved === true };
+      return saved === true ? { ok: true } : saved;
     },
     [COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_SAVE_AS]: async () => {
       const savedAs = await handleSaveAs();
@@ -18678,6 +18686,7 @@ function normalizeEditorSnapshotPayload(payload) {
       plainText: payload,
       doc: null,
       bookProfile: null,
+      generation: 0,
     };
   }
 
@@ -18693,6 +18702,9 @@ function normalizeEditorSnapshotPayload(payload) {
     doc: isPlainObjectValue(source.doc) ? source.doc : null,
     bookProfile: isPlainObjectValue(source.bookProfile) ? source.bookProfile : null,
     selectionRange: normalizeSelectionRangeForSettings(source.selectionRange),
+    generation: Number.isSafeInteger(source.generation) && source.generation >= 0
+      ? source.generation
+      : null,
   };
 }
 
@@ -22016,14 +22028,14 @@ async function resolveProjectArchiveExportPath(payload) {
     };
   }
 
-  const result = await dialog.showSaveDialog(mainWindow, {
+  const result = await showSaveDialogWithAutonomousPath(mainWindow, {
     title: 'Экспорт полного архива проекта',
     defaultPath: buildProjectArchiveExportDefaultPath(),
     filters: [
       { name: 'Yalken Archive', extensions: ['zip'] },
       { name: 'Все файлы', extensions: ['*'] },
     ],
-  });
+  }, 'project.yalken.zip');
   if (result.canceled) {
     return { canceled: true, outPath: '' };
   }
@@ -28032,7 +28044,11 @@ async function handleOpen() {
 
 async function runAutoSave() {
   if (!mainWindow) {
-    return { ok: false, ack: classifySaveAck({ writeSucceeded: false, ackOutcome: null, savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration }) };
+    return lifecycleSaveFailure(
+      currentLifecycleSubjectId(),
+      'NO_ACTIVE_WINDOW',
+      classifySaveAck({ writeSucceeded: false, ackOutcome: null, savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration }),
+    );
   }
 
   const lifecycleSubjectId = currentLifecycleSubjectId();
@@ -28096,7 +28112,7 @@ async function runAutoSave() {
         );
         if (!saveResult.success) {
           updateStatus('Ошибка сохранения');
-          return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
+          return lifecycleSaveFailure(lifecycleSubjectId, 'SAVE_WRITE_FAILED', classify(false, null));
         }
         saveReceipt = saveResult;
         try {
@@ -28119,7 +28135,7 @@ async function runAutoSave() {
         );
         if (!saveReceipt.success) {
           updateStatus('Ошибка сохранения');
-          return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
+          return lifecycleSaveFailure(lifecycleSubjectId, 'SAVE_WRITE_FAILED', classify(false, null));
         }
       }
 
@@ -28142,7 +28158,7 @@ async function runAutoSave() {
       );
       if (!sameContentResult.success) {
         updateStatus('Ошибка сохранения');
-        return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
+        return lifecycleSaveFailure(lifecycleSubjectId, 'SAVE_WRITE_FAILED', classify(false, null));
       }
       const idleAck = acknowledgeMainOwnedSave(
         sameContentResult,
@@ -28158,7 +28174,7 @@ async function runAutoSave() {
     );
     if (!autosaveResult.success) {
       updateStatus('Ошибка сохранения');
-      return { ok: false, subjectId: lifecycleSubjectId, ack: classify(false, null) };
+      return lifecycleSaveFailure(lifecycleSubjectId, 'SAVE_WRITE_FAILED', classify(false, null));
     }
 
     if (currentLifecycleSubjectId() !== lifecycleSubjectId) {
@@ -28177,7 +28193,7 @@ async function runAutoSave() {
   } catch (error) {
     updateStatus('Ошибка сохранения');
     logDevError('autoSave', error);
-    return { ok: false, subjectId: lifecycleSubjectId, ack: { kind: SAVE_ACK_KINDS.AT_RISK, reason: 'EXCEPTION', savedGeneration: null, latestEditGeneration: lastSignaledEditGeneration } };
+    return lifecycleSaveFailure(lifecycleSubjectId, 'EXCEPTION');
   } finally {
     autoSaveInProgress = false;
   }
@@ -28197,11 +28213,13 @@ function currentLifecycleSubjectId() {
   return 'document:' + computeHash(currentFilePath || 'UNTITLED_LOCAL_DRAFT');
 }
 
-function lifecycleSaveFailure(subjectId, reason) {
+function lifecycleSaveFailure(subjectId, reason, ack = null) {
   return {
     ok: false,
+    code: 'E_SAVE_LIFECYCLE_AT_RISK',
+    reason,
     subjectId,
-    ack: Object.freeze({
+    ack: ack || Object.freeze({
       kind: SAVE_ACK_KINDS.AT_RISK,
       reason,
       savedGeneration: null,
@@ -28273,7 +28291,7 @@ async function createBackup() {
 
 async function handleSave() {
   if (!mainWindow) {
-    return false;
+    return projectSaveFailure('NO_ACTIVE_WINDOW');
   }
 
   const saveSubjectId = currentLifecycleSubjectId();
@@ -28284,16 +28302,16 @@ async function handleSave() {
   } catch (error) {
     updateStatus('Ошибка');
     logDevError('handleSave', error);
-    return false;
+    return projectSaveFailure('SNAPSHOT_UNAVAILABLE', error);
   }
-  if (currentLifecycleSubjectId() !== saveSubjectId) return false;
+  if (currentLifecycleSubjectId() !== saveSubjectId) return projectSaveFailure('SUBJECT_CHANGED_DURING_CAPTURE');
   const content = snapshot.content;
   const wasUntitled = saveTargetPath === null;
 
   if (saveTargetPath) {
     if (!isAllowedFilePath(saveTargetPath)) {
       updateStatus('Ошибка');
-      return false;
+      return projectSaveFailure('TARGET_PATH_NOT_ALLOWED');
     }
     const contentHash = computeHash(content);
     const textChanged = contentHash !== lastAutosaveHash;
@@ -28320,15 +28338,18 @@ async function handleSave() {
       if (saveResult.projectTransaction !== true) {
         await persistBookProfileForFile(saveTargetPath, snapshot.bookProfile, 'save project manifest');
       }
-      if (currentLifecycleSubjectId() !== saveSubjectId) return false;
+      if (currentLifecycleSubjectId() !== saveSubjectId) return projectSaveFailure('SUBJECT_CHANGED_DURING_SAVE');
       lastAutosaveHash = contentHash;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
       const saveAck = acknowledgeMainOwnedSave(saveResult, content, snapshot.generation);
       if (saveAck.kind === SAVE_ACK_KINDS.SAVED) updateStatus('Сохранено');
-      return saveAck.kind === SAVE_ACK_KINDS.SAVED;
+      return saveAck.kind === SAVE_ACK_KINDS.SAVED
+        ? true
+        : projectSaveFailure('SAVE_ACK_NOT_DURABLE');
     }
+    logDevError('handleSave:projectTransactionResult', saveResult);
     updateStatus('Ошибка');
-    return false;
+    return projectSaveFailure('PROJECT_TRANSACTION_FAILED', saveResult);
   }
 
   const result = await dialog.showSaveDialog(mainWindow, {
@@ -28347,9 +28368,9 @@ async function handleSave() {
     }
     if (!isAllowedFilePath(filePath)) {
       updateStatus('Ошибка');
-      return false;
+      return projectSaveFailure('TARGET_PATH_NOT_ALLOWED');
     }
-    if (currentLifecycleSubjectId() !== saveSubjectId) return false;
+    if (currentLifecycleSubjectId() !== saveSubjectId) return projectSaveFailure('SUBJECT_CHANGED_DURING_DIALOG');
 
     const saveResult = await queueDiskOperation(
       () => commitWriterProjectSnapshot(
@@ -28365,7 +28386,7 @@ async function handleSave() {
       if (saveResult.projectTransaction !== true) {
         await persistBookProfileForFile(filePath, snapshot.bookProfile, 'save project manifest');
       }
-      if (currentLifecycleSubjectId() !== saveSubjectId) return false;
+      if (currentLifecycleSubjectId() !== saveSubjectId) return projectSaveFailure('SUBJECT_CHANGED_DURING_SAVE');
       lastAutosaveHash = computeHash(content);
       currentFilePath = filePath;
       await saveLastFile({ selectionRange: snapshot.selectionRange });
@@ -28375,12 +28396,34 @@ async function handleSave() {
         await deleteAutosaveFile();
         backupHashes.delete(getAutosavePath());
       }
-      return saveAck.kind === SAVE_ACK_KINDS.SAVED;
+      return saveAck.kind === SAVE_ACK_KINDS.SAVED
+        ? true
+        : projectSaveFailure('SAVE_ACK_NOT_DURABLE');
     }
+    logDevError('handleSave:newProjectTransactionResult', saveResult);
     updateStatus('Ошибка');
+    return projectSaveFailure('PROJECT_TRANSACTION_FAILED', saveResult);
   }
 
-  return false;
+  return projectSaveFailure('SAVE_DIALOG_CANCELLED');
+}
+
+function projectSaveFailure(reason, cause = null) {
+  const causeCode = cause && typeof cause.code === 'string' && cause.code
+    ? cause.code
+    : null;
+  const causePhase = cause && typeof cause.phase === 'string' && cause.phase
+    ? cause.phase
+    : null;
+  return {
+    ok: false,
+    error: {
+      code: 'E_PROJECT_SAVE_FAILED',
+      op: COMMAND_SURFACE_KERNEL_COMMAND_IDS.PROJECT_SAVE,
+      reason,
+      details: causeCode || causePhase ? { causeCode, causePhase } : undefined,
+    },
+  };
 }
 
 async function handleSaveAs() {
@@ -28447,6 +28490,7 @@ async function handleSaveAs() {
       }
       return saveAck.kind === SAVE_ACK_KINDS.SAVED;
     }
+    logDevError('handleSaveAs:projectTransactionResult', saveResult);
     updateStatus('Ошибка');
   }
 
@@ -29688,7 +29732,7 @@ function makeProductCommandBridgeError(commandId, code, reason, details = undefi
 }
 
 function readAuthorityCapabilityMatrixDoc() {
-  const matrixPath = path.join(__dirname, '..', 'docs', 'OPS', 'CAPABILITIES_MATRIX.json');
+  const matrixPath = path.join(__dirname, 'runtime-governance', 'docs', 'OPS', 'CAPABILITIES_MATRIX.json');
   try {
     const parsed = JSON.parse(fsSync.readFileSync(matrixPath, 'utf8'));
     return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed : null;

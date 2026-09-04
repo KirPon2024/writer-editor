@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const MENU_RUNTIME_CONTEXT_CANON_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',

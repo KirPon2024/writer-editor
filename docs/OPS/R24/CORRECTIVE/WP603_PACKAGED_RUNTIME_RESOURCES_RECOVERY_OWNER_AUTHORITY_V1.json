@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "ace5488721423d1542515ce16c092054511a31ee",
+  "baseTree": "860ff112568115851c25505fd7c563cc9ad84df1",
+  "branch": "codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPERATIONS/ABOUT_LICENSE_TEXT.md",
+      "sha256": "265f512e7c36830045284dbc2e3abb70eb81a040df4f93f79b58c2986c088d84"
+    },
+    {
+      "path": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "sha256": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047"
+    },
+    {
+      "path": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "sha256": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f"
+    },
+    {
+      "path": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "sha256": "ed0222fcfa8004ec0ae11be7d6ffa4b13e2621703817f4b9feaea1febd0c1797"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "sha256": "a4ceae6daed4fa1bb782ddcda08b536c5c376b3ab091949106b0b8c842c0c0ce"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "67406d2c744d866c12482341f894dc524ef46667ac1a752609587f59ed178d8b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "1d8b6744e8f5341e8348550b284827b05b6fdc1d3bd9ef735fb3b554038f2efb"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "sha256": "735f9e3da62cd6052a1847ef20d5202c1997e3e60a5d0f3d17d24213839bba53"
+    },
+    {
+      "path": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
+      "sha256": "96bdb773f2be2b189b4ea9cd8237dd25b4bb467c60564b51fd62f50e5f7fa47b"
+    },
+    {
+      "path": "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
+      "sha256": "6c3593c2eb948f90197c895d0a4e2dcdbcf50abbbf5ed6da11ae736770b82c15"
+    },
+    {
+      "path": "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
+      "sha256": "4ea57c88c0737cd7de789c6824f30aef202600736ee157e353089cf1e823f48d"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
+      "sha256": "47f50a2c8bdc00cd1cf7af47b2b18dde817b332086f52cb44ab2179f86320e68"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
+      "sha256": "51e5510093e5c4b4daf0a83828ebeefe7d0481b2270800ce8812aefc4d4994d4"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
+      "sha256": "b9c158941f10072bd571bcbe9230b761c9ef2d5edb5f7e6ce2836389ee903ca3"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
+      "sha256": "5b1ae9c80f2048d4028760ab48ce7e71f54ee5bb94bb81739a95c840f06dbf14"
+    },
+    {
+      "path": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
+      "sha256": "412b383da042a35d0fb2f643c4155f3ac88784e2d9d414f6c8259df87a451898"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective WP603 packaged runtime resources recovery and exact desktop journey closure",
+    "npm run agent:preflight -- --declaration /tmp/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --exact recovery arguments",
+    "node --test test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "node scripts/check-packaged-renderer-bundle.mjs",
+    "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --out EXTERNAL_EVIDENCE_DIR",
+    "node scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs --out EXTERNAL_EVIDENCE_DIR",
+    "node /Volumes/T7-Secure/storage/yalken/evidence/wp603-wse-state-evidence-v1/terminal-v1/WP603_PACKAGED_VISIBLE_JOURNEY_HARNESS_V1.mjs",
+    "npm run test:r24-post-audit",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "git diff --check",
+    "git status --short --branch",
+    "git add -- EXACT_RECOVERY_WRITE_SET",
+    "git commit -m Recover packaged runtime governance resources",
+    "git fetch origin main",
+    "git merge --ff-only origin/main",
+    "git push origin codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+    "gh pr create --base main --head codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh workflow run ops-vector-close.yml",
+    "gh run watch RUN --exit-status",
+    "node /tmp/WP603_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP603_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPERATIONS/ABOUT_LICENSE_TEXT.md",
+      "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "docs/OPS/CAPABILITIES_MATRIX.json",
+      "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
+      "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
+      "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
+      "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
+      "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
+      "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
+      "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
+      "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
+      "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "docs/corex/COREX.md",
+      "docs/corex/COREX.v2.md",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
+      "src/main.js",
+      "src/menu/command-namespace-canon.js",
+      "src/menu/enabledwhen-eval.js",
+      "src/menu/menu-artifact-lock.js",
+      "src/menu/menu-config-normalizer.js",
+      "src/menu/menu-config-validator.js",
+      "src/menu/menu-runtime-context.js",
+      "src/menu/plugin-overlays-loader.js"
+    ],
+    "modifyPaths": [
+      "package.json",
+      "scripts/check-packaged-renderer-bundle.mjs",
+      "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "EXACT_PACKAGED_COMMAND_NAMESPACE_RESOURCE_PRESENT",
+    "ALL_TWELVE_STATIC_RUNTIME_GOVERNANCE_RESOURCES_PRESENT",
+    "PACKAGED_RESOURCE_BYTES_EQUAL_EXACT_REPOSITORY_BYTES",
+    "MISSING_RESOURCE_AND_BYTE_DRIFT_FAIL_CLOSED",
+    "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT_PASS",
+    "THREE_PRIOR_IDENTICAL_FAILURES_AND_DIAGNOSTIC_REMAIN_IMMUTABLE",
+    "NO_COMMAND_SEMANTICS_UI_DEPENDENCY_NETWORK_SIGNING_OR_DISTRIBUTION_CHANGE",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP603_FENCE_85_RELEASED_WIP_0",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1",
+      "digest": "67406d2c744d866c12482341f894dc524ef46667ac1a752609587f59ed178d8b",
+      "status": "MERGED_OWNER_AUTHORITY"
+    },
+    {
+      "id": "WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1",
+      "digest": "1d8b6744e8f5341e8348550b284827b05b6fdc1d3bd9ef735fb3b554038f2efb",
+      "status": "MERGED_ADMISSION"
+    },
+    {
+      "id": "WP603_MERGE_ACE54887",
+      "digest": "860ff112568115851c25505fd7c563cc9ad84df1",
+      "status": "MERGED_TREE"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT1_FAILURE_V1",
+      "digest": "e7602057d192381dc45a7f1e7616549971beecb90216d9efe76927369a389dde",
+      "status": "FAIL_SCENE_OPEN"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT2_FAILURE_V1",
+      "digest": "1078e6f2508436dc57e50cd8c4b72b3ad092ec7f1b8c5693def593c57b3b3620",
+      "status": "FAIL_ALL_VISIBLE_ROWS_POINTER"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT3_FAILURE_V1",
+      "digest": "d950a7d17ec12fb021122d2c4485540c81e692ef341e4119c5d3e938deb242c3",
+      "status": "FAIL_ALL_VISIBLE_ROWS_KEYBOARD"
+    },
+    {
+      "id": "WP603_PACKAGED_OPEN_DIAGNOSTIC_V1",
+      "digest": "ec8852bfe7a1588b7371e664f0475f0429c689e4c1669f399ace87d5b2b94624",
+      "status": "COMMAND_EXECUTION_THROW_ENOENT_COMMAND_NAMESPACE_CANON"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 85,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "084ae4107b98f1b0337caf624af3e305e8bdf5cdc1cb064a849f92a29bf3c32c"
+  }
+}

@@ -1,0 +1,2062 @@
+{
+  "schemaVersion": 1,
+  "snapshotId": "menu-default-desktop-minimal",
+  "normalizedHashSha256": "cd9ecb9dbc6f2a7d1a6f42b6fcfc4dcabc6c2688e4a893193a1d20940b5f6569",
+  "generatedAt": "2026-08-14T19:46:40.725Z",
+  "generatedFromCommit": "59ed787fb75769222d880cb9d5769e02ed614b0e",
+  "context": {
+    "contextHashSha256": "0b9f41c629bef3558dc79abcbc0afcffdad95ff97ccb70bfb3d1ebf8ad9b9290",
+    "contextRef": "test/fixtures/menu/context.default.json"
+  },
+  "localeCatalog": {
+    "entries": {
+      "menu.edit": {
+        "base": "Редактирование",
+        "en": "Edit",
+        "ru": "Редактирование"
+      },
+      "menu.file": {
+        "base": "Документ",
+        "en": "Document",
+        "ru": "Документ"
+      },
+      "menu.file.exportAllScenesTxt": {
+        "base": "Экспорт TXT всех сцен",
+        "en": "Export All Scenes TXT",
+        "ru": "Экспорт TXT всех сцен"
+      },
+      "menu.file.exportBlackBoxManualCoreCapsule": {
+        "base": "Export Black Box Manual CORE Capsule...",
+        "en": "Export Black Box Manual CORE Capsule...",
+        "ru": "Экспорт Black Box CORE Capsule..."
+      },
+      "menu.file.exportCurrentSceneTxt": {
+        "base": "Экспорт TXT текущей сцены",
+        "en": "Export Current Scene TXT",
+        "ru": "Экспорт TXT текущей сцены"
+      },
+      "menu.file.exportDocx": {
+        "base": "Export DOCX (Minimal)...",
+        "en": "Export DOCX (Minimal)...",
+        "ru": "Экспорт DOCX (минимальный)..."
+      },
+      "menu.file.exportFullArchive": {
+        "base": "Export Full Project Archive...",
+        "en": "Export Full Project Archive...",
+        "ru": "Экспорт полного архива проекта..."
+      },
+      "menu.file.exportMarkdown": {
+        "base": "Export Markdown...",
+        "en": "Export Markdown...",
+        "ru": "Экспорт Markdown..."
+      },
+      "menu.file.exportPdf": {
+        "base": "Export PDF...",
+        "en": "Export PDF...",
+        "ru": "Экспорт PDF..."
+      },
+      "menu.file.exportSelectedScenesTxt": {
+        "base": "Экспорт TXT выбранных сцен",
+        "en": "Export Selected Scenes TXT",
+        "ru": "Экспорт TXT выбранных сцен"
+      },
+      "menu.file.importDocxContent": {
+        "base": "Import DOCX Content (Content only)...",
+        "en": "Import DOCX Content (Content only)...",
+        "ru": "Импорт содержимого DOCX (только содержимое)..."
+      },
+      "menu.file.importFullArchive": {
+        "base": "Import Full Project Archive...",
+        "en": "Import Full Project Archive...",
+        "ru": "Импорт полного архива проекта..."
+      },
+      "menu.file.importMarkdownContent": {
+        "base": "Import Markdown Content...",
+        "en": "Import Markdown Content...",
+        "ru": "Импорт содержимого Markdown..."
+      },
+      "menu.file.importTxtContent": {
+        "base": "Import TXT Content...",
+        "en": "Import TXT Content...",
+        "ru": "Импорт содержимого TXT..."
+      },
+      "menu.file.open": {
+        "base": "Открыть проект...",
+        "en": "Open Project...",
+        "ru": "Открыть проект..."
+      },
+      "menu.file.save": {
+        "base": "Сохранить",
+        "en": "Save",
+        "ru": "Сохранить"
+      },
+      "menu.format": {
+        "base": "Format",
+        "en": "Format",
+        "ru": "Формат"
+      },
+      "menu.format.alignLeft": {
+        "base": "Align Left",
+        "en": "Align Left",
+        "ru": "Выровнять влево"
+      },
+      "menu.help": {
+        "base": "Help",
+        "en": "Help",
+        "ru": "Справка"
+      },
+      "menu.help.aboutLicenses": {
+        "base": "О программе и лицензии",
+        "en": "About and Licenses",
+        "ru": "О программе и лицензии"
+      },
+      "menu.insert": {
+        "base": "Insert",
+        "en": "Insert",
+        "ru": "Вставка"
+      },
+      "menu.insert.addCard": {
+        "base": "Add Card",
+        "en": "Add Card",
+        "ru": "Добавить карточку"
+      },
+      "menu.plan": {
+        "base": "Plan",
+        "en": "Plan",
+        "ru": "План"
+      },
+      "menu.plan.openMode": {
+        "base": "Open Plan Mode",
+        "en": "Open Plan Mode",
+        "ru": "Открыть режим плана"
+      },
+      "menu.review": {
+        "base": "Review",
+        "en": "Review",
+        "ru": "Ревью"
+      },
+      "menu.review.cancelOperation": {
+        "base": "Cancel Review Operation",
+        "en": "Cancel Review Operation",
+        "ru": "Отменить операцию ревью"
+      },
+      "menu.review.clearSession": {
+        "base": "Clear Review Session",
+        "en": "Clear Review Session",
+        "ru": "Очистить review session"
+      },
+      "menu.review.exportDocxReviewPacket": {
+        "base": "Export Review DOCX Packet...",
+        "en": "Export Review DOCX Packet...",
+        "ru": "Экспортировать Review DOCX Packet..."
+      },
+      "menu.review.exportFullManuscriptDocxReviewPacket": {
+        "base": "Export Full Manuscript Review DOCX Packet...",
+        "en": "Export Full Manuscript Review DOCX Packet...",
+        "ru": "Экспортировать полный manuscript Review DOCX Packet..."
+      },
+      "menu.review.exportLocalPacket": {
+        "base": "Export Review Packet...",
+        "en": "Export Review Packet...",
+        "ru": "Экспортировать Review Packet..."
+      },
+      "menu.review.importLocalPacket": {
+        "base": "Import Review Packet for Exact Apply...",
+        "en": "Import Review Packet for Exact Apply...",
+        "ru": "Импортировать Review Packet для точного применения..."
+      },
+      "menu.review.openDocxReviewPreviewSession": {
+        "base": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
+        "en": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
+        "ru": "Открыть DOCX Review (комментарии; кандидаты правок только вручную)..."
+      },
+      "menu.review.openMode": {
+        "base": "Open Review Mode",
+        "en": "Open Review Mode",
+        "ru": "Открыть режим ревью"
+      },
+      "menu.review.recovery": {
+        "base": "Recovery",
+        "en": "Recovery",
+        "ru": "Восстановление"
+      },
+      "menu.tools": {
+        "base": "Tools",
+        "en": "Tools",
+        "ru": "Инструменты"
+      },
+      "menu.tools.diagnostics": {
+        "base": "Diagnostics",
+        "en": "Diagnostics",
+        "ru": "Диагностика"
+      },
+      "menu.view": {
+        "base": "View",
+        "en": "View",
+        "ru": "Вид"
+      },
+      "menu.view.customization": {
+        "base": "Menu Customization",
+        "en": "Menu Customization",
+        "ru": "Настройка меню"
+      },
+      "menu.view.customization.moveEarlier": {
+        "base": "Move Earlier",
+        "en": "Move Earlier",
+        "ru": "Переместить выше"
+      },
+      "menu.view.customization.moveLater": {
+        "base": "Move Later",
+        "en": "Move Later",
+        "ru": "Переместить ниже"
+      },
+      "menu.view.customization.order": {
+        "base": "Order",
+        "en": "Order",
+        "ru": "Порядок"
+      },
+      "menu.view.customization.reset": {
+        "base": "Reset Menu Customization",
+        "en": "Reset Menu Customization",
+        "ru": "Сбросить настройку меню"
+      },
+      "menu.view.customization.visibility": {
+        "base": "Visibility",
+        "en": "Visibility",
+        "ru": "Видимость"
+      },
+      "menu.view.language": {
+        "base": "Language",
+        "en": "Language",
+        "ru": "Язык"
+      },
+      "menu.view.language.base": {
+        "base": "Base",
+        "en": "Base",
+        "ru": "Базовый"
+      },
+      "menu.view.language.en": {
+        "base": "English",
+        "en": "English",
+        "ru": "Английский"
+      },
+      "menu.view.language.ru": {
+        "base": "Русский",
+        "en": "Russian",
+        "ru": "Русский"
+      },
+      "menu.view.mode.plan": {
+        "base": "Plan Mode",
+        "en": "Plan Mode",
+        "ru": "Режим плана"
+      },
+      "menu.view.mode.review": {
+        "base": "Review Mode",
+        "en": "Review Mode",
+        "ru": "Режим ревью"
+      },
+      "menu.view.mode.write": {
+        "base": "Write Mode",
+        "en": "Write Mode",
+        "ru": "Режим письма"
+      },
+      "menu.view.presentation": {
+        "base": "Presentation Mode",
+        "en": "Presentation Mode",
+        "ru": "Режим меню"
+      },
+      "menu.view.presentation.classic": {
+        "base": "Classic",
+        "en": "Classic",
+        "ru": "Классический"
+      },
+      "menu.view.presentation.compact": {
+        "base": "Compact",
+        "en": "Compact",
+        "ru": "Компактный"
+      },
+      "menu.view.restoreLastStable": {
+        "base": "Restore Last Stable",
+        "en": "Restore Last Stable",
+        "ru": "Восстановить последнюю стабильную"
+      },
+      "menu.view.safeReset": {
+        "base": "Safe Reset",
+        "en": "Safe Reset",
+        "ru": "Безопасный сброс"
+      },
+      "menu.view.settings": {
+        "base": "Settings",
+        "en": "Settings",
+        "ru": "Настройки"
+      },
+      "menu.window": {
+        "base": "Window",
+        "en": "Window",
+        "ru": "Окно"
+      },
+      "menu.window.backToWrite": {
+        "base": "Back To Write Mode",
+        "en": "Back To Write Mode",
+        "ru": "Вернуться в режим письма"
+      }
+    },
+    "locales": [
+      "base",
+      "ru",
+      "en"
+    ],
+    "version": "v1"
+  },
+  "sourceRefs": [
+    "src/menu/menu-config.v2.json",
+    "src/menu/menu-locale.catalog.v1.json"
+  ],
+  "commands": [
+    "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+    "cmd.project.export.docxMin",
+    "cmd.project.exportAllScenesTxtV1",
+    "cmd.project.exportCurrentSceneTxtV1",
+    "cmd.project.exportFullArchiveV1",
+    "cmd.project.exportMarkdownV1",
+    "cmd.project.exportPdfV1",
+    "cmd.project.exportSelectedScenesTxtV1",
+    "cmd.project.format.alignLeft",
+    "cmd.project.importDocxV1",
+    "cmd.project.importFullArchiveV1",
+    "cmd.project.importMarkdownV1",
+    "cmd.project.importTxtV1",
+    "cmd.project.insert.addCard",
+    "cmd.project.open",
+    "cmd.project.plan.switchMode",
+    "cmd.project.review.cancelOperation",
+    "cmd.project.review.clearSession",
+    "cmd.project.review.exportDocxReviewPacket",
+    "cmd.project.review.exportFullManuscriptDocxReviewPacket",
+    "cmd.project.review.exportLocalPacket",
+    "cmd.project.review.importLocalPacket",
+    "cmd.project.review.openDocxReviewPreviewSession",
+    "cmd.project.review.openRecovery",
+    "cmd.project.review.switchMode",
+    "cmd.project.save",
+    "cmd.project.tools.openDiagnostics",
+    "cmd.project.view.openSettings",
+    "cmd.project.view.resetMenuCustomization",
+    "cmd.project.view.restoreLastStable",
+    "cmd.project.view.safeReset",
+    "cmd.project.view.setMenuLocaleBase",
+    "cmd.project.view.setMenuLocaleEn",
+    "cmd.project.view.setMenuLocaleRu",
+    "cmd.project.view.setMenuPresentationClassic",
+    "cmd.project.view.setMenuPresentationCompact",
+    "cmd.project.window.switchModeWrite"
+  ],
+  "menus": [
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": {
+        "args": [],
+        "op": "all"
+      },
+      "id": "file",
+      "items": [
+        {
+          "accelerator": "CmdOrCtrl+O",
+          "canonicalCmdId": "cmd.project.open",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "file-open",
+          "label": "Открыть проект...",
+          "labelKey": "menu.file.open",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "accelerator": "CmdOrCtrl+S",
+          "canonicalCmdId": "cmd.project.save",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-save",
+          "label": "Сохранить",
+          "labelKey": "menu.file.save",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.importDocxV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-import-docx-content",
+          "label": "Import DOCX Content (Content only)...",
+          "labelKey": "menu.file.importDocxContent",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.importTxtV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-import-txt-content",
+          "label": "Import TXT Content...",
+          "labelKey": "menu.file.importTxtContent",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.importMarkdownV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-import-markdown-content",
+          "label": "Import Markdown Content...",
+          "labelKey": "menu.file.importMarkdownContent",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.importFullArchiveV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "file-import-full-archive",
+          "label": "Import Full Project Archive...",
+          "labelKey": "menu.file.importFullArchive",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.export.docxMin",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-docx",
+          "label": "Export DOCX (Minimal)...",
+          "labelKey": "menu.file.exportDocx",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportPdfV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-pdf",
+          "label": "Export PDF...",
+          "labelKey": "menu.file.exportPdf",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportFullArchiveV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-full-archive",
+          "label": "Export Full Project Archive...",
+          "labelKey": "menu.file.exportFullArchive",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.blackBox.exportManualCoreCapsuleKitV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-black-box-manual-core-capsule",
+          "label": "Export Black Box Manual CORE Capsule...",
+          "labelKey": "menu.file.exportBlackBoxManualCoreCapsule",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportMarkdownV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-markdown",
+          "label": "Export Markdown...",
+          "labelKey": "menu.file.exportMarkdown",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportCurrentSceneTxtV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-current-scene-txt",
+          "label": "Экспорт TXT текущей сцены",
+          "labelKey": "menu.file.exportCurrentSceneTxt",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportSelectedScenesTxtV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-selected-scenes-txt",
+          "label": "Экспорт TXT выбранных сцен",
+          "labelKey": "menu.file.exportSelectedScenesTxt",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.exportAllScenesTxtV1",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "hasDocument",
+            "op": "flag"
+          },
+          "id": "file-export-all-scenes-txt",
+          "label": "Экспорт TXT всех сцен",
+          "labelKey": "menu.file.exportAllScenesTxt",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Документ",
+      "labelKey": "menu.file",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "edit",
+      "items": [
+        {
+          "canonicalCmdId": null,
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "name": "selectionExists",
+            "op": "flag"
+          },
+          "id": "edit-copy",
+          "mode": [
+            "offline",
+            "web_subset"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "role": "copy",
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Редактирование",
+      "labelKey": "menu.edit",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "view",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.view.openSettings",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-settings",
+          "label": "Settings",
+          "labelKey": "menu.view.settings",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": null,
+          "disabledReasonCode": null,
+          "enabledWhenAst": null,
+          "id": "view-presentation-mode",
+          "items": [
+            {
+              "canonicalCmdId": "cmd.project.view.setMenuPresentationClassic",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-presentation-classic",
+              "label": "Classic",
+              "labelKey": "menu.view.presentation.classic",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            },
+            {
+              "canonicalCmdId": "cmd.project.view.setMenuPresentationCompact",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-presentation-compact",
+              "label": "Compact",
+              "labelKey": "menu.view.presentation.compact",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            }
+          ],
+          "label": "Presentation Mode",
+          "labelKey": "menu.view.presentation",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": null,
+          "disabledReasonCode": null,
+          "enabledWhenAst": null,
+          "id": "view-language",
+          "items": [
+            {
+              "canonicalCmdId": "cmd.project.view.setMenuLocaleBase",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-language-base",
+              "label": "Base",
+              "labelKey": "menu.view.language.base",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            },
+            {
+              "canonicalCmdId": "cmd.project.view.setMenuLocaleRu",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-language-ru",
+              "label": "Русский",
+              "labelKey": "menu.view.language.ru",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            },
+            {
+              "canonicalCmdId": "cmd.project.view.setMenuLocaleEn",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-language-en",
+              "label": "English",
+              "labelKey": "menu.view.language.en",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            }
+          ],
+          "label": "Language",
+          "labelKey": "menu.view.language",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": null,
+          "disabledReasonCode": null,
+          "enabledWhenAst": null,
+          "id": "view-menu-customization",
+          "items": [
+            {
+              "canonicalCmdId": null,
+              "disabledReasonCode": null,
+              "enabledWhenAst": null,
+              "id": "view-menu-customization-visibility",
+              "label": "Visibility",
+              "labelKey": "menu.view.customization.visibility",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "submenuFrom": "menuCustomizationVisibilitySections",
+              "visibilityPolicy": "visible_enabled"
+            },
+            {
+              "canonicalCmdId": null,
+              "disabledReasonCode": null,
+              "enabledWhenAst": null,
+              "id": "view-menu-customization-order",
+              "label": "Order",
+              "labelKey": "menu.view.customization.order",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "submenuFrom": "menuCustomizationOrderSections",
+              "visibilityPolicy": "visible_enabled"
+            },
+            {
+              "canonicalCmdId": "cmd.project.view.resetMenuCustomization",
+              "disabledReasonCode": null,
+              "enabledWhenAst": {
+                "args": [],
+                "op": "all"
+              },
+              "id": "view-menu-customization-reset",
+              "label": "Reset Menu Customization",
+              "labelKey": "menu.view.customization.reset",
+              "mode": [
+                "offline"
+              ],
+              "origin": "base",
+              "profile": [
+                "minimal",
+                "pro",
+                "guru"
+              ],
+              "sourceRefs": [
+                "src/menu/menu-config.v2.json"
+              ],
+              "stage": [
+                "X0",
+                "X1",
+                "X2",
+                "X3",
+                "X4"
+              ],
+              "visibilityPolicy": "visible_enabled"
+            }
+          ],
+          "label": "Menu Customization",
+          "labelKey": "menu.view.customization",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.view.safeReset",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-safe-reset",
+          "label": "Safe Reset",
+          "labelKey": "menu.view.safeReset",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.view.restoreLastStable",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-restore-last-stable",
+          "label": "Restore Last Stable",
+          "labelKey": "menu.view.restoreLastStable",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.window.switchModeWrite",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-switch-write",
+          "label": "Write Mode",
+          "labelKey": "menu.view.mode.write",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.plan.switchMode",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-switch-plan",
+          "label": "Plan Mode",
+          "labelKey": "menu.view.mode.plan",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.switchMode",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "view-switch-review",
+          "label": "Review Mode",
+          "labelKey": "menu.view.mode.review",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "View",
+      "labelKey": "menu.view",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "insert",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.insert.addCard",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "insert-add-card",
+          "label": "Add Card",
+          "labelKey": "menu.insert.addCard",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Insert",
+      "labelKey": "menu.insert",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "format",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.format.alignLeft",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "format-align-left",
+          "label": "Align Left",
+          "labelKey": "menu.format.alignLeft",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Format",
+      "labelKey": "menu.format",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "plan",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.plan.switchMode",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "plan-mode",
+          "label": "Open Plan Mode",
+          "labelKey": "menu.plan.openMode",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Plan",
+      "labelKey": "menu.plan",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "review",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.review.importLocalPacket",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-import-local-packet",
+          "label": "Import Review Packet for Exact Apply...",
+          "labelKey": "menu.review.importLocalPacket",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.exportLocalPacket",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-export-local-packet",
+          "label": "Export Review Packet...",
+          "labelKey": "menu.review.exportLocalPacket",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.exportDocxReviewPacket",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-export-docx-review-packet",
+          "label": "Export Review DOCX Packet...",
+          "labelKey": "menu.review.exportDocxReviewPacket",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.exportFullManuscriptDocxReviewPacket",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-export-full-manuscript-docx-review-packet",
+          "label": "Export Full Manuscript Review DOCX Packet...",
+          "labelKey": "menu.review.exportFullManuscriptDocxReviewPacket",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.openDocxReviewPreviewSession",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-open-docx-review-preview-session",
+          "label": "Open DOCX Review (Comments; tracked text candidates are manual-only)...",
+          "labelKey": "menu.review.openDocxReviewPreviewSession",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.switchMode",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-mode",
+          "label": "Open Review Mode",
+          "labelKey": "menu.review.openMode",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.clearSession",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-clear-session",
+          "label": "Clear Review Session",
+          "labelKey": "menu.review.clearSession",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.cancelOperation",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-cancel-operation",
+          "label": "Cancel Review Operation",
+          "labelKey": "menu.review.cancelOperation",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        },
+        {
+          "canonicalCmdId": "cmd.project.review.openRecovery",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "review-recovery",
+          "label": "Recovery",
+          "labelKey": "menu.review.recovery",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Review",
+      "labelKey": "menu.review",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "tools",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.tools.openDiagnostics",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "tools-diagnostics",
+          "label": "Diagnostics",
+          "labelKey": "menu.tools.diagnostics",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Tools",
+      "labelKey": "menu.tools",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "window",
+      "items": [
+        {
+          "canonicalCmdId": "cmd.project.window.switchModeWrite",
+          "disabledReasonCode": null,
+          "enabledWhenAst": {
+            "args": [],
+            "op": "all"
+          },
+          "id": "window-write-mode",
+          "label": "Back To Write Mode",
+          "labelKey": "menu.window.backToWrite",
+          "mode": [
+            "offline"
+          ],
+          "origin": "base",
+          "profile": [
+            "minimal",
+            "pro",
+            "guru"
+          ],
+          "sourceRefs": [
+            "src/menu/menu-config.v2.json"
+          ],
+          "stage": [
+            "X0",
+            "X1",
+            "X2",
+            "X3",
+            "X4"
+          ],
+          "visibilityPolicy": "visible_enabled"
+        }
+      ],
+      "label": "Window",
+      "labelKey": "menu.window",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    },
+    {
+      "canonicalCmdId": null,
+      "disabledReasonCode": null,
+      "enabledWhenAst": null,
+      "id": "help",
+      "label": "Help",
+      "labelKey": "menu.help",
+      "mode": [
+        "offline"
+      ],
+      "origin": "base",
+      "profile": [
+        "minimal",
+        "pro",
+        "guru"
+      ],
+      "sourceRefs": [
+        "src/menu/menu-config.v2.json"
+      ],
+      "stage": [
+        "X0",
+        "X1",
+        "X2",
+        "X3",
+        "X4"
+      ],
+      "visibilityPolicy": "visible_enabled"
+    }
+  ]
+}

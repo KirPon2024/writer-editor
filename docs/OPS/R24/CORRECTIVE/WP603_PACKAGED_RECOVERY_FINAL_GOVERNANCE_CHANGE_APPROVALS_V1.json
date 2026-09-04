@@ -1,0 +1,125 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "92ffa348867a6d5d4a601105ace1b2897474a80a92a3fdca587b04922b59945b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_OWNER_AUTHORITY_V1.json",
+      "sha256": "3049e5e355ff7d7d52bb3a2b4f632e5e8828ad36c73393e3916e0d32243ca508",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5670bc9586faf3bd598d57e99f84e03895cde31f94dd66d4b823e2ce316f2b64",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_INSTANCE_V1.json",
+      "sha256": "01b9cdbed30dea0d85b0f5c3831abe5d40576e5ae78b6f2bad0d8a04782f3e97",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_OWNER_AUTHORITY_V1.json",
+      "sha256": "3c733e01fb5e9de57ef7f7ff71863171d28c38d4995da09180638931c7dbcd08",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5949aed88bef8840ef90acbd5ad882802bcf80bce7acd806b5aaf198f2377d63",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "3b90805c9c12bc2ab86df1a026a9f81a134f455cefc669ec545006f624a9ebd2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "cf4548ac5ed75186f6e569d407056cb7633e63551ee58e2c47eb76da4597220b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "877c1332f2447dbc8116527b818126f7d46759fd2254c38ef49b647590e4b1bb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "61d44287ef1ce8330d32711c8560eef77756007787d4d564f861536aea4c3474",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "3753771b0c38ea43fe339d836dd798737493918505f4dd39d51bd85b95163a16",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "6917463bdfe7269ed36d2c2035f7b291b44d2005ff3066867cf52995eead9775",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "caaceb490d6436629b54977aa606e37dc30b205bd1cf61e27bdb76f6a4140feb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "f80565149deb29115304ef451ddd085c9a88d47ad41bfd459a6e8d6dacc709cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "fc3a2795a6db8fbb3a9e2d3d43417f2b6f444be9619aea83dedafd2f92bf3586",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+      "sha256": "bf873193912d6730ffb5455cd4f7a636fa60fdcfef8b581f07e198a2758ce14d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+      "approvedAtUtc": "2026-09-04T00:36:21.221Z",
+      "rationale": "Owner-authorized WP603 terminal recovery binds exact packaged runtime resources, save lifecycle identity, disposable packaged create-write-save-close-reopen-recovery-export evidence, current C1B inventory, and append-only RELEASE01 wording surface. No new dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE claim."
+    }
+  ]
+}

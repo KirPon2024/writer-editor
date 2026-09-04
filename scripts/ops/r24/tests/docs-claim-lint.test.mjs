@@ -4,11 +4,18 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { lintDocsClaims } from '../docs-claim-lint.mjs';
+import { fileURLToPath } from 'node:url';
+import {
+  HISTORICAL_INVENTORY_CLAIM_PINS_V4,
+  lintDocsClaims,
+  verifyHistoricalInventoryClaim,
+} from '../docs-claim-lint.mjs';
 
 const HEAD = 'a'.repeat(40);
 const TREE = 'b'.repeat(40);
 const NOW = '2026-08-23T00:00:00Z';
+const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../../..');
+const INVENTORY_PATH = 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json';
 
 function evidenceStamp(id) {
   return {
@@ -192,4 +199,31 @@ test('sha-bound evidence binding fails closed when target digest changes', () =>
   const result = lintDocsClaims(dir);
   assert.equal(result.ok, false);
   assert.ok(result.failures.includes('E_CLAIM_BINDING_DIGEST_MISMATCH:docs/OPS/R24/SEALED.json'));
+});
+
+test('WP603 original inventory binding is accepted only at its exact merged bytes', () => {
+  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V4.find(
+    (item) => item.stampId === 'ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS',
+  );
+  assert.ok(pin);
+  const stampPath = path.join(REPO_ROOT, 'docs', 'OPS', 'R24', 'EVIDENCE', `${pin.stampId}.json`);
+  const stampBytes = fs.readFileSync(stampPath);
+  const stamp = JSON.parse(stampBytes);
+  const binding = stamp.claimBindings.find((entry) => entry.filePath === INVENTORY_PATH);
+  const result = verifyHistoricalInventoryClaim({ rootDir: REPO_ROOT, stamp, stampBytes, binding });
+  assert.equal(result.status, 'VERIFIED_HISTORICAL_BYTES');
+  assert.equal(result.currentFileCoverage, false);
+  assert.equal(result.evaluationSha, pin.evaluationSha);
+  assert.throws(
+    () => verifyHistoricalInventoryClaim({ rootDir: REPO_ROOT, stamp, stampBytes: Buffer.concat([stampBytes, Buffer.from('x')]), binding }),
+    /E_HISTORICAL_INVENTORY_BINDING/,
+  );
+});
+
+test('repository claim surface has a current successor binding for current C1B bytes', () => {
+  const result = lintDocsClaims(REPO_ROOT);
+  assert.equal(result.ok, true, result.failures.join('\n'));
+  assert.ok(result.historicalBindings.some(
+    (binding) => binding.stampId === 'ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS',
+  ));
 });

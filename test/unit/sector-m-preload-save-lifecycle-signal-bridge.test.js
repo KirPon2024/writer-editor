@@ -36,6 +36,42 @@ test('preload save lifecycle signal bridge: main exposes one handler with strict
   assert.ok(source.includes('return autoSave();'))
 })
 
+test('preload save lifecycle signal bridge: save snapshot identity and refusals remain protocol-complete', () => {
+  const source = read('src/main.js')
+  const normalizeSnapshotSource = source.slice(
+    source.indexOf('function normalizeEditorSnapshotPayload(payload) {'),
+    source.indexOf('function requestEditorSnapshot(', source.indexOf('function normalizeEditorSnapshotPayload(payload) {')),
+  )
+  const autoSaveSource = source.slice(
+    source.indexOf('async function runAutoSave() {'),
+    source.indexOf('function autoSave() {', source.indexOf('async function runAutoSave() {')),
+  )
+  const lifecycleFailureSource = source.slice(
+    source.indexOf('function lifecycleSaveFailure('),
+    source.indexOf('// Создание бэкапа', source.indexOf('function lifecycleSaveFailure(')),
+  )
+
+  assert.ok(normalizeSnapshotSource.includes('generation: 0,'))
+  assert.ok(normalizeSnapshotSource.includes('Number.isSafeInteger(source.generation) && source.generation >= 0'))
+  assert.ok(autoSaveSource.includes("lifecycleSaveFailure(lifecycleSubjectId, 'SAVE_WRITE_FAILED', classify(false, null))"))
+  assert.equal(autoSaveSource.includes('return { ok: false'), false)
+  assert.ok(lifecycleFailureSource.includes("code: 'E_SAVE_LIFECYCLE_AT_RISK'"))
+  assert.ok(lifecycleFailureSource.includes('reason,'))
+  assert.ok(source.includes("code: 'E_PROJECT_SAVE_FAILED'"))
+  assert.ok(source.includes("return saved === true ? { ok: true } : saved;"))
+  const autonomousRootSource = source.slice(
+    source.indexOf('function getAutonomousAppPathRoot() {'),
+    source.indexOf('function applyAutonomousAppPathRoot() {'),
+  )
+  assert.ok(autonomousRootSource.includes('fsSync.realpathSync.native(resolvedRoot)'))
+  assert.ok(autonomousRootSource.includes('fsSync.realpathSync.native(resolvedTmpRoot)'))
+  const archivePathResolverSource = source.slice(
+    source.indexOf('async function resolveProjectArchiveExportPath(payload) {'),
+    source.indexOf('async function resolveProjectArchiveImportPath(', source.indexOf('async function resolveProjectArchiveExportPath(payload) {')),
+  )
+  assert.ok(archivePathResolverSource.includes('showSaveDialogWithAutonomousPath(mainWindow'))
+})
+
 test('preload save lifecycle signal bridge: editor routes dirty and autosave call sites through signal bridge only', () => {
   const source = read('src/renderer/editor.js')
 

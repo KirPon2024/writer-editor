@@ -1,7 +1,7 @@
 const fsSync = require('fs');
 const path = require('path');
 
-const CANON_PATH = path.join(__dirname, '..', '..', 'docs', 'OPS', 'STATUS', 'COMMAND_NAMESPACE_CANON.json');
+const CANON_PATH = path.join(__dirname, '..', 'runtime-governance', 'docs', 'OPS', 'STATUS', 'COMMAND_NAMESPACE_CANON.json');
 const DATE_RE = /^\d{4}-\d{2}-\d{2}$/u;
 
 let canonCache = null;

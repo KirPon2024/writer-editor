@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "overlayFormat": "json-data-only",
+  "execution": {
+    "allowJs": false,
+    "allowEval": false,
+    "allowIpc": false
+  },
+  "allowedFields": [
+    "inserts",
+    "hides",
+    "orderRules",
+    "enabledWhenAst",
+    "visibilityPolicy",
+    "disabledReasonCode",
+    "sourceRefs"
+  ],
+  "requiredMetadata": [
+    "pluginId",
+    "pluginVersion",
+    "overlayId",
+    "signatureStatus"
+  ],
+  "signaturePolicy": {
+    "unsignedAllowed": false,
+    "unsignedAllowedInDevOnly": false
+  }
+}

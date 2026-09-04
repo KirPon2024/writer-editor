@@ -1,7 +1,7 @@
 const fsSync = require('fs');
 const path = require('path');
 
-const CANON_PATH = path.join(__dirname, '..', '..', 'docs', 'OPS', 'STATUS', 'ENABLEDWHEN_DSL_CANON.json');
+const CANON_PATH = path.join(__dirname, '..', 'runtime-governance', 'docs', 'OPS', 'STATUS', 'ENABLEDWHEN_DSL_CANON.json');
 const DEFAULT_AST = Object.freeze({
   op: 'all',
   args: Object.freeze([]),

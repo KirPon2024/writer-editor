@@ -1,0 +1,41 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "FIXED_ALLOWLIST_AND_IMMUTABLE_RECEIPT",
+      "path": "test/unit/r24-wp800-pulse-policy-codec.test.js"
+    },
+    {
+      "id": "CANONICAL_ROUNDTRIP_AND_REVISION_GUARD",
+      "path": "test/unit/r24-wp800-pulse-policy-codec-integration.test.js"
+    },
+    {
+      "id": "PRIVACY_AUTHORITY_BYTE_AND_TAMPER_MUTANTS_38",
+      "path": "test/unit/r24-wp800-pulse-policy-codec-mutants.test.js"
+    },
+    {
+      "id": "DISPOSABLE_BUILD_PROFILE_LIFECYCLE",
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "WRITER_LOCAL_OFFLINE",
+  "physicalScenario": {
+    "create": 1,
+    "write": 1,
+    "save": 1,
+    "close": 1,
+    "reopen": 1,
+    "recovery": 1,
+    "export": 1,
+    "source": "EXISTING_DISPOSABLE_FIXTURE_BASELINE_REQUIRED_AT_FULL_GATE"
+  },
+  "designEvidence": {
+    "status": "NOT_APPLICABLE_NO_UI_CHANGE",
+    "runtimeDependency": false,
+    "canonicalDesignAuthority": false
+  }
+}

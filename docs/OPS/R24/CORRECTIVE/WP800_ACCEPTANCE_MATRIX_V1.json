@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_PROOF_COMPLETE_EXTERNAL_DELIVERY_PENDING",
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_41_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "OWNER_GATE_APPEND_ONLY_DECISION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "OWNER_GATE_SCOPE_NEGATIVES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "LOCAL_AGGREGATE_ONLY_POLICY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "CONTENT_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "IDENTITY_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "PATH_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "NETWORK_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "EXPORT_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "TELEMETRY_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "FIXED_FIVE_METRIC_ALLOWLIST",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "STRICT_INPUT_AND_RECEIPT_KEYS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "DETERMINISTIC_METRIC_ORDER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "CANONICAL_UTF8_ROUNDTRIP",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-INTEGRATION"
+    },
+    {
+      "id": "PAYLOAD_DIGEST_TAMPER_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "NONCANONICAL_BYTES_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "DUPLICATE_AND_UNKNOWN_METRIC_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "INTEGER_AND_BYTE_BOUNDS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS"
+    },
+    {
+      "id": "DEEP_FROZEN_RECEIPT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "REVISION_AND_GENERATION_CURRENTNESS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-INTEGRATION"
+    },
+    {
+      "id": "SYNTHETIC_FIXTURES_AND_NO_RUNTIME_NETWORK",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "denominator": 29,
+  "localPassCount": 22,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_CLEAN_ENGINE_EXACT_DESKTOP_FIXTURE_SCENARIOS_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS"
+}

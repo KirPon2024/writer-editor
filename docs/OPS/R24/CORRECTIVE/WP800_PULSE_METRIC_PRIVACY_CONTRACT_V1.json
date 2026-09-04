@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_PULSE_METRIC_PRIVACY_CONTRACT_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "status": "ADMITTED_OWNER_DECISION",
+  "ownerGate": {
+    "id": "PULSE_METRIC_PRIVACY_ADR",
+    "nodeId": "WP-800_PULSE_POLICY_CODEC",
+    "decision": "APPROVED",
+    "decisionArtifactSha256": "bb8a3c9392949a299132cda36dd53a6d76a23af3475c7a678783d48b1ce0bb46"
+  },
+  "allowlist": {
+    "dataClass": "LOCAL_NUMERIC_AGGREGATES_ONLY",
+    "metricIds": [
+      "ACTIVE_WRITING_SECONDS",
+      "SCENES_EDITED_COUNT",
+      "SESSIONS_COMPLETED_COUNT",
+      "WORDS_ADDED_COUNT",
+      "WORDS_DELETED_COUNT"
+    ],
+    "maximumMetricsPerReceipt": 5,
+    "maximumValue": 1000000000,
+    "maximumReceiptBytes": 4096
+  },
+  "denylist": [
+    "CONTENT",
+    "IDENTITY",
+    "PATH",
+    "NETWORK",
+    "EXPORT",
+    "TELEMETRY"
+  ],
+  "authority": {
+    "productCoreReceiptCodec": true,
+    "localOnly": true,
+    "storageAuthority": false,
+    "commandAuthority": false,
+    "ipcAuthority": false,
+    "networkAuthority": false,
+    "exportAuthority": false,
+    "telemetryAuthority": false
+  },
+  "fallback": "FAIL_CLOSED_UNKNOWN_FIELD_OR_METRIC",
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false,
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

@@ -56,6 +56,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13_WP606_WSE_SERIES_MULTI_LAYER_V1.json",
       "decisionArtifactSha256": "d4ce32d334fbb89a0014e1b61382a0e9d132ea64b8df679a66793c420fee68ac",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "PULSE_METRIC_PRIVACY_ADR",
+      "nodeId": "WP-800_PULSE_POLICY_CODEC",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "APPROVED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_METRIC_PRIVACY_ADR_WP800_PULSE_POLICY_CODEC_V1.json",
+      "decisionArtifactSha256": "bb8a3c9392949a299132cda36dd53a6d76a23af3475c7a678783d48b1ce0bb46",
+      "revocationEpoch": 0
     }
   ]
 }

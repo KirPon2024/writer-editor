@@ -18,6 +18,7 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
     if (args[0] === 'rev-parse') {
       if (args[1] === 'HEAD') return response(FINAL_SHA, encoding);
       if (args[1] === `${E.baseSha}^{tree}`) return response(baseTreeDrift ? 'b'.repeat(40) : E.baseTree, encoding);
+      if (args[1] === `${E.terminalMergeSha}^{tree}`) return response(E.terminalMergeTree, encoding);
       if (args[1] === `${FINAL_SHA}^{tree}`) return response(FINAL_TREE, encoding);
       return response(args[1], encoding);
     }
@@ -31,8 +32,8 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
+      let bytes = sha === E.baseSha || sha === E.terminalMergeSha
+        ? execFileSync('git', ['show', `${sha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
         : fs.readFileSync(file);
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
@@ -46,8 +47,13 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
+function verifyWith(options) {
+  const mockedGit = fakeGit(options);
+  return verifyWp607MainProductPostEvaluationException({ git: mockedGit, historicalGit: mockedGit });
+}
+
 test('WP607 candidate oracle binds the exact 44-path admission and protected baseline', () => {
-  const result = verifyWp607MainProductPostEvaluationException({ git: fakeGit() });
+  const result = verifyWith();
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
@@ -59,17 +65,17 @@ test('WP607 candidate oracle binds the exact 44-path admission and protected bas
 });
 
 test('WP607 candidate oracle rejects scope, base, ancestry, missing-artifact and byte drift', () => {
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ changedPaths: [...ADMITTED, 'src/main.js'].sort() }) }), /E_WP607_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ changedPaths: ADMITTED.slice(1) }) }), /E_WP607_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ baseTreeDrift: true }) }), /E_WP607_ADMISSION_BASE/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ ancestor: false }) }), /E_WP607_BASE_NOT_ANCESTOR/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ missingArtifact: E.instancePath }) }), /E_WP607_CANDIDATE_ARTIFACT_MISSING/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ byteDrift: E.admissionPath }) }), /E_WP607_CANONICAL_LF/u);
+  assert.throws(() => verifyWith({ changedPaths: [...ADMITTED, 'src/main.js'].sort() }), /E_WP607_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWith({ changedPaths: ADMITTED.slice(1) }), /E_WP607_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWith({ baseTreeDrift: true }), /E_WP607_ADMISSION_BASE/u);
+  assert.throws(() => verifyWith({ ancestor: false }), /E_WP607_BASE_NOT_ANCESTOR/u);
+  assert.throws(() => verifyWith({ missingArtifact: E.instancePath }), /E_WP607_CANDIDATE_ARTIFACT_MISSING/u);
+  assert.throws(() => verifyWith({ byteDrift: E.admissionPath }), /E_WP607_CANONICAL_LF/u);
 });
 
 test('WP607 candidate oracle rejects a forged lease and carrier-registry fallback', () => {
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: E.instancePath, apply: (value) => { value.lease.wip = 0; } } }) }), /E_WP607_ADMISSION_CARRIER_DIGEST/u);
-  assert.throws(() => verifyWp607MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP607_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }) }), /E_WP607_CARRIER_DENOMINATOR/u);
+  assert.throws(() => verifyWith({ mutateJson: { path: E.instancePath, apply: (value) => { value.lease.wip = 0; } } }), /E_WP607_ADMISSION_CARRIER_DIGEST/u);
+  assert.throws(() => verifyWith({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP607_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }), /E_WP607_CARRIER_DENOMINATOR/u);
 });
 
 test('WP607 keeps WP606 carrier reads pinned to its immutable terminal tree', () => {
@@ -78,6 +84,16 @@ test('WP607 keeps WP606 carrier reads pinned to its immutable terminal tree', ()
   const end = source.indexOf('export function verifyWp607MainProductPostEvaluationException', start);
   const body = source.slice(start, end);
   assert.match(body, /historicalGit=defaultGit/u);
+  assert.match(body, /objectBytes\(historicalGit,artifactRevision,p\)/u);
+  assert.doesNotMatch(body, /objectBytes\(git,resolvedCandidate,p\)/u);
+});
+
+test('WP607 successor reads are pinned to the immutable WP607 terminal tree', () => {
+  const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
+  const start = source.indexOf('export function verifyWp607MainProductPostEvaluationException');
+  const end = source.indexOf('export function verifyWp800MainProductPostEvaluationException', start);
+  const body = source.slice(start, end);
+  assert.match(body, /artifactRevision=e\.terminalMergeSha/u);
   assert.match(body, /objectBytes\(historicalGit,artifactRevision,p\)/u);
   assert.doesNotMatch(body, /objectBytes\(git,resolvedCandidate,p\)/u);
 });

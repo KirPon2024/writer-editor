@@ -36,7 +36,7 @@ jobs:
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
         env:
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP607_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP800_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: npm test
       - name: Verify WP-500 association scope semantics and mutants
         run: node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js
@@ -89,6 +89,8 @@ jobs:
         run: node --test test/unit/r24-wp606-wse-series-multi-layer.test.js test/unit/r24-wp606-wse-series-multi-layer-integration.test.js test/unit/r24-wp606-wse-series-multi-layer-mutants.test.js test/unit/r24-wp606-wse-series-multi-layer-ui-e2e-smoke.mjs test/contracts/r24-wp606-terminal-carriers.contract.test.mjs test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs
       - name: Verify WP-607 WSE claim verdicts, abstention and hard limits
         run: node --test test/unit/r24-wp607-wse-claims.test.js test/unit/r24-wp607-wse-claims-integration.test.js test/unit/r24-wp607-wse-claims-mutants.test.js test/unit/r24-wp607-wse-claims-ui-e2e-smoke.mjs test/contracts/r24-wp607-terminal-carriers.contract.test.mjs test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs
+      - name: Verify WP-800 local aggregate Pulse privacy policy and strict receipt codec
+        run: node --test test/unit/r24-wp800-pulse-policy-codec.test.js test/unit/r24-wp800-pulse-policy-codec-integration.test.js test/unit/r24-wp800-pulse-policy-codec-mutants.test.js test/contracts/r24-wp800-terminal-carriers.contract.test.mjs test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs
 
   e0-mutants:
     runs-on: ubuntu-latest
@@ -123,7 +125,7 @@ jobs:
       - name: Run focused post-audit negative contracts after real build
         run: |
           npm run test:r24-post-audit
-          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp605-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp605-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs
       - name: Run full maintained RTK after real build
         run: npm run test:rtk
 
@@ -143,8 +145,8 @@ jobs:
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
       - env:
           EFFECTIVE_MODE: STRICT
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP607_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP607_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP800_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP800_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:
     runs-on: ubuntu-latest

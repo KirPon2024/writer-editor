@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "YALKEN_R24_WP800_CARRIER_REGISTRY_V1",
+  "stageId": "WP-800_PULSE_POLICY_CODEC",
+  "evidenceStampId": "ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CANDIDATE_BYTE_MANIFEST_COMPLETE",
+  "baseIdentity": {
+    "sha": "b9b0737b56024f17595341438aba9b2722270d9b",
+    "treeSha": "a0fa1c41b866cd23a17c64083b87181a9c8ff2bb"
+  },
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 33,
+  "verifiedCarrierCount": 33,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "357ffe6572090e20b53379121306ef7c68302403497924ab4b04f5ba6bbbf878",
+      "byteLength": 17291
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "3f1eed6cebb483b42ef182fee19af777417b01d65aca8fd431ded4f1c9c50aef",
+      "byteLength": 424371
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "3d3dff9980bdf30de8f0421aa265407b1e6bcead8029fe87abd79fff3960a4a5",
+      "byteLength": 5437
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "e3901e3ae18af9da177aff164717f77e09aa6c40b8a1aa5391da651eb8b474ef",
+      "byteLength": 2075
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_FIXTURE_MANIFEST_V1.json",
+      "sha256": "6b670951eff829cbef33f01f7ad89267a9715993432a8d3a52a3b9d1cd23b495",
+      "byteLength": 1167
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "263f19347430b354e3b6aa86f401216b9522a7273e9b5947925191cb1c51bd67",
+      "byteLength": 9831
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "26596bf354778d1e1964e3f69ee10e907894fafff899ee5d7d4da286eaf1ed68",
+      "byteLength": 1137
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "96679cf17b8f92cb2278d4e6eae4d390b05e7176ee7717310461a963dd1489fe",
+      "byteLength": 1803
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "acfc5620dc03208e048f8d7d3d1ec670e937b1eda0dceacef7b223c0fdbf8444",
+      "byteLength": 10329
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "b99d727d2fca3f72f8de2e069f031d1b3843278a26bef715fb66b495f9c8de98",
+      "byteLength": 110650
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_PULSE_METRIC_PRIVACY_CONTRACT_V1.json",
+      "sha256": "5183088bdfbb3c6de4417c23e2be4ab4a2b7ce5b6e6e40f19215de34ce0a9f4c",
+      "byteLength": 1547
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "bd0ded945b7599a7aa53f573295e12036afbd38b34c6417aa915b5d90e12a69c",
+      "byteLength": 2087
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP800_WP607_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "4b9120dff99e5e0c05a9a5c94191d6fba218443552c4705eee22bd2cb3fbcdf3",
+      "byteLength": 1523
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-CONTRACT.json",
+      "sha256": "26371459ecf104feec0e0f05a4f72f272d4c1cd034c3d7ab63e51a940f7bf451",
+      "byteLength": 4242
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-INTEGRATION.json",
+      "sha256": "2e09e22ff9d17434d1a844969003d16169ad59aa9133b3f8abd5a737aa04484f",
+      "byteLength": 4146
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-MODEL.json",
+      "sha256": "868e629c298f54f2b3cf59bf77e5de250c13552c203dd710008d9665ad7cf099",
+      "byteLength": 4111
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-MUTANTS.json",
+      "sha256": "3e1c02e744ebb128350e51b219aa14fcd55b8c9aa112cda68dee03826570e91a",
+      "byteLength": 4113
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_AMENDMENTS_R2_4.json",
+      "sha256": "41f4ed39fc35550d14f05ebc699cbc7b7ee6c93c32eb43d4dc5c3bdc5c3df8c6",
+      "byteLength": 3320
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_METRIC_PRIVACY_ADR_WP800_PULSE_POLICY_CODEC_V1.json",
+      "sha256": "bb8a3c9392949a299132cda36dd53a6d76a23af3475c7a678783d48b1ce0bb46",
+      "byteLength": 1525
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "0a0fd867e480035e2ed891ce5b27ecee81297ca3d7c00c5e9861a515b3c994c3",
+      "byteLength": 638574
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "19a1e9d36b4529adb719f5fb7f9ed89d2112ebc20ea41b632cf266342b44d885",
+      "byteLength": 15095
+    },
+    {
+      "path": "scripts/ops/r24/owner-gate-decisions.mjs",
+      "sha256": "4506527b50af16e2edc61fefd8c90f5d24aba72b1503f0cd34555b1aacc6c9d8",
+      "byteLength": 18273
+    },
+    {
+      "path": "scripts/ops/r24/tests/owner-gate-decisions.test.mjs",
+      "sha256": "bde55300023b6cf30fdd6e7e52a7283575248ea2ed647565d53840c9b310e123",
+      "byteLength": 18306
+    },
+    {
+      "path": "src/core/pulse-policy-codec-v1.mjs",
+      "sha256": "b7156aa083f855c25315afc1fb84814b69f6694323f3d14b0a6c2002c61a3a3a",
+      "byteLength": 8015
+    },
+    {
+      "path": "test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs",
+      "sha256": "b1b79a13c146b370061b8ab394c36e83e875c87f489b35da94b8b846d849f1c0",
+      "byteLength": 5605
+    },
+    {
+      "path": "test/contracts/r24-wp607-terminal-carriers.contract.test.mjs",
+      "sha256": "fe7d0415111ee9d1091cd309f24c64c0c9da5f29988af4b4278b5b6e2d6a7294",
+      "byteLength": 8945
+    },
+    {
+      "path": "test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs",
+      "sha256": "69ec486109f398315793ae0458d7607bbe73252a32c1f3f158655904997753c5",
+      "byteLength": 5137
+    },
+    {
+      "path": "test/contracts/r24-wp800-terminal-carriers.contract.test.mjs",
+      "sha256": "9784d26a7479043be2b3dc5ce33dcd38dba1cce62d55cd27ebb52a1c2118c82a",
+      "byteLength": 9102
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "7bd08e9edf9c7f5f61624f3d3f77352965154a5347c294c3c0c10ca4e9609992",
+      "byteLength": 94235
+    },
+    {
+      "path": "test/fixtures/r24-wp800-pulse-policy-codec-fixtures.js",
+      "sha256": "9ffe4dca6ca19520eb2a511de5396b2e5f0d7125500d70c2c2b0d9fec1791636",
+      "byteLength": 744
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-integration.test.js",
+      "sha256": "3359662f378489afb3d98e92d2e6e8816544cb489e0480e5b79ab5774e7b833f",
+      "byteLength": 1574
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec-mutants.test.js",
+      "sha256": "4a85df2332c85a8dba384deb75307a4e4e132fef6515f0ab6358e1c3298d6948",
+      "byteLength": 3460
+    },
+    {
+      "path": "test/unit/r24-wp800-pulse-policy-codec.test.js",
+      "sha256": "e8e6d8d30cd11b5ee7349ab881573617e13d97c76cd4df35b4e0676369a6f819",
+      "byteLength": 1748
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP800_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP800_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS.json"
+  ]
+}

@@ -20,6 +20,7 @@ const LOCAL_RELEASE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', '
 const BRAND_LICENSE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json');
 const WORD_PHYSICAL_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'WORD_PHYSICAL_SESSION_AUTHORITY_W0_WORD_PHYSICAL_RECERTIFICATION_V1.json');
 const SERIES_IDENTITY_PRIVACY_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13_WP606_WSE_SERIES_MULTI_LAYER_V1.json');
+const PULSE_METRIC_PRIVACY_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'PULSE_METRIC_PRIVACY_ADR_WP800_PULSE_POLICY_CODEC_V1.json');
 const clone = (value) => structuredClone(value);
 
 function fixture() {
@@ -29,6 +30,7 @@ function fixture() {
   const brandLicenseDecision = readJsonBounded(BRAND_LICENSE_DECISION_PATH);
   const wordPhysicalDecision = readJsonBounded(WORD_PHYSICAL_DECISION_PATH);
   const seriesIdentityPrivacyDecision = readJsonBounded(SERIES_IDENTITY_PRIVACY_DECISION_PATH);
+  const pulseMetricPrivacyDecision = readJsonBounded(PULSE_METRIC_PRIVACY_DECISION_PATH);
   return {
     program: readJsonBounded(PROGRAM_PATH),
     missionContract: readJsonBounded(MISSION_PATH),
@@ -47,6 +49,8 @@ function fixture() {
     wordPhysicalDecisionDigest: sha256hex(fs.readFileSync(WORD_PHYSICAL_DECISION_PATH)),
     seriesIdentityPrivacyDecision,
     seriesIdentityPrivacyDecisionDigest: sha256hex(fs.readFileSync(SERIES_IDENTITY_PRIVACY_DECISION_PATH)),
+    pulseMetricPrivacyDecision,
+    pulseMetricPrivacyDecisionDigest: sha256hex(fs.readFileSync(PULSE_METRIC_PRIVACY_DECISION_PATH)),
   };
 }
 
@@ -58,6 +62,7 @@ function validate(values, artifacts = {}) {
     [values.brandLicenseDecision.decisionId]: { value: values.brandLicenseDecision, digest: values.brandLicenseDecisionDigest },
     [values.wordPhysicalDecision.decisionId]: { value: values.wordPhysicalDecision, digest: values.wordPhysicalDecisionDigest },
     [values.seriesIdentityPrivacyDecision.decisionId]: { value: values.seriesIdentityPrivacyDecision, digest: values.seriesIdentityPrivacyDecisionDigest },
+    [values.pulseMetricPrivacyDecision.decisionId]: { value: values.pulseMetricPrivacyDecision, digest: values.pulseMetricPrivacyDecisionDigest },
     ...artifacts,
   };
   return validateOwnerGateAmendments({
@@ -81,6 +86,7 @@ test('exact owner decisions yield every mission-bound owner-gate disposition', (
   assert.equal(values.registry.entries.find((entry) => entry.id === 'BRAND_LICENSE_OWNER_CHOICE').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'WORD_PHYSICAL_SESSION_AUTHORITY').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13').status, 'UNRESOLVED');
+  assert.equal(values.registry.entries.find((entry) => entry.id === 'PULSE_METRIC_PRIVACY_ADR').status, 'UNRESOLVED');
   assert.deepEqual(validate(values), {
     STORAGE_AUTHORITY_ADR: 'APPROVED',
     ENTITLEMENT_SEMANTICS_ADR_OR_DENY: 'DENIED',
@@ -88,6 +94,7 @@ test('exact owner decisions yield every mission-bound owner-gate disposition', (
     BRAND_LICENSE_OWNER_CHOICE: 'APPROVED',
     WORD_PHYSICAL_SESSION_AUTHORITY: 'APPROVED',
     SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13: 'APPROVED',
+    PULSE_METRIC_PRIVACY_ADR: 'APPROVED',
   });
 });
 
@@ -314,6 +321,49 @@ test('WP606 series privacy approval remains metadata-only and read-only', () => 
   assert.throws(
     () => validate(values, {
       [wrongNode.decisionId]: { value: wrongNode, digest: values.seriesIdentityPrivacyDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
+  );
+});
+
+test('WP800 Pulse privacy approval remains local aggregate-only', () => {
+  const values = fixture();
+  for (const key of [
+    'contentData',
+    'identityData',
+    'pathData',
+    'networkData',
+    'exportData',
+    'telemetryData',
+    'privateOwnerData',
+    'credentialsOrSecrets',
+    'dependencyAdoption',
+    'runtimeNetwork',
+  ]) {
+    const decision = clone(values.pulseMetricPrivacyDecision);
+    decision.authorizedScope[key] = true;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.pulseMetricPrivacyDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  for (const key of ['localAggregateMetricsOnly', 'productCoreReceiptCodec', 'localOnly', 'syntheticFixturesOnly']) {
+    const decision = clone(values.pulseMetricPrivacyDecision);
+    decision.authorizedScope[key] = false;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.pulseMetricPrivacyDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  const wrongNode = clone(values.pulseMetricPrivacyDecision);
+  wrongNode.nodeId = 'WP-801_PULSE_LEDGER';
+  assert.throws(
+    () => validate(values, {
+      [wrongNode.decisionId]: { value: wrongNode, digest: values.pulseMetricPrivacyDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
   );

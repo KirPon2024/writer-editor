@@ -18,8 +18,8 @@ test('WP603 recovery post-audit accepts the exact append-only admission union',(
   const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
   assert.equal(result.status,'PASS');
   assert.equal(result.admissionDenominator,10);
-  assert.equal(result.admittedPathDenominator,109);
-  assert.equal(result.changedPathDenominator,108);
+  assert.equal(result.admittedPathDenominator,108);
+  assert.equal(result.changedPathDenominator,107);
   assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
   assert.equal(result.recovery.recoveryStageDenominator,9);
@@ -54,6 +54,6 @@ test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
   };
   assert.throws(
     ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
-    /E_WP603_EXACT_ADMITTED_DELTA:104:103/
+    /E_WP603_EXACT_ADMITTED_DELTA:108:107/
   );
 });

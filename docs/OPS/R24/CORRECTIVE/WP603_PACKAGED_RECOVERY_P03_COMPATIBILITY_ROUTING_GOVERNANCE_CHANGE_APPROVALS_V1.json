@@ -285,7 +285,7 @@
     },
     {
       "filePath": "scripts/ops/r24/tests/wp603-recovery-post-audit.test.mjs",
-      "sha256": "3118ba198a0b55f184bf3d5078e3e85d35bb701728228de440c2f93c1557e6cb",
+      "sha256": "9ba28a6c29d3005f3c3c8b0c6c0aebccd67a76d15a9ed5c731eb2aa5fe2abd9e",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_P03_COMPATIBILITY_ROUTING_V1",
       "approvedAtUtc": "2026-09-04T01:50:55.878Z",
       "rationale": "Owner-authorized WP603 terminal recovery binds the P03 compatibility contract and both strict workflow checks to the exact current append-only approval successor after PR1824 inventory-baseline exposed the stale assertion. Historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."

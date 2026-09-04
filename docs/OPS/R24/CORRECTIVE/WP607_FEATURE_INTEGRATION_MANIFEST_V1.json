@@ -1,0 +1,95 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "evidenceStampId": "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "DERIVED_PROJECTOR_AUTHORITY",
+    "sourceTruth": "CURRENT_REVISION_BOUND_WSE_PROJECTION_METADATA",
+    "mutation": "NONE"
+  },
+  "interfacePlane": {
+    "surface": "surface.atlas.continuityLedger.wseClaims",
+    "renderer": "EXISTING_RIGHT_RAIL_CONTINUITY_SLOT",
+    "designOs": "READ_ONLY_IMMUTABLE_PROJECTION"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.atlasContinuityLedgerSurface"
+    ],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "PURE_METADATA_ONLY_PROJECTION_RETURN_VALUE"
+    ],
+    "designOs": [
+      "query.atlasContinuityLedgerSurface"
+    ]
+  },
+  "projection": {
+    "schema": "yalken.r24.wseClaims.v1",
+    "immutable": true,
+    "identityGuards": [
+      "projectId",
+      "sourceRevision",
+      "generation",
+      "projectionDigest"
+    ],
+    "views": [
+      "userJobs",
+      "noBloat",
+      "corpus",
+      "hardLimits"
+    ],
+    "moduleDenominator": 4,
+    "claimRowDenominator": 16
+  },
+  "fallbacks": [
+    "ABSTAIN_EMPTY_CORPUS",
+    "ABSTAIN_UNAVAILABLE_PROJECTION"
+  ],
+  "recovery": "REBUILD_FROM_CURRENT_IMMUTABLE_INPUTS",
+  "performance": {
+    "maxModules": 4,
+    "maxInputRecordsPerModule": 10000,
+    "maxVisibleRowsPerSourceView": 128,
+    "maxVisibleRowsPerModule": 512,
+    "maxOutputRows": 16
+  },
+  "accessibility": {
+    "tabRole": "tablist",
+    "keys": [
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Tab"
+    ],
+    "listTextParity": true,
+    "pointerOnlyState": false
+  },
+  "negativeProofs": [
+    "STALE_IDENTITY",
+    "STALE_MODULE",
+    "CROSS_PROJECT_IDENTITY",
+    "DUPLICATE_MODULE",
+    "UNKNOWN_MODULE",
+    "PRIVATE_FIELD",
+    "SOURCE_CONTENT",
+    "COMMAND_AUTHORITY",
+    "PROJECTION_TAMPER",
+    "RECORD_BUDGET"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

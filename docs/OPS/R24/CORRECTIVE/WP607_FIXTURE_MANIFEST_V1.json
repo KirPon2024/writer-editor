@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "YALKEN_R24_WP607_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "FOUR_STATUS_FIRST_CLAIM_VIEWS",
+      "path": "test/unit/r24-wp607-wse-claims.test.js"
+    },
+    {
+      "id": "EXISTING_CONTINUITY_QUERY_INTEGRATION",
+      "path": "test/unit/r24-wp607-wse-claims-integration.test.js"
+    },
+    {
+      "id": "HOSTILE_IDENTITY_PRIVACY_AUTHORITY_AND_BUDGET_INPUTS_18",
+      "path": "test/unit/r24-wp607-wse-claims-mutants.test.js"
+    },
+    {
+      "id": "KEYBOARD_TAB_AND_TEXT_PARITY",
+      "path": "test/unit/r24-wp607-wse-claims-ui-e2e-smoke.mjs"
+    },
+    {
+      "id": "DISPOSABLE_BUILD_PROFILE_LIFECYCLE",
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "WRITER_LOCAL_OFFLINE",
+  "physicalScenario": {
+    "create": 1,
+    "write": 1,
+    "save": 1,
+    "close": 1,
+    "reopen": 1,
+    "recovery": 1,
+    "export": 1,
+    "source": "EXISTING_DISPOSABLE_FIXTURE_BASELINE_REQUIRED_AT_FULL_GATE"
+  },
+  "designEvidence": {
+    "provider": "LAZYWEB_AGENTIC_SEARCH",
+    "searchId": "9f7346d5-5039-4394-b503-79f9e46e0711",
+    "question": "How should compact status-first module verdicts appear in an existing desktop inspector?",
+    "runtimeDependency": false,
+    "canonicalDesignAuthority": false
+  }
+}

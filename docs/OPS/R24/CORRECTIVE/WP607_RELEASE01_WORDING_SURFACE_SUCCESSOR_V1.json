@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "WP607_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP606_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "edc1d5b06c8ce14c9102cb5a7c18a547680fd0c52c7d86276c03066a083c2ff5",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "59bebbddb498eb9fd93863a4f837074ebffa5a52",
+    "treeSha": "4cf71e146824db6464380e287b9dd49ba556addd"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "25457f05218d13ef9a98de934c5acff0c477291a0a0441049e4a0e49ec699ee7",
+    "stageInstanceDigest": "37ce64f8cb9bafc2bf74c1fd8848360eba8b3d6c2956961c95a711def9c4f958",
+    "stageAdmissionDigest": "172912b1b191b5e435b0a9027bf8b4e6241f9136475cca7e80a9ad776229c3f5",
+    "writeSetDigest": "f1053d27bf647dc31d8289e6366b95d6a47f74d5de62e73bf939c761a02838e1",
+    "commandScopeDigest": "8e53a0c15869ec9d5c83d8b95ef602a793853496d78e86b4c2c62a36f3cfe6a0",
+    "acceptanceSignalsDigest": "e93d5a840358cc991016447dc7bbcbcd088635cdd012fb2a43a59284c7719a20"
+  },
+  "completeHistoricalRegistryChecksPreserved": true,
+  "programDone": false
+}

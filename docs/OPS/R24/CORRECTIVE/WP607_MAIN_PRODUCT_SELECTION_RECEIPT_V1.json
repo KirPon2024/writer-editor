@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_WP607_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "status": "OWNER_SELECTED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-04T17:35:00.000Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "59bebbddb498eb9fd93863a4f837074ebffa5a52",
+  "baseTree": "4cf71e146824db6464380e287b9dd49ba556addd",
+  "readySet": [
+    "WP-607_WSE_CLAIMS"
+  ],
+  "ownerGate": {
+    "gateId": "PER_MODULE_PRODUCT_ADMISSION",
+    "decision": "APPROVED_BY_CURRENT_OWNER_DIRECTIVE",
+    "authorityDigest": "25457f05218d13ef9a98de934c5acff0c477291a0a0441049e4a0e49ec699ee7"
+  },
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 77,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 19
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 89,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "d6d45e426c6ecd50afd729d456765b82074042ae8d5a5046354b0a94d3dd9cad"
+  },
+  "mutationAdmissionGranted": false
+}

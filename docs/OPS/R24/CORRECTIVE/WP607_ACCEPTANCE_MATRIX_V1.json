@@ -1,0 +1,157 @@
+{
+  "schemaVersion": "YALKEN_R24_WP607_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "evidenceStampId": "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
+  "claimCeiling": "WP607_NODE_ONLY",
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "172912b1b191b5e435b0a9027bf8b4e6241f9136475cca7e80a9ad776229c3f5"
+    },
+    {
+      "id": "EXACT_44_PATH_WRITE_SET",
+      "status": "PASS",
+      "evidence": "f1053d27bf647dc31d8289e6366b95d6a47f74d5de62e73bf939c761a02838e1"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE",
+      "status": "PASS",
+      "evidence": "dffc5f867969741f41e9fc33a4327c381aeca718e9e4cbbaaaf30ddb1e782cd0"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "c6bb9636fe1d640624cfc80831b64089b562d93728eb35cf949c5f1736ba1dcf"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "def8c887061515cef53c16d763b7b657e29638e62d5e28369552c7b1945b7783"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "c8ac592dd4ac5ee4786e7f024da8a1c704d556297f77e458693c013c1a179d91"
+    },
+    {
+      "id": "NEGATIVE_CASES_18_OF_18",
+      "status": "PASS",
+      "evidence": "eeeac3276c830e2db1d0e5029699901d6629e5234cfd29275587bf7ea158e222"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "dcaa8acaf0175f36781dbf61d52ad7298916903f062e02bf6fafbaa71d625e67"
+    },
+    {
+      "id": "FOUR_STATUS_FIRST_CLAIM_VIEWS",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "EMPTY_CORPUS_ABSTAINS",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "CURRENT_NON_EMPTY_CORPUS_ONLY_PASSES",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "FOUR_MODULE_USER_JOB_BINDINGS",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "NO_BLOAT_READ_ONLY_CONTRACT",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "HARD_LIMITS_VALIDATED_BEFORE_PUBLICATION",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "IDENTITY_REVISION_GENERATION_GUARDS",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "PROJECTION_TAMPER_REJECTED",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "PRIVATE_AND_AUTHORITY_FIELDS_REJECTED",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "EXISTING_IMMUTABLE_ATLAS_PROJECTION_INTEGRATION",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "KEYBOARD_ACCESSIBLE_FOUR_VIEW_PRESENTATION",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "NODE_ONLY_SCOPE"
+    },
+    {
+      "id": "FULL_REQUIRED_LOCAL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_DESKTOP_FIXTURE_LIFECYCLE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "denominator": 27,
+  "localPassCount": 20,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_CLEAN_ENGINE_EXACT_DESKTOP_FIXTURE_SCENARIOS_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS"
+}

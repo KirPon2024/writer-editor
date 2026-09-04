@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "YALKEN_R24_WP607_STAGE_REGISTRY_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "evidenceStampId": "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+  "authorityDigest": "25457f05218d13ef9a98de934c5acff0c477291a0a0441049e4a0e49ec699ee7",
+  "stageInstanceDigest": "37ce64f8cb9bafc2bf74c1fd8848360eba8b3d6c2956961c95a711def9c4f958",
+  "stageAdmissionDigest": "172912b1b191b5e435b0a9027bf8b4e6241f9136475cca7e80a9ad776229c3f5",
+  "writeSetDigest": "f1053d27bf647dc31d8289e6366b95d6a47f74d5de62e73bf939c761a02838e1",
+  "commandScopeDigest": "8e53a0c15869ec9d5c83d8b95ef602a793853496d78e86b4c2c62a36f3cfe6a0",
+  "acceptanceSignalsDigest": "e93d5a840358cc991016447dc7bbcbcd088635cdd012fb2a43a59284c7719a20",
+  "selectionReceiptDigest": "bb4fa003b6592761e31522503cb4840e24c2a5c096ab9172d251e5f965098fb3",
+  "wp606TerminalPredecessorDigest": "9f125bfba4863702211d60dba07d4e5ab7d34dee45eeff89f8ed6c83ab31f760",
+  "protectedWipBeforeRawDigest": "dffc5f867969741f41e9fc33a4327c381aeca718e9e4cbbaaaf30ddb1e782cd0",
+  "fixtureManifestDigest": "043e5d480f612a233a9167473aa8adcd5ddc62a2b243175c922a85a3ff63743c",
+  "featureIntegrationManifestDigest": "0033ad53db0cc0a8c2de832daefa006c00900d30819ae3074015bdcd4a77ce48",
+  "baseSha": "59bebbddb498eb9fd93863a4f837074ebffa5a52",
+  "baseTree": "4cf71e146824db6464380e287b9dd49ba556addd",
+  "lease": {
+    "fencingCounter": 90,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "d6d45e426c6ecd50afd729d456765b82074042ae8d5a5046354b0a94d3dd9cad"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "effectiveGraphBaselineDigest": "70102ca0e818740ec28d276f7c6db1c5809a450898a6fd960ee846b972ce1dbe",
+  "carrierRegistryDigest": "dcaa8acaf0175f36781dbf61d52ad7298916903f062e02bf6fafbaa71d625e67",
+  "acceptanceMatrixDigest": "0da34ed976b5ee23773b71b3313dc4bf6c9dc72ba423fd587e0efced3700ba10",
+  "effectiveStateDigest": "6daa92280dd292efb4cc9e37ca13ba3f90a9a978b946be61d933cd87b7ab15a8"
+}

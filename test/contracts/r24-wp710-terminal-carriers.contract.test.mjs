@@ -4,7 +4,7 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
-import { HISTORICAL_INVENTORY_CLAIM_PINS_V7 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
+import { HISTORICAL_INVENTORY_CLAIM_PINS_V7, HISTORICAL_INVENTORY_CLAIM_PINS_V8 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const WP710_TERMINAL_MERGE_SHA = '19c1ae3f39de73b87d468ff84dd65ecdbd478269';
@@ -95,6 +95,7 @@ test('WP710 carrier set replays exact admission graph increment and conditional 
   for (const binding of claim.implementationArtifactDigests) assert.equal(h(historicalBytes(binding.path)), binding.sha256, binding.path);
   assert.ok(claim.nonClaims.includes('PROGRAM_DONE_FALSE'));
   assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V7.at(-1), { stampId: 'ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CLAIM-BINDINGS', stampSha256: '4111a07f485853c38ea32344b5f680f83e886ed2dabf037f5b15b79ed8deb19b', evaluationSha: '725b47c254895a5075c381ce5182592a40c31b45', evaluationTree: 'd81b51239ef10aa03ae57a96ac0e9ddc5d809d7b', targetSha256: '8738e80b3e77c1615922281d5b2fff34e16c6db774ece2a512c131e648ee4268' });
+  assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V8.at(-1), { stampId: 'ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-CLAIM-BINDINGS', stampSha256: '3792a39a24f93a842cfe96479253bc577f192915ef2790ee25fd99974c30117c', evaluationSha: WP710_TERMINAL_MERGE_SHA, evaluationTree: '4c11af1a5a2265c7f4fb279edb5d2ae64f36532b', targetSha256: 'dd8a7d6ade9667a6cab6e5d01ae9be389b18656b525efac57e07638692392cfc' });
 });
 
 test('WP710 evidence stamps bind the executed eight-test TAP and 32 rejected negative cases', () => {

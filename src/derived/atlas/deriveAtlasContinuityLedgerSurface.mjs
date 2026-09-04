@@ -7,6 +7,7 @@ import { buildWseStateEvidence } from '../../core/wse-state-evidence-v1.mjs';
 import { buildWseThreadsExplanation } from '../../core/wse-threads-explanation-v1.mjs';
 import { buildWseRevisionTimeObject } from '../../core/wse-revision-time-object-v1.mjs';
 import { buildWseSeriesMultiLayer } from '../../core/wse-series-multi-layer-v1.mjs';
+import { buildWseClaims } from '../../core/wse-claims-v1.mjs';
 import {
   ATLAS_CONTINUITY_LEDGER_CORRECTION_ROUTE_SCHEMA_VERSION,
   ATLAS_CONTINUITY_LEDGER_EVIDENCE_ROW_SCHEMA_VERSION,
@@ -275,6 +276,42 @@ function buildEvidence({ surfaceHash, sourceHash }) {
   };
 }
 
+function summarizeWseModule(moduleId, projection, identity, inputCount) {
+  const views = isPlainObject(projection?.views) ? Object.values(projection.views) : [];
+  const visibleCount = views.reduce((sum, view) => sum + (Number.isSafeInteger(view?.visibleCount) ? Math.max(0, view.visibleCount) : 0), 0);
+  const maxViewVisibleCount = views.reduce((maximum, view) => Math.max(maximum, Number.isSafeInteger(view?.visibleCount) ? Math.max(0, view.visibleCount) : 0), 0);
+  const omittedCount = views.reduce((sum, view) => sum + (Number.isSafeInteger(view?.omittedCount) ? Math.max(0, view.omittedCount) : 0), 0);
+  const state = ['ready', 'degraded', 'empty', 'emptyOrUnknown', 'unavailable'].includes(projection?.state)
+    ? projection.state
+    : 'unavailable';
+  return {
+    moduleId,
+    projectId: identity.projectId,
+    sourceRevision: identity.sourceRevision,
+    generation: identity.generation,
+    projectionDigest: normalizeString(projection?.projectionDigest),
+    state,
+    inputCount: Number.isSafeInteger(inputCount) ? Math.max(0, inputCount) : 0,
+    maxViewVisibleCount,
+    visibleCount,
+    omittedCount,
+  };
+}
+
+function buildClaimsProjection({ identity, wseStateEvidence, wseThreadsExplanation, wseRevisionTimeObject, wseSeriesMultiLayer }) {
+  return buildWseClaims({
+    currentIdentity: identity,
+    expectedIdentity: identity,
+    modules: [
+      summarizeWseModule('stateEvidence', wseStateEvidence, identity, wseStateEvidence.denominator.inputFacts),
+      summarizeWseModule('threadsExplanation', wseThreadsExplanation, identity, wseThreadsExplanation.denominator.inputFacts),
+      summarizeWseModule('revisionTimeObject', wseRevisionTimeObject, identity, wseRevisionTimeObject.denominator.currentFacts),
+      summarizeWseModule('seriesMultiLayer', wseSeriesMultiLayer, identity, wseSeriesMultiLayer.denominator.evidenceRecords),
+    ],
+    rowLimit: 4,
+  });
+}
+
 function emptyState(projectId, reason = '') {
   const wseStateEvidence = buildWseStateEvidence({
     projectId: projectId || 'unavailable-project',
@@ -312,6 +349,13 @@ function emptyState(projectId, reason = '') {
     layers: [],
     rowLimit: 32,
   });
+  const wseClaims = buildClaimsProjection({
+    identity: { projectId: projectId || 'unavailable-project', sourceRevision: reason || 'empty', generation: 0 },
+    wseStateEvidence,
+    wseThreadsExplanation,
+    wseRevisionTimeObject,
+    wseSeriesMultiLayer,
+  });
   return {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_SURFACE_SCHEMA_VERSION,
     state: reason ? 'unavailable' : 'empty',
@@ -337,6 +381,7 @@ function emptyState(projectId, reason = '') {
     wseThreadsExplanation,
     wseRevisionTimeObject,
     wseSeriesMultiLayer,
+    wseClaims,
     listParity: buildListParity([], 0),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash: '', sourceHash: '' }),
@@ -408,6 +453,13 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, ser
     ],
     rowLimit: Math.min(128, Math.max(rowLimit, 32)),
   });
+  const wseClaims = buildClaimsProjection({
+    identity: { projectId, sourceRevision: meta.invalidationKey, generation: 0 },
+    wseStateEvidence,
+    wseThreadsExplanation,
+    wseRevisionTimeObject,
+    wseSeriesMultiLayer,
+  });
   const surfaceHash = hashCanonicalValue({
     rows: visibleRows,
     sourceHash,
@@ -416,6 +468,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, ser
     wseThreadsExplanationDigest: wseThreadsExplanation.projectionDigest,
     wseRevisionTimeObjectDigest: wseRevisionTimeObject.projectionDigest,
     wseSeriesMultiLayerDigest: wseSeriesMultiLayer.projectionDigest,
+    wseClaimsDigest: wseClaims.projectionDigest,
   });
   const degradedRowCount = visibleRows.filter((row) => row.evidenceRows.some((evidenceRow) => evidenceRow.evidenceState !== 'current')).length;
   return {
@@ -445,6 +498,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, ser
     wseThreadsExplanation,
     wseRevisionTimeObject,
     wseSeriesMultiLayer,
+    wseClaims,
     listParity: buildListParity(visibleRows, omittedRowCount),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash, sourceHash }),

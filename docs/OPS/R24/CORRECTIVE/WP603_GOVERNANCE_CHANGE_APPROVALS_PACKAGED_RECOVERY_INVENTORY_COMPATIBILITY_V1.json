@@ -313,7 +313,7 @@
     },
     {
       "filePath": "scripts/ops/r24/tests/wp603-recovery-post-audit.test.mjs",
-      "sha256": "27f31826492eb8d98ad5481d72d725d0d80ecf71b089589f46f641bae810541d",
+      "sha256": "cf7b807c5f07175fc57af3f631c017c99e9954cb478ae3aa8f7bb41b90f8d5fe",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
       "approvedAtUtc": "2026-09-04T02:00:26.347Z",
       "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."

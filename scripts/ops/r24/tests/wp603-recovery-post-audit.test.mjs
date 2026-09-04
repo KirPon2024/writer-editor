@@ -19,8 +19,8 @@ test('WP603 recovery post-audit accepts the exact append-only admission union',(
   assert.equal(result.status,'PASS');
   assert.equal(result.admissionDenominator,11);
   assert.equal(result.admittedPathDenominator,112);
-  assert.equal(result.changedPathDenominator,110);
-  assert.deepEqual(result.unchangedAdmittedPaths,['package.json','test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs']);
+  assert.equal(result.changedPathDenominator,111);
+  assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
   assert.equal(result.recovery.recoveryStageDenominator,10);
   const workflow=String(realGit(['show','HEAD:.github/workflows/oss-policy.yml'],{encoding:'utf8'}));
@@ -54,6 +54,6 @@ test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
   };
   assert.throws(
     ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
-    /E_WP603_EXACT_ADMITTED_DELTA:111:110/
+    /E_WP603_EXACT_ADMITTED_DELTA:112:111/
   );
 });

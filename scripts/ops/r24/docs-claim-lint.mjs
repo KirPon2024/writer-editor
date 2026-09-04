@@ -103,10 +103,15 @@ export const HISTORICAL_INVENTORY_CLAIM_PINS_V12 = Object.freeze([
   Object.freeze({ stampId: 'ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS', stampSha256: '43367af52e9f00ea4dcd846dde273b8bb4083a917c7b5262b6fd854f2e448870',
     evaluationSha: '0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5', evaluationTree: '4e20bc39abe02228b8d1e2833c37cb694eb12a51', targetSha256: '67f41cf7aec9ea96b4369dbb30a6bed7a38ac100183c50fac8c37f0e2f0feffb' }),
 ]);
+// WP803 retains the exact WP802 historical inventory binding.
+export const HISTORICAL_INVENTORY_CLAIM_PINS_V13 = Object.freeze([
+  ...HISTORICAL_INVENTORY_CLAIM_PINS_V12,
+  Object.freeze({"stampId":"ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS","stampSha256":"1be32fd18a2a6897ad8d3ad1b244015ef419fa8f9487a8fee16488bbbcc31d4c","evaluationSha":"e62310f3e958db6d86a7f71d4a310c2bc65461ce","evaluationTree":"a7eeddc6a1a85961a3cb949a7b5ee74830fb8ae5","targetSha256":"6723bc06bb2af3ba60ccf03bc4c805a0f138110ecdb2579bb8c001100ae29273"}),
+]);
 const INVENTORY_PATH = 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json';
 const historicalGit = (rootDir, args) => execFileSync('git', args, { cwd: rootDir, encoding: null, maxBuffer: 4 * 1024 * 1024, timeout: 15000, stdio: ['ignore','pipe','pipe'] });
 export function verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes, binding, git = historicalGit }) {
-  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V12.find(item => item.stampId === stamp.stampId);
+  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V13.find(item => item.stampId === stamp.stampId);
   if (!pin || binding.filePath !== INVENTORY_PATH) return null;
   const fail = () => { const error = new Error('E_HISTORICAL_INVENTORY_BINDING'); error.code = error.message; throw error; };
   if (sha256hex(stampBytes) !== pin.stampSha256 || binding.sha256 !== pin.targetSha256) fail();

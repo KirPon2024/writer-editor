@@ -1,0 +1,52 @@
+import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
+import test from 'node:test';
+import { fileURLToPath } from 'node:url';
+import {
+  verifyWp603MainProductPostEvaluationException,
+  verifyWp603RecoveryAdmissionChain
+} from '../corrective/post-audit-certification-set.mjs';
+
+const REPO_ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../..');
+const POST_AUDIT_ADMISSION='docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json';
+const realGit=(args,options={})=>execFileSync('git',args,{cwd:REPO_ROOT,encoding:options.encoding??null,maxBuffer:64*1024*1024});
+
+test('WP603 recovery post-audit accepts the exact append-only admission union',()=>{
+  const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
+  assert.equal(result.status,'PASS');
+  assert.equal(result.admissionDenominator,8);
+  assert.equal(result.admittedPathDenominator,99);
+  assert.equal(result.changedPathDenominator,99);
+  assert.equal(result.recovery.status,'PASS');
+  assert.equal(result.recovery.recoveryStageDenominator,7);
+});
+
+test('WP603 recovery post-audit rejects a tampered admission carrier',()=>{
+  const tamperedGit=(args,options={})=>{
+    const output=realGit(args,options);
+    if(args[0]==='show'&&args[1]?.endsWith(`:${POST_AUDIT_ADMISSION}`)){
+      return Buffer.isBuffer(output)?Buffer.concat([output,Buffer.from('tampered')]):`${output}tampered`;
+    }
+    return output;
+  };
+  assert.throws(
+    ()=>verifyWp603RecoveryAdmissionChain({candidateSha:'HEAD',git:tamperedGit}),
+    /E_WP603_RECOVERY_ADMISSION_CARRIER_DIGEST:6/
+  );
+});
+
+test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
+  const extraPathGit=(args,options={})=>{
+    const output=realGit(args,options);
+    if(args[0]==='diff'&&args[1]==='--name-only'&&args[2]?.startsWith('39897a04b880391ee9224269a2691f52e9e8018f..')){
+      const text=String(output).trimEnd()+'\ndocs/OPS/R24/CORRECTIVE/WP603_UNADMITTED_PATH.json\n';
+      return options.encoding==='utf8'?text:Buffer.from(text);
+    }
+    return output;
+  };
+  assert.throws(
+    ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
+    /E_WP603_EXACT_ADMITTED_DELTA:100:99/
+  );
+});

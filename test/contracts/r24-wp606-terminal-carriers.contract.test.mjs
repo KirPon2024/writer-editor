@@ -9,9 +9,9 @@ import { HISTORICAL_INVENTORY_CLAIM_PINS_V8 } from '../../scripts/ops/r24/docs-c
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 const paths = {
-  authority: C + 'WP606_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json',
-  instance: C + 'WP606_MAIN_PRODUCT_STAGE_INSTANCE_V1.json',
-  admission: C + 'WP606_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json',
+  authority: C + 'WP606_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json',
+  instance: C + 'WP606_MAIN_PRODUCT_STAGE_INSTANCE_V2.json',
+  admission: C + 'WP606_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json',
   selection: C + 'WP606_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json',
   before: C + 'WP606_PROTECTED_WIP_BEFORE_V1.json',
   predecessor: C + 'WP606_WP710_TERMINAL_PREDECESSOR_V1.json',
@@ -33,10 +33,10 @@ const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGI
 function load() { return Object.fromEntries(Object.entries(paths).map(([key, file]) => [key, read(file)])); }
 
 function verify(values) {
-  assert.equal(h(bytes(paths.authority)), 'a0d629e90f2915ee663a69722785b2c322c5390da53e2228865a49dae2fa815d');
-  assert.equal(h(bytes(paths.instance)), 'ecd2be9cba4a43d33e2c81125e4689d29eec8784394ab9c0f86240175c1d5a89');
-  assert.equal(h(bytes(paths.admission)), '35e913bb0d96ef8bba27aac5a881267c0c2bbe93a1ac0ef03b869221bd7a7781');
-  assert.equal(values.admission.writeSetDigest, '0933161f9b89fa20b3994d5bfff1382b383152853167388f506ca1cd824ad623');
+  assert.equal(h(bytes(paths.authority)), '59711027eba113c23edf34f4fa54b9bab4f61023593f8e99e5f6dcb349bdc457');
+  assert.equal(h(bytes(paths.instance)), '4a9963a7d59a968017ce54c7eb54bf826d7cc6204901f50b2683bd886fdd2be2');
+  assert.equal(h(bytes(paths.admission)), '1a50b4ab938747f284bb665cf10f35f82357c8cbaf362c03b84a9fb57c29ef6f');
+  assert.equal(values.admission.writeSetDigest, '29c8fa3d442ea9670383b040b8822df916e50f7e861354c4ba23831e2ea898a0');
   assert.deepEqual(values.instance.lease, { fencingCounter: 89, status: 'ACTIVE', wip: 1, predecessorReleaseDigest: '3c3c92b6b0b5b4a38815ac00e944325de94275250bd47131f98851ff596031e0' });
   const { snapshotSha256, ...payload } = values.before;
   assert.equal(h(Buffer.from(JSON.stringify(payload) + '\n')), snapshotSha256);
@@ -63,8 +63,8 @@ function verify(values) {
   const admitted = [...values.instance.operations.modifyPaths, ...values.instance.operations.createPaths].sort();
   const allCarriers = [...values.registry.carriers.map((row) => row.path), ...values.registry.excludedDependentCarriers].sort();
   assert.deepEqual(allCarriers, admitted);
-  assert.equal(new Set(allCarriers).size, 45);
-  assert.equal(values.registry.carrierDenominator, 37);
+  assert.equal(new Set(allCarriers).size, 49);
+  assert.equal(values.registry.carrierDenominator, 41);
   assert.equal(values.registry.currentTreeFallbackAllowed, false);
   for (const binding of values.registry.carriers) {
     assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);

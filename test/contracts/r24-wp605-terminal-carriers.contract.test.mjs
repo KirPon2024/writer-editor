@@ -100,7 +100,7 @@ test('WP605 evidence stamps bind the executed 9-test TAP and 12 rejected hostile
     assert.match(rawBytes.toString(), /\n1\.\.9\n# tests 9\n# suites 0\n# pass 9\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n/u);
     assert.equal(raw.processExitCode, 0);
     assert.equal(raw.node, '22.12.0');
-    for (const binding of evidence.artifact.implementationArtifacts) assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);
+    for (const binding of evidence.artifact.implementationArtifacts) assert.equal(h(historicalBytes(binding.path)), binding.sha256, binding.path);
   }
   assert.equal(read(prefix + 'MUTANTS.json').test.denominator, 12);
   assert.equal(read(prefix + 'MUTANTS.json').test.passed, 12);

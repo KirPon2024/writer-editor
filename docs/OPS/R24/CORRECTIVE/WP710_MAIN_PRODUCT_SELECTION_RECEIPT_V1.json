@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP710_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "status": "SELECTED",
+  "selectedAtUtc": "2026-09-04T12:00:00Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "contourStatesDigest": "6c09bad651e5cfe5b6833f4cea90568d5bd9d33107a7eb17568b13652f374c67",
+  "baseSha": "725b47c254895a5075c381ce5182592a40c31b45",
+  "baseTree": "d81b51239ef10aa03ae57a96ac0e9ddc5d809d7b",
+  "readySet": [
+    "WP-710_EVIDENCE_CAPSULE_EXPORT"
+  ],
+  "graphCounts": {
+    "DONE": 75,
+    "PENDING": 21,
+    "BLOCKED_TYPED": 3,
+    "INELIGIBLE_OPTIONAL": 10
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 87,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "d87ca4ba2f91029ccaf14447a71ba17e565dfd1fe08220bea6fe497b44ba2f39"
+  },
+  "mutationAdmissionGranted": false
+}

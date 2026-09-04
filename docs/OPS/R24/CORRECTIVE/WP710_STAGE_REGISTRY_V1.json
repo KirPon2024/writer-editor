@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "YALKEN_R24_WP710_STAGE_REGISTRY_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "evidenceStampId": "ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP710_CI_HISTORICAL_CARRIER_COMPATIBILITY_V1",
+  "authorityDigest": "9785635574e9f3a9fb1b9ac2bd0dcb75911c1e6ff461e4f44202563559cdc399",
+  "stageInstanceDigest": "199d6bbbe556860cd023e43b0e7fce2f7165d4595638140dda65bb5bfee738df",
+  "stageAdmissionDigest": "5e7dd4f4e6183725ebc9952a10bc51ee14798d0e2ab9f66073202660abf53f1b",
+  "writeSetDigest": "e3d02ffdbcef25701de14ca8371bdb9ea9ffe2c906f69dfc4c3c961ee16233d0",
+  "selectionReceiptDigest": "4f053ca1d485ad7782b55e14748a9c5ac4b6495bc085da5143e74783363becfb",
+  "wp605TerminalPredecessorDigest": "01165631fbae034daadcb96f1919dc108ec9526c6167818c5cdad3e55584c363",
+  "protectedWipBeforeRawDigest": "bb3a2a8cae302336c32905b4f4cfbd2489c993221136ced67a79e167a7f474de",
+  "fixtureManifestDigest": "ff293b4383cf839800d23d0f8bc01a968d550479db3f58bfbb5afdfcac44c653",
+  "exportContractDigest": "57823d34baf6feb85fdc53c71f81f254b810fff2dc6893e7dc7370d4ab443166",
+  "featureIntegrationManifestDigest": "48eb35e11cd99b544ac193d06191628c837f8088b79d02019130a790c933de45",
+  "baseSha": "725b47c254895a5075c381ce5182592a40c31b45",
+  "baseTree": "d81b51239ef10aa03ae57a96ac0e9ddc5d809d7b",
+  "lease": {
+    "fencingCounter": 88,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "d87ca4ba2f91029ccaf14447a71ba17e565dfd1fe08220bea6fe497b44ba2f39"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "commandScopeDigest": "d55819b13bff2761398e898183b318d242723d9e77eb595abe945fd062cfc1e1",
+  "acceptanceSignalsDigest": "47f13847d5b5bdffd6527cc2568af6ee4597c470850a5381e8e5524b8a643f9f",
+  "effectiveGraphBaselineDigest": "59991d51e886fe490c539381b1a1c623ad5a3179247af2c16619dea06054eb35",
+  "carrierRegistryDigest": "492eb7cbef8bac83eb470ef5dab3ebbf7fad2fcd46531c362cdd84bc7fcc2da2",
+  "acceptanceMatrixDigest": "9d319da2bd95526f8ebe2d5a9c872dc390c6b87bc03f43b22447c986cc23984f",
+  "effectiveStateDigest": "311e6c863d49e1a284524dbbea34f5bb8512d730094586a2ea9e2893d0664103"
+}

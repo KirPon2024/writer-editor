@@ -1,0 +1,42 @@
+{
+  "schemaVersion": "YALKEN_R24_WP710_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "MODEL_AND_CONTRACT",
+      "path": "test/unit/r24-wp710-evidence-capsule-export.test.js"
+    },
+    {
+      "id": "PHYSICAL_WRITE_CLOSE_REOPEN",
+      "path": "test/unit/r24-wp710-evidence-capsule-export-integration.test.js"
+    },
+    {
+      "id": "SEVEN_PROFILE_COMBINATIONS",
+      "path": "test/unit/r24-wp710-evidence-capsule-export-integration.test.js"
+    },
+    {
+      "id": "HOSTILE_INPUT_14",
+      "path": "test/unit/r24-wp710-evidence-capsule-export-mutants.test.js"
+    },
+    {
+      "id": "SEMANTIC_AND_BYTE_MUTANTS_12",
+      "path": "test/unit/r24-wp710-evidence-capsule-export-mutants.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "WRITER_LOCAL_OFFLINE",
+  "physicalArtifact": {
+    "provider": "OS_TEMP_DISPOSABLE_FIXTURE",
+    "writes": 1,
+    "closes": 1,
+    "reopens": 1,
+    "recovery": "DETERMINISTIC_REBUILD",
+    "exports": 1
+  },
+  "designEvidence": {
+    "provider": "NOT_APPLICABLE_NO_UI_CHANGE",
+    "runtimeDependency": false
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "evidenceStampId": "ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-MODEL",
+  "stageId": "WP-710_EVIDENCE_CAPSULE_EXPORT",
+  "kind": "MODEL",
+  "status": "PASS",
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "test": {
+    "denominator": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "src/core/evidence-capsule-export-v1.mjs",
+        "sha256": "3275d8e97cbfb4e46cacd139e6d87b4cbae6bddccc1aed6bfe6e48717aa46372"
+      },
+      {
+        "path": "test/fixtures/r24-wp710-evidence-capsule-export-fixtures.js",
+        "sha256": "f5b2e25709c19dc8caaa88f76c2ed87bfe390c1ea7a2e6dbaa465ce2c559c452"
+      },
+      {
+        "path": "test/unit/r24-wp710-evidence-capsule-export.test.js",
+        "sha256": "5a49960ce2b4d00cb3e9e05d470ad3214bddaed695cd3733ab93f0023a4b0368"
+      },
+      {
+        "path": "test/unit/r24-wp710-evidence-capsule-export-integration.test.js",
+        "sha256": "752969d62542a2d3760e8075c3548b925ababb725094312eb4b68ee0b38f247a"
+      },
+      {
+        "path": "test/unit/r24-wp710-evidence-capsule-export-mutants.test.js",
+        "sha256": "03ef2b4620e334f9a98bd37003769e0d0776bae5539f00662b8fd511360ad8ba"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP710_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "8b07a143ec41221d69650fc632b4b6eb39815b4cee7056de5b1af9a9c8d2e6cf",
+      "byteLength": 2178,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test --test-reporter=tap test/unit/r24-wp710-evidence-capsule-export.test.js test/unit/r24-wp710-evidence-capsule-export-integration.test.js test/unit/r24-wp710-evidence-capsule-export-mutants.test.js",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDcxMCBjYWxsZXItb3duZWQgZWZmZWN0IHdyaXRlcyBjbG9zZXMgYW5kIHJlb3BlbnMgb25lIGRpc3Bvc2FibGUgZXhhY3QgYXJ0aWZhY3QKb2sgMSAtIFdQNzEwIGNhbGxlci1vd25lZCBlZmZlY3Qgd3JpdGVzIGNsb3NlcyBhbmQgcmVvcGVucyBvbmUgZGlzcG9zYWJsZSBleGFjdCBhcnRpZmFjdAogIC0tLQogIGR1cmF0aW9uX21zOiAxNS44ODI3NQogIC4uLgojIHsicGh5c2ljYWxBcnRpZmFjdHMiOjEsIndyaXRlcyI6MSwiY2xvc2VzIjoxLCJyZW9wZW5zIjoxLCJleGFjdERpZ2VzdENvbXBhcmlzb25zIjoxLCJyZWFsT3duZXJEb2N1bWVudHMiOjB9CiMgU3VidGVzdDogV1A3MTAgYm91bmRlZCBjb3JwdXMgZXhwb3J0cyBldmVyeSBhZG1pdHRlZCBwcm9maWxlIGNvbWJpbmF0aW9uIHdpdGhvdXQgc291cmNlIGNvbnRlbnQKb2sgMiAtIFdQNzEwIGJvdW5kZWQgY29ycHVzIGV4cG9ydHMgZXZlcnkgYWRtaXR0ZWQgcHJvZmlsZSBjb21iaW5hdGlvbiB3aXRob3V0IHNvdXJjZSBjb250ZW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuNzMxNzUKICAuLi4KIyB7InByb2ZpbGVDb21iaW5hdGlvbkRlbm9taW5hdG9yIjo3LCJleHBvcnRlZFJlY29yZERlbm9taW5hdG9yIjoxNn0KIyBTdWJ0ZXN0OiBXUDcxMCByZWplY3RzIGV2ZXJ5IHJlZ2lzdGVyZWQgZm9yYmlkZGVuLWZpZWxkIHNlY3JldCBhdXRob3JpdHkgYW5kIHN0cnVjdHVyYWwgaW5wdXQgbXV0YW50Cm9rIDMgLSBXUDcxMCByZWplY3RzIGV2ZXJ5IHJlZ2lzdGVyZWQgZm9yYmlkZGVuLWZpZWxkIHNlY3JldCBhdXRob3JpdHkgYW5kIHN0cnVjdHVyYWwgaW5wdXQgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDEyLjU1NDA4MwogIC4uLgojIHsiaG9zdGlsZUlucHV0RGVub21pbmF0b3IiOjE0LCJyZWplY3RlZCI6MTR9CiMgU3VidGVzdDogV1A3MTAgcGFyc2VyIHJlamVjdHMgaW5kZXBlbmRlbnRseSByZWhhc2hlZCBzZW1hbnRpYyBvdmVyY2xhaW1zIGFuZCBieXRlIHRhbXBlcmluZwpvayA0IC0gV1A3MTAgcGFyc2VyIHJlamVjdHMgaW5kZXBlbmRlbnRseSByZWhhc2hlZCBzZW1hbnRpYyBvdmVyY2xhaW1zIGFuZCBieXRlIHRhbXBlcmluZwogIC0tLQogIGR1cmF0aW9uX21zOiA5LjA4ODM3NQogIC4uLgojIHsic2VtYW50aWNBbmRCeXRlTXV0YW50RGVub21pbmF0b3IiOjEyLCJyZWplY3RlZCI6MTJ9CiMgU3VidGVzdDogV1A3MTAgY3JlYXRlcyBkZXRlcm1pbmlzdGljIEF0bGFzIFdTRSBQdWxzZSBldmlkZW5jZSBtZXRhZGF0YSB3aXRoIGhvbmVzdCBhdmFpbGFiaWxpdHkKb2sgNSAtIFdQNzEwIGNyZWF0ZXMgZGV0ZXJtaW5pc3RpYyBBdGxhcyBXU0UgUHVsc2UgZXZpZGVuY2UgbWV0YWRhdGEgd2l0aCBob25lc3QgYXZhaWxhYmlsaXR5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE0LjQ5MTUKICAuLi4KIyBTdWJ0ZXN0OiBXUDcxMCByb3VuZHRyaXAgYmluZHMgY2Fub25pY2FsIGJ5dGVzIGRpZ2VzdCBpZGVudGl0eSBhbmQgemVybyBhdXRob3JpdHkKb2sgNiAtIFdQNzEwIHJvdW5kdHJpcCBiaW5kcyBjYW5vbmljYWwgYnl0ZXMgZGlnZXN0IGlkZW50aXR5IGFuZCB6ZXJvIGF1dGhvcml0eQogIC0tLQogIGR1cmF0aW9uX21zOiAxLjQ5MzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDcxMCByZWplY3RzIHN0YWxlIHNvdXJjZSBhbmQgcmVjb3JkIGlkZW50aXRpZXMgYmVmb3JlIHB1Ymxpc2hpbmcgYnl0ZXMKb2sgNyAtIFdQNzEwIHJlamVjdHMgc3RhbGUgc291cmNlIGFuZCByZWNvcmQgaWRlbnRpdGllcyBiZWZvcmUgcHVibGlzaGluZyBieXRlcwogIC0tLQogIGR1cmF0aW9uX21zOiAxLjM2Mzc5MQogIC4uLgojIHsic3RhbGVJZGVudGl0eURlbm9taW5hdG9yIjo2LCJyZWplY3RlZCI6Nn0KIyBTdWJ0ZXN0OiBXUDcxMCBwcmVzZXJ2ZXMgcmVxdWVzdGVkIHVuYXZhaWxhYmxlIHByb2ZpbGVzIHdpdGhvdXQgaW52ZW50aW5nIGV2aWRlbmNlCm9rIDggLSBXUDcxMCBwcmVzZXJ2ZXMgcmVxdWVzdGVkIHVuYXZhaWxhYmxlIHByb2ZpbGVzIHdpdGhvdXQgaW52ZW50aW5nIGV2aWRlbmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDAuNTQxNjI1CiAgLi4uCjEuLjgKIyB0ZXN0cyA4CiMgc3VpdGVzIDAKIyBwYXNzIDgKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyMi40MTkxNjYK"
+    }
+  },
+  "claim": {
+    "ceiling": "WP710_NODE_ONLY",
+    "profiles": [
+      "ATLAS",
+      "PULSE",
+      "WSE"
+    ],
+    "metadataOnly": true,
+    "unavailableExplicit": true,
+    "productMutation": false,
+    "commandAuthority": false,
+    "pathAuthority": false,
+    "providerAuthority": false,
+    "networkAuthority": false
+  }
+}

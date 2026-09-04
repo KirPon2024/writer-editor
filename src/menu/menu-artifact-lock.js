@@ -12,9 +12,10 @@ const FAIL_SIGNAL_MENU_ARTIFACT = 'E_MENU_ARTIFACT_TAMPER_OR_DRIFT';
 const HASH_METHOD_RAW_BYTES = 'sha256(raw-file-bytes)';
 
 const REPO_ROOT = path.join(__dirname, '..', '..');
-const DEFAULT_ARTIFACT_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'ARTIFACTS', 'menu', 'menu.normalized.json');
-const DEFAULT_LOCK_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'LOCKS', 'MENU_ARTIFACT_LOCK.json');
-const DEFAULT_VERIFY_CANON_PATH = path.join(REPO_ROOT, 'docs', 'OPS', 'STATUS', 'MENU_ARTIFACT_VERIFY_CANON.json');
+const RUNTIME_GOVERNANCE_ROOT = path.join(__dirname, '..', 'runtime-governance');
+const DEFAULT_ARTIFACT_PATH = path.join(RUNTIME_GOVERNANCE_ROOT, 'docs', 'OPS', 'ARTIFACTS', 'menu', 'menu.normalized.json');
+const DEFAULT_LOCK_PATH = path.join(RUNTIME_GOVERNANCE_ROOT, 'docs', 'OPS', 'LOCKS', 'MENU_ARTIFACT_LOCK.json');
+const DEFAULT_VERIFY_CANON_PATH = path.join(RUNTIME_GOVERNANCE_ROOT, 'docs', 'OPS', 'STATUS', 'MENU_ARTIFACT_VERIFY_CANON.json');
 
 function normalizeString(value) {
   return typeof value === 'string' ? value.trim() : '';

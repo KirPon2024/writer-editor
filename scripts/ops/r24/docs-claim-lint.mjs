@@ -14,9 +14,9 @@ import { buildClaimBinding } from './claim-binding.mjs';
 const CLAIM_TERMS = ['PASS', 'DONE', 'READY', 'CLOSED', 'SAFE', 'COMPLETE'];
 const CLAIM_RE = new RegExp(`\\b(${CLAIM_TERMS.join('|')})\\b`);
 
-// Two immutable node carriers included the mutable inventory in their claim
-// surface. They remain exact historical evidence, never coverage of today's
-// inventory. No arbitrary stamp, path, digest or future-head fallback is allowed.
+// Immutable node carriers that included the mutable inventory remain exact
+// historical evidence, never coverage of today's inventory. No arbitrary
+// stamp, path, digest or future-head fallback is allowed.
 export const HISTORICAL_INVENTORY_CLAIM_PINS_V1 = Object.freeze([
   Object.freeze({ stampId: 'ES-R24-WP-703-DOCX-PROFILE-CLAIM-BINDINGS', stampSha256: '82f1e92a55570f31bb04049efe5bfaa87f3c4ce4bf16cb8f7196fd6adc589143',
     evaluationSha: '5a6c46b3c6a8a8e1f945e1d72c0302cb78d4763f', evaluationTree: '0731572227f0a63598f1cd57c6cc9453c22b47e3', targetSha256: '7f315e0a188cabc597d60f5e11180ed7bde828d1d495b88e27d73e0b47859d0f' }),
@@ -39,10 +39,17 @@ export const HISTORICAL_INVENTORY_CLAIM_PINS_V3 = Object.freeze([
   Object.freeze({ stampId: 'ES-R24-WP-602-PROPOSAL-WORKFLOW-CLAIM-BINDINGS', stampSha256: 'ef55a2e1647dc330de04bd5f9e50a93b19c980f9add1d606dbb56055e7e54b3c',
     evaluationSha: 'dd2e7925715b3a8a16b7b226d8c305371ae431c7', evaluationTree: 'ca85eca9303d0da3b4ed6fc421baba746b1461a8', targetSha256: 'aa27bde53c1705191956fcbcf3f96f3b922ec502e132780cea1188a7057880e7' }),
 ]);
+// WP603 recovery compatibility: preserve the original merged inventory binding
+// at the exact PR1823 merge identity while a successor binds today's inventory.
+export const HISTORICAL_INVENTORY_CLAIM_PINS_V4 = Object.freeze([
+  ...HISTORICAL_INVENTORY_CLAIM_PINS_V3,
+  Object.freeze({ stampId: 'ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS', stampSha256: 'aa2de25e282a70b50c46a21d929d528ffc34be40075beac85ca94a19bb1b0a7c',
+    evaluationSha: 'ace5488721423d1542515ce16c092054511a31ee', evaluationTree: '860ff112568115851c25505fd7c563cc9ad84df1', targetSha256: '4cf523c0956b5ba02810b76c47bc949f060ee31ebcfe70ff4c85b3dd85922232' }),
+]);
 const INVENTORY_PATH = 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json';
 const historicalGit = (rootDir, args) => execFileSync('git', args, { cwd: rootDir, encoding: null, maxBuffer: 4 * 1024 * 1024, timeout: 15000, stdio: ['ignore','pipe','pipe'] });
 export function verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes, binding, git = historicalGit }) {
-  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V3.find(item => item.stampId === stamp.stampId);
+  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V4.find(item => item.stampId === stamp.stampId);
   if (!pin || binding.filePath !== INVENTORY_PATH) return null;
   const fail = () => { const error = new Error('E_HISTORICAL_INVENTORY_BINDING'); error.code = error.message; throw error; };
   if (sha256hex(stampBytes) !== pin.stampSha256 || binding.sha256 !== pin.targetSha256) fail();
@@ -111,7 +118,7 @@ function addBinding({ rootDir, evidenceDir, stamp, file, bindingsByFile, histori
     }
     const actual = sha256hex(fs.readFileSync(normalizedTarget));
     if (actual !== binding.sha256 && relativePath === INVENTORY_PATH
-      && HISTORICAL_INVENTORY_CLAIM_PINS_V3.some(pin => pin.stampId === stamp.stampId)) {
+      && HISTORICAL_INVENTORY_CLAIM_PINS_V4.some(pin => pin.stampId === stamp.stampId)) {
       try {
         const historical = verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes: fs.readFileSync(file), binding });
         if (historical) { historicalBindings.push(historical); continue; }

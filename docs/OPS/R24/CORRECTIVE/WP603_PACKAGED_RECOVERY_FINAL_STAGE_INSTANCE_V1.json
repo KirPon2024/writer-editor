@@ -1,0 +1,413 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-603_WSE_STATE_EVIDENCE",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_FINAL_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "ace5488721423d1542515ce16c092054511a31ee",
+  "headSha": "ace5488721423d1542515ce16c092054511a31ee",
+  "treeSha": "860ff112568115851c25505fd7c563cc9ad84df1",
+  "branch": "codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+  "targetRemote": "origin",
+  "fixedBindings": [
+    {
+      "path": "docs/OPERATIONS/ABOUT_LICENSE_TEXT.md",
+      "sha256": "265f512e7c36830045284dbc2e3abb70eb81a040df4f93f79b58c2986c088d84"
+    },
+    {
+      "path": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "sha256": "75cbf2c86ca2a7505bb2faa13fcae20a3c2de8c786f04aec203e7dbcf11b6047"
+    },
+    {
+      "path": "docs/OPS/CAPABILITIES_MATRIX.json",
+      "sha256": "ef8023acebdfd48f46c336872142b6202d7767ade9e89d34fc450a46e2a4401f"
+    },
+    {
+      "path": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "sha256": "ed0222fcfa8004ec0ae11be7d6ffa4b13e2621703817f4b9feaea1febd0c1797"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "034a61240cae96fa020025b0d6d33b44af03dbe1723b2ca62657432676177e74"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "sha256": "a4ceae6daed4fa1bb782ddcda08b536c5c376b3ab091949106b0b8c842c0c0ce"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "67406d2c744d866c12482341f894dc524ef46667ac1a752609587f59ed178d8b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "1d8b6744e8f5341e8348550b284827b05b6fdc1d3bd9ef735fb3b554038f2efb"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_OWNER_AUTHORITY_V1.json",
+      "sha256": "3c733e01fb5e9de57ef7f7ff71863171d28c38d4995da09180638931c7dbcd08"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5949aed88bef8840ef90acbd5ad882802bcf80bce7acd806b5aaf198f2377d63"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "3b90805c9c12bc2ab86df1a026a9f81a134f455cefc669ec545006f624a9ebd2"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "cf4548ac5ed75186f6e569d407056cb7633e63551ee58e2c47eb76da4597220b"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "877c1332f2447dbc8116527b818126f7d46759fd2254c38ef49b647590e4b1bb"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "61d44287ef1ce8330d32711c8560eef77756007787d4d564f861536aea4c3474"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "3753771b0c38ea43fe339d836dd798737493918505f4dd39d51bd85b95163a16"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "6917463bdfe7269ed36d2c2035f7b291b44d2005ff3066867cf52995eead9775"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "caaceb490d6436629b54977aa606e37dc30b205bd1cf61e27bdb76f6a4140feb"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "f80565149deb29115304ef451ddd085c9a88d47ad41bfd459a6e8d6dacc709cb"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "fbae34cd508e12b6c7988a2629f47ad3d704883a8bf5cbfd7b22c122960d811d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "sha256": "735f9e3da62cd6052a1847ef20d5202c1997e3e60a5d0f3d17d24213839bba53"
+    },
+    {
+      "path": "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
+      "sha256": "96bdb773f2be2b189b4ea9cd8237dd25b4bb467c60564b51fd62f50e5f7fa47b"
+    },
+    {
+      "path": "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
+      "sha256": "6c3593c2eb948f90197c895d0a4e2dcdbcf50abbbf5ed6da11ae736770b82c15"
+    },
+    {
+      "path": "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
+      "sha256": "4ea57c88c0737cd7de789c6824f30aef202600736ee157e353089cf1e823f48d"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
+      "sha256": "47f50a2c8bdc00cd1cf7af47b2b18dde817b332086f52cb44ab2179f86320e68"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
+      "sha256": "51e5510093e5c4b4daf0a83828ebeefe7d0481b2270800ce8812aefc4d4994d4"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
+      "sha256": "b9c158941f10072bd571bcbe9230b761c9ef2d5edb5f7e6ce2836389ee903ca3"
+    },
+    {
+      "path": "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
+      "sha256": "5b1ae9c80f2048d4028760ab48ce7e71f54ee5bb94bb81739a95c840f06dbf14"
+    },
+    {
+      "path": "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
+      "sha256": "412b383da042a35d0fb2f643c4155f3ac88784e2d9d414f6c8259df87a451898"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "operations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPERATIONS/ABOUT_LICENSE_TEXT.md",
+      "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+      "docs/OPS/CAPABILITIES_MATRIX.json",
+      "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/STATUS/CANON_STATUS.json",
+      "docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json",
+      "docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json",
+      "docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json",
+      "docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json",
+      "docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json",
+      "docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json",
+      "docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json",
+      "docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json",
+      "docs/OPS/STATUS/XPLAT_UNIFIED_MASTER_EXECUTION_CONTRACT_v3.13a-final.md",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "docs/corex/COREX.md",
+      "docs/corex/COREX.v2.md",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs",
+      "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs",
+      "src/core/autosave-generation-v1.cjs",
+      "src/core/command-protocol-v1.cjs",
+      "src/core/legacy-strangler-v1.cjs",
+      "src/core/project-transaction-v1.cjs",
+      "src/core/save-receipt-ack-v1.cjs",
+      "src/menu/command-namespace-canon.js",
+      "src/menu/enabledwhen-eval.js",
+      "src/menu/menu-artifact-lock.js",
+      "src/menu/menu-config-normalizer.js",
+      "src/menu/menu-config-validator.js",
+      "src/menu/menu-runtime-context.js",
+      "src/menu/plugin-overlays-loader.js",
+      "src/preload.js",
+      "src/renderer/editor.js",
+      "test/unit/r24-k0-command-protocol.test.js",
+      "test/unit/r24-wp200-durable-save.test.js"
+    ],
+    "modifyPaths": [
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "package.json",
+      "scripts/check-packaged-renderer-bundle.mjs",
+      "src/main.js",
+      "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+      "test/unit/sector-m-preload-save-lifecycle-signal-bridge.test.js"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_INSTANCE_V1.json"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "npm run agent:preflight -- --declaration /tmp/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs --exact recovery successor arguments",
+    "node --test test/unit/sector-m-preload-save-lifecycle-signal-bridge.test.js test/unit/r24-wp200-durable-save.test.js test/unit/r24-k0-command-protocol.test.js",
+    "npm run build:renderer",
+    "node scripts/check-packaged-renderer-bundle.mjs",
+    "node scripts/ops/yalken-atlas-v5-e11-c01-macos-package-artifact-security.mjs --out EXTERNAL_EVIDENCE_DIR",
+    "node /Volumes/T7-Secure/storage/yalken/evidence/wp603-wse-state-evidence-v1/terminal-v1/WP603_PACKAGED_WRITER_LOCAL_LIFECYCLE_HARNESS_V1.mjs",
+    "npm run test:r24-post-audit",
+    "node --test --test-name-pattern=RELEASE01-14-integration-real-registry test/contracts/rtk-release01-terminal-claims.contract.test.js",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_GOVERNANCE_CHANGE_APPROVALS_V1.json node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "EFFECTIVE_MODE=STRICT GOVERNANCE_CHANGE_APPROVALS_PATH=docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_GOVERNANCE_CHANGE_APPROVALS_V1.json npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs --write docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "node scripts/ops/r24/test-inventory.mjs --check docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+    "git diff --check",
+    "git status --short --branch",
+    "git add -- EXACT_FINAL_RECOVERY_WRITE_SET",
+    "git commit -m Recover packaged save lifecycle and release wording binding",
+    "git fetch origin main",
+    "git merge --ff-only origin/main",
+    "git push origin codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+    "gh pr create --base main --head codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh workflow run ops-vector-close.yml",
+    "gh run watch RUN --exit-status",
+    "node /tmp/WP603_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP603_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "acceptanceSignals": [
+    "EXACT_EDITOR_GENERATION_PRESERVED_THROUGH_MAIN_PROCESS_NORMALIZATION",
+    "INVALID_GENERATION_FAILS_CLOSED_AND_CANNOT_CLEAR_DIRTY",
+    "EVERY_AUTOSAVE_REFUSAL_HAS_TOP_LEVEL_PROTOCOL_CODE_AND_REASON",
+    "PROJECT_TRANSACTION_IDENTITY_RECEIVES_EXACT_NONNEGATIVE_GENERATION",
+    "EXACT_PACKAGED_RUNTIME_RESOURCES_REMAIN_BYTE_BOUND",
+    "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT_PASS",
+    "RELEASE01_APPEND_ONLY_SURFACE_SUCCESSOR_MATCHES_RECOVERY_PACKAGE_BYTES",
+    "PRIOR_FAILURE_AND_DIAGNOSTIC_EVIDENCE_REMAINS_IMMUTABLE",
+    "NO_UI_DEPENDENCY_NETWORK_SIGNING_OR_DISTRIBUTION_CHANGE",
+    "C1B_TEST_INVENTORY_CURRENT_ZERO_REQUIRED_OR_UNEXPLAINED_SKIPS",
+    "STRICT_GOVERNANCE_APPROVALS_BIND_EVERY_CHANGED_GOVERNANCE_BYTE",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP603_FENCE_85_RELEASED_WIP_0",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP603_MAIN_PRODUCT_OWNER_AUTHORITY_V1",
+      "digest": "67406d2c744d866c12482341f894dc524ef46667ac1a752609587f59ed178d8b",
+      "status": "MERGED_OWNER_AUTHORITY"
+    },
+    {
+      "id": "WP603_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1",
+      "digest": "1d8b6744e8f5341e8348550b284827b05b6fdc1d3bd9ef735fb3b554038f2efb",
+      "status": "MERGED_ADMISSION"
+    },
+    {
+      "id": "WP603_MERGE_ACE54887",
+      "digest": "860ff112568115851c25505fd7c563cc9ad84df1",
+      "status": "MERGED_TREE"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT1_FAILURE_V1",
+      "digest": "e7602057d192381dc45a7f1e7616549971beecb90216d9efe76927369a389dde",
+      "status": "FAIL_SCENE_OPEN"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT2_FAILURE_V1",
+      "digest": "1078e6f2508436dc57e50cd8c4b72b3ad092ec7f1b8c5693def593c57b3b3620",
+      "status": "FAIL_ALL_VISIBLE_ROWS_POINTER"
+    },
+    {
+      "id": "WP603_PACKAGED_ATTEMPT3_FAILURE_V1",
+      "digest": "d950a7d17ec12fb021122d2c4485540c81e692ef341e4119c5d3e938deb242c3",
+      "status": "FAIL_ALL_VISIBLE_ROWS_KEYBOARD"
+    },
+    {
+      "id": "WP603_PACKAGED_OPEN_DIAGNOSTIC_V1",
+      "digest": "ec8852bfe7a1588b7371e664f0475f0429c689e4c1669f399ace87d5b2b94624",
+      "status": "COMMAND_EXECUTION_THROW_ENOENT_COMMAND_NAMESPACE_CANON"
+    },
+    {
+      "id": "WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1",
+      "digest": "877c1332f2447dbc8116527b818126f7d46759fd2254c38ef49b647590e4b1bb",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1",
+      "digest": "3753771b0c38ea43fe339d836dd798737493918505f4dd39d51bd85b95163a16",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1",
+      "digest": "61d44287ef1ce8330d32711c8560eef77756007787d4d564f861536aea4c3474",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_SAVE_DIAGNOSTIC_V2",
+      "digest": "aa606a60696a9f068dee004065be729178105762d940236a7fe427c7a26c6e1e",
+      "status": "FAIL_GENERATION_LOST_AND_PROTOCOL_REFUSAL_MALFORMED"
+    },
+    {
+      "id": "WP603_PROJECT_TRANSACTION_MODULE_DIAGNOSTIC_V1",
+      "digest": "0184a60e3f9690cf0ffb94d3aefb29b0f01a0ee98969215caba0ececed2e15e3",
+      "status": "ISOLATED_TRANSACTION_PRIMITIVES_PASS"
+    },
+    {
+      "id": "WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_OWNER_AUTHORITY_V1",
+      "digest": "6917463bdfe7269ed36d2c2035f7b291b44d2005ff3066867cf52995eead9775",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_INSTANCE_V1",
+      "digest": "f80565149deb29115304ef451ddd085c9a88d47ad41bfd459a6e8d6dacc709cb",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1",
+      "digest": "caaceb490d6436629b54977aa606e37dc30b205bd1cf61e27bdb76f6a4140feb",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+      "digest": "fbae34cd508e12b6c7988a2629f47ad3d704883a8bf5cbfd7b22c122960d811d",
+      "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_OWNER_AUTHORITY_V1",
+      "digest": "3c733e01fb5e9de57ef7f7ff71863171d28c38d4995da09180638931c7dbcd08",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_INSTANCE_V1",
+      "digest": "3b90805c9c12bc2ab86df1a026a9f81a134f455cefc669ec545006f624a9ebd2",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1",
+      "digest": "5949aed88bef8840ef90acbd5ad882802bcf80bce7acd806b5aaf198f2377d63",
+      "status": "ACTIVE_ADMITTED_PREDECESSOR"
+    },
+    {
+      "id": "WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+      "digest": "cf4548ac5ed75186f6e569d407056cb7633e63551ee58e2c47eb76da4597220b",
+      "status": "ACTIVE_APPEND_ONLY_WORDING_SUCCESSOR"
+    },
+    {
+      "id": "WP603_GOVERNANCE_CHANGE_APPROVALS_V1",
+      "digest": "034a61240cae96fa020025b0d6d33b44af03dbe1723b2ca62657432676177e74",
+      "status": "PRESERVED_MERGED_APPROVAL_PREDECESSOR"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 85,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "084ae4107b98f1b0337caf624af3e305e8bdf5cdc1cb064a849f92a29bf3c32c"
+  },
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "AUTHORITY_OR_IDENTITY_DRIFT",
+    "EXACT_WRITE_SET_EXPANSION",
+    "FENCE_85_NOT_ACTIVE_WIP_1",
+    "MANDATORY_GATE_OR_EXACT_PACKAGED_JOURNEY_FAILS",
+    "NEW_DEPENDENCY_NETWORK_RUNTIME_SIGNING_OR_DISTRIBUTION_REQUIRED",
+    "OWNER_PRIVATE_DOCUMENT_REQUIRED",
+    "PROGRAM_DONE_ATTEMPTED"
+  ]
+}

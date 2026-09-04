@@ -9,10 +9,28 @@ const defaultAsarCandidates = [
   path.resolve('dist/mac-arm64/Craftsman.app/Contents/Resources/app.asar'),
 ];
 
+const requiredRuntimeResourceEntries = [
+  'docs/OPERATIONS/ABOUT_LICENSE_TEXT.md',
+  'docs/OPS/ARTIFACTS/menu/menu.normalized.json',
+  'docs/OPS/CAPABILITIES_MATRIX.json',
+  'docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json',
+  'docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json',
+  'docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json',
+  'docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json',
+  'docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json',
+  'docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json',
+  'docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json',
+  'docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json',
+  'docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json',
+].map((source) => ({
+  source,
+  packaged: `src/runtime-governance/${source}`,
+}));
 const requiredEntries = [
   'src/renderer/index.html',
   'src/renderer/editor.bundle.js',
   'src/renderer/flags.js',
+  ...requiredRuntimeResourceEntries.map((entry) => entry.packaged),
 ];
 const requiredRuntimeScriptPath = '<script src="./editor.bundle.js"></script>';
 const explicitAppAsarPath = process.argv[2] ? path.resolve(process.argv[2]) : '';
@@ -74,6 +92,26 @@ function validateRuntimeEntrypointAtRepoLevel() {
     process.exit(4);
   }
 
+  const packageDoc = JSON.parse(fs.readFileSync(path.resolve('package.json'), 'utf8'));
+  const packagedFilePatterns = Array.isArray(packageDoc?.build?.files) ? packageDoc.build.files : [];
+  if (!packagedFilePatterns.includes('src/**/*')) {
+    console.error('PACKAGE_RUNTIME_RESOURCE_DECLARATION_MISSING: missing=src/**/*');
+    process.exit(8);
+  }
+  const forbiddenDocPatterns = packagedFilePatterns.filter((entry) => entry === 'docs' || entry.startsWith('docs/'));
+  if (forbiddenDocPatterns.length > 0) {
+    console.error(`PACKAGE_RUNTIME_RESOURCE_DOCS_STAGING_FORBIDDEN: entries=${forbiddenDocPatterns.join(',')}`);
+    process.exit(8);
+  }
+
+  const driftedMirrors = requiredRuntimeResourceEntries.filter(({ source, packaged }) => (
+    !fs.readFileSync(path.resolve(source)).equals(fs.readFileSync(path.resolve(packaged)))
+  ));
+  if (driftedMirrors.length > 0) {
+    console.error(`REPO_RUNTIME_RESOURCE_MIRROR_DRIFT: entries=${driftedMirrors.map((entry) => entry.source).join(',')}`);
+    process.exit(8);
+  }
+
   const distBundlePath = path.resolve('dist/renderer/editor.bundle.js');
   if (!fs.existsSync(distBundlePath)) {
     console.error(`DIST_RUNTIME_BUNDLE_MISSING: ${distBundlePath}`);
@@ -122,5 +160,15 @@ if (!indexHtml.includes(requiredRuntimeScriptPath)) {
   process.exit(4);
 }
 
+for (const entry of requiredRuntimeResourceEntries) {
+  const sourceBytes = fs.readFileSync(path.resolve(entry.source));
+  const packagedBytes = asar.extractFile(appAsarPath, entry.packaged);
+  if (!sourceBytes.equals(packagedBytes)) {
+    console.error(`APP_ASAR_RUNTIME_RESOURCE_BYTES_DRIFT: entry=${entry.source}`);
+    process.exit(8);
+  }
+}
+
 console.log('BUNDLE_ENTRYPOINT_PROOF_MODE=packaged');
+console.log(`APP_ASAR_RUNTIME_RESOURCES_EXACT=${requiredRuntimeResourceEntries.length}`);
 console.log('APP_ASAR_BUNDLE_CHECK_PASS');

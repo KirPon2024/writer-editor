@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-603-PACKAGED-RECOVERY-CLAIM-BINDINGS",
+  "contourId": "WP-603_WSE_STATE_EVIDENCE",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "ace5488721423d1542515ce16c092054511a31ee",
+  "originMainSha": "ace5488721423d1542515ce16c092054511a31ee",
+  "generatedAtUtc": "2026-09-04T00:58:12Z",
+  "oracle": "Exact admitted current C1B inventory byte binding after WP603 packaged lifecycle recovery; historical WP603 inventory binding remains limited to its exact PR1823 merge bytes.",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "0f1e2c9ca3f5e0d1f59b5a1d9e1dbdf1282f5ea281398e62dd3ab4cb9126301a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "nonClaims": [
+    "NO_HISTORICAL_WP603_CLAIM_BINDING_MUTATION",
+    "NO_TERMINAL_OR_RELEASE_CLAIM_BEFORE_PROTECTED_MERGE_AND_EXTERNAL_VERIFICATION",
+    "NO_PROGRAM_DONE_CLAIM"
+  ]
+}

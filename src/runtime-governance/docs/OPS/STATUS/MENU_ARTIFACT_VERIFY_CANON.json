@@ -1,0 +1,7 @@
+{
+  "schemaVersion": 1,
+  "hashMethod": "sha256(raw-file-bytes)",
+  "artifactPath": "docs/OPS/ARTIFACTS/menu/menu.normalized.json",
+  "lockPath": "docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json",
+  "failSignalCode": "E_MENU_ARTIFACT_TAMPER_OR_DRIFT"
+}

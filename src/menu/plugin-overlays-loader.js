@@ -5,7 +5,7 @@ const { validateEnabledWhenAst } = require('./enabledwhen-eval.js');
 const PLUGIN_OVERLAY_POLICY_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',
@@ -14,7 +14,7 @@ const PLUGIN_OVERLAY_POLICY_PATH = path.join(
 const VISIBILITY_MATRIX_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',

@@ -20,7 +20,7 @@ const {
 const NORMALIZATION_SPEC_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',
@@ -29,7 +29,7 @@ const NORMALIZATION_SPEC_PATH = path.join(
 const VISIBILITY_MATRIX_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',
@@ -38,7 +38,7 @@ const VISIBILITY_MATRIX_PATH = path.join(
 const OVERLAY_STACK_CANON_PATH = path.join(
   __dirname,
   '..',
-  '..',
+  'runtime-governance',
   'docs',
   'OPS',
   'STATUS',

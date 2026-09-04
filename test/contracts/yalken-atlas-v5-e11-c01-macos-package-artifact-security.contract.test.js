@@ -115,6 +115,35 @@ test('E11 C01: package config has mac build command, afterPack ATS hardening, an
   assert.equal(pkg.build.mac.extendInfo.NSAppTransportSecurity.NSAllowsLocalNetworking, false);
   assert.match(checker, /APP_ASAR_BUNDLE_CHECK_PASS/u);
   assert.match(checker, /BUNDLE_ENTRYPOINT_PROOF_MODE=packaged/u);
+  const runtimeResources = [
+    'docs/OPERATIONS/ABOUT_LICENSE_TEXT.md',
+    'docs/OPS/ARTIFACTS/menu/menu.normalized.json',
+    'docs/OPS/CAPABILITIES_MATRIX.json',
+    'docs/OPS/LOCKS/MENU_ARTIFACT_LOCK.json',
+    'docs/OPS/STATUS/COMMAND_NAMESPACE_CANON.json',
+    'docs/OPS/STATUS/COMMAND_VISIBILITY_MATRIX.json',
+    'docs/OPS/STATUS/ENABLEDWHEN_DSL_CANON.json',
+    'docs/OPS/STATUS/MENU_ARTIFACT_VERIFY_CANON.json',
+    'docs/OPS/STATUS/MENU_CONFIG_NORMALIZATION_SPEC_v1.json',
+    'docs/OPS/STATUS/MENU_OVERLAY_STACK_CANON_v1.json',
+    'docs/OPS/STATUS/MENU_RUNTIME_CONTEXT_CANON_v1.json',
+    'docs/OPS/STATUS/PLUGIN_MENU_OVERLAY_POLICY_v1.json',
+  ];
+  assert.equal(pkg.build.files.includes('src/**/*'), true);
+  assert.deepEqual(pkg.build.files.filter((entry) => entry === 'docs' || entry.startsWith('docs/')), []);
+  for (const entry of runtimeResources) {
+    const mirror = `src/runtime-governance/${entry}`;
+    assert.equal(fileExists(entry), true, `${entry} must exist at the packaged byte source`);
+    assert.equal(fileExists(mirror), true, `${mirror} must exist inside the admitted src package boundary`);
+    assert.equal(read(mirror), read(entry), `${mirror} must preserve exact canonical source bytes`);
+    assert.match(checker, new RegExp(entry.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'u'));
+  }
+  assert.match(checker, /src\/runtime-governance/u);
+  assert.match(checker, /PACKAGE_RUNTIME_RESOURCE_DOCS_STAGING_FORBIDDEN/u);
+  assert.match(checker, /REPO_RUNTIME_RESOURCE_MIRROR_DRIFT/u);
+  assert.match(checker, /sourceBytes\.equals\(packagedBytes\)/u);
+  assert.match(checker, /APP_ASAR_RUNTIME_RESOURCE_BYTES_DRIFT/u);
+  assert.match(checker, /APP_ASAR_RUNTIME_RESOURCES_EXACT/u);
   assert.match(afterPack, /NSAllowsArbitraryLoads/u);
   assert.match(afterPack, /NSAllowsLocalNetworking/u);
 });

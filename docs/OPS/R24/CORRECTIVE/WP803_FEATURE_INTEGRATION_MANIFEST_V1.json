@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "VERIFIED_WP801_LEDGER_AND_EXPLICIT_CONTENT_FREE_LOCAL_DECLARATIONS",
+    "mutation": "NONE_REBUILDABLE_DERIVED_PROJECTION"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.pulseDescriptiveHistory",
+      "query.pulseDescriptiveHistoryCurrent"
+    ],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "immutablePulseLedgerSnapshot",
+      "explicitLocalDeclarationSnapshot"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schemas": [
+      "yalken.r24.pulseDescriptiveHistory.v1"
+    ],
+    "immutable": true,
+    "identityGuards": [
+      "ledgerSequence",
+      "ledgerHeadDigest",
+      "declarationRevisionOrdinal",
+      "generation",
+      "entryDigest",
+      "projectionDigest"
+    ],
+    "maximumEntries": 4096
+  },
+  "fallbacks": [
+    "NOT_RECORDED_FOR_ABSENT_VALUES",
+    "NO_INFERRED_PHASE_TASKS_OR_ORIGIN",
+    "REJECT_STALE_OR_TAMPERED_INPUT"
+  ],
+  "recovery": "REBUILD_FROM_CURRENT_IMMUTABLE_SOURCE_SNAPSHOTS",
+  "performance": {
+    "maximumEntries": 4096,
+    "validation": "LINEAR_AFTER_WP802_FORMULA_VALIDATION"
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "UNKNOWN_FIELDS",
+    "ACCESSORS",
+    "SYMBOLS",
+    "STALE_LEDGER",
+    "STALE_DECLARATION_REVISION",
+    "WRONG_ENTRY_BINDING",
+    "DUPLICATE_DECLARATIONS",
+    "UNBOUNDED_COUNT",
+    "UNKNOWN_PHASE",
+    "PROJECTION_TAMPER",
+    "NO_FALSE_ZERO",
+    "IMPLEMENTATION_MUTANTS"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

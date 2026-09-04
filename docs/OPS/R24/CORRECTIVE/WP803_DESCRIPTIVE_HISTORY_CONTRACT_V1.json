@@ -1,0 +1,78 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_DESCRIPTIVE_HISTORY_CONTRACT_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "historyVersion": "PULSE_DESCRIPTIVE_HISTORY_V1",
+  "input": {
+    "ledgerSchema": "yalken.r24.pulseLedgerSnapshot.v1",
+    "declarationSchema": "yalken.r24.pulseHistoryDeclarations.v1",
+    "maximumEntries": 4096,
+    "strictWp802LedgerValidation": true,
+    "immutableReadOnly": true
+  },
+  "semantics": {
+    "add": "WORDS_ADDED_COUNT",
+    "delete": "WORDS_DELETED_COUNT",
+    "net": "ADD_MINUS_DELETE_WHEN_BOTH_RECORDED",
+    "touched": "ADD_PLUS_DELETE_WORD_OPERATIONS_NOT_UNIQUE_WORDS_OR_SCENES",
+    "sessions": "SESSIONS_COMPLETED_COUNT_NOT_INFERRED_FROM_LEDGER_ENTRIES",
+    "sceneEdits": "SCENES_EDITED_COUNT_NOT_UNIQUE_SCENES",
+    "declaredTasks": "EXPLICIT_NONNEGATIVE_COUNT_NOT_INFERRED_COMPLETION",
+    "manualPhase": "EXPLICIT_ENUM_RESEARCH_PLANNING_DRAFTING_REVISING_EDITING_ONLY",
+    "origin": "LEDGER_AGGREGATE_OR_EXPLICIT_LOCAL_DECLARATION",
+    "absent": "NOT_RECORDED_NEVER_ZERO",
+    "partialSummary": "OBSERVED_SUBTOTAL_WITH_RECORDED_ROW_DENOMINATOR_TOTAL_VALUE_NULL_UNLESS_ALL_RECORDED",
+    "emptyHistory": "ZERO_ROWS_ZERO_OBSERVED_COUNTS"
+  },
+  "declarations": {
+    "requiredRootFields": [
+      "schemaVersion",
+      "ledgerSequence",
+      "ledgerHeadDigest",
+      "revisionOrdinal",
+      "generation",
+      "entries"
+    ],
+    "rowFields": [
+      "sequence",
+      "entryDigest",
+      "declaredTaskCount",
+      "manualPhase"
+    ],
+    "nullableFields": [
+      "declaredTaskCount",
+      "manualPhase"
+    ],
+    "maximumTaskCount": 1000000000,
+    "orderedUniqueEntryBindings": true,
+    "noFreeTextOrPersonalIdentity": true
+  },
+  "projection": {
+    "schema": "yalken.r24.pulseDescriptiveHistory.v1",
+    "immutableDeepFrozen": true,
+    "digestBound": true,
+    "currentIdentityRequired": true,
+    "rebuildableDerivedState": true
+  },
+  "authority": {
+    "productCore": true,
+    "projectStateMutation": false,
+    "persistence": false,
+    "commandKernel": false,
+    "renderer": false,
+    "ipc": false,
+    "network": false,
+    "cloud": false
+  },
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

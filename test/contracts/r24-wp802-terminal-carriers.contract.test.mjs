@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
@@ -26,7 +27,7 @@ const paths = {
   lease: C + 'WP802_LEASE_RELEASE_V1.json',
   terminal: C + 'WP802_TERMINAL_RECEIPT_V1.json',
 };
-const bytes = (file) => fs.readFileSync(file);
+const bytes = (file) => execFileSync('git', ['show', `e62310f3e958db6d86a7f71d4a310c2bc65461ce:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 });
 const read = (file) => JSON.parse(bytes(file));
 const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGIBLE_OPTIONAL', 'PENDING'].map((state) => [state, Object.values(states).filter((value) => value === state).length]));
 function load() { return Object.fromEntries(Object.entries(paths).map(([key, file]) => [key, read(file)])); }

@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_PROOF_COMPLETE_EXTERNAL_DELIVERY_PENDING",
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_37_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "GRAPH_DERIVED_SUCCESSOR_WITHOUT_OWNER_GATE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "STRICT_WP802_LEDGER_VALIDATION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CONTRACT"
+    },
+    {
+      "id": "ADD_DELETE_NET_WORDS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "TOUCHED_WORD_OPERATIONS_NOT_UNIQUE_WORDS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "SESSIONS_NOT_INFERRED_FROM_ENTRIES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "SCENE_EDIT_COUNTS_NOT_UNIQUE_SCENES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "EXPLICIT_DECLARED_TASK_COUNT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "EXPLICIT_MANUAL_PHASE_ONLY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "METRIC_AND_DECLARATION_ORIGIN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "UNKNOWN_DISTINCT_FROM_ZERO",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "PARTIAL_SUMMARY_RECORDED_ROW_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "EMPTY_HISTORY_ZERO_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "MAXIMUM_COUNT_AND_ENUM_BOUNDS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CONTRACT"
+    },
+    {
+      "id": "DEEP_FROZEN_ISOLATED_DETERMINISTIC_PROJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "FRESH_PROCESS_LEDGER_REOPEN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "STALE_LEDGER_AND_DECLARATIONS_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "LEDGER_RECEIPT_AND_PROJECTION_TAMPER_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "ACCESSOR_SYMBOL_UNKNOWN_FIELD_DUPLICATE_BOUND_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CONTRACT"
+    },
+    {
+      "id": "TEN_ACTUAL_SOURCE_MUTANTS_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MUTANTS"
+    },
+    {
+      "id": "SYNTHETIC_NO_UI_IPC_NETWORK_DEPENDENCY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "denominator": 29,
+  "localPassCount": 22,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_CLEAN_ENGINE_EXACT_DESKTOP_FIXTURE_SCENARIOS_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS"
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "contourId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "e62310f3e958db6d86a7f71d4a310c2bc65461ce",
+  "originMainSha": "e62310f3e958db6d86a7f71d4a310c2bc65461ce",
+  "generatedAtUtc": "2026-09-04T22:38:14.100020Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "0f8377d3bcb1886cc1095710337ae7aaf9c4f03316edf0c97f1ce8ac6e3bd85f",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "6d71b12b0f8ee889983b35a638bb5176d061559abb4da2878132996f74f59069",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8c977c2d6ecf87e83a7515ce7d76ea80dcc646bb221d800ae38dd09e5156ad22",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_DESCRIPTIVE_HISTORY_CONTRACT_V1.json",
+      "sha256": "c13a05d363fdc9a5c1d05c07789a8321f7d3878b4d273cea8f4ab818d96d4740",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_TERMINAL_RECEIPT_V1.json",
+      "sha256": "8f508ca89fb6f5a5bd1c21668554fed953488926e9cec5e38d72fab1d4b37bde",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP803_WP802_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "34753ab3c7debc38b54b5d914a450a396b90e0eb389642d70bf05efd73582fd1",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "e807852f9963d00fe4c8f211cebf006e2c82f290553c7bd8f08cb4d36231dcbb",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/descriptive-history-v1.mjs",
+      "sha256": "3c224a6c42f3edd3e13f88036aa686e4ed20ce6c82a48e52a62264b754d7948f",
+      "terms": [
+        "WP803_DESCRIPTIVE_HISTORY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp803-descriptive-history-fixtures.js",
+      "sha256": "e4e334f05f71b5e7e7317d969116bb2289c6498c27565440dd26e792e484a240",
+      "terms": [
+        "WP803_DESCRIPTIVE_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history.test.js",
+      "sha256": "d66892494355fbfc08296e083655313eeb889d9b2c6ad78e8f85ac8260a93669",
+      "terms": [
+        "WP803_DESCRIPTIVE_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-integration.test.js",
+      "sha256": "fcf95973825788952f764630d1b52d6019b7c25ea94b01ed9aa35bc7bc4f419b",
+      "terms": [
+        "WP803_DESCRIPTIVE_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-mutants.test.js",
+      "sha256": "7e2f53da8ea61d6c748724b025020bc65cfe9debf485b512533835094c0f69bd",
+      "terms": [
+        "WP803_DESCRIPTIVE_HISTORY"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp803-descriptive-history.test.js test/unit/r24-wp803-descriptive-history-integration.test.js test/unit/r24-wp803-descriptive-history-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 23,
+        "fail": 0
+      }
+    },
+    {
+      "command": "Ten source-mutated modules exercised against behavioral oracles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_PERSISTENCE_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP803_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

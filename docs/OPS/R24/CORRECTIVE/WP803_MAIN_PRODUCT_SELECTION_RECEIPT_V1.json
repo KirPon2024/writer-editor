@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "GRAPH_DERIVED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-04T22:38:14.100020Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "e62310f3e958db6d86a7f71d4a310c2bc65461ce",
+  "baseTree": "a7eeddc6a1a85961a3cb949a7b5ee74830fb8ae5",
+  "readySet": [
+    "WP-803_DESCRIPTIVE_HISTORY"
+  ],
+  "ownerGate": null,
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 81,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 15
+  },
+  "leaseAtSelection": {
+    "fencingCounter": 93,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "969e591fae0d6e14cf6ec15e1986f21dfcfb4182210712979260baea2f373741"
+  },
+  "mutationAdmissionGranted": false
+}

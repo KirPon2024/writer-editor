@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "HISTORY_VALUES_COVERAGE_EXPLICIT_DECLARATIONS",
+      "path": "test/unit/r24-wp803-descriptive-history.test.js"
+    },
+    {
+      "id": "FRESH_PROCESS_LEDGER_REOPEN_AND_STALE_INPUT",
+      "path": "test/unit/r24-wp803-descriptive-history-integration.test.js"
+    },
+    {
+      "id": "REAL_SOURCE_MUTANTS_AND_INPUT_NEGATIVES",
+      "path": "test/unit/r24-wp803-descriptive-history-mutants.test.js"
+    },
+    {
+      "id": "SYNTHETIC_LEDGER_AND_DECLARATIONS",
+      "path": "test/fixtures/r24-wp803-descriptive-history-fixtures.js"
+    },
+    {
+      "id": "DISPOSABLE_BUILD_PROFILE_LIFECYCLE",
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "PULSE_LOCAL_HISTORY_OFFLINE",
+  "physicalScenario": {
+    "create": 1,
+    "write": 1,
+    "save": 1,
+    "close": 1,
+    "reopen": 1,
+    "recovery": 1,
+    "export": 1,
+    "source": "EXISTING_DISPOSABLE_FIXTURE_BASELINE_REQUIRED_AT_FULL_GATE"
+  },
+  "designEvidence": {
+    "status": "NOT_APPLICABLE_NO_UI_CHANGE",
+    "runtimeDependency": false,
+    "canonicalDesignAuthority": false
+  }
+}

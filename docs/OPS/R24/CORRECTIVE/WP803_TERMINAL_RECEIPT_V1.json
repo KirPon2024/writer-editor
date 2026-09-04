@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP803_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-04T22:38:14.100020Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "e62310f3e958db6d86a7f71d4a310c2bc65461ce",
+    "treeSha": "a7eeddc6a1a85961a3cb949a7b5ee74830fb8ae5"
+  },
+  "bindings": {
+    "authorityDigest": "755977cd16f2a7147af0ec9ffcf6bac7e662f3c05467bc3e2e7578a5fec45d5e",
+    "stageInstanceDigest": "13ced3a4ecf77b4a3c6097d7b5a0703c0bec46f35980677a8c27c15705b6ac9b",
+    "writeSetDigest": "08b9dbf8b7235528823b80256776829bd13c5fac1b4ca92014de839ca3407ff4",
+    "commandScopeDigest": "8dafecf87f6748d483b173ebd18899db77ff0e3636893600edb69525927db9e1",
+    "acceptanceSignalsDigest": "32c6cd6e94168c7245acb5f289690a66f62453c9ac921b9d9a11f9ac0052439f",
+    "stageAdmissionDigest": "99f4b8cd0fe14f3684629095687a56cff3812d1714a53775d72b17fd90e53bab",
+    "selectionReceiptDigest": "8c977c2d6ecf87e83a7515ce7d76ea80dcc646bb221d800ae38dd09e5156ad22",
+    "wp802TerminalPredecessorDigest": "34753ab3c7debc38b54b5d914a450a396b90e0eb389642d70bf05efd73582fd1",
+    "descriptiveHistoryContractDigest": "c13a05d363fdc9a5c1d05c07789a8321f7d3878b4d273cea8f4ab818d96d4740",
+    "effectiveGraphBaselineDigest": "0f8377d3bcb1886cc1095710337ae7aaf9c4f03316edf0c97f1ce8ac6e3bd85f",
+    "protectedWipBeforeRawDigest": "f30c996d3322ed6dbb62d3982ef3c2b15abbd12c084470d92de966b3e82a8b0e",
+    "fixtureManifestDigest": "e848e3506cbdf8c4902eb738c0a89794178339a5c66632b2627b143c437d37f0",
+    "featureIntegrationManifestDigest": "6d71b12b0f8ee889983b35a638bb5176d061559abb4da2878132996f74f59069",
+    "acceptanceMatrixDigest": "75d04ea2c86e5850b345b5d931363ecd96caefea1f1e74b9f6f64e707424ef49",
+    "carrierRegistryDigest": "9b5501b63ba82eb738cbabe95eced4e196f1336dd770c68fec336a01a3933f4d",
+    "effectiveStateDigest": "782fc3f2c34dedcc8b8cb3475f78b74f6457d34719a0ddb81569de6c99a6466f",
+    "stageRegistryDigest": "387f72e8fd45d5af77dfff06bb89879f444456efd5e95b5d480f2bfdc6298489",
+    "leaseReleaseDigest": "5f537578cfe35b9333a6d8dc199d5dddd6ef0ecddf7353709e4f2ff46cc8e45b"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/descriptive-history-v1.mjs",
+      "sha256": "3c224a6c42f3edd3e13f88036aa686e4ed20ce6c82a48e52a62264b754d7948f"
+    },
+    {
+      "path": "test/fixtures/r24-wp803-descriptive-history-fixtures.js",
+      "sha256": "e4e334f05f71b5e7e7317d969116bb2289c6498c27565440dd26e792e484a240"
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history.test.js",
+      "sha256": "d66892494355fbfc08296e083655313eeb889d9b2c6ad78e8f85ac8260a93669"
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-integration.test.js",
+      "sha256": "fcf95973825788952f764630d1b52d6019b7c25ea94b01ed9aa35bc7bc4f419b"
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-mutants.test.js",
+      "sha256": "7e2f53da8ea61d6c748724b025020bc65cfe9debf485b512533835094c0f69bd"
+    }
+  ],
+  "localEvidence": {
+    "exactDesktopFixtureScenarios": {
+      "create": 1,
+      "write": 1,
+      "save": 1,
+      "close": 1,
+      "reopen": 1,
+      "recovery": 1,
+      "export": 1,
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "focusedWp803": {
+      "tests": 23,
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP803_PRODUCT_FOCUSED_PREPUBLICATION_V3.tap",
+        "sha256": "f08eaa97b392d1f13faaa9cd80c165f1b49045267ce54da861dac1f2fc1691b8",
+        "byteLength": 4561,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 23,
+        "passed": 23,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp803-descriptive-history.test.js test/unit/r24-wp803-descriptive-history-integration.test.js test/unit/r24-wp803-descriptive-history-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDgwMyBmcmVzaC1wcm9jZXNzIGxlZGdlciByZW9wZW4gcmVjb25zdHJ1Y3RzIGlkZW50aWNhbCBoaXN0b3J5IGFuZCBXUDgwMiBNZXJrbGUgaWRlbnRpdHkKb2sgMSAtIFdQODAzIGZyZXNoLXByb2Nlc3MgbGVkZ2VyIHJlb3BlbiByZWNvbnN0cnVjdHMgaWRlbnRpY2FsIGhpc3RvcnkgYW5kIFdQODAyIE1lcmtsZSBpZGVudGl0eQogIC0tLQogIGR1cmF0aW9uX21zOiA1MjUuMzIwNjI1CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgb2xkIHByb2plY3Rpb25zIGFuZCBkZWNsYXJhdGlvbnMgZmFpbCBhZnRlciBhIHJlYWwgbGVkZ2VyIGFwcGVuZApvayAyIC0gV1A4MDMgb2xkIHByb2plY3Rpb25zIGFuZCBkZWNsYXJhdGlvbnMgZmFpbCBhZnRlciBhIHJlYWwgbGVkZ2VyIGFwcGVuZAogIC0tLQogIGR1cmF0aW9uX21zOiA1NTEuMDk1ODc1CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgcmVqZWN0cyB0YW1wZXJlZCBhZ2dyZWdhdGUgcmVjZWlwdHMgdGhyb3VnaCB0aGUgZXhpc3RpbmcgbGVkZ2VyIHZhbGlkYXRvcgpvayAzIC0gV1A4MDMgcmVqZWN0cyB0YW1wZXJlZCBhZ2dyZWdhdGUgcmVjZWlwdHMgdGhyb3VnaCB0aGUgZXhpc3RpbmcgbGVkZ2VyIHZhbGlkYXRvcgogIC0tLQogIGR1cmF0aW9uX21zOiA0MDIuNDY4OTE3CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgaW5wdXQgbmVnYXRpdmVzIHJlamVjdCBzdGFsZSBiaW5kaW5ncywgaW52ZW50ZWQgcGhhc2UsIGR1cGxpY2F0ZXMgYW5kIGF1dGhvcml0eSBmaWVsZHMKb2sgNCAtIFdQODAzIGlucHV0IG5lZ2F0aXZlcyByZWplY3Qgc3RhbGUgYmluZGluZ3MsIGludmVudGVkIHBoYXNlLCBkdXBsaWNhdGVzIGFuZCBhdXRob3JpdHkgZmllbGRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQ2My4xMzI5MTYKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBjb25zdW1lciByZWplY3RzIHN0YWxlIGRlY2xhcmF0aW9uIHJldmlzaW9uIGFuZCBwcm9qZWN0aW9uIHRhbXBlcgpvayA1IC0gV1A4MDMgY29uc3VtZXIgcmVqZWN0cyBzdGFsZSBkZWNsYXJhdGlvbiByZXZpc2lvbiBhbmQgcHJvamVjdGlvbiB0YW1wZXIKICAtLS0KICBkdXJhdGlvbl9tczogMzg3Ljk2Nzg3NQogIC4uLgojIFN1YnRlc3Q6IFdQODAzIGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogbmV0IHNpZ24Kb2sgNiAtIFdQODAzIGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogbmV0IHNpZ24KICAtLS0KICBkdXJhdGlvbl9tczogNDE4LjkxNzY2NgogIC4uLgojIFN1YnRlc3Q6IFdQODAzIGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogdG91Y2hlZCBvcGVyYXRvcgpvayA3IC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiB0b3VjaGVkIG9wZXJhdG9yCiAgLS0tCiAgZHVyYXRpb25fbXM6IDM2NS4yMjY5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IG1pc3NpbmcgYmVjb21lcyB6ZXJvCm9rIDggLSBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IG1pc3NpbmcgYmVjb21lcyB6ZXJvCiAgLS0tCiAgZHVyYXRpb25fbXM6IDMxMS4xNjg3OTIKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IHBoYXNlIGluZmVyZW5jZQpvayA5IC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBwaGFzZSBpbmZlcmVuY2UKICAtLS0KICBkdXJhdGlvbl9tczogMjg5LjIxNzU4MwogIC4uLgojIFN1YnRlc3Q6IFdQODAzIGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogcGFydGlhbCB0b3RhbCBvdmVyY2xhaW0Kb2sgMTAgLSBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IHBhcnRpYWwgdG90YWwgb3ZlcmNsYWltCiAgLS0tCiAgZHVyYXRpb25fbXM6IDMyNC41NDg2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IG9yaWdpbiBsYXVuZGVyaW5nCm9rIDExIC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBvcmlnaW4gbGF1bmRlcmluZwogIC0tLQogIGR1cmF0aW9uX21zOiAyMTQuMjcyNQogIC4uLgojIFN1YnRlc3Q6IFdQODAzIGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogZW50cnkgYmluZGluZyBieXBhc3MKb2sgMTIgLSBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGVudHJ5IGJpbmRpbmcgYnlwYXNzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIyNS4zNjk1NDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGN1cnJlbnQgZ3VhcmQgYnlwYXNzCm9rIDEzIC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBjdXJyZW50IGd1YXJkIGJ5cGFzcwogIC0tLQogIGR1cmF0aW9uX21zOiAxOTkuMzYzNzkyCiAgLi4uCiMgU3VidGVzdDogV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBkaWdlc3QgZ3VhcmQgYnlwYXNzCm9rIDE0IC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBkaWdlc3QgZ3VhcmQgYnlwYXNzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIxOC45MTY2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGZyZWV6ZSByZW1vdmVkCm9rIDE1IC0gV1A4MDMga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBmcmVlemUgcmVtb3ZlZAogIC0tLQogIGR1cmF0aW9uX21zOiAyMTYuNDQ3NzkyCiAgLi4uCiMgU3VidGVzdDogV1A4MDMgZGVzY3JpYmVzIGFkZC9kZWxldGUvbmV0L3RvdWNoZWQgb3BlcmF0aW9ucyBhbmQgc2Vzc2lvbnMgd2l0aG91dCBhbiBlZmZvcnQgc2NvcmUKb2sgMTYgLSBXUDgwMyBkZXNjcmliZXMgYWRkL2RlbGV0ZS9uZXQvdG91Y2hlZCBvcGVyYXRpb25zIGFuZCBzZXNzaW9ucyB3aXRob3V0IGFuIGVmZm9ydCBzY29yZQogIC0tLQogIGR1cmF0aW9uX21zOiA0NDkuMjU5MzMzCiAgLi4uCiMgU3VidGVzdDogV1A4MDMga2VlcHMgZXhwbGljaXQgdGFza3MgYW5kIHBoYXNlIGRpc3RpbmN0IGZyb20gbGVkZ2VyIG9ic2VydmF0aW9ucwpvayAxNyAtIFdQODAzIGtlZXBzIGV4cGxpY2l0IHRhc2tzIGFuZCBwaGFzZSBkaXN0aW5jdCBmcm9tIGxlZGdlciBvYnNlcnZhdGlvbnMKICAtLS0KICBkdXJhdGlvbl9tczogMzQwLjIwMDEyNQogIC4uLgojIFN1YnRlc3Q6IFdQODAzIGV4cG9zZXMgcGFydGlhbCBkZW5vbWluYXRvcnMgYW5kIG5ldmVyIGNvbnZlcnRzIG9taXR0ZWQgbWVhc3VyZW1lbnRzIHRvIHplcm8Kb2sgMTggLSBXUDgwMyBleHBvc2VzIHBhcnRpYWwgZGVub21pbmF0b3JzIGFuZCBuZXZlciBjb252ZXJ0cyBvbWl0dGVkIG1lYXN1cmVtZW50cyB0byB6ZXJvCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQzMy4wMDQzMzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyByZXR1cm5zIGFuIGltbXV0YWJsZSBpc29sYXRlZCBhbmQgZGV0ZXJtaW5pc3RpYyBwcm9qZWN0aW9uCm9rIDE5IC0gV1A4MDMgcmV0dXJucyBhbiBpbW11dGFibGUgaXNvbGF0ZWQgYW5kIGRldGVybWluaXN0aWMgcHJvamVjdGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiAzODEuNDYwOTU5CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgZW1wdHkgaGlzdG9yeSBoYXMgYSB6ZXJvIGRlbm9taW5hdG9yIGFuZCBubyBpbnZlbnRlZCBzZXNzaW9uCm9rIDIwIC0gV1A4MDMgZW1wdHkgaGlzdG9yeSBoYXMgYSB6ZXJvIGRlbm9taW5hdG9yIGFuZCBubyBpbnZlbnRlZCBzZXNzaW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuMzAwNzA4CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgYWJzZW50IGRlY2xhcmF0aW9ucyByZW1haW4gdW5yZWNvcmRlZCBhbmQgbWFudWFsIHBoYXNlcyBhcmUgZXhwbGljaXRseSBlbnVtZXJhdGVkCm9rIDIxIC0gV1A4MDMgYWJzZW50IGRlY2xhcmF0aW9ucyByZW1haW4gdW5yZWNvcmRlZCBhbmQgbWFudWFsIHBoYXNlcyBhcmUgZXhwbGljaXRseSBlbnVtZXJhdGVkCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI5My4xNzAwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMyBhY2NlcHRzIG1heGltdW0gZGVjbGFyZWQgY291bnQgYW5kIHJlamVjdHMgdW5zYWZlLCBuZWdhdGl2ZSBvciBmcmFjdGlvbmFsIGNvdW50cwpvayAyMiAtIFdQODAzIGFjY2VwdHMgbWF4aW11bSBkZWNsYXJlZCBjb3VudCBhbmQgcmVqZWN0cyB1bnNhZmUsIG5lZ2F0aXZlIG9yIGZyYWN0aW9uYWwgY291bnRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI5My45ODg1CiAgLi4uCiMgU3VidGVzdDogV1A4MDMgZGVzY3JpcHRpdmUgY291bnRzIHJlbWFpbiB2YWxpZCB3aGVuIGFuIHVucmVsYXRlZCByYXRlIGZvcm11bGEgd291bGQgb3ZlcmZsb3cKb2sgMjMgLSBXUDgwMyBkZXNjcmlwdGl2ZSBjb3VudHMgcmVtYWluIHZhbGlkIHdoZW4gYW4gdW5yZWxhdGVkIHJhdGUgZm9ybXVsYSB3b3VsZCBvdmVyZmxvdwogIC0tLQogIGR1cmF0aW9uX21zOiAzMjcuMTU1MDQxCiAgLi4uCjEuLjIzCiMgdGVzdHMgMjMKIyBzdWl0ZXMgMAojIHBhc3MgMjMKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDM3MDUuMTkwMzMzCg=="
+      }
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 82,
+    "blockedTypedCount": 3,
+    "pendingCount": 14,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_PERSISTENCE_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP803_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

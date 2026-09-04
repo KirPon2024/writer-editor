@@ -1,0 +1,179 @@
+{
+  "schemaVersion": "YALKEN_R24_WP803_CARRIER_REGISTRY_V1",
+  "stageId": "WP-803_DESCRIPTIVE_HISTORY",
+  "evidenceStampId": "ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CANDIDATE_BYTE_MANIFEST_COMPLETE",
+  "baseIdentity": {
+    "sha": "e62310f3e958db6d86a7f71d4a310c2bc65461ce",
+    "treeSha": "a7eeddc6a1a85961a3cb949a7b5ee74830fb8ae5"
+  },
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 29,
+  "verifiedCarrierCount": 29,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "94799b0f11da9f64510d3798ae9d85a02668e8588a54d67bdc57adc5d09a5af2",
+      "byteLength": 18805
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "e807852f9963d00fe4c8f211cebf006e2c82f290553c7bd8f08cb4d36231dcbb",
+      "byteLength": 429314
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_DESCRIPTIVE_HISTORY_CONTRACT_V1.json",
+      "sha256": "c13a05d363fdc9a5c1d05c07789a8321f7d3878b4d273cea8f4ab818d96d4740",
+      "byteLength": 2607
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "0f8377d3bcb1886cc1095710337ae7aaf9c4f03316edf0c97f1ce8ac6e3bd85f",
+      "byteLength": 5502
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "6d71b12b0f8ee889983b35a638bb5176d061559abb4da2878132996f74f59069",
+      "byteLength": 2211
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_FIXTURE_MANIFEST_V1.json",
+      "sha256": "e848e3506cbdf8c4902eb738c0a89794178339a5c66632b2627b143c437d37f0",
+      "byteLength": 1320
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "755977cd16f2a7147af0ec9ffcf6bac7e662f3c05467bc3e2e7578a5fec45d5e",
+      "byteLength": 9872
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "8c977c2d6ecf87e83a7515ce7d76ea80dcc646bb221d800ae38dd09e5156ad22",
+      "byteLength": 1185
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "99f4b8cd0fe14f3684629095687a56cff3812d1714a53775d72b17fd90e53bab",
+      "byteLength": 1659
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "13ced3a4ecf77b4a3c6097d7b5a0703c0bec46f35980677a8c27c15705b6ac9b",
+      "byteLength": 10284
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f30c996d3322ed6dbb62d3982ef3c2b15abbd12c084470d92de966b3e82a8b0e",
+      "byteLength": 112897
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "0fca012ec28301a2a5d8d58a06705866a6b2c632d15a2ec43c57dd71e7581e0b",
+      "byteLength": 2088
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP803_WP802_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "34753ab3c7debc38b54b5d914a450a396b90e0eb389642d70bf05efd73582fd1",
+      "byteLength": 1601
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-CONTRACT.json",
+      "sha256": "ee6bd6a2900af40586dd69c6d7961d1ab41920ed5b48c9db42aacb56d38a3556",
+      "byteLength": 8359
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-INTEGRATION.json",
+      "sha256": "dd401f2509767a908f983a7901bff687abde77a90369e05f8f49a6e1c55708a0",
+      "byteLength": 8365
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-MODEL.json",
+      "sha256": "1f5afb4dc0f3876359bffaf4859b5b75cd9baa57fd80b9a1129d88c3db277f32",
+      "byteLength": 8353
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-MUTANTS.json",
+      "sha256": "e36d022279cf092beb89a0713c11135cc55b36ae085e6a69a95e6487618d940e",
+      "byteLength": 8440
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "7d8742d4d3aa37b844f3f8d4d6ff7b4f38b36f91fbe0311a5b1e37ac15d7408f",
+      "byteLength": 667179
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "b6e3a59db1549c2cde0cb0f8123a30de9ed106bf252e7035531dccd3ebb705c7",
+      "byteLength": 16885
+    },
+    {
+      "path": "src/core/descriptive-history-v1.mjs",
+      "sha256": "3c224a6c42f3edd3e13f88036aa686e4ed20ce6c82a48e52a62264b754d7948f",
+      "byteLength": 9150
+    },
+    {
+      "path": "test/contracts/r24-wp802-post-audit-compatibility.contract.test.mjs",
+      "sha256": "229032c5881137d8a1aba098d388841964a9f4257013550b873b304890a4511b",
+      "byteLength": 5737
+    },
+    {
+      "path": "test/contracts/r24-wp802-terminal-carriers.contract.test.mjs",
+      "sha256": "910518ac06adc9f64e4101e9b77c7dcf41c4d6bfc78ea343a848707e317c1bbf",
+      "byteLength": 9436
+    },
+    {
+      "path": "test/contracts/r24-wp803-post-audit-compatibility.contract.test.mjs",
+      "sha256": "f8e4d546db4ce81f1c958d3921e9eff08a447cac068174f7a0eaf0f9146ef377",
+      "byteLength": 4874
+    },
+    {
+      "path": "test/contracts/r24-wp803-terminal-carriers.contract.test.mjs",
+      "sha256": "cbe230e4a3676b8940d89aa6559cc2a7c912f63de3de535e55a15fa8c98f5138",
+      "byteLength": 6754
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "f18a2b63cd16fcde18621151868f32a28a443815ebca8b517d13b9abc7fb279f",
+      "byteLength": 94235
+    },
+    {
+      "path": "test/fixtures/r24-wp803-descriptive-history-fixtures.js",
+      "sha256": "e4e334f05f71b5e7e7317d969116bb2289c6498c27565440dd26e792e484a240",
+      "byteLength": 2362
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-integration.test.js",
+      "sha256": "fcf95973825788952f764630d1b52d6019b7c25ea94b01ed9aa35bc7bc4f419b",
+      "byteLength": 2648
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history-mutants.test.js",
+      "sha256": "7e2f53da8ea61d6c748724b025020bc65cfe9debf485b512533835094c0f69bd",
+      "byteLength": 5914
+    },
+    {
+      "path": "test/unit/r24-wp803-descriptive-history.test.js",
+      "sha256": "d66892494355fbfc08296e083655313eeb889d9b2c6ad78e8f85ac8260a93669",
+      "byteLength": 5219
+    }
+  ],
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP803_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP803_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS.json"
+  ]
+}

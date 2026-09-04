@@ -208,9 +208,9 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "2b82aeed5e3bb7dc83595ba4b5645b3f67a6b50d8698297ee752f1fbc2b08f55",
+      "sha256": "3c1c14a8e4d11a8836121a3c9068a8e6c5220d77300342172b85008d519fc1af",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_V1",
-      "approvedAtUtc": "2026-09-04T01:22:48.814Z",
+      "approvedAtUtc": "2026-09-04T01:23:29.711Z",
       "rationale": "Owner-authorized WP603 terminal recovery binds the post-audit exception to the exact append-only original and recovery admissions. Carrier tamper and every extra unadmitted changed path fail closed; the historical WP603 carrier registry remains bound to the merged candidate bytes. No product runtime, UI, dependency, network runtime, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
     },
     {

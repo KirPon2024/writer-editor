@@ -2203,11 +2203,8 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
     recovery=verifyWp603RecoveryAdmissionChain({candidateSha:resolvedCandidate,git});
     admitted=[...new Set([...originalAdmitted,...recovery.admittedPaths])].sort();
   }
-  const expectedChanged=admitted.filter(artifactPath=>{
-    let baseBytes;
-    try{baseBytes=objectBytes(git,e.baseSha,artifactPath);}catch{return true;}
-    return !baseBytes.equals(objectBytes(git,resolvedCandidate,artifactPath));
-  });
+  const basePaths=new Set(gitText(git,['ls-tree','-r','--name-only',e.baseSha]).split('\n').filter(Boolean));
+  const expectedChanged=admitted.filter(artifactPath=>!basePaths.has(artifactPath)||!objectBytes(git,e.baseSha,artifactPath).equals(objectBytes(git,resolvedCandidate,artifactPath)));
   assert(JSON.stringify(changed)===JSON.stringify(expectedChanged),'E_WP603_EXACT_ADMITTED_DELTA',changed.length+':'+expectedChanged.length);
   for(const required of admitted){let bytes;try{bytes=objectBytes(git,resolvedCandidate,required);}catch{fail('E_WP603_REQUIRED_ARTIFACT',required);}assert(bytes.length>0,'E_WP603_REQUIRED_ARTIFACT',required);}
   const registry=read('docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json').value;

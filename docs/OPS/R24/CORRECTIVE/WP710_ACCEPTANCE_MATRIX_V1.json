@@ -9,8 +9,8 @@
   },
   "programDone": false,
   "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
-  "denominator": 25,
-  "localPassCount": 18,
+  "denominator": 26,
+  "localPassCount": 19,
   "localRequiredCount": 2,
   "externalRequiredCount": 5,
   "failCount": 0,
@@ -19,12 +19,12 @@
     {
       "id": "PINNED_STAGE_ADMISSION",
       "status": "PASS",
-      "evidence": "7c2d8d48f01745918346869cdb79f835ce6d9a996f9a5cef260faa6e6dec9b87"
+      "evidence": "5e7dd4f4e6183725ebc9952a10bc51ee14798d0e2ab9f66073202660abf53f1b"
     },
     {
-      "id": "EXACT_33_PATH_WRITE_SET",
+      "id": "EXACT_37_PATH_WRITE_SET",
       "status": "PASS",
-      "evidence": "6af87d23a371c7495351b1af826488af86dfec610c04f8845a2be4402027d276"
+      "evidence": "e3d02ffdbcef25701de14ca8371bdb9ea9ffe2c906f69dfc4c3c961ee16233d0"
     },
     {
       "id": "PROTECTED_WIP_BEFORE",
@@ -54,7 +54,7 @@
     {
       "id": "COMPLETE_CARRIER_DENOMINATOR",
       "status": "PASS",
-      "evidence": "4f5e47eb33d7754d7dec52a17de098178c1f82ea73f9127b9dcd4131d2964b1b"
+      "evidence": "492eb7cbef8bac83eb470ef5dab3ebbf7fad2fcd46531c362cdd84bc7fcc2da2"
     },
     {
       "id": "EXACT_EVIDENCE_IR_CANONICAL_BYTES",
@@ -90,6 +90,11 @@
       "id": "DISPOSABLE_PHYSICAL_WRITE_CLOSE_REOPEN",
       "status": "PASS",
       "evidence": "EXECUTED_PHYSICAL_FIXTURE"
+    },
+    {
+      "id": "WP605_HISTORICAL_CARRIER_IMMUTABLE_TERMINAL_TREE",
+      "status": "PASS",
+      "evidence": "725b47c254895a5075c381ce5182592a40c31b45"
     },
     {
       "id": "NO_PRODUCT_COMMAND_PATH_OR_PROVIDER_AUTHORITY",

@@ -1,12 +1,14 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
 import { HISTORICAL_INVENTORY_CLAIM_PINS_V6 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
+const WP605_TERMINAL_MERGE_SHA = '725b47c254895a5075c381ce5182592a40c31b45';
 const h = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
 const paths = {
   authority: C + 'WP605_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json', instance: C + 'WP605_MAIN_PRODUCT_STAGE_INSTANCE_V1.json', admission: C + 'WP605_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json',
@@ -15,6 +17,10 @@ const paths = {
   state: C + 'WP605_EFFECTIVE_STATE_V1.json', stageRegistry: C + 'WP605_STAGE_REGISTRY_V1.json', lease: C + 'WP605_LEASE_RELEASE_V1.json', terminal: C + 'WP605_TERMINAL_RECEIPT_V1.json',
 };
 const bytes = (file) => fs.readFileSync(file);
+const historicalBytes = (file) => execFileSync('git', ['show', `${WP605_TERMINAL_MERGE_SHA}:${file}`], {
+  encoding: null,
+  maxBuffer: 32 * 1024 * 1024,
+});
 const read = (file) => JSON.parse(bytes(file));
 const roles = { externalSourcePlanDigest: '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a', compiledProgramFileDigest: 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a', rolesDistinct: true };
 const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGIBLE_OPTIONAL', 'PENDING'].map((state) => [state, Object.values(states).filter((value) => value === state).length]));
@@ -50,8 +56,9 @@ function verify(values) {
   assert.equal(values.registry.carrierDenominator, 33);
   assert.equal(values.registry.currentTreeFallbackAllowed, false);
   for (const binding of values.registry.carriers) {
-    assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);
-    assert.equal(bytes(binding.path).length, binding.byteLength, binding.path);
+    const terminalBytes = historicalBytes(binding.path);
+    assert.equal(h(terminalBytes), binding.sha256, binding.path);
+    assert.equal(terminalBytes.length, binding.byteLength, binding.path);
   }
   assert.equal(values.acceptance.rows.length, values.acceptance.denominator);
   assert.equal(values.acceptance.rows.filter((row) => row.status === 'PASS').length, values.acceptance.localPassCount);
@@ -76,8 +83,8 @@ test('WP605 carrier set replays exact admission, graph increment and conditional
   const values = load();
   assert.equal(verify(values), true);
   const claim = buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CLAIM-BINDINGS.json'));
-  for (const binding of claim.claimBindings) assert.equal(h(bytes(binding.filePath)), binding.sha256, binding.filePath);
-  for (const binding of claim.implementationArtifactDigests) assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);
+  for (const binding of claim.claimBindings) assert.equal(h(historicalBytes(binding.filePath)), binding.sha256, binding.filePath);
+  for (const binding of claim.implementationArtifactDigests) assert.equal(h(historicalBytes(binding.path)), binding.sha256, binding.path);
   assert.ok(claim.nonClaims.includes('PROGRAM_DONE_FALSE'));
   assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V6.at(-1), { stampId: 'ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS', stampSha256: '85baf335f693b427e15621259149b7ae9e9604d9a752b1ae33c5cc6503491426', evaluationSha: '250fa6533776556a6f98c07b03ef6d179fb62c79', evaluationTree: 'fc4fa5757cdbeddc188420fad1382559ed11043a', targetSha256: 'ed1f50c0265e6dc52b685ad160b4a0f491b2e9726e586f9e8526442f0ca0848c' });
 });

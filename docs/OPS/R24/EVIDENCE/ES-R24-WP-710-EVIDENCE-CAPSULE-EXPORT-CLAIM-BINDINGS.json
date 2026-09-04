@@ -6,12 +6,12 @@
   "verdict": "PASS",
   "headSha": "725b47c254895a5075c381ce5182592a40c31b45",
   "originMainSha": "725b47c254895a5075c381ce5182592a40c31b45",
-  "generatedAtUtc": "2026-09-04T11:38:35.140Z",
+  "generatedAtUtc": "2026-09-04T12:24:00.071Z",
   "oracle": "Exact admitted worktree-byte bindings; base SHA is admission identity. Full gates, protected delivery, exact postmerge and external terminal release remain unclaimed predicates.",
   "claimBindings": [
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "530809ce137f4f5f60b5d45be0e4c5a2457adf2698c28175c3cc466534d23eb3",
+      "sha256": "dd8a7d6ade9667a6cab6e5d01ae9be389b18656b525efac57e07638692392cfc",
       "claimTerms": [
         "READY",
         "PASS",
@@ -40,6 +40,16 @@
       ]
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "9785635574e9f3a9fb1b9ac2bd0dcb75911c1e6ff461e4f44202563559cdc399",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
       "sha256": "4f053ca1d485ad7782b55e14748a9c5ac4b6495bc085da5143e74783363becfb",
       "claimTerms": [
@@ -60,8 +70,28 @@
       ]
     },
     {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "5e7dd4f4e6183725ebc9952a10bc51ee14798d0e2ab9f66073202660abf53f1b",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
       "sha256": "9e1b0f90d753c40d4b8c555582b475c5e579317947be06efa9c607936e4290c5",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "199d6bbbe556860cd023e43b0e7fce2f7165d4595638140dda65bb5bfee738df",
       "claimTerms": [
         "READY",
         "PASS",
@@ -121,7 +151,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_CARRIER_REGISTRY_V1.json",
-      "sha256": "4f5e47eb33d7754d7dec52a17de098178c1f82ea73f9127b9dcd4131d2964b1b",
+      "sha256": "492eb7cbef8bac83eb470ef5dab3ebbf7fad2fcd46531c362cdd84bc7fcc2da2",
       "claimTerms": [
         "READY",
         "PASS",
@@ -131,7 +161,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "a297842af57b00f31bafd7c9ad37fe4c81dff2754eefeebd867e504129ed7703",
+      "sha256": "9d319da2bd95526f8ebe2d5a9c872dc390c6b87bc03f43b22447c986cc23984f",
       "claimTerms": [
         "READY",
         "PASS",
@@ -141,7 +171,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_EFFECTIVE_STATE_V1.json",
-      "sha256": "7d7fcade1b38a6767c38ceb80ba63fa6cfbc989f06b7224e0d2f9a673fdd0f20",
+      "sha256": "311e6c863d49e1a284524dbbea34f5bb8512d730094586a2ea9e2893d0664103",
       "claimTerms": [
         "READY",
         "PASS",
@@ -151,7 +181,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_STAGE_REGISTRY_V1.json",
-      "sha256": "a5a7698161ab60ada7dc5c7495f202e46278276dbe98cfed3cb1b11592932c9a",
+      "sha256": "9bd06a6fdc61577f3019c88298755e7bb227f7396c41909186b3442f8e3c3658",
       "claimTerms": [
         "READY",
         "PASS",
@@ -161,7 +191,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_LEASE_RELEASE_V1.json",
-      "sha256": "ba0fe10617c182ea49fc449c7ad6f4f4f1bc28c48c2a508334a65d4bc1557ecb",
+      "sha256": "16b0ec37f32d6f534edc3f215470f364893586563486cf4ed54b60d3ad865cf5",
       "claimTerms": [
         "READY",
         "PASS",
@@ -171,7 +201,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_TERMINAL_RECEIPT_V1.json",
-      "sha256": "25dea5de5669433fa71a00aa46353d9400fa7535ab76402b8f9153193955fae1",
+      "sha256": "5b0454c0838dfe67f5ea3cc82afd9e6f0ebf0ffd12ec7d5580df2e2ed0aa3441",
       "claimTerms": [
         "READY",
         "PASS",

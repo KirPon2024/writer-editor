@@ -15,8 +15,8 @@
   },
   "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
   "currentTreeFallbackAllowed": false,
-  "carrierDenominator": 25,
-  "verifiedCarrierCount": 25,
+  "carrierDenominator": 29,
+  "verifiedCarrierCount": 29,
   "missingCarrierCount": 0,
   "mismatchedCarrierCount": 0,
   "carriers": [
@@ -27,7 +27,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "530809ce137f4f5f60b5d45be0e4c5a2457adf2698c28175c3cc466534d23eb3",
+      "sha256": "dd8a7d6ade9667a6cab6e5d01ae9be389b18656b525efac57e07638692392cfc",
       "byteLength": 420018
     },
     {
@@ -51,6 +51,11 @@
       "byteLength": 1184
     },
     {
+      "path": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_OWNER_AUTHORITY_AMENDMENT_V1.json",
+      "sha256": "9785635574e9f3a9fb1b9ac2bd0dcb75911c1e6ff461e4f44202563559cdc399",
+      "byteLength": 12490
+    },
+    {
       "path": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
       "sha256": "bb75e85c8f6aaa47aafd7c072130ecf8afba3dd4716eca7a117e5340fae73d5e",
       "byteLength": 10846
@@ -66,9 +71,19 @@
       "byteLength": 1808
     },
     {
+      "path": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V2.json",
+      "sha256": "5e7dd4f4e6183725ebc9952a10bc51ee14798d0e2ab9f66073202660abf53f1b",
+      "byteLength": 1803
+    },
+    {
       "path": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
       "sha256": "9e1b0f90d753c40d4b8c555582b475c5e579317947be06efa9c607936e4290c5",
       "byteLength": 11333
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP710_MAIN_PRODUCT_STAGE_INSTANCE_V2.json",
+      "sha256": "199d6bbbe556860cd023e43b0e7fce2f7165d4595638140dda65bb5bfee738df",
+      "byteLength": 12796
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP710_PROTECTED_WIP_BEFORE_V1.json",
@@ -102,8 +117,8 @@
     },
     {
       "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "692c500f15eb4f8e40c1808156914daab24b9535213ee6ea90d4eef24c54bcaf",
-      "byteLength": 609219
+      "sha256": "d0077b2d1a109c3f79933fc63170d1b3c63019feefa747dcabdcf176e972db30",
+      "byteLength": 609229
     },
     {
       "path": "scripts/ops/r24/docs-claim-lint.mjs",
@@ -116,14 +131,19 @@
       "byteLength": 12842
     },
     {
+      "path": "test/contracts/r24-wp605-terminal-carriers.contract.test.mjs",
+      "sha256": "21fc08b837c9370691a989d2acf64e9e58eaf8de54405d3d10dbcaf637aa2656",
+      "byteLength": 8868
+    },
+    {
       "path": "test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs",
-      "sha256": "3408b6ea6f907fe146978be55698009ba18ca2d720a8507187f561d9487ad65c",
-      "byteLength": 4504
+      "sha256": "d6501891a854294b0cd436c855bd836c163714cffd516e11836237a8da3daced",
+      "byteLength": 4516
     },
     {
       "path": "test/contracts/r24-wp710-terminal-carriers.contract.test.mjs",
-      "sha256": "ccf3802d24808b3c44bf6e70455d5b3759f4fb25083361c9bceaf601e2826473",
-      "byteLength": 8670
+      "sha256": "fd327456660c8f2966f69d802796b26dad396c6fc49cc138551bb55c278fcc3f",
+      "byteLength": 8680
     },
     {
       "path": "test/fixtures/r24-wp710-evidence-capsule-export-fixtures.js",

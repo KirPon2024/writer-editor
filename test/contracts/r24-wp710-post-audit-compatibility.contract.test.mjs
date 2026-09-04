@@ -46,12 +46,12 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
-test('WP710 candidate oracle binds the exact 33-path admission and protected baseline', () => {
+test('WP710 candidate oracle binds the exact append-only 37-path admission and protected baseline', () => {
   const result = verifyWp710MainProductPostEvaluationException({ git: fakeGit() });
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
-  assert.equal(result.admittedPathDenominator, 33);
+  assert.equal(result.admittedPathDenominator, 37);
   assert.deepEqual(result.changedPaths, ADMITTED);
   assert.equal(result.protectedWipDenominator, 276);
   assert.equal(result.protectedDirtyDenominator, 10);

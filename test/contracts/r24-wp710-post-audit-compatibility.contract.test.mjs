@@ -18,6 +18,7 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
     if (args[0] === 'rev-parse') {
       if (args[1] === 'HEAD') return response(FINAL_SHA, encoding);
       if (args[1] === `${E.baseSha}^{tree}`) return response(baseTreeDrift ? 'b'.repeat(40) : E.baseTree, encoding);
+      if (args[1] === `${E.terminalMergeSha}^{tree}`) return response(E.terminalMergeTree, encoding);
       if (args[1] === `${FINAL_SHA}^{tree}`) return response(FINAL_TREE, encoding);
       return response(args[1], encoding);
     }
@@ -31,8 +32,8 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
+      let bytes = sha === E.baseSha || sha === E.terminalMergeSha
+        ? execFileSync('git', ['show', `${sha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
         : fs.readFileSync(file);
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
@@ -46,8 +47,13 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
+function verifyWithFake(options = {}) {
+  const injectedGit = fakeGit(options);
+  return verifyWp710MainProductPostEvaluationException({ git: injectedGit, historicalGit: injectedGit });
+}
+
 test('WP710 candidate oracle binds the exact append-only 37-path admission and protected baseline', () => {
-  const result = verifyWp710MainProductPostEvaluationException({ git: fakeGit() });
+  const result = verifyWithFake();
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
@@ -59,15 +65,15 @@ test('WP710 candidate oracle binds the exact append-only 37-path admission and p
 });
 
 test('WP710 candidate oracle rejects scope, base, ancestry, missing-artifact and byte drift', () => {
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ changedPaths: [...ADMITTED, 'src/main.js'].sort() }) }), /E_WP710_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ changedPaths: ADMITTED.slice(1) }) }), /E_WP710_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ baseTreeDrift: true }) }), /E_WP710_ADMISSION_BASE/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ ancestor: false }) }), /E_WP710_BASE_NOT_ANCESTOR/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ missingArtifact: E.instancePath }) }), /E_WP710_CANDIDATE_ARTIFACT_MISSING/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ byteDrift: E.admissionPath }) }), /E_WP710_CANONICAL_LF/u);
+  assert.throws(() => verifyWithFake({ changedPaths: [...ADMITTED, 'src/main.js'].sort() }), /E_WP710_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWithFake({ changedPaths: ADMITTED.slice(1) }), /E_WP710_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWithFake({ baseTreeDrift: true }), /E_WP710_ADMISSION_BASE/u);
+  assert.throws(() => verifyWithFake({ ancestor: false }), /E_WP710_BASE_NOT_ANCESTOR/u);
+  assert.throws(() => verifyWithFake({ missingArtifact: E.instancePath }), /E_WP710_CANDIDATE_ARTIFACT_MISSING/u);
+  assert.throws(() => verifyWithFake({ byteDrift: E.admissionPath }), /E_WP710_CANONICAL_LF/u);
 });
 
 test('WP710 candidate oracle rejects a forged lease and carrier-registry fallback', () => {
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: E.instancePath, apply: (value) => { value.lease.wip = 0; } } }) }), /E_WP710_ADMISSION_CARRIER_DIGEST/u);
-  assert.throws(() => verifyWp710MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP710_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }) }), /E_WP710_CARRIER_DENOMINATOR/u);
+  assert.throws(() => verifyWithFake({ mutateJson: { path: E.instancePath, apply: (value) => { value.lease.wip = 0; } } }), /E_WP710_ADMISSION_CARRIER_DIGEST/u);
+  assert.throws(() => verifyWithFake({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP710_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }), /E_WP710_CARRIER_DENOMINATOR/u);
 });

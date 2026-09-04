@@ -53,12 +53,12 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
-test('WP606 candidate oracle binds the exact 53-path append-only admission and protected baseline', () => {
+test('WP606 candidate oracle binds the exact 58-path append-only admission and protected baseline', () => {
   const result = verifyWp606MainProductPostEvaluationException({ git: fakeGit() });
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
-  assert.equal(result.admittedPathDenominator, 53);
+  assert.equal(result.admittedPathDenominator, 58);
   assert.deepEqual(result.changedPaths, ADMITTED);
   assert.equal(result.protectedWipDenominator, 277);
   assert.equal(result.protectedDirtyDenominator, 10);
@@ -89,6 +89,11 @@ test('WP606 historical-reader closure rejects current-tree fallback for WP605 an
     /WP605_MUTANT:current-bytes-helper/u,
   );
   const postAudit = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
+  for (const stage of ['605', '710']) {
+    const compatibility = fs.readFileSync(`test/contracts/r24-wp${stage}-post-audit-compatibility.contract.test.mjs`, 'utf8');
+    assert.match(compatibility, /historicalGit: injectedGit/u, `WP${stage}:explicit-historical-injection`);
+    assert.match(compatibility, /sha === E\.baseSha \|\| sha === E\.terminalMergeSha/u, `WP${stage}:terminal-object-reader`);
+  }
   for (const [stage, functionName, next] of [['WP605', 'verifyWp605MainProductPostEvaluationException', 'verifyWp710MainProductPostEvaluationException'], ['WP710', 'verifyWp710MainProductPostEvaluationException', 'verifyWp606MainProductPostEvaluationException']]) {
     const start = postAudit.indexOf(`export function ${functionName}`);
     const end = postAudit.indexOf(`export function ${next}`, start);

@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "YALKEN_R24_WP604_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-604_WSE_THREADS_EXPLANATION",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js"
+    },
+    {
+      "id": "UNIT",
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js"
+    },
+    {
+      "id": "INTEGRATION",
+      "path": "test/unit/r24-wp604-wse-threads-explanation-integration.test.js"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS",
+      "path": "test/unit/r24-wp604-wse-threads-explanation-mutants.test.js"
+    },
+    {
+      "id": "OPEN_WORLD_COUNTEREXAMPLE",
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js"
+    },
+    {
+      "id": "STALE_REJECTION",
+      "path": "test/unit/r24-wp604-wse-threads-explanation-mutants.test.js"
+    },
+    {
+      "id": "BOUNDED_DAG",
+      "path": "test/unit/r24-wp604-wse-threads-explanation.test.js"
+    },
+    {
+      "id": "WSE_UI_SOURCE_CONTRACT",
+      "path": "test/unit/r24-wp604-wse-threads-explanation-ui-e2e-smoke.mjs"
+    },
+    {
+      "id": "EXACT_DESKTOP_LIFECYCLE",
+      "path": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "WRITER_LOCAL_OFFLINE"
+}

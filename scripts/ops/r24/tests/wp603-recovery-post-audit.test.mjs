@@ -5,17 +5,19 @@ import test from 'node:test';
 import { fileURLToPath } from 'node:url';
 import {
   verifyWp603MainProductPostEvaluationException,
-  verifyWp603RecoveryAdmissionChain
+  verifyWp603RecoveryAdmissionChain,
+  WP604_MAIN_PRODUCT_ADMISSION_EXPECTATION
 } from '../corrective/post-audit-certification-set.mjs';
 
 const REPO_ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../..');
 const POST_AUDIT_ADMISSION='docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json';
 const CURRENT_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_PACKAGED_RECOVERY_CWD_INVARIANCE_V1.json';
 const HISTORICAL_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json';
+const HISTORICAL_CANDIDATE=WP604_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha;
 const realGit=(args,options={})=>execFileSync('git',args,{cwd:REPO_ROOT,encoding:options.encoding??null,maxBuffer:64*1024*1024});
 
 test('WP603 recovery post-audit accepts the exact append-only admission union',()=>{
-  const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
+  const result=verifyWp603MainProductPostEvaluationException({candidateSha:HISTORICAL_CANDIDATE,git:realGit});
   assert.equal(result.status,'PASS');
   assert.equal(result.admissionDenominator,13);
   assert.equal(result.admittedPathDenominator,120);
@@ -23,7 +25,7 @@ test('WP603 recovery post-audit accepts the exact append-only admission union',(
   assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
   assert.equal(result.recovery.recoveryStageDenominator,12);
-  const workflow=String(realGit(['show','HEAD:.github/workflows/oss-policy.yml'],{encoding:'utf8'}));
+  const workflow=String(realGit(['show',HISTORICAL_CANDIDATE+':.github/workflows/oss-policy.yml'],{encoding:'utf8'}));
   assert.equal(workflow.split(CURRENT_APPROVAL).length-1,3);
   assert.equal(workflow.includes(HISTORICAL_APPROVAL),false);
 });
@@ -38,7 +40,7 @@ test('WP603 recovery post-audit rejects a tampered admission carrier',()=>{
     return output;
   };
   assert.throws(
-    ()=>verifyWp603RecoveryAdmissionChain({candidateSha:'HEAD',git:tamperedGit}),
+    ()=>verifyWp603RecoveryAdmissionChain({candidateSha:HISTORICAL_CANDIDATE,git:tamperedGit}),
     /E_WP603_RECOVERY_ADMISSION_CARRIER_DIGEST:6/
   );
 });
@@ -53,7 +55,7 @@ test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
     return output;
   };
   assert.throws(
-    ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
+    ()=>verifyWp603MainProductPostEvaluationException({candidateSha:HISTORICAL_CANDIDATE,git:extraPathGit}),
     /E_WP603_EXACT_ADMITTED_DELTA:120:119/
   );
 });

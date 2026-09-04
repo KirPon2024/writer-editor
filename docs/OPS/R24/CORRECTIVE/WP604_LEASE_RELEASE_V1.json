@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP604_LEASE_RELEASE_V1",
+  "stageId": "WP-604_WSE_THREADS_EXPLANATION",
+  "evidenceStampId": "ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "bindings": {
+    "predecessorReleaseDigest": "32f36dfe323cf1400b4082188a1ba78002734f6e74a8c64d97b9f6a776fc8976",
+    "acceptanceMatrixDigest": "99d2deca0e888eefa902f10c6539eb38d48eaaa69e8922a095ea53f12b9fc46a",
+    "effectiveStateDigest": "25ea01f829994d7a9da41c69c9a986073a559512efd6f51a5f3ec02ad0f47c12",
+    "stageRegistryDigest": "ab806ac051ee9c54a70a12753e4c69e8a430b8a7a3bda40bca5cbf35bcaf928c",
+    "stageAdmissionDigest": "53f34a1872384858d950a602b6c504587175f8529586219ae74e77e35dae020f"
+  },
+  "currentLease": {
+    "fencingCounter": 86,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "32f36dfe323cf1400b4082188a1ba78002734f6e74a8c64d97b9f6a776fc8976"
+  },
+  "targetLease": {
+    "fencingCounter": 86,
+    "status": "RELEASED",
+    "wip": 0,
+    "transition": "ACTIVE_WIP_1_TO_RELEASED_WIP_0"
+  },
+  "protectedWipProof": {
+    "algorithm": "YALKEN_PROTECTED_WIP_SNAPSHOT_ALGORITHM_V2",
+    "beforeCarrierDigest": "59bc01e668e59e0d9c94068253d576937fbfde56aa7c81ee0067b70c9f7fe35a",
+    "beforeSnapshotDigest": "f95db892686ec3e91eb7ad9196db81d80b6747af23e956d6ffac5cc39f4e3786",
+    "completeDenominator": 273,
+    "presentDenominator": 273,
+    "prunableDenominator": 0,
+    "dirtyDenominator": 10,
+    "protectedDirtySetDenominator": 10,
+    "finalSnapshotRequired": true,
+    "unrelatedContentHashClaim": false
+  },
+  "activationCondition": "ALL_REQUIRED_LOCAL_GATES_EXACT_DESKTOP_LIFECYCLE_FIVE_EXTERNAL_PREDICATES_AND_FINAL_PROTECTED_WIP_SNAPSHOT_PASS",
+  "nextGraphNodeStarted": false
+}

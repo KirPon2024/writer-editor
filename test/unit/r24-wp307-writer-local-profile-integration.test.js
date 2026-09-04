@@ -64,13 +64,14 @@ test('WP307 flags projection removes optional controls from keyboard and accessi
   }
 });
 
-test('WP307 preserves its historical wording hash and follows admitted WP503, WP504 and WP603 append-only successors', () => {
+test('WP307 preserves its historical wording hash and follows admitted WP503, WP504, WP603 and WP604 append-only successors', () => {
   const editor = read('src/renderer/editor.js');
   const registry = JSON.parse(read('docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json'));
   const wp307SuccessorBytes = read('docs/OPS/R24/CORRECTIVE/WP307_EDITOR_WORDING_SUCCESSOR_V1.json');
   const wp503SuccessorBytes = read('docs/OPS/R24/CORRECTIVE/WP503_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json');
   const wp504Successor = JSON.parse(read('docs/OPS/R24/CORRECTIVE/WP504_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json'));
-  const wp603Claim = JSON.parse(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS.json'));
+  const wp603SuccessorV2Bytes = read('docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V2.json');
+  const wp604Successor = JSON.parse(read('docs/OPS/R24/CORRECTIVE/WP604_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json'));
   const wp307Successor = JSON.parse(wp307SuccessorBytes);
   const wp503Successor = JSON.parse(wp503SuccessorBytes);
   const surface = registry.wordingSurfaces.find((entry) => entry.path === 'src/renderer/editor.js');
@@ -83,12 +84,14 @@ test('WP307 preserves its historical wording hash and follows admitted WP503, WP
   assert.equal(wp503Successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(wp307SuccessorBytes).digest('hex'));
   assert.equal(wp504Successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(wp503SuccessorBytes).digest('hex'));
   const wp504Editor = wp504Successor.surfaceOverrides.find((entry) => entry.path === 'src/renderer/editor.js');
-  const wp603Editor = wp603Claim.implementationArtifactDigests.find((entry) => entry.path === 'src/renderer/editor.js');
+  const wp604Editor = wp604Successor.surfaceOverrides.find((entry) => entry.path === 'src/renderer/editor.js');
   assert.match(wp504Editor.sha256, /^sha256:[a-f0-9]{64}$/u);
-  assert.equal(`sha256:${wp603Editor.sha256}`, digest);
+  assert.equal(wp604Successor.predecessorSuccessor.sha256, crypto.createHash('sha256').update(wp603SuccessorV2Bytes).digest('hex'));
+  assert.equal(wp604Editor.sha256, digest);
   assert.equal(wp307Successor.programDone, false);
   assert.equal(wp503Successor.programDone, false);
   assert.equal(wp504Successor.programDone, false);
+  assert.equal(wp604Successor.programDone, false);
 });
 
 test('WP307 profile contract carries no persistence, network or external authority', () => {

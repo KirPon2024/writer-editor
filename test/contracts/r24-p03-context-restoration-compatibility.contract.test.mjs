@@ -55,6 +55,7 @@ test('context contract schema protocol and current CI retain no-authority and fu
  const protocol=fs.readFileSync('docs/AGENT_START_PROTOCOL.md','utf8'),agents=fs.readFileSync('AGENTS.md','utf8'),workflow=fs.readFileSync('.github/workflows/oss-policy.yml','utf8'),historicalWorkflow=realGit(['show',P03_MERGE_SHA+':.github/workflows/oss-policy.yml']).toString('utf8');
  for(const text of ['VALIDATED_CONTEXT_CACHE','FULL_READ_REQUIRED','CALLER_REPORTED_FULL_READS_NOT_INDEPENDENT_EVIDENCE','Network автоматически не','До этой поставки','другом внешнем registry'])assert(protocol.includes(text),text);
  assert(agents.includes('До terminal delivery P03 действует прежний полный протокол'));
- assert(workflow.indexOf('Reject stale context caches')<workflow.indexOf('- run: npm ci --engine-strict'));assert(workflow.includes('run: npm run r24:test-inventory'));assert.equal(historicalWorkflow.split('P03_GOVERNANCE_CHANGE_APPROVALS').length,4);assert.equal(workflow.split('WP603_GOVERNANCE_CHANGE_APPROVALS').length,4);
+ const approvalReferences=workflow.match(/docs\/OPS\/R24\/CORRECTIVE\/WP[0-9A-Z_]*GOVERNANCE_CHANGE_APPROVALS[0-9A-Z_]*\.json/gu)??[];
+ assert(workflow.indexOf('Reject stale context caches')<workflow.indexOf('- run: npm ci --engine-strict'));assert(workflow.includes('run: npm run r24:test-inventory'));assert.equal(historicalWorkflow.split('P03_GOVERNANCE_CHANGE_APPROVALS').length,4);assert.equal(approvalReferences.length,3);assert.equal(new Set(approvalReferences).size,1);
  const stamp=JSON.parse(fs.readFileSync('docs/OPS/R24/EVIDENCE/ES-R24-P03-CONTEXT-RESTORATION-CLAIM-BINDINGS.json'));assert(!stamp.claimBindings.some(binding=>binding.filePath===c+'C1B_TEST_INVENTORY_V1.json'));
 });

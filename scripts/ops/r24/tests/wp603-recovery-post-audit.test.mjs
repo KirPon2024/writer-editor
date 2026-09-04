@@ -10,19 +10,19 @@ import {
 
 const REPO_ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../..');
 const POST_AUDIT_ADMISSION='docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json';
-const CURRENT_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1.json';
+const CURRENT_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_V1.json';
 const HISTORICAL_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json';
 const realGit=(args,options={})=>execFileSync('git',args,{cwd:REPO_ROOT,encoding:options.encoding??null,maxBuffer:64*1024*1024});
 
 test('WP603 recovery post-audit accepts the exact append-only admission union',()=>{
   const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
   assert.equal(result.status,'PASS');
-  assert.equal(result.admissionDenominator,11);
-  assert.equal(result.admittedPathDenominator,112);
-  assert.equal(result.changedPathDenominator,111);
+  assert.equal(result.admissionDenominator,12);
+  assert.equal(result.admittedPathDenominator,116);
+  assert.equal(result.changedPathDenominator,115);
   assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
-  assert.equal(result.recovery.recoveryStageDenominator,10);
+  assert.equal(result.recovery.recoveryStageDenominator,11);
   const workflow=String(realGit(['show','HEAD:.github/workflows/oss-policy.yml'],{encoding:'utf8'}));
   assert.equal(workflow.split(CURRENT_APPROVAL).length-1,3);
   assert.equal(workflow.includes(HISTORICAL_APPROVAL),false);
@@ -54,6 +54,6 @@ test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
   };
   assert.throws(
     ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
-    /E_WP603_EXACT_ADMITTED_DELTA:112:111/
+    /E_WP603_EXACT_ADMITTED_DELTA:116:115/
   );
 });

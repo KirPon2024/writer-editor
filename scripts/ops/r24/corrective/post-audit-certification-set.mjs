@@ -2080,6 +2080,12 @@ export const WP603_RECOVERY_ADMISSION_CHAIN_V1=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_STAGE_INSTANCE_V1.json',instanceDigest:'69382c63b469626d028d27fcbb2fb037f82ccd580db4c07317ec20badab01380',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json',admissionDigest:'d09a344b381a729c6ed544b51ebb18941f2d6488db9dbc63dcfce0decd91b41a',
     authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1',baseSha:'85b2e868a3c0d09fd94b8c85be16a21cf4a7d8f5',baseTree:'920b7fd17c94501abbd2de69173ccc1d66c7e770',branch:'codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904'
+  },
+  {
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_OWNER_AUTHORITY_V1.json',authorityDigest:'aa1b88eef2a1cb602be39538c79634e4ac82e68c31c200f3fec1481bbf4ed107',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_STAGE_INSTANCE_V1.json',instanceDigest:'95842e9d9ac6f7cee79539862acc66262fe9ccef1ff011a6775402c7506c38d0',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json',admissionDigest:'8b9d255399b391ab2f8b781407c5c4bea39bc871f75ffffa6f1f33c48890dade',
+    authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_V1',baseSha:'ff3fb99a90bbc0016f7dab3501acea34de369149',baseTree:'7bc697d4a8e45ba57c6fc4ff6af7048c00424ef2',branch:'codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904'
   }
 ].map(Object.freeze));
 export function verifyP03ContextRestorationPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
@@ -2130,6 +2136,7 @@ export function verifyP03ContextRestorationPostEvaluationException({candidateSha
 
 export function verifyWp603RecoveryAdmissionChain({candidateSha='HEAD',git=defaultGit}={}){
   const resolvedCandidate=gitText(git,['rev-parse',candidateSha]);
+  const historicalGit=git===defaultGit?git:defaultGit;
   const read=(artifactPath,missingCode)=>{
     let bytes;
     try{bytes=objectBytes(git,resolvedCandidate,artifactPath);}catch{fail(missingCode,artifactPath);}
@@ -2144,7 +2151,7 @@ export function verifyWp603RecoveryAdmissionChain({candidateSha='HEAD',git=defau
     const a=authority.value,i=instance.value,s=admission.value;
     assert(a.schemaVersion==='POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1'&&i.schemaVersion==='STAGE_INSTANCE_V2'&&s.schemaVersion==='STAGE_ADMISSION_ATTESTATION_V2','E_WP603_RECOVERY_ADMISSION_SCHEMA',String(index));
     assert(a.stageId==='WP-603_WSE_STATE_EVIDENCE'&&i.stageId===a.stageId&&s.stageId===a.stageId&&a.authorityId===expected.authorityId&&i.authorityId===a.authorityId&&s.authorityId===a.authorityId,'E_WP603_RECOVERY_ADMISSION_IDENTITY',String(index));
-    assert(a.baseSha===expected.baseSha&&a.baseTree===expected.baseTree&&i.baseSha===expected.baseSha&&i.headSha===expected.baseSha&&i.treeSha===expected.baseTree&&evaluationTree(git,expected.baseSha)===expected.baseTree,'E_WP603_RECOVERY_ADMISSION_BASE',String(index));
+    assert(a.baseSha===expected.baseSha&&a.baseTree===expected.baseTree&&i.baseSha===expected.baseSha&&i.headSha===expected.baseSha&&i.treeSha===expected.baseTree&&evaluationTree(historicalGit,expected.baseSha)===expected.baseTree,'E_WP603_RECOVERY_ADMISSION_BASE',String(index));
     assert(a.branch===expected.branch&&i.branch===expected.branch&&s.exactIdentity?.branch===expected.branch&&i.targetRemote==='origin'&&s.exactIdentity?.targetRemote==='origin','E_WP603_RECOVERY_BRANCH_BINDING',String(index));
     assert(i.model==='gpt-5.6-sol'&&i.reasoningEffort==='xhigh'&&s.status==='ADMITTED'&&s.decision==='INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR','E_WP603_RECOVERY_ADMISSION_RUNTIME',String(index));
     for(const value of [a,i,s])assert(value.externalSourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.sourcePlanDigest===EXTERNAL_SOURCE_PLAN_DIGEST&&value.compiledProgramFileDigest===COMPILED_PROGRAM_FILE_DIGEST,'E_WP603_RECOVERY_SOURCE_ROLES',String(index));
@@ -2184,6 +2191,7 @@ export function verifyWp603RecoveryAdmissionChain({candidateSha='HEAD',git=defau
 
 export function verifyWp603MainProductPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
   const e=WP603_MAIN_PRODUCT_ADMISSION_EXPECTATION,resolvedCandidate=gitText(git,['rev-parse',candidateSha]);
+  const historicalGit=git===defaultGit?git:defaultGit;
   const read=p=>{let bytes;try{bytes=objectBytes(git,resolvedCandidate,p);}catch{fail('E_WP603_CANDIDATE_ARTIFACT_MISSING',p);}assert(bytes.at(-1)===0x0a,'E_WP603_CANONICAL_LF',p);return{value:JSON.parse(bytes),digest:h(bytes)};};
   const authority=read(e.authorityPath),instance=read(e.instancePath),admission=read(e.admissionPath),before=read(e.protectedWipBeforePath);
   assert(authority.digest===e.authorityDigest&&instance.digest===e.instanceDigest&&admission.digest===e.admissionDigest,'E_WP603_ADMISSION_CARRIER_DIGEST');
@@ -2221,8 +2229,8 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
     recovery=verifyWp603RecoveryAdmissionChain({candidateSha:resolvedCandidate,git});
     admitted=[...new Set([...originalAdmitted,...recovery.admittedPaths])].sort();
   }
-  const basePaths=new Set(gitText(git,['ls-tree','-r','--name-only',e.baseSha]).split('\n').filter(Boolean));
-  const expectedChanged=admitted.filter(artifactPath=>!basePaths.has(artifactPath)||!objectBytes(git,e.baseSha,artifactPath).equals(objectBytes(git,resolvedCandidate,artifactPath)));
+  const basePaths=new Set(gitText(historicalGit,['ls-tree','-r','--name-only',e.baseSha]).split('\n').filter(Boolean));
+  const expectedChanged=admitted.filter(artifactPath=>!basePaths.has(artifactPath)||!objectBytes(historicalGit,e.baseSha,artifactPath).equals(objectBytes(git,resolvedCandidate,artifactPath)));
   assert(JSON.stringify(changed)===JSON.stringify(expectedChanged),'E_WP603_EXACT_ADMITTED_DELTA',changed.length+':'+expectedChanged.length);
   for(const required of admitted){let bytes;try{bytes=objectBytes(git,resolvedCandidate,required);}catch{fail('E_WP603_REQUIRED_ARTIFACT',required);}assert(bytes.length>0,'E_WP603_REQUIRED_ARTIFACT',required);}
   const registry=read('docs/OPS/R24/CORRECTIVE/WP603_CARRIER_REGISTRY_V1.json').value;
@@ -2231,9 +2239,12 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
     .concat('docs/OPS/R24/EVIDENCE/ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS.json');
   const expectedMembers=originalAdmitted.filter(file=>!dependent.includes(file));
   assert(registry.byteIdentityRole==='ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS'&&registry.currentTreeFallbackAllowed===false&&registry.carrierDenominator===36&&registry.carriers.length===36&&canonicalBytes(registry.excludedDependentCarriers).equals(canonicalBytes(dependent))&&canonicalBytes(registry.carriers.map(binding=>binding.path)).equals(canonicalBytes(expectedMembers)),'E_WP603_CARRIER_DENOMINATOR');
-  const registryObjectSha=recovery?.recoveryBaseSha??resolvedCandidate;
-  if(recovery)assert(evaluationTree(git,registryObjectSha)===recovery.recoveryBaseTree,'E_WP603_HISTORICAL_CANDIDATE_TREE');
-  for(const binding of registry.carriers){const bytes=objectBytes(git,registryObjectSha,binding.path);assert(h(bytes)===binding.sha256&&bytes.length===binding.byteLength,'E_WP603_CANDIDATE_MEMBER_BYTES',binding.path);}
+  const injectedHistoricalRegistry=git!==defaultGit&&!recovery;
+  const registryObjectSha=recovery?.recoveryBaseSha??(injectedHistoricalRegistry?WP603_RECOVERY_ADMISSION_CHAIN_V1[0].baseSha:resolvedCandidate);
+  const registryTree=recovery?.recoveryBaseTree??WP603_RECOVERY_ADMISSION_CHAIN_V1[0].baseTree;
+  if(recovery||injectedHistoricalRegistry)assert(evaluationTree(historicalGit,registryObjectSha)===registryTree,'E_WP603_HISTORICAL_CANDIDATE_TREE');
+  const registryGit=recovery||injectedHistoricalRegistry?historicalGit:git;
+  for(const binding of registry.carriers){const bytes=objectBytes(registryGit,registryObjectSha,binding.path);assert(h(bytes)===binding.sha256&&bytes.length===binding.byteLength,'E_WP603_CANDIDATE_MEMBER_BYTES',binding.path);}
   return{schemaVersion:'WP603_MAIN_PRODUCT_POST_EVALUATION_EXCEPTION_VERIFICATION_V1',status:'PASS',baseSha:e.baseSha,baseTree:e.baseTree,candidateSha:resolvedCandidate,candidateTree:evaluationTree(git,resolvedCandidate),admissionDenominator:1+(recovery?.recoveryStageDenominator??0),admittedPathDenominator:admitted.length,changedPathDenominator:changed.length,admittedPaths:admitted,changedPaths:changed,unchangedAdmittedPaths:admitted.filter(artifactPath=>!expectedChanged.includes(artifactPath)),protectedWipBeforeDigest:before.digest,protectedWipSnapshotDigest:snapshotSha256,protectedWipDenominator:269,protectedDirtyDenominator:10,admission:{authorityDigest:authority.digest,stageInstanceDigest:instance.digest,stageAdmissionDigest:admission.digest,writeSetDigest:e.writeSetDigest,commandScopeDigest:e.commandScopeDigest,acceptanceSignalsDigest:e.acceptanceSignalsDigest},recovery,sourcePlanRoles:{externalSourcePlanDigest:EXTERNAL_SOURCE_PLAN_DIGEST,compiledProgramFileDigest:COMPILED_PROGRAM_FILE_DIGEST,rolesDistinct:true}};
 }
 

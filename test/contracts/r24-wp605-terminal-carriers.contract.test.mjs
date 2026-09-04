@@ -1,6 +1,5 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
-import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
@@ -16,20 +15,19 @@ const paths = {
   fixture: C + 'WP605_FIXTURE_MANIFEST_V1.json', graph: C + 'WP605_EFFECTIVE_GRAPH_BASELINE_V1.json', registry: C + 'WP605_CARRIER_REGISTRY_V1.json', acceptance: C + 'WP605_ACCEPTANCE_MATRIX_V1.json',
   state: C + 'WP605_EFFECTIVE_STATE_V1.json', stageRegistry: C + 'WP605_STAGE_REGISTRY_V1.json', lease: C + 'WP605_LEASE_RELEASE_V1.json', terminal: C + 'WP605_TERMINAL_RECEIPT_V1.json',
 };
-const bytes = (file) => fs.readFileSync(file);
 const historicalBytes = (file) => execFileSync('git', ['show', `${WP605_TERMINAL_MERGE_SHA}:${file}`], {
   encoding: null,
   maxBuffer: 32 * 1024 * 1024,
 });
-const read = (file) => JSON.parse(bytes(file));
+const read = (file) => JSON.parse(historicalBytes(file));
 const roles = { externalSourcePlanDigest: '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a', compiledProgramFileDigest: 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a', rolesDistinct: true };
 const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGIBLE_OPTIONAL', 'PENDING'].map((state) => [state, Object.values(states).filter((value) => value === state).length]));
 function load() { return Object.fromEntries(Object.entries(paths).map(([key, file]) => [key, read(file)])); }
 
 function verify(values) {
-  assert.equal(h(bytes(paths.authority)), '96faae68d8828738993817d62ae6c96c915a7c349022aaef3740560e6a699c63');
-  assert.equal(h(bytes(paths.instance)), '706fc78778223d2fae4fb1fed1152afcde4e4094e99193102f9b3a1d8cfe4544');
-  assert.equal(h(bytes(paths.admission)), 'ac51e1174e0d30466ff8ee5f9627aee436fd35dd230b52ad1d142cbba04dae4e');
+  assert.equal(h(historicalBytes(paths.authority)), '96faae68d8828738993817d62ae6c96c915a7c349022aaef3740560e6a699c63');
+  assert.equal(h(historicalBytes(paths.instance)), '706fc78778223d2fae4fb1fed1152afcde4e4094e99193102f9b3a1d8cfe4544');
+  assert.equal(h(historicalBytes(paths.admission)), 'ac51e1174e0d30466ff8ee5f9627aee436fd35dd230b52ad1d142cbba04dae4e');
   assert.equal(values.admission.writeSetDigest, '8c9566252d3b30a3421fc989aa0204db8577e57d3fde96aad9d1a3a8ce64672b');
   assert.deepEqual(values.instance.lease, { fencingCounter: 87, status: 'ACTIVE', wip: 1, predecessorReleaseDigest: '89035256fe312566133de642dd4844782779f03ad091a4cf15895a4f84da340f' });
   const { snapshotSha256, ...payload } = values.before;
@@ -64,9 +62,9 @@ function verify(values) {
   assert.equal(values.acceptance.rows.filter((row) => row.status === 'PASS').length, values.acceptance.localPassCount);
   assert.equal(values.acceptance.rows.filter((row) => row.status === 'REQUIRED_NOT_PRECLAIMED').length, values.acceptance.localRequiredCount + values.acceptance.externalRequiredCount);
   assert.equal(values.terminal.status, 'CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES');
-  assert.equal(values.terminal.bindings.leaseReleaseDigest, h(bytes(paths.lease)));
-  assert.equal(values.terminal.bindings.acceptanceMatrixDigest, h(bytes(paths.acceptance)));
-  assert.equal(values.terminal.bindings.effectiveStateDigest, h(bytes(paths.state)));
+  assert.equal(values.terminal.bindings.leaseReleaseDigest, h(historicalBytes(paths.lease)));
+  assert.equal(values.terminal.bindings.acceptanceMatrixDigest, h(historicalBytes(paths.acceptance)));
+  assert.equal(values.terminal.bindings.effectiveStateDigest, h(historicalBytes(paths.state)));
   assert.equal(values.lease.currentLease.status, 'ACTIVE');
   assert.equal(values.lease.targetLease.status, 'RELEASED');
   assert.equal(values.lease.targetLease.wip, 0);

@@ -13,6 +13,13 @@ const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? String(value) + '\n' : Buffer.from(String(value) + '\n');
 
+function assertTerminalReaderHasNoCurrentTreeFallback(source, terminalSha, label) {
+  assert.match(source, new RegExp(terminalSha, 'u'), label + ':terminal-sha');
+  assert.match(source, /historicalBytes/u, label + ':historical-reader');
+  assert.doesNotMatch(source, /fs\.readFileSync/u, label + ':filesystem-fallback');
+  assert.doesNotMatch(source, /\bbytes\(/u, label + ':current-bytes-helper');
+}
+
 function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifact = null, byteDrift = null, ancestor = true, mutateJson = null } = {}) {
   return (args, { encoding = null } = {}) => {
     if (args[0] === 'rev-parse') {
@@ -46,12 +53,12 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
-test('WP606 candidate oracle binds the exact 49-path append-only admission and protected baseline', () => {
+test('WP606 candidate oracle binds the exact 53-path append-only admission and protected baseline', () => {
   const result = verifyWp606MainProductPostEvaluationException({ git: fakeGit() });
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
-  assert.equal(result.admittedPathDenominator, 49);
+  assert.equal(result.admittedPathDenominator, 53);
   assert.deepEqual(result.changedPaths, ADMITTED);
   assert.equal(result.protectedWipDenominator, 277);
   assert.equal(result.protectedDirtyDenominator, 10);
@@ -70,4 +77,24 @@ test('WP606 candidate oracle rejects scope, base, ancestry, missing-artifact and
 test('WP606 candidate oracle rejects a forged lease and carrier-registry fallback', () => {
   assert.throws(() => verifyWp606MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: E.instancePath, apply: (value) => { value.lease.wip = 0; } } }) }), /E_WP606_ADMISSION_CARRIER_DIGEST/u);
   assert.throws(() => verifyWp606MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP606_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }) }), /E_WP606_CARRIER_DENOMINATOR/u);
+});
+
+test('WP606 historical-reader closure rejects current-tree fallback for WP605 and WP710', () => {
+  const wp605 = fs.readFileSync('test/contracts/r24-wp605-terminal-carriers.contract.test.mjs', 'utf8');
+  const wp710 = fs.readFileSync('test/contracts/r24-wp710-terminal-carriers.contract.test.mjs', 'utf8');
+  assertTerminalReaderHasNoCurrentTreeFallback(wp605, '725b47c254895a5075c381ce5182592a40c31b45', 'WP605');
+  assertTerminalReaderHasNoCurrentTreeFallback(wp710, '19c1ae3f39de73b87d468ff84dd65ecdbd478269', 'WP710');
+  assert.throws(
+    () => assertTerminalReaderHasNoCurrentTreeFallback(wp605.replace('historicalBytes(binding.path)', 'bytes(binding.path)'), '725b47c254895a5075c381ce5182592a40c31b45', 'WP605_MUTANT'),
+    /WP605_MUTANT:current-bytes-helper/u,
+  );
+  const postAudit = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
+  for (const [stage, functionName, next] of [['WP605', 'verifyWp605MainProductPostEvaluationException', 'verifyWp710MainProductPostEvaluationException'], ['WP710', 'verifyWp710MainProductPostEvaluationException', 'verifyWp606MainProductPostEvaluationException']]) {
+    const start = postAudit.indexOf(`export function ${functionName}`);
+    const end = postAudit.indexOf(`export function ${next}`, start);
+    const body = postAudit.slice(start, end);
+    assert.match(body, /historicalGit=defaultGit/u, stage + ':historical-git');
+    assert.match(body, /objectBytes\(historicalGit,artifactRevision,p\)/u, stage + ':carrier-reader');
+    assert.doesNotMatch(body, /objectBytes\(git,artifactRevision,p\)/u, stage + ':current-tree-fallback');
+  }
 });

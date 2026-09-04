@@ -11,21 +11,21 @@
   "approvals": [
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "d35320e785790c3b82d4605bd83659ca305a0f68de5e09595d564aee248750e6",
+      "sha256": "7fd536ea4179d958c4cba8fd20b5dfc49457ed6c45e9c8f5c4b5864c820dd3d4",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "c8ee12b6a802152c1b3f89f512c71585ae5c18f48ca74accb6662cdfd120dfee",
+      "sha256": "2d5bfb3d5b844532b6701bdb5af65d7eb93c0bbe7231caeab171a46814cbe725",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_CARRIER_REGISTRY_V1.json",
-      "sha256": "bc71d80debade0797e9c976731a07fedc7461cab870cd26fa032fb276fa5a8a8",
+      "sha256": "4d3a72f51761baa4d8ff949a0df2d04cd322d723a2f501c8b132aad9a1f4179c",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -39,7 +39,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_EFFECTIVE_STATE_V1.json",
-      "sha256": "29df7693259c8d5154087ba83482f3d9072458093dbb68f72d1b15cb19e1b95e",
+      "sha256": "695e207b3bd01eff827c3008c969f04b280c68baeba2490808500168c61bec16",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -53,14 +53,14 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_LEASE_RELEASE_V1.json",
-      "sha256": "b4fa4c80826f0b4cc390f9b3f0cb7f6d40d714e18a613fb2e558272257f39520",
+      "sha256": "54a04022d9295ba1f29a6386770d99698a895e76453baa7b5d16dd3861816363",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
-      "sha256": "238dc44fb7dce0caf1aa363ff835f3f14f536ea9f46662759ca6309fd65c94e7",
+      "sha256": "00786da29691ab148317c966a14f43d3cebdddd7f546b93686c821cbbcc16d2e",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -74,14 +74,14 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
-      "sha256": "696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980",
+      "sha256": "e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
-      "sha256": "5a1b15eff2ff94a63c74e17d78bfaddcded9ba791dd57eeb35e42e387d98e794",
+      "sha256": "ea0bda1251758d7e524d5edf3cdf1a465c4e8dce0930f3a53d62afac6ad4208d",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -102,14 +102,14 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_STAGE_REGISTRY_V1.json",
-      "sha256": "a84a933caffaba09e4031f970a4266834bfb60e9b9463d94c9fa2d6297c7ca62",
+      "sha256": "8181062fde6e3925c082ca1650cf3a594b2b886452d2ed975c12f23faf2ca92f",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP604_TERMINAL_RECEIPT_V1.json",
-      "sha256": "4a266e33b021790b27728f9bcf582ecb1a53d6e74579e5803948385373c69155",
+      "sha256": "273a1a1922486ef118281e6c2fde5a3048bce52cb012ee17269149b620983899",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -123,7 +123,7 @@
     },
     {
       "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-604-WSE-THREADS-EXPLANATION-CLAIM-BINDINGS.json",
-      "sha256": "48f12e18e2647f30afeb65030dc0f87c8eb0938241497db529523951bbaa4851",
+      "sha256": "ecead14e3afc6a7ca2050ed102a986a86472ece8116a13985fd4d55dd998fd0d",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -158,7 +158,7 @@
     },
     {
       "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "378a9768b407263aae91934be6d890214014807d6b635079d3844a5634e33a5e",
+      "sha256": "9dfbf4f97e9c5b6de796b342af4b2d720ff9eeb584ae55868c4c69ff285f203f",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
@@ -178,15 +178,22 @@
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
+      "filePath": "test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs",
+      "sha256": "7012f6ce4a68c9fa706013497e53157ff750d34cccd43d71d073ba7e7712936c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
+      "approvedAtUtc": "2026-09-04T04:25:00Z",
+      "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
+    },
+    {
       "filePath": "test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs",
-      "sha256": "8b71500bc10fafeac264b048a2ee44b9bbfe306d91d7013feb2a98918d990673",
+      "sha256": "a2ebe1aa9f0bfa9f50b9566bd6f24b4be4d3083c7779549c29ce12055ad9ff6a",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."
     },
     {
       "filePath": "test/contracts/r24-wp604-terminal-carriers.contract.test.mjs",
-      "sha256": "212ccc2feeaac8cdf494c7f89ffe1c3a683a5521fd4d40f25c137584edd4b723",
+      "sha256": "496a45267a833cf12e56aa68a8af51ff325f76aa27368a7a3fe1fbb4e2886dab",
       "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP604_WSE_THREADS_EXPLANATION_V1",
       "approvedAtUtc": "2026-09-04T04:25:00Z",
       "rationale": "Owner-authorized WP604 product slice binds explicit evidence-only story-thread explanations, exact admitted scope and strict post-audit compatibility. No dependency, runtime network, storage writer, new command authority, real owner document, signing, distribution, payment, implicit causal inference, or PROGRAM_DONE expansion."

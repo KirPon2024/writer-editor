@@ -19,12 +19,12 @@
     {
       "id": "PINNED_STAGE_ADMISSION",
       "status": "PASS",
-      "evidence": "696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980"
+      "evidence": "e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030"
     },
     {
-      "id": "EXACT_41_PATH_WRITE_SET",
+      "id": "EXACT_42_PATH_WRITE_SET",
       "status": "PASS",
-      "evidence": "4b1fa4e650c91406de84045a3c526e2153bc8398362f71cbf96f299c4b3dc1ad"
+      "evidence": "8aba630ed074fa35dfbd9103719bed86231928c24e799dbefcad6952ef8ae043"
     },
     {
       "id": "PROTECTED_WIP_BEFORE",
@@ -54,7 +54,7 @@
     {
       "id": "COMPLETE_CARRIER_DENOMINATOR",
       "status": "PASS",
-      "evidence": "bc71d80debade0797e9c976731a07fedc7461cab870cd26fa032fb276fa5a8a8"
+      "evidence": "4d3a72f51761baa4d8ff949a0df2d04cd322d723a2f501c8b132aad9a1f4179c"
     },
     {
       "id": "SETUP_PAYOFF_BOARD",

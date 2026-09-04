@@ -14,8 +14,8 @@
     "sha": "bf3b3c3c57e8f2268dc5f0be213c27de0002e5ff",
     "tree": "cfe9d94520d922a04c333be358875988dd15eb2e"
   },
-  "carrierDenominator": 33,
-  "verifiedCarrierCount": 33,
+  "carrierDenominator": 34,
+  "verifiedCarrierCount": 34,
   "missingCarrierCount": 0,
   "mismatchedCarrierCount": 0,
   "carriers": [
@@ -26,7 +26,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "d35320e785790c3b82d4605bd83659ca305a0f68de5e09595d564aee248750e6",
+      "sha256": "7fd536ea4179d958c4cba8fd20b5dfc49457ed6c45e9c8f5c4b5864c820dd3d4",
       "byteLength": 417075
     },
     {
@@ -41,8 +41,8 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
-      "sha256": "238dc44fb7dce0caf1aa363ff835f3f14f536ea9f46662759ca6309fd65c94e7",
-      "byteLength": 10275
+      "sha256": "00786da29691ab148317c966a14f43d3cebdddd7f546b93686c821cbbcc16d2e",
+      "byteLength": 10500
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
@@ -51,13 +51,13 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
-      "sha256": "696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980",
+      "sha256": "e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030",
       "byteLength": 1671
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
-      "sha256": "5a1b15eff2ff94a63c74e17d78bfaddcded9ba791dd57eeb35e42e387d98e794",
-      "byteLength": 10927
+      "sha256": "ea0bda1251758d7e524d5edf3cdf1a465c4e8dce0930f3a53d62afac6ad4208d",
+      "byteLength": 11152
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP604_PROTECTED_WIP_BEFORE_V1.json",
@@ -96,7 +96,7 @@
     },
     {
       "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "378a9768b407263aae91934be6d890214014807d6b635079d3844a5634e33a5e",
+      "sha256": "9dfbf4f97e9c5b6de796b342af4b2d720ff9eeb584ae55868c4c69ff285f203f",
       "byteLength": 590135
     },
     {
@@ -140,14 +140,19 @@
       "byteLength": 221421
     },
     {
+      "path": "test/contracts/r24-p03-context-restoration-compatibility.contract.test.mjs",
+      "sha256": "7012f6ce4a68c9fa706013497e53157ff750d34cccd43d71d073ba7e7712936c",
+      "byteLength": 8424
+    },
+    {
       "path": "test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs",
-      "sha256": "8b71500bc10fafeac264b048a2ee44b9bbfe306d91d7013feb2a98918d990673",
+      "sha256": "a2ebe1aa9f0bfa9f50b9566bd6f24b4be4d3083c7779549c29ce12055ad9ff6a",
       "byteLength": 4504
     },
     {
       "path": "test/contracts/r24-wp604-terminal-carriers.contract.test.mjs",
-      "sha256": "212ccc2feeaac8cdf494c7f89ffe1c3a683a5521fd4d40f25c137584edd4b723",
-      "byteLength": 8900
+      "sha256": "496a45267a833cf12e56aa68a8af51ff325f76aa27368a7a3fe1fbb4e2886dab",
+      "byteLength": 8460
     },
     {
       "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",

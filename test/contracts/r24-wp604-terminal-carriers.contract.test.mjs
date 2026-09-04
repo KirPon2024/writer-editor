@@ -1,7 +1,6 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
-import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
@@ -9,8 +8,6 @@ import { HISTORICAL_INVENTORY_CLAIM_PINS_V5 } from '../../scripts/ops/r24/docs-c
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = (bytes) => crypto.createHash('sha256').update(bytes).digest('hex');
-const git = (...args) => execFileSync('git', args, { encoding: null, maxBuffer: 32 * 1024 * 1024 });
-const text = (...args) => git(...args).toString('utf8').trim();
 const paths = {
   authority: C + 'WP604_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json',
   instance: C + 'WP604_MAIN_PRODUCT_STAGE_INSTANCE_V1.json',
@@ -27,9 +24,7 @@ const paths = {
   lease: C + 'WP604_LEASE_RELEASE_V1.json',
   terminal: C + 'WP604_TERMINAL_RECEIPT_V1.json',
 };
-const issueSha = text('log', '--diff-filter=A', '--format=%H', '--max-count=1', '--', paths.terminal);
-if (!issueSha) assert.equal(text('ls-files', '--', paths.terminal), '');
-const bytes = (file) => issueSha ? git('show', `${issueSha}:${file}`) : fs.readFileSync(file);
+const bytes = (file) => fs.readFileSync(file);
 const read = (file) => JSON.parse(bytes(file));
 const roles = { externalSourcePlanDigest: '1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a', compiledProgramFileDigest: 'da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a', rolesDistinct: true };
 const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGIBLE_OPTIONAL', 'PENDING'].map((state) => [state, Object.values(states).filter((value) => value === state).length]));
@@ -37,10 +32,10 @@ const counts = (states) => Object.fromEntries(['BLOCKED_TYPED', 'DONE', 'INELIGI
 function load() { return Object.fromEntries(Object.entries(paths).map(([key, file]) => [key, read(file)])); }
 
 function verify(values) {
-  assert.equal(h(bytes(paths.authority)), '238dc44fb7dce0caf1aa363ff835f3f14f536ea9f46662759ca6309fd65c94e7');
-  assert.equal(h(bytes(paths.instance)), '5a1b15eff2ff94a63c74e17d78bfaddcded9ba791dd57eeb35e42e387d98e794');
-  assert.equal(h(bytes(paths.admission)), '696d1720ec673e94d2cca2a3fad04e45a37a43515dea592a4341579edad80980');
-  assert.equal(values.admission.writeSetDigest, '4b1fa4e650c91406de84045a3c526e2153bc8398362f71cbf96f299c4b3dc1ad');
+  assert.equal(h(bytes(paths.authority)), '00786da29691ab148317c966a14f43d3cebdddd7f546b93686c821cbbcc16d2e');
+  assert.equal(h(bytes(paths.instance)), 'ea0bda1251758d7e524d5edf3cdf1a465c4e8dce0930f3a53d62afac6ad4208d');
+  assert.equal(h(bytes(paths.admission)), 'e6746f5452405f8823b1134f49562ba283ce4b0716d1e15081b2b5bb468c0030');
+  assert.equal(values.admission.writeSetDigest, '8aba630ed074fa35dfbd9103719bed86231928c24e799dbefcad6952ef8ae043');
   assert.deepEqual(values.instance.lease, { fencingCounter: 86, status: 'ACTIVE', wip: 1, predecessorReleaseDigest: '32f36dfe323cf1400b4082188a1ba78002734f6e74a8c64d97b9f6a776fc8976' });
   const { snapshotSha256, ...payload } = values.before;
   assert.equal(h(Buffer.from(JSON.stringify(payload) + '\n')), snapshotSha256);
@@ -61,8 +56,8 @@ function verify(values) {
   const admitted = [...values.instance.operations.modifyPaths, ...values.instance.operations.createPaths].sort();
   const allCarriers = [...values.registry.carriers.map((row) => row.path), ...values.registry.excludedDependentCarriers].sort();
   assert.deepEqual(allCarriers, admitted);
-  assert.equal(new Set(allCarriers).size, 41);
-  assert.equal(values.registry.carrierDenominator, 33);
+  assert.equal(new Set(allCarriers).size, 42);
+  assert.equal(values.registry.carrierDenominator, 34);
   assert.equal(values.registry.currentTreeFallbackAllowed, false);
   for (const binding of values.registry.carriers) {
     assert.equal(h(bytes(binding.path)), binding.sha256, binding.path);

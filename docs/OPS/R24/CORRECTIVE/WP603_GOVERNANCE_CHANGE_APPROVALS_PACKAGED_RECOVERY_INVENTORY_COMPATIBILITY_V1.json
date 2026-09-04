@@ -1,0 +1,336 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-603-WSE-STATE-EVIDENCE-CLAIM-BINDINGS",
+    "ES-R24-WP-603-PACKAGED-RECOVERY-CLAIM-BINDINGS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "0f1e2c9ca3f5e0d1f59b5a1d9e1dbdf1282f5ea281398e62dd3ab4cb9126301a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CI_APPROVAL_ROUTING_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "3a27e505d573d8116b118b63519e63453f4ddb392ee43d194aeae448d13417b5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CI_APPROVAL_ROUTING_OWNER_AUTHORITY_V1.json",
+      "sha256": "0128e07a8a0b31edb3f1ba29237d8167e7a72f516ab7db2dba3956a8fcc787cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CI_APPROVAL_ROUTING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5fd8e8972f32bcf7ec3737a59834bc4261f1c0ec3845f7dd63bcc53a426f22ff",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CI_APPROVAL_ROUTING_STAGE_INSTANCE_V1.json",
+      "sha256": "33eee4d4902296be8f13592923be2dbc32132b61140c8040e17ff6ce7f82b737",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CLAIM_BINDING_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "eeb921561aa5dd9b55ad79535357448da296a39e9f67e91ce4f4a8289a56e4f6",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CLAIM_BINDING_OWNER_AUTHORITY_V1.json",
+      "sha256": "906778fba74a1481cd2b67ee058598e842cc752e870a4adfbbd8c9c808d22b40",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CLAIM_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "93ac738533e2bb287d6179389ff0caddfe56c9d17cd8025ff4e75c57ffbea6e0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CLAIM_BINDING_STAGE_INSTANCE_V1.json",
+      "sha256": "5599fb376be9c04a20473fef2ca12a6b2911d2be5cbf47766867c925ecd61ca9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "fd0d8636a57afc00671ff98c871988f003c4ebdd3558af5674c8367cfaf905f9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_OWNER_AUTHORITY_V1.json",
+      "sha256": "3049e5e355ff7d7d52bb3a2b4f632e5e8828ad36c73393e3916e0d32243ca508",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5670bc9586faf3bd598d57e99f84e03895cde31f94dd66d4b823e2ce316f2b64",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_FINAL_STAGE_INSTANCE_V1.json",
+      "sha256": "01b9cdbed30dea0d85b0f5c3831abe5d40576e5ae78b6f2bad0d8a04782f3e97",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_OWNER_AUTHORITY_V1.json",
+      "sha256": "75a7db58cb1254f3d7929764650e7a7d98e2534638d91d5f1dabef75044e92b7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "d09a344b381a729c6ed544b51ebb18941f2d6488db9dbc63dcfce0decd91b41a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_STAGE_INSTANCE_V1.json",
+      "sha256": "69382c63b469626d028d27fcbb2fb037f82ccd580db4c07317ec20badab01380",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_P03_COMPATIBILITY_ROUTING_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "cbac115eb193e42648f0b7f1cae48ee7abd410184523f725b0725415fe072fcb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_P03_COMPATIBILITY_ROUTING_OWNER_AUTHORITY_V1.json",
+      "sha256": "f22f6eca8db921781d1192a6f773a14d69e69d71037bce83beab1d320a3b23c7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_P03_COMPATIBILITY_ROUTING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "cf6ce99e3728adfb55f6fe3164471380737c81da80a84d55aa65d52f531d13a9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_P03_COMPATIBILITY_ROUTING_STAGE_INSTANCE_V1.json",
+      "sha256": "0c2d4620c3fc33fa8425ddcf7e2ad7393763c3dcd713809caca75897209d65b4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "45978c12861f469686025b0cebbeb7beb36e861584c7488f833ffb52d16e2552",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_OWNER_AUTHORITY_V1.json",
+      "sha256": "4d7f53850039e29f10dc5bce34db64d365167e7633ee3e9f0a20ef5e63a71c62",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "6db04a049fc4a0537ef0c10bbe4e18b77e809956d38288a4437760e69936a8a8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_INSTANCE_V1.json",
+      "sha256": "3d002508417f4a12cae62b7260ce85af6485aaeb0e77867a3ed8156ecd293f6a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_OWNER_AUTHORITY_V1.json",
+      "sha256": "3c733e01fb5e9de57ef7f7ff71863171d28c38d4995da09180638931c7dbcd08",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5949aed88bef8840ef90acbd5ad882802bcf80bce7acd806b5aaf198f2377d63",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_REBIND_STAGE_INSTANCE_V1.json",
+      "sha256": "3b90805c9c12bc2ab86df1a026a9f81a134f455cefc669ec545006f624a9ebd2",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "cf4548ac5ed75186f6e569d407056cb7633e63551ee58e2c47eb76da4597220b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RELEASE01_WORDING_SURFACE_SUCCESSOR_V2.json",
+      "sha256": "ba2257cfb522edf3e9e7bd665e11da85b3468561d2e12802efbe50a9a93a9d04",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RESOURCE_BOUNDARY_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "sha256": "40ee4d1e4cf94d7985e89d914755f0b1e7741819ea8aeb8df99e5a412fa9dfaa",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RESOURCE_BOUNDARY_OWNER_AUTHORITY_V1.json",
+      "sha256": "2c03ee837c9607f9de673aa3fc56b5aad2628139f14fd78fe47b8e2c81045754",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RESOURCE_BOUNDARY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "2f7e94224c7544af7b38c0264b6c85e667c5ee55cdabf5b70ddfacca7daf162f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_RESOURCE_BOUNDARY_STAGE_INSTANCE_V1.json",
+      "sha256": "3c1b46758681a55bd95c23321e5846afef2f47ba7aec72ab822d6a7866e7652a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "877c1332f2447dbc8116527b818126f7d46759fd2254c38ef49b647590e4b1bb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "61d44287ef1ce8330d32711c8560eef77756007787d4d564f861536aea4c3474",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RUNTIME_RESOURCES_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "3753771b0c38ea43fe339d836dd798737493918505f4dd39d51bd85b95163a16",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_OWNER_AUTHORITY_V1.json",
+      "sha256": "6917463bdfe7269ed36d2c2035f7b291b44d2005ff3066867cf52995eead9775",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "caaceb490d6436629b54977aa606e37dc30b205bd1cf61e27bdb76f6a4140feb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_SAVE_LIFECYCLE_RECOVERY_STAGE_INSTANCE_V1.json",
+      "sha256": "f80565149deb29115304ef451ddd085c9a88d47ad41bfd459a6e8d6dacc709cb",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-603-PACKAGED-RECOVERY-CLAIM-BINDINGS.json",
+      "sha256": "49a0c6d820d9110158050298d193604759e484109f37fcf457cb804fc74a317f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "dfcd6c34f966fd08a8fcde3402a8198ca5ad21bf21c8f5df198767f483544815",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "56135b04c2d5842301cd0152ef58a4c3131ae6e24e448a0ddef2e3fe0ab224e8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "scripts/ops/r24/tests/docs-claim-lint.test.mjs",
+      "sha256": "869c963c34b88f3ff8369e799964e754af092d8453800637e7e1b8c856cefab0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "scripts/ops/r24/tests/wp603-recovery-post-audit.test.mjs",
+      "sha256": "27f31826492eb8d98ad5481d72d725d0d80ecf71b089589f46f641bae810541d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "db37964e3b12faa5d49f49849e7b8af4f5944ac973c1d83abfb226cd1a4c2202",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    },
+    {
+      "filePath": "test/contracts/yalken-atlas-v5-e11-c01-macos-package-artifact-security.contract.test.js",
+      "sha256": "75bfa2b7eebde82a1df338922b9178ea5f19cab3620fb381d42ae7606f452f3d",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_INVENTORY_COMPATIBILITY_V1",
+      "approvedAtUtc": "2026-09-04T02:00:26.347Z",
+      "rationale": "Owner-authorized WP603 terminal recovery restores the inventory-pinned P03 compatibility contract bytes and routes both strict workflow checks to this distinct current WP603 approval-family successor. C1B inventory plus historical P03 and WP603 approval bytes remain immutable. No product runtime, UI, dependency, runtime network, signing, distribution, payment, private owner document, or PROGRAM_DONE expansion."
+    }
+  ]
+}

@@ -1,0 +1,318 @@
+{
+  "version": "v1.0",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+    "ES-R24-WP-607-WSE-CLAIMS-MODEL",
+    "ES-R24-WP-607-WSE-CLAIMS-CONTRACT",
+    "ES-R24-WP-607-WSE-CLAIMS-INTEGRATION",
+    "ES-R24-WP-607-WSE-CLAIMS-MUTANTS"
+  ],
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "42ed8ae7221d729743b351828b05709e60ae8b90a1c3fd9d2d3fd59783d419f3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "932cfd778e056be98ccc2be5811796219c6135c4334996537acce1daa3b1bcef",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "0da34ed976b5ee23773b71b3313dc4bf6c9dc72ba423fd587e0efced3700ba10",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_CARRIER_REGISTRY_V1.json",
+      "sha256": "dcaa8acaf0175f36781dbf61d52ad7298916903f062e02bf6fafbaa71d625e67",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "70102ca0e818740ec28d276f7c6db1c5809a450898a6fd960ee846b972ce1dbe",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_EFFECTIVE_STATE_V1.json",
+      "sha256": "6daa92280dd292efb4cc9e37ca13ba3f90a9a978b946be61d933cd87b7ab15a8",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "0033ad53db0cc0a8c2de832daefa006c00900d30819ae3074015bdcd4a77ce48",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_FIXTURE_MANIFEST_V1.json",
+      "sha256": "043e5d480f612a233a9167473aa8adcd5ddc62a2b243175c922a85a3ff63743c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_LEASE_RELEASE_V1.json",
+      "sha256": "921733bb17d605037c9d7c65341fd494c060122ffc36e8f03353bb3e63c189ea",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "25457f05218d13ef9a98de934c5acff0c477291a0a0441049e4a0e49ec699ee7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "bb4fa003b6592761e31522503cb4840e24c2a5c096ab9172d251e5f965098fb3",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "172912b1b191b5e435b0a9027bf8b4e6241f9136475cca7e80a9ad776229c3f5",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "37ce64f8cb9bafc2bf74c1fd8848360eba8b3d6c2956961c95a711def9c4f958",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "dffc5f867969741f41e9fc33a4327c381aeca718e9e4cbbaaaf30ddb1e782cd0",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "00a50e45f0470181bd9fd7be8a7ab14a8a0e5cafa07c67e13590373d3ddb05e4",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_STAGE_REGISTRY_V1.json",
+      "sha256": "95f2e381daa160e69522202c09198642537de8080811b2074c42d625bbf01207",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_TERMINAL_RECEIPT_V1.json",
+      "sha256": "54120bc40f106ae91d2eab03334fb5ae0b838f2f0aca85ebd3ef5b43e2c02a60",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP607_WP606_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "9f125bfba4863702211d60dba07d4e5ab7d34dee45eeff89f8ed6c83ab31f760",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS.json",
+      "sha256": "810674cf3e349c38405ee59cca010b10a4f749d904afd8222809a2a5c827286f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-607-WSE-CLAIMS-CONTRACT.json",
+      "sha256": "def8c887061515cef53c16d763b7b657e29638e62d5e28369552c7b1945b7783",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-607-WSE-CLAIMS-INTEGRATION.json",
+      "sha256": "c8ac592dd4ac5ee4786e7f024da8a1c704d556297f77e458693c013c1a179d91",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-607-WSE-CLAIMS-MODEL.json",
+      "sha256": "c6bb9636fe1d640624cfc80831b64089b562d93728eb35cf949c5f1736ba1dcf",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-607-WSE-CLAIMS-MUTANTS.json",
+      "sha256": "eeeac3276c830e2db1d0e5029699901d6629e5234cfd29275587bf7ea158e222",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "4c462c4d22b4d5ba2afb1efdb3c0ee409db8d82be08de7322f6428e2600273d1",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "32aa9daa7470847d644ce9f682d19669a29a9aa59a91d370b3c764e99f45af65",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "src/core/wse-claims-v1.mjs",
+      "sha256": "e830fed3297b51faa1f48e19e7025aad4d585b60bbb5bd7a0b0e451683984b2a",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "201a24ab9a96816625c49bbf58391f323bf4c1b3799c08926583a94a421a71c7",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "src/renderer/atlasWseClaimsPresentationModel.mjs",
+      "sha256": "06f15bd0fed69616735385cfb7724fa411adcc115774d988834d9ae17ce2b8ee",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "src/renderer/editor.bundle.js",
+      "sha256": "1ed95cee5ac4554a90765d8be87a3378ce944e5dc3e6229076ca2f705e23214b",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "src/renderer/editor.js",
+      "sha256": "28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs",
+      "sha256": "ac7de10f0138a670f5e5ff5c8be43fb2568ad523787453d1a050793635479534",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp606-terminal-carriers.contract.test.mjs",
+      "sha256": "9d0076ffddecdd0b1dcf66b25116e527f4c2b06f7fb76994f756849daae06497",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs",
+      "sha256": "08d2ed161329966a5b2a4076a34fa0beae7844a21814d2f03520ce6a4d7b908f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp607-terminal-carriers.contract.test.mjs",
+      "sha256": "24d74164c2cc736fb6d1374515f527c3617e3a2994557e521bf31afe2885af68",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs",
+      "sha256": "00e82bd28d72e638cb55f317ee6a056596320e0a310ab6ec97db6acbf107e0a9",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/r24-wp710-terminal-carriers.contract.test.mjs",
+      "sha256": "e37717c5c8e0e5c0f029d4fa2b469d5c04ab09dfec3992048d5b20d2bf09e3cd",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "c20365123caa3e8a02ed370504140aadc02d6888b1772fa2215ce5ce0adbdd38",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp607-wse-claims-fixtures.js",
+      "sha256": "6b1c0e73fe06935b42e9a291050b416d219f448da4a2186318cb809db2b8ce6c",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "947632957d79de2b8080e3e30c1be748aaf94bc2b41ca66b0a694f35b05bd799",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/unit/r24-wp607-wse-claims-integration.test.js",
+      "sha256": "fb11e5d8f69ac94db1e4806ad751b678482e954bf0e52fc588350ff93ec8ebac",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/unit/r24-wp607-wse-claims-mutants.test.js",
+      "sha256": "694708638dde0f800b5c3a5d62764c069b04b5b2eb0482c6e7aed6cbc29f8105",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/unit/r24-wp607-wse-claims-ui-e2e-smoke.mjs",
+      "sha256": "5b7e9f1ced414c9867c85f4346527af55c400cf2572e688950d72e0bf5364296",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    },
+    {
+      "filePath": "test/unit/r24-wp607-wse-claims.test.js",
+      "sha256": "f98a4adec0ffe5667d239b411dd6998976deb5dddcfddfa8fcd9f07d4136031f",
+      "approvedBy": "owner-direct:OWNER_AUTHORIZED_YALKEN_R24_WP607_WSE_CLAIMS_V1",
+      "approvedAtUtc": "2026-09-04T00:00:00.000Z",
+      "rationale": "Owner-authorized WP607 delivery binds status-first WSE module claims to immutable current projections and preserves historical carriers at their terminal Git objects."
+    }
+  ]
+}

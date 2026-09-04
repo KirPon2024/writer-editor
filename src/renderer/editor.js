@@ -136,6 +136,7 @@ import { normalizeWseStateEvidencePresentation, wseRowEvidence } from './atlasWs
 import { normalizeWseThreadsExplanationPresentation, wseThreadsRowEvidence } from './atlasWseThreadsExplanationPresentationModel.mjs';
 import { normalizeWseRevisionTimeObjectPresentation, wseRevisionTimeObjectRowEvidence } from './atlasWseRevisionTimeObjectPresentationModel.mjs';
 import { normalizeWseSeriesMultiLayerPresentation } from './atlasWseSeriesMultiLayerPresentationModel.mjs';
+import { normalizeWseClaimsPresentation } from './atlasWseClaimsPresentationModel.mjs';
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import {
   assertAtlasDossierPresentationParity,
@@ -945,6 +946,7 @@ let atlasContinuityWseView = 'storyStateDebugger';
 let atlasContinuityThreadView = 'setupPayoffBoard';
 let atlasContinuityRevisionView = 'semanticDiff';
 let atlasContinuitySeriesView = 'seriesCanon';
+let atlasContinuityClaimsView = 'userJobs';
 let atlasContinuityRequestEpoch = 0;
 let atlasContinuityLedgerState = {
   state: 'empty',
@@ -16714,6 +16716,9 @@ function normalizeAtlasContinuityLedgerSurface(result = {}) {
     wseSeriesMultiLayer: source.wseSeriesMultiLayer && typeof source.wseSeriesMultiLayer === 'object' && !Array.isArray(source.wseSeriesMultiLayer)
       ? source.wseSeriesMultiLayer
       : {},
+    wseClaims: source.wseClaims && typeof source.wseClaims === 'object' && !Array.isArray(source.wseClaims)
+      ? source.wseClaims
+      : {},
   };
 }
 
@@ -16785,6 +16790,12 @@ function handleAtlasContinuityLedgerClick(event) {
   const seriesView = event.target instanceof Element ? event.target.closest('[data-atlas-wse-series-view]') : null;
   if (seriesView instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(seriesView)) {
     atlasContinuitySeriesView = seriesView.dataset.atlasWseSeriesView || 'seriesCanon';
+    renderAtlasContinuityLedgerState();
+    return;
+  }
+  const claimsView = event.target instanceof Element ? event.target.closest('[data-atlas-wse-claims-view]') : null;
+  if (claimsView instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(claimsView)) {
+    atlasContinuityClaimsView = claimsView.dataset.atlasWseClaimsView || 'userJobs';
     renderAtlasContinuityLedgerState();
     return;
   }
@@ -17203,15 +17214,73 @@ function appendAtlasWseSeriesMultiLayer(parent, source) {
   parent.appendChild(section);
 }
 
+function appendAtlasWseClaims(parent, source) {
+  const presentation = normalizeWseClaimsPresentation(source, atlasContinuityClaimsView);
+  const heading = document.createElement('div');
+  heading.className = 'right-rail-section__label right-rail-atlas-wse-thread-heading';
+  heading.textContent = 'Module claims';
+  parent.appendChild(heading);
+
+  const tabList = document.createElement('div');
+  tabList.className = 'right-rail-atlas-wse-tabs';
+  tabList.setAttribute('role', 'tablist');
+  tabList.setAttribute('aria-label', 'WSE module claim views');
+  for (const tab of presentation.tabs) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'right-rail-atlas-wse-tab';
+    button.dataset.atlasWseClaimsView = tab.id;
+    button.id = 'atlas-wse-claims-tab-' + tab.id;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', tab.selected ? 'true' : 'false');
+    button.setAttribute('aria-controls', 'atlas-wse-claims-panel-' + tab.id);
+    button.tabIndex = tab.selected ? 0 : -1;
+    button.textContent = tab.label;
+    tabList.appendChild(button);
+  }
+  parent.appendChild(tabList);
+
+  const section = document.createElement('section');
+  section.className = 'right-rail-atlas-wse-view';
+  section.id = 'atlas-wse-claims-panel-' + presentation.viewId;
+  section.setAttribute('role', 'tabpanel');
+  section.setAttribute('aria-labelledby', 'atlas-wse-claims-tab-' + presentation.viewId);
+  const status = document.createElement('div');
+  status.className = 'right-rail-atlas-wse-status';
+  status.textContent = presentation.view.passCount + ' PASS · ' + presentation.view.abstainCount
+    + ' ABSTAIN · ' + presentation.view.failCount + ' FAIL';
+  section.appendChild(status);
+  for (const row of presentation.view.rows) {
+    const item = document.createElement('article');
+    item.className = 'right-rail-atlas-wse-row right-rail-atlas-wse-series-row';
+    item.dataset.wseClaimsStatus = row.status || 'ABSTAIN';
+    const title = document.createElement('strong');
+    title.textContent = (row.status || 'ABSTAIN') + ' · ' + (row.moduleLabel || row.moduleId || 'WSE module');
+    const detail = document.createElement('p');
+    detail.textContent = (row.reason || 'CLAIM_UNKNOWN') + (row.detail ? ' · ' + row.detail : '');
+    item.append(title, detail);
+    section.appendChild(item);
+  }
+  if (presentation.view.omittedCount > 0) {
+    const omitted = document.createElement('div');
+    omitted.className = 'right-rail-atlas-state';
+    omitted.textContent = presentation.view.omittedCount + ' claim rows omitted by the bounded view.';
+    section.appendChild(omitted);
+  }
+  parent.appendChild(section);
+}
+
 function handleAtlasContinuityLedgerKeydown(event) {
   const current = event.target instanceof Element
-    ? event.target.closest('[data-atlas-wse-view], [data-atlas-wse-thread-view], [data-atlas-wse-revision-view], [data-atlas-wse-series-view]')
+    ? event.target.closest('[data-atlas-wse-view], [data-atlas-wse-thread-view], [data-atlas-wse-revision-view], [data-atlas-wse-series-view], [data-atlas-wse-claims-view]')
     : null;
   if (!(current instanceof HTMLElement) || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
   const isThreadView = current.hasAttribute('data-atlas-wse-thread-view');
   const isRevisionView = current.hasAttribute('data-atlas-wse-revision-view');
   const isSeriesView = current.hasAttribute('data-atlas-wse-series-view');
-  const selector = isSeriesView ? '[data-atlas-wse-series-view]'
+  const isClaimsView = current.hasAttribute('data-atlas-wse-claims-view');
+  const selector = isClaimsView ? '[data-atlas-wse-claims-view]'
+    : isSeriesView ? '[data-atlas-wse-series-view]'
     : isRevisionView ? '[data-atlas-wse-revision-view]'
     : isThreadView ? '[data-atlas-wse-thread-view]' : '[data-atlas-wse-view]';
   const tabs = [...atlasContinuityLedgerHost.querySelectorAll(selector)];
@@ -17220,14 +17289,17 @@ function handleAtlasContinuityLedgerKeydown(event) {
   event.preventDefault();
   const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
     : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-  if (isSeriesView) atlasContinuitySeriesView = tabs[nextIndex].dataset.atlasWseSeriesView || 'seriesCanon';
+  if (isClaimsView) atlasContinuityClaimsView = tabs[nextIndex].dataset.atlasWseClaimsView || 'userJobs';
+  else if (isSeriesView) atlasContinuitySeriesView = tabs[nextIndex].dataset.atlasWseSeriesView || 'seriesCanon';
   else if (isRevisionView) atlasContinuityRevisionView = tabs[nextIndex].dataset.atlasWseRevisionView || 'semanticDiff';
   else if (isThreadView) atlasContinuityThreadView = tabs[nextIndex].dataset.atlasWseThreadView || 'setupPayoffBoard';
   else atlasContinuityWseView = tabs[nextIndex].dataset.atlasWseView || 'storyStateDebugger';
   renderAtlasContinuityLedgerState();
-  const nextView = isSeriesView ? atlasContinuitySeriesView
+  const nextView = isClaimsView ? atlasContinuityClaimsView
+    : isSeriesView ? atlasContinuitySeriesView
     : isRevisionView ? atlasContinuityRevisionView : isThreadView ? atlasContinuityThreadView : atlasContinuityWseView;
-  const focusSelector = isSeriesView ? '[data-atlas-wse-series-view="' + nextView + '"]'
+  const focusSelector = isClaimsView ? '[data-atlas-wse-claims-view="' + nextView + '"]'
+    : isSeriesView ? '[data-atlas-wse-series-view="' + nextView + '"]'
     : isRevisionView ? '[data-atlas-wse-revision-view="' + nextView + '"]'
     : isThreadView ? '[data-atlas-wse-thread-view="' + nextView + '"]'
       : '[data-atlas-wse-view="' + nextView + '"]';
@@ -17280,6 +17352,7 @@ function renderAtlasContinuityLedgerState() {
   appendAtlasWseThreadsExplanation(atlasContinuityLedgerHost, state.wseThreadsExplanation);
   appendAtlasWseRevisionTimeObject(atlasContinuityLedgerHost, state.wseRevisionTimeObject);
   appendAtlasWseSeriesMultiLayer(atlasContinuityLedgerHost, state.wseSeriesMultiLayer);
+  appendAtlasWseClaims(atlasContinuityLedgerHost, state.wseClaims);
   appendAtlasContinuityAuthorControls(atlasContinuityLedgerHost);
 
   if (state.state === 'unavailable') {

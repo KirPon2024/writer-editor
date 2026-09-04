@@ -1,0 +1,176 @@
+{
+  "schemaVersion": "YALKEN_R24_WP607_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-607_WSE_CLAIMS",
+  "evidenceStampId": "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP607_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-04T17:35:00.000Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-607-WSE-CLAIMS-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "59bebbddb498eb9fd93863a4f837074ebffa5a52",
+    "treeSha": "4cf71e146824db6464380e287b9dd49ba556addd"
+  },
+  "bindings": {
+    "authorityDigest": "25457f05218d13ef9a98de934c5acff0c477291a0a0441049e4a0e49ec699ee7",
+    "stageInstanceDigest": "37ce64f8cb9bafc2bf74c1fd8848360eba8b3d6c2956961c95a711def9c4f958",
+    "stageAdmissionDigest": "172912b1b191b5e435b0a9027bf8b4e6241f9136475cca7e80a9ad776229c3f5",
+    "writeSetDigest": "f1053d27bf647dc31d8289e6366b95d6a47f74d5de62e73bf939c761a02838e1",
+    "commandScopeDigest": "8e53a0c15869ec9d5c83d8b95ef602a793853496d78e86b4c2c62a36f3cfe6a0",
+    "acceptanceSignalsDigest": "e93d5a840358cc991016447dc7bbcbcd088635cdd012fb2a43a59284c7719a20",
+    "selectionReceiptDigest": "bb4fa003b6592761e31522503cb4840e24c2a5c096ab9172d251e5f965098fb3",
+    "wp606TerminalPredecessorDigest": "9f125bfba4863702211d60dba07d4e5ab7d34dee45eeff89f8ed6c83ab31f760",
+    "effectiveGraphBaselineDigest": "70102ca0e818740ec28d276f7c6db1c5809a450898a6fd960ee846b972ce1dbe",
+    "protectedWipBeforeRawDigest": "dffc5f867969741f41e9fc33a4327c381aeca718e9e4cbbaaaf30ddb1e782cd0",
+    "fixtureManifestDigest": "043e5d480f612a233a9167473aa8adcd5ddc62a2b243175c922a85a3ff63743c",
+    "featureIntegrationManifestDigest": "0033ad53db0cc0a8c2de832daefa006c00900d30819ae3074015bdcd4a77ce48",
+    "acceptanceMatrixDigest": "0da34ed976b5ee23773b71b3313dc4bf6c9dc72ba423fd587e0efced3700ba10",
+    "carrierRegistryDigest": "dcaa8acaf0175f36781dbf61d52ad7298916903f062e02bf6fafbaa71d625e67",
+    "effectiveStateDigest": "6daa92280dd292efb4cc9e37ca13ba3f90a9a978b946be61d933cd87b7ab15a8",
+    "stageRegistryDigest": "95f2e381daa160e69522202c09198642537de8080811b2074c42d625bbf01207",
+    "leaseReleaseDigest": "921733bb17d605037c9d7c65341fd494c060122ffc36e8f03353bb3e63c189ea"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/wse-claims-v1.mjs",
+      "sha256": "e830fed3297b51faa1f48e19e7025aad4d585b60bbb5bd7a0b0e451683984b2a"
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "201a24ab9a96816625c49bbf58391f323bf4c1b3799c08926583a94a421a71c7"
+    },
+    {
+      "path": "src/renderer/atlasWseClaimsPresentationModel.mjs",
+      "sha256": "06f15bd0fed69616735385cfb7724fa411adcc115774d988834d9ae17ce2b8ee"
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850"
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "1ed95cee5ac4554a90765d8be87a3378ce944e5dc3e6229076ca2f705e23214b"
+    },
+    {
+      "path": "test/fixtures/r24-wp607-wse-claims-fixtures.js",
+      "sha256": "6b1c0e73fe06935b42e9a291050b416d219f448da4a2186318cb809db2b8ce6c"
+    },
+    {
+      "path": "test/unit/r24-wp607-wse-claims.test.js",
+      "sha256": "f98a4adec0ffe5667d239b411dd6998976deb5dddcfddfa8fcd9f07d4136031f"
+    },
+    {
+      "path": "test/unit/r24-wp607-wse-claims-integration.test.js",
+      "sha256": "fb11e5d8f69ac94db1e4806ad751b678482e954bf0e52fc588350ff93ec8ebac"
+    },
+    {
+      "path": "test/unit/r24-wp607-wse-claims-mutants.test.js",
+      "sha256": "694708638dde0f800b5c3a5d62764c069b04b5b2eb0482c6e7aed6cbc29f8105"
+    },
+    {
+      "path": "test/unit/r24-wp607-wse-claims-ui-e2e-smoke.mjs",
+      "sha256": "5b7e9f1ced414c9867c85f4346527af55c400cf2572e688950d72e0bf5364296"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp607": {
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "registeredNegativeCases": 18,
+      "rejectedNegativeCases": 18,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP607_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "7a1d8fc29ad3ec0e22c5212848561b1235e882ce83963dd5e75b4e5019460ae7",
+        "byteLength": 1864,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 9,
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test --test-reporter=tap test/unit/r24-wp607-wse-claims.test.js test/unit/r24-wp607-wse-claims-integration.test.js test/unit/r24-wp607-wse-claims-mutants.test.js test/unit/r24-wp607-wse-claims-ui-e2e-smoke.mjs",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwNyBleGlzdGluZyBDb250aW51aXR5IHF1ZXJ5IHB1Ymxpc2hlcyBjdXJyZW50IGNsYWltcyBmb3IgYWxsIGZvdXIgV1NFIG1vZHVsZXMKb2sgMSAtIFdQNjA3IGV4aXN0aW5nIENvbnRpbnVpdHkgcXVlcnkgcHVibGlzaGVzIGN1cnJlbnQgY2xhaW1zIGZvciBhbGwgZm91ciBXU0UgbW9kdWxlcwogIC0tLQogIGR1cmF0aW9uX21zOiA1My4xMjkyNQogIC4uLgojIFN1YnRlc3Q6IFdQNjA3IHByZXNlbnRhdGlvbiByZWplY3RzIGFuIHVua25vd24gdGFiIGFuZCBkZXJpdmVzIHZpc2libGUgZGVub21pbmF0b3IgZnJvbSBhY3R1YWwgcm93cwpvayAyIC0gV1A2MDcgcHJlc2VudGF0aW9uIHJlamVjdHMgYW4gdW5rbm93biB0YWIgYW5kIGRlcml2ZXMgdmlzaWJsZSBkZW5vbWluYXRvciBmcm9tIGFjdHVhbCByb3dzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDAuMTc4MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNyByZWplY3RzIHN0YWxlLCBjcm9zcy1wcm9qZWN0LCBwcml2YXRlIGFuZCBhdXRob3JpdHktYmVhcmluZyBpbnB1dHMKb2sgMyAtIFdQNjA3IHJlamVjdHMgc3RhbGUsIGNyb3NzLXByb2plY3QsIHByaXZhdGUgYW5kIGF1dGhvcml0eS1iZWFyaW5nIGlucHV0cwogIC0tLQogIGR1cmF0aW9uX21zOiA2LjkzNTU4NAogIC4uLgojIFN1YnRlc3Q6IFdQNjA3IGVuZm9yY2VzIGlucHV0LCBzb3VyY2UtdmlldywgdG90YWwtdmlzaWJsZSBhbmQgb3V0cHV0IGJ1ZGdldHMKb2sgNCAtIFdQNjA3IGVuZm9yY2VzIGlucHV0LCBzb3VyY2UtdmlldywgdG90YWwtdmlzaWJsZSBhbmQgb3V0cHV0IGJ1ZGdldHMKICAtLS0KICBkdXJhdGlvbl9tczogMC40MjM4MzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNyBkZXRlY3RzIHByb2plY3Rpb24gdGFtcGVyIGFuZCBzdGFsZSBjb25zdW1wdGlvbgpvayA1IC0gV1A2MDcgZGV0ZWN0cyBwcm9qZWN0aW9uIHRhbXBlciBhbmQgc3RhbGUgY29uc3VtcHRpb24KICAtLS0KICBkdXJhdGlvbl9tczogOC4wMTcwNDEKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNyBDb250aW51aXR5IFVJIGV4cG9zZXMgZm91ciBzdGF0dXMtZmlyc3Qga2V5Ym9hcmQgdGFicyB3aXRob3V0IG11dGF0aW9uIHJvdXRlcwpvayA2IC0gV1A2MDcgQ29udGludWl0eSBVSSBleHBvc2VzIGZvdXIgc3RhdHVzLWZpcnN0IGtleWJvYXJkIHRhYnMgd2l0aG91dCBtdXRhdGlvbiByb3V0ZXMKICAtLS0KICBkdXJhdGlvbl9tczogNC45NjIKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNyBlbWl0cyBmb3VyIGRldGVybWluaXN0aWMgc3RhdHVzLWZpcnN0IGNsYWltIHZpZXdzCm9rIDcgLSBXUDYwNyBlbWl0cyBmb3VyIGRldGVybWluaXN0aWMgc3RhdHVzLWZpcnN0IGNsYWltIHZpZXdzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE2LjA1NDA4MwogIC4uLgojIFN1YnRlc3Q6IFdQNjA3IGFic3RhaW5zIG9uIGVtcHR5IG9yIGRlZ3JhZGVkIGNvcnB1cyB3aXRob3V0IGZhbHNlIFBBU1MKb2sgOCAtIFdQNjA3IGFic3RhaW5zIG9uIGVtcHR5IG9yIGRlZ3JhZGVkIGNvcnB1cyB3aXRob3V0IGZhbHNlIFBBU1MKICAtLS0KICBkdXJhdGlvbl9tczogMS41ODM4MzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNyBzb3J0cyBtb2R1bGVzIGNhbm9uaWNhbGx5IGFuZCBib3VuZHMgZWFjaCB2aXNpYmxlIHZpZXcKb2sgOSAtIFdQNjA3IHNvcnRzIG1vZHVsZXMgY2Fub25pY2FsbHkgYW5kIGJvdW5kcyBlYWNoIHZpc2libGUgdmlldwogIC0tLQogIGR1cmF0aW9uX21zOiAxLjI3NzQxNwogIC4uLgoxLi45CiMgdGVzdHMgOQojIHN1aXRlcyAwCiMgcGFzcyA5CiMgZmFpbCAwCiMgY2FuY2VsbGVkIDAKIyBza2lwcGVkIDAKIyB0b2RvIDAKIyBkdXJhdGlvbl9tcyAxMTcuNDI1NjY3Cg=="
+      }
+    },
+    "exactDesktopFixtureScenarios": {
+      "create": 1,
+      "write": 1,
+      "save": 1,
+      "close": 1,
+      "reopen": 1,
+      "recovery": 1,
+      "export": 1,
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 78,
+    "blockedTypedCount": 3,
+    "pendingCount": 18,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_BASE_TREE_CONTENT_CLAIM_FOR_NEW_ADMITTED_WORKTREE_BYTES",
+    "NO_SOURCE_CONTENT_SECRET_OR_REAL_OWNER_DOCUMENTS",
+    "NO_PRODUCT_CORE_COMMAND_PATH_PROVIDER_NETWORK_OR_CLOUD_AUTHORITY",
+    "NO_WP607_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "YALKEN_R24_WP802_PULSE_FORMULAS_CONTRACT_V1",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "evidenceStampId": "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "formulaVersion": "PULSE_FORMULAS_V1",
+  "formulaSetDigest": "e1537c6dd1cf8bbf6dfc9e1f01153607a9c17169c42b97811983000cef4c67b4",
+  "input": {
+    "schema": "yalken.r24.pulseLedgerSnapshot.v1",
+    "strictWp801EntryAndReceiptValidation": true,
+    "maximumEntries": 4096,
+    "immutableReadOnly": true
+  },
+  "formulas": [
+    {
+      "formulaId": "ACTIVE_WRITING_SECONDS",
+      "operation": "SUM"
+    },
+    {
+      "formulaId": "SCENES_EDITED_COUNT",
+      "operation": "SUM"
+    },
+    {
+      "formulaId": "SESSIONS_COMPLETED_COUNT",
+      "operation": "SUM"
+    },
+    {
+      "formulaId": "WORDS_ADDED_COUNT",
+      "operation": "SUM"
+    },
+    {
+      "formulaId": "WORDS_DELETED_COUNT",
+      "operation": "SUM"
+    },
+    {
+      "formulaId": "NET_WORDS_COUNT",
+      "operation": "WORDS_ADDED_COUNT_MINUS_WORDS_DELETED_COUNT"
+    },
+    {
+      "formulaId": "WORDS_ADDED_PER_ACTIVE_HOUR_MILLI",
+      "operation": "FLOOR_WORDS_ADDED_TIMES_3600000_DIVIDED_BY_ACTIVE_SECONDS_ZERO_WHEN_NO_ACTIVE_SECONDS"
+    }
+  ],
+  "arithmetic": {
+    "safeIntegersOnly": true,
+    "overflowRejected": true,
+    "negativeNetWordsAllowed": true
+  },
+  "merkle": {
+    "hash": "SHA256_CANONICAL_JSON",
+    "leafDomain": "YALKEN_R24_WP802_PULSE_MERKLE_LEAF_V1",
+    "parentDomain": "YALKEN_R24_WP802_PULSE_MERKLE_PARENT_V1",
+    "emptyDomain": "YALKEN_R24_WP802_PULSE_MERKLE_EMPTY_V1",
+    "emptyRoot": "e7f78e1f432b2dd963aa512edaf6c330f387242ac570dffa7400d5e84dedd643",
+    "oddLeafRule": "DUPLICATE_LAST_DIGEST_AT_EACH_ODD_LEVEL",
+    "orderedPrefixBound": true
+  },
+  "checkpoint": {
+    "schema": "yalken.r24.pulseFormulaCheckpoint.v1",
+    "binds": [
+      "formulaVersion",
+      "formulaSetDigest",
+      "throughSequence",
+      "ledgerHeadDigest",
+      "merkleRoot",
+      "values",
+      "checkpointDigest"
+    ],
+    "revalidatesExactPrefix": true,
+    "staleOrTamperedRejected": true
+  },
+  "projection": {
+    "schema": "yalken.r24.pulseFormulaProjection.v1",
+    "immutableDeepFrozen": true,
+    "fullAndCheckpointAssistedEquivalent": true,
+    "rebuildableDerivedState": true
+  },
+  "authority": {
+    "productCore": true,
+    "projectStateMutation": false,
+    "persistence": false,
+    "commandKernel": false,
+    "renderer": false,
+    "ipc": false,
+    "network": false,
+    "cloud": false
+  },
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

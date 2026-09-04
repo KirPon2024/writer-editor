@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "YALKEN_R24_WP802_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "evidenceStampId": "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP802_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-04T21:32:10Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5",
+    "treeSha": "4e20bc39abe02228b8d1e2833c37cb694eb12a51"
+  },
+  "bindings": {
+    "authorityDigest": "b7a0d5ca54ad7deedc47db4ef2eebce72d10d5e02ed678c475710f279b611f47",
+    "stageInstanceDigest": "0b28cb20451b725f4e840319edaf94665e7415ae1a4c0e9fe1bff99a6468a44e",
+    "stageAdmissionDigest": "8948922792a58f2714b76cdff7c52f56ee8a8205719cc5b3af0f207a91eb9913",
+    "writeSetDigest": "d8c6cebbab593448f6a69c351a737075b52280cf8ccf3434f8ffdd02201921e9",
+    "commandScopeDigest": "02d0675c2570a324792bf771fd1ca2abcc204d5aeddb704c25d3da9172f5599e",
+    "acceptanceSignalsDigest": "e0b06276fb6ac5043a6aacf2aba5c55e016a260deb400eae63b4db0dfe4cfd0e",
+    "selectionReceiptDigest": "3ce5ddd148ac75eda4a23c9c4d0701a62965af6ae7f27617af5722eaafd6d6e2",
+    "wp801TerminalPredecessorDigest": "4bef7748e6f7a2a186a6442d612f69c2d12c365d053b62c223fab562ed4a7ed8",
+    "pulseFormulasContractDigest": "1c7b59b9956f3353c4636d16bb3f29565e403dfe11849b7efb026d637806cf01",
+    "effectiveGraphBaselineDigest": "e0673bf7e0f83838ca14d450d30a4a4797f529991def43e698f3530910d96cd2",
+    "protectedWipBeforeRawDigest": "3481b8b295cde5b8c717d7ba22788acc7f78cd1a00fa9bc65b7dff249190af5f",
+    "fixtureManifestDigest": "20fa137de3b2a0ffde732c382fb4ec2e0d6872673707402481934ef276c6d6e3",
+    "featureIntegrationManifestDigest": "36d5e23e21c469f61e37526d1b4b35d6f2a73466901f44a75dd6de1d8fdacaa0",
+    "acceptanceMatrixDigest": "bc8241750b7e8135fdab177e398bc12ca8c0b759c6e03dc21c98de5ff256396a",
+    "carrierRegistryDigest": "008fe3e6f8a6ff0decfe3277bd4aa25d737366e401c75893ac2cf78a3bcf4123",
+    "effectiveStateDigest": "74d82bdbfd2f60e017587a2cc7509ae7d7c5ed15c07455fb90eb71ec510175b1",
+    "stageRegistryDigest": "23a063233cd1483c53b762d3678ce12575cc795cd5be54056420af9298431cde",
+    "leaseReleaseDigest": "3adc7e4cfe9fa6a22d8e209f3fdda8b68c6cb3458859693698043608c1457e21"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/pulse-formulas-v1.mjs",
+      "sha256": "39296c0d1541c9faa73913e00fc06e68f572e0091b225ac77898ede2f5490014"
+    },
+    {
+      "path": "test/fixtures/r24-wp802-pulse-formulas-fixtures.js",
+      "sha256": "4a8ea0e8256bad5924a0387f7574eaad3bd90f7559f8d4bf5bca9489251765fa"
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas.test.js",
+      "sha256": "bc29a405dbaae3d1e19119883bde9cc85071b0ce55b4c7c0a39628464ed6468e"
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas-integration.test.js",
+      "sha256": "293119a6b0d49343d169e5d3f78c06eace88c8d73b761ff5807091f89baa4dcb"
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas-mutants.test.js",
+      "sha256": "781178cedef43f2495c718ce883f6442266ed6797372bd8a89cc0549a5bd35dc"
+    }
+  ],
+  "localEvidence": {
+    "focusedWp802": {
+      "tests": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP802_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "4dcbdd70b69b54a5f77a9b4b5ca5d1b5864b1e78e892ed0060013503255be87c",
+        "byteLength": 3632,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 22,
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test --test-reporter=tap test/unit/r24-wp802-pulse-formulas.test.js test/unit/r24-wp802-pulse-formulas-integration.test.js test/unit/r24-wp802-pulse-formulas-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDgwMiByZXVzZXMgYSBjZXJ0aWZpZWQgcHJlZml4IGNoZWNrcG9pbnQgYWZ0ZXIgdGhlIFdQODAxIGxlZGdlciBhZHZhbmNlcwpvayAxIC0gV1A4MDIgcmV1c2VzIGEgY2VydGlmaWVkIHByZWZpeCBjaGVja3BvaW50IGFmdGVyIHRoZSBXUDgwMSBsZWRnZXIgYWR2YW5jZXMKICAtLS0KICBkdXJhdGlvbl9tczogMzkzLjcxMzA0MgogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGNoZWNrcG9pbnQgY2Fubm90IGJlIHJlcGxheWVkIGFnYWluc3QgYSBkaWZmZXJlbnQgaW1tdXRhYmxlIGxlZGdlciBwcmVmaXgKb2sgMiAtIFdQODAyIGNoZWNrcG9pbnQgY2Fubm90IGJlIHJlcGxheWVkIGFnYWluc3QgYSBkaWZmZXJlbnQgaW1tdXRhYmxlIGxlZGdlciBwcmVmaXgKICAtLS0KICBkdXJhdGlvbl9tczogNTIzLjgwNDk1OQogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGtpbGxzIHNuYXBzaG90IHNlcXVlbmNlIG11dGFudApvayAzIC0gV1A4MDIga2lsbHMgc25hcHNob3Qgc2VxdWVuY2UgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDM3NS4wOTI5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBraWxscyBzbmFwc2hvdCBoZWFkIG11dGFudApvayA0IC0gV1A4MDIga2lsbHMgc25hcHNob3QgaGVhZCBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogMzQ3LjY4MTI5MgogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGtpbGxzIGVudHJ5IHNlcXVlbmNlIG11dGFudApvayA1IC0gV1A4MDIga2lsbHMgZW50cnkgc2VxdWVuY2UgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDMzMS44MjA5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBraWxscyBlbnRyeSBjaGFpbiBtdXRhbnQKb2sgNiAtIFdQODAyIGtpbGxzIGVudHJ5IGNoYWluIG11dGFudAogIC0tLQogIGR1cmF0aW9uX21zOiAyOTAuMDE5MjkyCiAgLi4uCiMgU3VidGVzdDogV1A4MDIga2lsbHMgZW50cnkgZGlnZXN0IG11dGFudApvayA3IC0gV1A4MDIga2lsbHMgZW50cnkgZGlnZXN0IG11dGFudAogIC0tLQogIGR1cmF0aW9uX21zOiAxNzUuNDEzMTY3CiAgLi4uCiMgU3VidGVzdDogV1A4MDIga2lsbHMgcmVjZWlwdCBkaWdlc3QgbXV0YW50Cm9rIDggLSBXUDgwMiBraWxscyByZWNlaXB0IGRpZ2VzdCBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogMTc0LjE2MTkxNgogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGtpbGxzIHJlY2VpcHQgcGF5bG9hZCBtdXRhbnQKb2sgOSAtIFdQODAyIGtpbGxzIHJlY2VpcHQgcGF5bG9hZCBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogMTUwLjY2OTg3NQogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGtpbGxzIHVua25vd24gZmllbGQgbXV0YW50Cm9rIDEwIC0gV1A4MDIga2lsbHMgdW5rbm93biBmaWVsZCBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogMTQ5LjEwMDUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiByZWplY3RzIGFjY2Vzc29yIGFuZCBzeW1ib2wtYmVhcmluZyBpbnB1dHMgYmVmb3JlIGludGVycHJldGF0aW9uCm9rIDExIC0gV1A4MDIgcmVqZWN0cyBhY2Nlc3NvciBhbmQgc3ltYm9sLWJlYXJpbmcgaW5wdXRzIGJlZm9yZSBpbnRlcnByZXRhdGlvbgogIC0tLQogIGR1cmF0aW9uX21zOiAxODEuNDUxNTg0CiAgLi4uCiMgU3VidGVzdDogV1A4MDIga2lsbHMgZm9ybXVsYSB2ZXJzaW9uIGNoZWNrcG9pbnQgbXV0YW50Cm9rIDEyIC0gV1A4MDIga2lsbHMgZm9ybXVsYSB2ZXJzaW9uIGNoZWNrcG9pbnQgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE3My4yMDA2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBraWxscyBjaGVja3BvaW50IGRpZ2VzdCBjaGVja3BvaW50IG11dGFudApvayAxMyAtIFdQODAyIGtpbGxzIGNoZWNrcG9pbnQgZGlnZXN0IGNoZWNrcG9pbnQgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE3NS42NzI4MzMKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBraWxscyBNZXJrbGUgcm9vdCBjaGVja3BvaW50IG11dGFudApvayAxNCAtIFdQODAyIGtpbGxzIE1lcmtsZSByb290IGNoZWNrcG9pbnQgbXV0YW50CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE4My41MDY2MjUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBraWxscyBmb3JtdWxhIHZhbHVlIGNoZWNrcG9pbnQgbXV0YW50Cm9rIDE1IC0gV1A4MDIga2lsbHMgZm9ybXVsYSB2YWx1ZSBjaGVja3BvaW50IG11dGFudAogIC0tLQogIGR1cmF0aW9uX21zOiAxNzcuNTM1MzM0CiAgLi4uCiMgU3VidGVzdDogV1A4MDIga2lsbHMgdGhyb3VnaCBzZXF1ZW5jZSBjaGVja3BvaW50IG11dGFudApvayAxNiAtIFdQODAyIGtpbGxzIHRocm91Z2ggc2VxdWVuY2UgY2hlY2twb2ludCBtdXRhbnQKICAtLS0KICBkdXJhdGlvbl9tczogMTgwLjAzMTQxNwogIC4uLgojIFN1YnRlc3Q6IFdQODAyIHJlamVjdHMgYSBmb3JtdWxhIHJlc3VsdCBvdXRzaWRlIHRoZSBzYWZlIGludGVnZXIgZG9tYWluCm9rIDE3IC0gV1A4MDIgcmVqZWN0cyBhIGZvcm11bGEgcmVzdWx0IG91dHNpZGUgdGhlIHNhZmUgaW50ZWdlciBkb21haW4KICAtLS0KICBkdXJhdGlvbl9tczogMTc4LjY1NzQ1OQogIC4uLgojIFN1YnRlc3Q6IFdQODAyIGRldGVybWluaXN0aWNhbGx5IHJlY29tcHV0ZXMgdGhlIGFkbWl0dGVkIHZlcnNpb25lZCBmb3JtdWxhIHNldApvayAxOCAtIFdQODAyIGRldGVybWluaXN0aWNhbGx5IHJlY29tcHV0ZXMgdGhlIGFkbWl0dGVkIHZlcnNpb25lZCBmb3JtdWxhIHNldAogIC0tLQogIGR1cmF0aW9uX21zOiAzOTkuMTk1NzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBjaGVja3BvaW50LWFzc2lzdGVkIHJlY29tcHV0YXRpb24gaXMgaWRlbnRpY2FsIHRvIGZ1bGwgcmVjb21wdXRhdGlvbgpvayAxOSAtIFdQODAyIGNoZWNrcG9pbnQtYXNzaXN0ZWQgcmVjb21wdXRhdGlvbiBpcyBpZGVudGljYWwgdG8gZnVsbCByZWNvbXB1dGF0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDM3OC4xMDc5MTYKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBiaW5kcyBlbXB0eSwgc2luZ2xlLWxlYWYgYW5kIG9kZC1sZWFmIE1lcmtsZSByb290cyBkZXRlcm1pbmlzdGljYWxseQpvayAyMCAtIFdQODAyIGJpbmRzIGVtcHR5LCBzaW5nbGUtbGVhZiBhbmQgb2RkLWxlYWYgTWVya2xlIHJvb3RzIGRldGVybWluaXN0aWNhbGx5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDMwMS4xMTIyMDgKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwMiBlbWl0cyBhIHN0YWJsZSB6ZXJvIHByb2plY3Rpb24gZm9yIGFuIGVtcHR5IGxlZGdlcgpvayAyMSAtIFdQODAyIGVtaXRzIGEgc3RhYmxlIHplcm8gcHJvamVjdGlvbiBmb3IgYW4gZW1wdHkgbGVkZ2VyCiAgLS0tCiAgZHVyYXRpb25fbXM6IDYuNTQ4NQogIC4uLgojIFN1YnRlc3Q6IFdQODAyIHJlamVjdHMgdW5rbm93biB2ZXJzaW9ucywgaW52YWxpZCBvcHRpb25zIGFuZCBvdXQtb2YtcmFuZ2UgcHJlZml4ZXMKb2sgMjIgLSBXUDgwMiByZWplY3RzIHVua25vd24gdmVyc2lvbnMsIGludmFsaWQgb3B0aW9ucyBhbmQgb3V0LW9mLXJhbmdlIHByZWZpeGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI4Ny4wNzQ0MTYKICAuLi4KMS4uMjIKIyB0ZXN0cyAyMgojIHN1aXRlcyAwCiMgcGFzcyAyMgojIGZhaWwgMAojIGNhbmNlbGxlZCAwCiMgc2tpcHBlZCAwCiMgdG9kbyAwCiMgZHVyYXRpb25fbXMgMzMzMC4yNzYyNQo="
+      }
+    },
+    "exactDesktopFixtureScenarios": {
+      "create": 1,
+      "write": 1,
+      "save": 1,
+      "close": 1,
+      "reopen": 1,
+      "recovery": 1,
+      "export": 1,
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 81,
+    "blockedTypedCount": 3,
+    "pendingCount": 15,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_PERSISTENCE_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP802_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP802_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "status": "GRAPH_DERIVED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-04T21:32:10Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5",
+  "baseTree": "4e20bc39abe02228b8d1e2833c37cb694eb12a51",
+  "readySet": [
+    "WP-802_PULSE_FORMULAS"
+  ],
+  "ownerGate": null,
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 80,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 16
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 92,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "3a786fb7539b1d396ffd84713db68aee53419470673fae70161da769354b4e23"
+  },
+  "mutationAdmissionGranted": false
+}

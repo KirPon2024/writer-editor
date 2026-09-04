@@ -1,0 +1,46 @@
+{
+  "schemaVersion": "WP802_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP801_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "772ccd30c8b3bbc4ac04f6fa8dbc6d80d2985be0f88491a530e34fda7db8a3ce",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5",
+    "treeSha": "4e20bc39abe02228b8d1e2833c37cb694eb12a51"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "b7a0d5ca54ad7deedc47db4ef2eebce72d10d5e02ed678c475710f279b611f47",
+    "stageInstanceDigest": "0b28cb20451b725f4e840319edaf94665e7415ae1a4c0e9fe1bff99a6468a44e",
+    "stageAdmissionDigest": "8948922792a58f2714b76cdff7c52f56ee8a8205719cc5b3af0f207a91eb9913",
+    "writeSetDigest": "d8c6cebbab593448f6a69c351a737075b52280cf8ccf3434f8ffdd02201921e9",
+    "commandScopeDigest": "02d0675c2570a324792bf771fd1ca2abcc204d5aeddb704c25d3da9172f5599e",
+    "acceptanceSignalsDigest": "e0b06276fb6ac5043a6aacf2aba5c55e016a260deb400eae63b4db0dfe4cfd0e"
+  },
+  "completeHistoricalRegistryChecksPreserved": true,
+  "programDone": false
+}

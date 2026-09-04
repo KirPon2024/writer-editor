@@ -10,17 +10,22 @@ import {
 
 const REPO_ROOT=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../../../..');
 const POST_AUDIT_ADMISSION='docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_POST_AUDIT_BINDING_STAGE_ADMISSION_ATTESTATION_V1.json';
+const CURRENT_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CI_APPROVAL_ROUTING_GOVERNANCE_CHANGE_APPROVALS_V1.json';
+const HISTORICAL_APPROVAL='docs/OPS/R24/CORRECTIVE/WP603_GOVERNANCE_CHANGE_APPROVALS_V1.json';
 const realGit=(args,options={})=>execFileSync('git',args,{cwd:REPO_ROOT,encoding:options.encoding??null,maxBuffer:64*1024*1024});
 
 test('WP603 recovery post-audit accepts the exact append-only admission union',()=>{
   const result=verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:realGit});
   assert.equal(result.status,'PASS');
-  assert.equal(result.admissionDenominator,8);
-  assert.equal(result.admittedPathDenominator,100);
-  assert.equal(result.changedPathDenominator,99);
+  assert.equal(result.admissionDenominator,9);
+  assert.equal(result.admittedPathDenominator,104);
+  assert.equal(result.changedPathDenominator,103);
   assert.deepEqual(result.unchangedAdmittedPaths,['package.json']);
   assert.equal(result.recovery.status,'PASS');
-  assert.equal(result.recovery.recoveryStageDenominator,7);
+  assert.equal(result.recovery.recoveryStageDenominator,8);
+  const workflow=String(realGit(['show','HEAD:.github/workflows/oss-policy.yml'],{encoding:'utf8'}));
+  assert.equal(workflow.split(CURRENT_APPROVAL).length-1,3);
+  assert.equal(workflow.includes(HISTORICAL_APPROVAL),false);
 });
 
 test('WP603 recovery post-audit rejects a tampered admission carrier',()=>{
@@ -49,6 +54,6 @@ test('WP603 recovery post-audit rejects an extra unadmitted changed path',()=>{
   };
   assert.throws(
     ()=>verifyWp603MainProductPostEvaluationException({candidateSha:'HEAD',git:extraPathGit}),
-    /E_WP603_EXACT_ADMITTED_DELTA:100:99/
+    /E_WP603_EXACT_ADMITTED_DELTA:104:103/
   );
 });

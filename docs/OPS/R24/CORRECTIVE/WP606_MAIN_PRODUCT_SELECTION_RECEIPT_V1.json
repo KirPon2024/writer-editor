@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "YALKEN_R24_WP606_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-606_WSE_SERIES_MULTI_LAYER",
+  "status": "OWNER_SELECTED_AFTER_GATE_RESOLUTION",
+  "selectedAtUtc": "2026-09-04T13:45:40.013Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "contourStatesDigest": "80bd51cac6223fe8c71f06213ab6ebfc0e87bed608b9ce8c605c190d530b3d1f",
+  "baseSha": "19c1ae3f39de73b87d468ff84dd65ecdbd478269",
+  "baseTree": "4c11af1a5a2265c7f4fb279edb5d2ae64f36532b",
+  "readySet": [
+    "WP-606_WSE_SERIES_MULTI_LAYER"
+  ],
+  "ownerGate": {
+    "gateId": "SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13",
+    "decisionArtifactSha256": "d4ce32d334fbb89a0014e1b61382a0e9d132ea64b8df679a66793c420fee68ac",
+    "decision": "APPROVED"
+  },
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 76,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 20
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 88,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "3c3c92b6b0b5b4a38815ac00e944325de94275250bd47131f98851ff596031e0"
+  },
+  "mutationAdmissionGranted": false
+}

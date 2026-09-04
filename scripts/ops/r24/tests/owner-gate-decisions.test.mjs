@@ -19,6 +19,7 @@ const ENTITLEMENT_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'EN
 const LOCAL_RELEASE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'LOCAL_RELEASE_PERMIT_WP307_WRITER_LOCAL_PROFILE_V1.json');
 const BRAND_LICENSE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'BRAND_LICENSE_OWNER_CHOICE_WP308_BRAND_BASELINE_V1.json');
 const WORD_PHYSICAL_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'WORD_PHYSICAL_SESSION_AUTHORITY_W0_WORD_PHYSICAL_RECERTIFICATION_V1.json');
+const SERIES_IDENTITY_PRIVACY_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13_WP606_WSE_SERIES_MULTI_LAYER_V1.json');
 const clone = (value) => structuredClone(value);
 
 function fixture() {
@@ -27,6 +28,7 @@ function fixture() {
   const localReleaseDecision = readJsonBounded(LOCAL_RELEASE_DECISION_PATH);
   const brandLicenseDecision = readJsonBounded(BRAND_LICENSE_DECISION_PATH);
   const wordPhysicalDecision = readJsonBounded(WORD_PHYSICAL_DECISION_PATH);
+  const seriesIdentityPrivacyDecision = readJsonBounded(SERIES_IDENTITY_PRIVACY_DECISION_PATH);
   return {
     program: readJsonBounded(PROGRAM_PATH),
     missionContract: readJsonBounded(MISSION_PATH),
@@ -43,6 +45,8 @@ function fixture() {
     brandLicenseDecisionDigest: sha256hex(fs.readFileSync(BRAND_LICENSE_DECISION_PATH)),
     wordPhysicalDecision,
     wordPhysicalDecisionDigest: sha256hex(fs.readFileSync(WORD_PHYSICAL_DECISION_PATH)),
+    seriesIdentityPrivacyDecision,
+    seriesIdentityPrivacyDecisionDigest: sha256hex(fs.readFileSync(SERIES_IDENTITY_PRIVACY_DECISION_PATH)),
   };
 }
 
@@ -53,6 +57,7 @@ function validate(values, artifacts = {}) {
     [values.localReleaseDecision.decisionId]: { value: values.localReleaseDecision, digest: values.localReleaseDecisionDigest },
     [values.brandLicenseDecision.decisionId]: { value: values.brandLicenseDecision, digest: values.brandLicenseDecisionDigest },
     [values.wordPhysicalDecision.decisionId]: { value: values.wordPhysicalDecision, digest: values.wordPhysicalDecisionDigest },
+    [values.seriesIdentityPrivacyDecision.decisionId]: { value: values.seriesIdentityPrivacyDecision, digest: values.seriesIdentityPrivacyDecisionDigest },
     ...artifacts,
   };
   return validateOwnerGateAmendments({
@@ -68,19 +73,21 @@ function validate(values, artifacts = {}) {
   });
 }
 
-test('exact owner decisions yield mission-bound storage, entitlement, local-profile, brand and Word physical dispositions', () => {
+test('exact owner decisions yield every mission-bound owner-gate disposition', () => {
   const values = fixture();
   assert.equal(values.registry.entries.find((entry) => entry.id === 'STORAGE_AUTHORITY_ADR').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'ENTITLEMENT_SEMANTICS_ADR_OR_DENY').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'LOCAL_RELEASE_PERMIT').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'BRAND_LICENSE_OWNER_CHOICE').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'WORD_PHYSICAL_SESSION_AUTHORITY').status, 'UNRESOLVED');
+  assert.equal(values.registry.entries.find((entry) => entry.id === 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13').status, 'UNRESOLVED');
   assert.deepEqual(validate(values), {
     STORAGE_AUTHORITY_ADR: 'APPROVED',
     ENTITLEMENT_SEMANTICS_ADR_OR_DENY: 'DENIED',
     LOCAL_RELEASE_PERMIT: 'APPROVED',
     BRAND_LICENSE_OWNER_CHOICE: 'APPROVED',
     WORD_PHYSICAL_SESSION_AUTHORITY: 'APPROVED',
+    SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13: 'APPROVED',
   });
 });
 
@@ -259,6 +266,54 @@ test('W0 physical-session approval cannot reach user data, widen SAFE_APPLY, tra
   assert.throws(
     () => validate(values, {
       [wrongNode.decisionId]: { value: wrongNode, digest: values.wordPhysicalDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
+  );
+});
+
+test('WP606 series privacy approval remains metadata-only and read-only', () => {
+  const values = fixture();
+  for (const key of [
+    'privateOwnerData',
+    'sourceContent',
+    'pathAuthority',
+    'productMutationAuthority',
+    'commandAuthority',
+    'networkOrCloudAuthority',
+    'credentialsOrSecrets',
+    'dependencyAdoption',
+    'optionalModuleExpansion',
+  ]) {
+    const decision = clone(values.seriesIdentityPrivacyDecision);
+    decision.authorizedScope[key] = true;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.seriesIdentityPrivacyDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  for (const key of [
+    'seriesCanonReadOnlyProjection',
+    'multiLayerAtlasReadOnlyProjection',
+    'evidenceCapsuleMetadataOnly',
+    'agentContextPacketMetadataOnly',
+    'syntheticFixturesOnly',
+  ]) {
+    const decision = clone(values.seriesIdentityPrivacyDecision);
+    decision.authorizedScope[key] = false;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.seriesIdentityPrivacyDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  const wrongNode = clone(values.seriesIdentityPrivacyDecision);
+  wrongNode.nodeId = 'WP-605_WSE_REVISION_TIME_OBJECT';
+  assert.throws(
+    () => validate(values, {
+      [wrongNode.decisionId]: { value: wrongNode, digest: values.seriesIdentityPrivacyDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
   );

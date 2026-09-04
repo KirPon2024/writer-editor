@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-606_WSE_SERIES_MULTI_LAYER",
+  "evidenceStampId": "ES-R24-WP-606-WSE-SERIES-MULTI-LAYER-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "DERIVED_PROJECTOR_AUTHORITY",
+    "sourceTruth": "AUTHOR_CONFIRMED_SERIES_IDENTITIES_AND_REVISION_BOUND_ATLAS_WSE_PROJECTIONS",
+    "mutation": "NONE"
+  },
+  "interfacePlane": {
+    "surface": "surface.atlas.continuityLedger.seriesMultiLayer",
+    "renderer": "EXISTING_RIGHT_RAIL_CONTINUITY_SLOT",
+    "designOs": "READ_ONLY_IMMUTABLE_PROJECTION"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.atlasContinuityLedgerSurface"
+    ],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "PURE_METADATA_ONLY_PROJECTION_RETURN_VALUE"
+    ],
+    "designOs": [
+      "query.atlasContinuityLedgerSurface"
+    ]
+  },
+  "projection": {
+    "schema": "yalken.r24.wseSeriesMultiLayer.v1",
+    "immutable": true,
+    "identityGuards": [
+      "projectId",
+      "entityId",
+      "sourceRevision",
+      "generation",
+      "projectionDigest"
+    ],
+    "views": [
+      "seriesCanon",
+      "multiLayerAtlas",
+      "evidenceCapsule",
+      "agentContextPacket"
+    ]
+  },
+  "fallbacks": [
+    "EMPTY_NO_SERIES_LINKS",
+    "UNKNOWN_LAYER_PROJECTION",
+    "UNKNOWN_EVIDENCE_PROFILE"
+  ],
+  "recovery": "REBUILD_FROM_CURRENT_IMMUTABLE_INPUTS",
+  "performance": {
+    "maxInputRecords": 10000,
+    "maxLayers": 16,
+    "maxVisibleRowsPerView": 128,
+    "maxEvidenceCapsuleBytes": 1048576
+  },
+  "accessibility": {
+    "tabRole": "tablist",
+    "keys": [
+      "ArrowLeft",
+      "ArrowRight",
+      "Home",
+      "End",
+      "Tab"
+    ],
+    "listTextParity": true,
+    "pointerOnlyState": false
+  },
+  "negativeProofs": [
+    "STALE_IDENTITY",
+    "CROSS_PROJECT_IDENTITY",
+    "PRIVATE_FIELD",
+    "SOURCE_CONTENT",
+    "SECRET_MATERIAL",
+    "PATH_AUTHORITY",
+    "UNCONFIRMED_SERIES_LINK",
+    "AUTHORITY_OVERCLAIM",
+    "RECORD_BUDGET"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

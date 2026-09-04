@@ -47,6 +47,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/WORD_PHYSICAL_SESSION_AUTHORITY_W0_WORD_PHYSICAL_RECERTIFICATION_V1.json",
       "decisionArtifactSha256": "f90200890b6704498803cc286d02e869d5474bd114553d1c82a2597c7324409c",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13",
+      "nodeId": "WP-606_WSE_SERIES_MULTI_LAYER",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "APPROVED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13_WP606_WSE_SERIES_MULTI_LAYER_V1.json",
+      "decisionArtifactSha256": "d4ce32d334fbb89a0014e1b61382a0e9d132ea64b8df679a66793c420fee68ac",
+      "revocationEpoch": 0
     }
   ]
 }

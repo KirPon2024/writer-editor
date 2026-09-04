@@ -1,0 +1,62 @@
+{
+  "schemaVersion": "YALKEN_R24_WP606_SERIES_IDENTITY_PRIVACY_CONTRACT_V1",
+  "stageId": "WP-606_WSE_SERIES_MULTI_LAYER",
+  "evidenceStampId": "ES-R24-WP-606-WSE-SERIES-MULTI-LAYER-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "ownerGate": {
+    "id": "SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13",
+    "decision": "APPROVED",
+    "decisionArtifactSha256": "d4ce32d334fbb89a0014e1b61382a0e9d132ea64b8df679a66793c420fee68ac"
+  },
+  "allowedInputs": [
+    "PATHLESS_SERIES_BOOK_IDENTIFIERS",
+    "AUTHOR_CONFIRMED_SERIES_IDENTITY_LINK_IDENTIFIERS",
+    "REVISION_BOUND_PROJECTION_DIGESTS",
+    "BOUNDED_RECORD_COUNTS"
+  ],
+  "allowedOutputs": [
+    "SERIES_CANON_METADATA",
+    "MULTI_LAYER_ATLAS_METADATA",
+    "EVIDENCE_CAPSULE_METADATA",
+    "AGENT_CONTEXT_PACKET_METADATA"
+  ],
+  "deniedFields": [
+    "PATH",
+    "URL",
+    "URI",
+    "CONTENT",
+    "TEXT",
+    "BYTES",
+    "RAW",
+    "SECRET",
+    "TOKEN",
+    "CREDENTIAL",
+    "PASSWORD",
+    "PRIVATE_OWNER_DATA"
+  ],
+  "authority": {
+    "readOnly": true,
+    "metadataOnly": true,
+    "commandAuthority": false,
+    "pathAuthority": false,
+    "providerAuthority": false,
+    "instructionAuthority": false,
+    "productMutationAuthority": false,
+    "networkOrCloudAuthority": false
+  },
+  "identityGuards": [
+    "projectId",
+    "entityId",
+    "sourceRevision",
+    "generation"
+  ],
+  "unknownPolicy": "PRESERVE_UNKNOWN_NEVER_INFER",
+  "realOwnerDocuments": false,
+  "syntheticFixturesOnly": true,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

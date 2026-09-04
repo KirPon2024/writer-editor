@@ -1,10 +1,12 @@
 import { createDerivedError, deriveView, hashCanonicalValue } from '../deriveView.mjs';
 import { deriveAtlasContinuityFactLedgers } from './deriveAtlasContinuityFactLedgers.mjs';
 import { deriveAtlasContinuityFindings } from './deriveAtlasContinuityFindings.mjs';
+import { deriveAtlasSeriesPackageManifest } from './deriveAtlasSeriesPackageManifest.mjs';
 import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 import { buildWseStateEvidence } from '../../core/wse-state-evidence-v1.mjs';
 import { buildWseThreadsExplanation } from '../../core/wse-threads-explanation-v1.mjs';
 import { buildWseRevisionTimeObject } from '../../core/wse-revision-time-object-v1.mjs';
+import { buildWseSeriesMultiLayer } from '../../core/wse-series-multi-layer-v1.mjs';
 import {
   ATLAS_CONTINUITY_LEDGER_CORRECTION_ROUTE_SCHEMA_VERSION,
   ATLAS_CONTINUITY_LEDGER_EVIDENCE_ROW_SCHEMA_VERSION,
@@ -302,6 +304,14 @@ function emptyState(projectId, reason = '') {
     objectCustodyEvents: null,
     rowLimit: 32,
   });
+  const wseSeriesMultiLayer = buildWseSeriesMultiLayer({
+    currentIdentity: { projectId: projectId || 'unavailable-project', entityId: `series:${projectId || 'unavailable-project'}`, sourceRevision: reason || 'empty', generation: 0 },
+    expectedIdentity: { projectId: projectId || 'unavailable-project', entityId: `series:${projectId || 'unavailable-project'}`, sourceRevision: reason || 'empty', generation: 0 },
+    seriesManifest: { projectId: projectId || 'unavailable-project', seriesId: `series:${projectId || 'unavailable-project'}`, bookRefs: [] },
+    identityLinks: {},
+    layers: [],
+    rowLimit: 32,
+  });
   return {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_SURFACE_SCHEMA_VERSION,
     state: reason ? 'unavailable' : 'empty',
@@ -326,13 +336,14 @@ function emptyState(projectId, reason = '') {
     wseStateEvidence,
     wseThreadsExplanation,
     wseRevisionTimeObject,
+    wseSeriesMultiLayer,
     listParity: buildListParity([], 0),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash: '', sourceHash: '' }),
   };
 }
 
-function buildState({ project, projectId, findingsResult, factLedgersResult, rowLimit, meta }) {
+function buildState({ project, projectId, findingsResult, factLedgersResult, seriesPackageResult, rowLimit, meta }) {
   const sceneOrdinalById = buildSceneOrdinalIndex(project);
   const factsById = new Map((Array.isArray(factLedgersResult.value?.facts) ? factLedgersResult.value.facts : [])
     .map((fact) => [normalizeString(fact.id), fact]));
@@ -382,6 +393,21 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     objectCustodyEvents: null,
     rowLimit: Math.min(128, Math.max(rowLimit, 32)),
   });
+  const seriesId = normalizeString(seriesPackageResult.value?.seriesId) || `series:${projectId}`;
+  const wseSeriesMultiLayer = buildWseSeriesMultiLayer({
+    currentIdentity: { projectId, entityId: seriesId, sourceRevision: meta.invalidationKey, generation: 0 },
+    expectedIdentity: { projectId, entityId: seriesId, sourceRevision: meta.invalidationKey, generation: 0 },
+    seriesManifest: seriesPackageResult.value,
+    identityLinks: isPlainObject(project.atlas?.seriesIdentityLinks) ? project.atlas.seriesIdentityLinks : {},
+    layers: [
+      { layerId: 'atlas-facts', label: 'Continuity facts', state: 'ready', projectionDigest: normalizeString(factLedgersResult.value?.summary?.ledgerHash), recordCount: allFacts.length },
+      { layerId: 'atlas-findings', label: 'Continuity findings', state: 'ready', projectionDigest: normalizeString(findingsResult.value?.summary?.findingsHash), recordCount: allRows.length },
+      { layerId: 'wse-state-evidence', label: 'State evidence', state: wseStateEvidence.state, projectionDigest: wseStateEvidence.projectionDigest, recordCount: wseStateEvidence.denominator.inputFacts },
+      { layerId: 'wse-threads-explanation', label: 'Threads and explanation', state: wseThreadsExplanation.state, projectionDigest: wseThreadsExplanation.projectionDigest, recordCount: wseThreadsExplanation.denominator.inputFacts },
+      { layerId: 'wse-revision-time-object', label: 'Revision, time and objects', state: wseRevisionTimeObject.state, projectionDigest: wseRevisionTimeObject.projectionDigest, recordCount: wseRevisionTimeObject.denominator.currentFacts },
+    ],
+    rowLimit: Math.min(128, Math.max(rowLimit, 32)),
+  });
   const surfaceHash = hashCanonicalValue({
     rows: visibleRows,
     sourceHash,
@@ -389,6 +415,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     wseProjectionDigest: wseStateEvidence.projectionDigest,
     wseThreadsExplanationDigest: wseThreadsExplanation.projectionDigest,
     wseRevisionTimeObjectDigest: wseRevisionTimeObject.projectionDigest,
+    wseSeriesMultiLayerDigest: wseSeriesMultiLayer.projectionDigest,
   });
   const degradedRowCount = visibleRows.filter((row) => row.evidenceRows.some((evidenceRow) => evidenceRow.evidenceState !== 'current')).length;
   return {
@@ -417,6 +444,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     wseStateEvidence,
     wseThreadsExplanation,
     wseRevisionTimeObject,
+    wseSeriesMultiLayer,
     listParity: buildListParity(visibleRows, omittedRowCount),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash, sourceHash }),
@@ -459,11 +487,14 @@ export function deriveAtlasContinuityLedgerSurface(input = {}) {
       if (!factLedgers.ok) throw createDerivedError(factLedgers.error?.code, VIEW_ID, factLedgers.error?.reason, factLedgers.error?.details);
       const findings = deriveAtlasContinuityFindings({ coreState, params: { projectId: params.projectId }, capabilitySnapshot });
       if (!findings.ok) throw createDerivedError(findings.error?.code, VIEW_ID, findings.error?.reason, findings.error?.details);
+      const seriesPackage = deriveAtlasSeriesPackageManifest({ coreState, params: { projectId: params.projectId }, capabilitySnapshot });
+      if (!seriesPackage.ok) throw createDerivedError(seriesPackage.error?.code, VIEW_ID, seriesPackage.error?.reason, seriesPackage.error?.details);
       return buildState({
         project,
         projectId: params.projectId,
         findingsResult: findings,
         factLedgersResult: factLedgers,
+        seriesPackageResult: seriesPackage,
         rowLimit: params.rowLimit,
         meta,
       });

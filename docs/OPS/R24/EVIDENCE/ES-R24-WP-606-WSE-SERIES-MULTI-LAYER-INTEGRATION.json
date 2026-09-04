@@ -1,0 +1,85 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "evidenceStampId": "ES-R24-WP-606-WSE-SERIES-MULTI-LAYER-INTEGRATION",
+  "stageId": "WP-606_WSE_SERIES_MULTI_LAYER",
+  "kind": "INTEGRATION",
+  "status": "PASS",
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "test": {
+    "denominator": 3,
+    "passed": 3,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "src/core/wse-series-multi-layer-v1.mjs",
+        "sha256": "5b12ccae56ee1d649044dbd33c06feca1122644595dd01a6942e00201e93d240"
+      },
+      {
+        "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+        "sha256": "1d38e88f0ebe76a3d45dcbeb66154b97578f98cc5d8ddf8c66fc49d518465962"
+      },
+      {
+        "path": "src/renderer/atlasWseSeriesMultiLayerPresentationModel.mjs",
+        "sha256": "4ea1d30a76d27be908692ce7005b7fd932afd79ba08071735e4b8983841e94ac"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "af44f11376f005d1afeb61855dfcb52b82591a3af0a1f12c3d4f1783fb6b2c30"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "9f51d0e514f7763c112039ed4ed1adea28c9e6e0b495e4f2a8212276e7a43f0c"
+      },
+      {
+        "path": "test/fixtures/r24-wp606-wse-series-multi-layer-fixtures.js",
+        "sha256": "bf4522a60174c024a582e653073d5bfe1e9ddea59c1c0262de5ef6282c5a4ad9"
+      },
+      {
+        "path": "test/unit/r24-wp606-wse-series-multi-layer.test.js",
+        "sha256": "8f9c23e9ef1ff59ec38a9804a008ad5907beb4f99da0a6b7853c7db146c0d095"
+      },
+      {
+        "path": "test/unit/r24-wp606-wse-series-multi-layer-integration.test.js",
+        "sha256": "5db667244076262b1587075249f8b12449b9d89c83a5b1a0276a43c726a1b6b3"
+      },
+      {
+        "path": "test/unit/r24-wp606-wse-series-multi-layer-mutants.test.js",
+        "sha256": "b24be6ab48b123d17e13abd0f5d8c7b711fc077d28932363b31bf8ff2b9f9396"
+      },
+      {
+        "path": "test/unit/r24-wp606-wse-series-multi-layer-ui-e2e-smoke.mjs",
+        "sha256": "57e9350c0646c0d85d1bd206c02d77944b9443ed667139449ef6c87ee150f01c"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP606_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "ed11012f1bedd560e6b29aa813d53283803d00023b2283cfbffee41543bd39d7",
+      "byteLength": 1707,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 8,
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test --test-reporter=tap test/unit/r24-wp606-wse-series-multi-layer.test.js test/unit/r24-wp606-wse-series-multi-layer-integration.test.js test/unit/r24-wp606-wse-series-multi-layer-mutants.test.js test/unit/r24-wp606-wse-series-multi-layer-ui-e2e-smoke.mjs",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwNiBleGlzdGluZyBDb250aW51aXR5IHF1ZXJ5IHB1Ymxpc2hlcyBmb3VyIHNlcmllcyB2aWV3cyB3aXRob3V0IGEgbmV3IHJ1bnRpbWUgc3RvcmUKb2sgMSAtIFdQNjA2IGV4aXN0aW5nIENvbnRpbnVpdHkgcXVlcnkgcHVibGlzaGVzIGZvdXIgc2VyaWVzIHZpZXdzIHdpdGhvdXQgYSBuZXcgcnVudGltZSBzdG9yZQogIC0tLQogIGR1cmF0aW9uX21zOiA1NC42MjMKICAuLi4KIyBTdWJ0ZXN0OiBXUDYwNiBwcmVzZW50YXRpb24gcmVqZWN0cyBhbiB1bmtub3duIHNlbGVjdGVkIHRhYiBhbmQga2VlcHMgdmlzaWJsZSBkZW5vbWluYXRvciBob25lc3QKb2sgMiAtIFdQNjA2IHByZXNlbnRhdGlvbiByZWplY3RzIGFuIHVua25vd24gc2VsZWN0ZWQgdGFiIGFuZCBrZWVwcyB2aXNpYmxlIGRlbm9taW5hdG9yIGhvbmVzdAogIC0tLQogIGR1cmF0aW9uX21zOiAwLjE3NzYyNQogIC4uLgojIFN1YnRlc3Q6IFdQNjA2IHJlamVjdHMgc3RhbGUsIGNyb3NzLXByb2plY3QsIHByaXZhdGUgYW5kIGF1dGhvcml0eS1iZWFyaW5nIGlucHV0cwpvayAzIC0gV1A2MDYgcmVqZWN0cyBzdGFsZSwgY3Jvc3MtcHJvamVjdCwgcHJpdmF0ZSBhbmQgYXV0aG9yaXR5LWJlYXJpbmcgaW5wdXRzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE4LjM3MzIwOAogIC4uLgojIFN1YnRlc3Q6IFdQNjA2IGVuZm9yY2VzIGxheWVyIGFuZCByZWNvcmQgYnVkZ2V0cyBiZWZvcmUgcHJvamVjdGlvbgpvayA0IC0gV1A2MDYgZW5mb3JjZXMgbGF5ZXIgYW5kIHJlY29yZCBidWRnZXRzIGJlZm9yZSBwcm9qZWN0aW9uCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuNTM1NQogIC4uLgojIFN1YnRlc3Q6IFdQNjA2IENvbnRpbnVpdHkgVUkgZXhwb3NlcyBmb3VyIG1ldGFkYXRhLW9ubHkga2V5Ym9hcmQgdGFicyB3aXRob3V0IG11dGF0aW9uIHJvdXRlcwpvayA1IC0gV1A2MDYgQ29udGludWl0eSBVSSBleHBvc2VzIGZvdXIgbWV0YWRhdGEtb25seSBrZXlib2FyZCB0YWJzIHdpdGhvdXQgbXV0YXRpb24gcm91dGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQuNDI1NTgzCiAgLi4uCiMgU3VidGVzdDogV1A2MDYgY29tcG9zZXMgZm91ciBkZXRlcm1pbmlzdGljIG1ldGFkYXRhLW9ubHkgc2VyaWVzIHZpZXdzCm9rIDYgLSBXUDYwNiBjb21wb3NlcyBmb3VyIGRldGVybWluaXN0aWMgbWV0YWRhdGEtb25seSBzZXJpZXMgdmlld3MKICAtLS0KICBkdXJhdGlvbl9tczogMjcuNzQ5Mzc1CiAgLi4uCiMgU3VidGVzdDogV1A2MDYgcHJlc2VydmVzIHVua25vd24gbGF5ZXIgc3RhdGUgaW5zdGVhZCBvZiBpbmZlcnJpbmcgZXZpZGVuY2UKb2sgNyAtIFdQNjA2IHByZXNlcnZlcyB1bmtub3duIGxheWVyIHN0YXRlIGluc3RlYWQgb2YgaW5mZXJyaW5nIGV2aWRlbmNlCiAgLS0tCiAgZHVyYXRpb25fbXM6IDEuNTc4ODc1CiAgLi4uCiMgU3VidGVzdDogV1A2MDYgYm91bmRzIHZpc2libGUgcm93cyBhbmQgaXMgaW5zZW5zaXRpdmUgdG8gaW5wdXQgb3JkZXIKb2sgOCAtIFdQNjA2IGJvdW5kcyB2aXNpYmxlIHJvd3MgYW5kIGlzIGluc2Vuc2l0aXZlIHRvIGlucHV0IG9yZGVyCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMzEyMjA4CiAgLi4uCjEuLjgKIyB0ZXN0cyA4CiMgc3VpdGVzIDAKIyBwYXNzIDgKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDEyMS43NTA3MDgK"
+    }
+  },
+  "claim": {
+    "ceiling": "WP606_NODE_ONLY",
+    "existingContinuityQuery": true,
+    "existingRightRailSlot": true,
+    "keyboardTabParity": true,
+    "runtimeStoreAdded": false
+  }
+}

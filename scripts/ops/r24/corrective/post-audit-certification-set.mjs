@@ -2086,6 +2086,12 @@ export const WP603_RECOVERY_ADMISSION_CHAIN_V1=Object.freeze([
     instancePath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_STAGE_INSTANCE_V1.json',instanceDigest:'95842e9d9ac6f7cee79539862acc66262fe9ccef1ff011a6775402c7506c38d0',
     admissionPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_STAGE_ADMISSION_ATTESTATION_V1.json',admissionDigest:'8b9d255399b391ab2f8b781407c5c4bea39bc871f75ffffa6f1f33c48890dade',
     authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_MOCK_GIT_COMPATIBILITY_V1',baseSha:'ff3fb99a90bbc0016f7dab3501acea34de369149',baseTree:'7bc697d4a8e45ba57c6fc4ff6af7048c00424ef2',branch:'codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904'
+  },
+  {
+    authorityPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CWD_INVARIANCE_OWNER_AUTHORITY_V1.json',authorityDigest:'1c9fa0a6321badc7057083c9013f6db6572e0c4b3cd140195d8b1a4aa725b2c3',
+    instancePath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CWD_INVARIANCE_STAGE_INSTANCE_V1.json',instanceDigest:'2f2e8b79eea389b32b0a7c07bbc4185aa6f620b3a9ae2fae3cc6f9669ebd67fe',
+    admissionPath:'docs/OPS/R24/CORRECTIVE/WP603_PACKAGED_RECOVERY_CWD_INVARIANCE_STAGE_ADMISSION_ATTESTATION_V1.json',admissionDigest:'a960f7fa828e5358f4a6cfa51ecf682dca1caafd786467d4d98908872f7fb68d',
+    authorityId:'OWNER_AUTHORIZED_YALKEN_R24_WP603_PACKAGED_RECOVERY_CWD_INVARIANCE_V1',baseSha:'82f933ffcab496fbe5176a01ed1504d9117b5a61',baseTree:'02c862e09055eb0f96eaccc469b9b30f859fd4d1',branch:'codex/r24-wp603-packaged-runtime-resources-recovery-v1-20260904'
   }
 ].map(Object.freeze));
 export function verifyP03ContextRestorationPostEvaluationException({candidateSha='HEAD',git=defaultGit}={}){
@@ -2229,7 +2235,7 @@ export function verifyWp603MainProductPostEvaluationException({candidateSha='HEA
     recovery=verifyWp603RecoveryAdmissionChain({candidateSha:resolvedCandidate,git});
     admitted=[...new Set([...originalAdmitted,...recovery.admittedPaths])].sort();
   }
-  const basePaths=new Set(gitText(historicalGit,['ls-tree','-r','--name-only',e.baseSha]).split('\n').filter(Boolean));
+  const basePaths=new Set(gitText(historicalGit,['ls-tree','-r','--name-only','--full-tree',e.baseSha]).split('\n').filter(Boolean));
   const expectedChanged=admitted.filter(artifactPath=>!basePaths.has(artifactPath)||!objectBytes(historicalGit,e.baseSha,artifactPath).equals(objectBytes(git,resolvedCandidate,artifactPath)));
   assert(JSON.stringify(changed)===JSON.stringify(expectedChanged),'E_WP603_EXACT_ADMITTED_DELTA',changed.length+':'+expectedChanged.length);
   for(const required of admitted){let bytes;try{bytes=objectBytes(git,resolvedCandidate,required);}catch{fail('E_WP603_REQUIRED_ARTIFACT',required);}assert(bytes.length>0,'E_WP603_REQUIRED_ARTIFACT',required);}

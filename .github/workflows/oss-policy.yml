@@ -146,7 +146,7 @@ jobs:
       - env:
           EFFECTIVE_MODE: STRICT
           GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP607_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP607_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP800_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:
     runs-on: ubuntu-latest

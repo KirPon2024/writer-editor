@@ -134,6 +134,7 @@ import {
 } from './atlasSurfacePresentationModel.mjs';
 import { normalizeWseStateEvidencePresentation, wseRowEvidence } from './atlasWseStateEvidencePresentationModel.mjs';
 import { normalizeWseThreadsExplanationPresentation, wseThreadsRowEvidence } from './atlasWseThreadsExplanationPresentationModel.mjs';
+import { normalizeWseRevisionTimeObjectPresentation, wseRevisionTimeObjectRowEvidence } from './atlasWseRevisionTimeObjectPresentationModel.mjs';
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import {
   assertAtlasDossierPresentationParity,
@@ -941,6 +942,7 @@ let atlasTemporalLayoutState = {
 let atlasContinuityLedgerExplicitOpen = false;
 let atlasContinuityWseView = 'storyStateDebugger';
 let atlasContinuityThreadView = 'setupPayoffBoard';
+let atlasContinuityRevisionView = 'semanticDiff';
 let atlasContinuityRequestEpoch = 0;
 let atlasContinuityLedgerState = {
   state: 'empty',
@@ -16704,6 +16706,9 @@ function normalizeAtlasContinuityLedgerSurface(result = {}) {
     wseThreadsExplanation: source.wseThreadsExplanation && typeof source.wseThreadsExplanation === 'object' && !Array.isArray(source.wseThreadsExplanation)
       ? source.wseThreadsExplanation
       : {},
+    wseRevisionTimeObject: source.wseRevisionTimeObject && typeof source.wseRevisionTimeObject === 'object' && !Array.isArray(source.wseRevisionTimeObject)
+      ? source.wseRevisionTimeObject
+      : {},
   };
 }
 
@@ -16763,6 +16768,12 @@ function handleAtlasContinuityLedgerClick(event) {
   const threadView = event.target instanceof Element ? event.target.closest('[data-atlas-wse-thread-view]') : null;
   if (threadView instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(threadView)) {
     atlasContinuityThreadView = threadView.dataset.atlasWseThreadView || 'setupPayoffBoard';
+    renderAtlasContinuityLedgerState();
+    return;
+  }
+  const revisionView = event.target instanceof Element ? event.target.closest('[data-atlas-wse-revision-view]') : null;
+  if (revisionView instanceof HTMLElement && atlasContinuityLedgerHost instanceof HTMLElement && atlasContinuityLedgerHost.contains(revisionView)) {
+    atlasContinuityRevisionView = revisionView.dataset.atlasWseRevisionView || 'semanticDiff';
     renderAtlasContinuityLedgerState();
     return;
   }
@@ -17023,26 +17034,109 @@ function appendAtlasWseThreadsExplanation(parent, source) {
   parent.appendChild(section);
 }
 
+function appendAtlasWseRevisionTimeObject(parent, source) {
+  const presentation = normalizeWseRevisionTimeObjectPresentation(source, atlasContinuityRevisionView);
+  const heading = document.createElement('div');
+  heading.className = 'right-rail-section__label right-rail-atlas-wse-thread-heading';
+  heading.textContent = 'Revision & time';
+  parent.appendChild(heading);
+
+  const tabList = document.createElement('div');
+  tabList.className = 'right-rail-atlas-wse-tabs';
+  tabList.setAttribute('role', 'tablist');
+  tabList.setAttribute('aria-label', 'Revision time and object views');
+  for (const tab of presentation.tabs) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'right-rail-atlas-wse-tab';
+    button.dataset.atlasWseRevisionView = tab.id;
+    button.id = 'atlas-wse-revision-tab-' + tab.id;
+    button.setAttribute('role', 'tab');
+    button.setAttribute('aria-selected', tab.selected ? 'true' : 'false');
+    button.setAttribute('aria-controls', 'atlas-wse-revision-panel-' + tab.id);
+    button.tabIndex = tab.selected ? 0 : -1;
+    button.textContent = tab.label;
+    tabList.appendChild(button);
+  }
+  parent.appendChild(tabList);
+
+  const section = document.createElement('section');
+  section.className = 'right-rail-atlas-wse-view';
+  section.id = 'atlas-wse-revision-panel-' + presentation.viewId;
+  section.setAttribute('role', 'tabpanel');
+  section.setAttribute('aria-labelledby', 'atlas-wse-revision-tab-' + presentation.viewId);
+  const status = document.createElement('div');
+  status.className = 'right-rail-atlas-wse-status';
+  status.textContent = presentation.view.visibleCount + ' of ' + presentation.view.totalCount
+    + (presentation.view.reason ? ' · ' + presentation.view.reason : '') + ' · read only';
+  section.appendChild(status);
+
+  if (presentation.view.rows.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'right-rail-atlas-state';
+    empty.textContent = presentation.view.reason || 'No explicit revision, time, or custody evidence is available.';
+    section.appendChild(empty);
+  }
+  for (const row of presentation.view.rows) {
+    const item = document.createElement('article');
+    item.className = 'right-rail-atlas-wse-row right-rail-atlas-wse-revision-row';
+    const title = document.createElement('strong');
+    const detail = document.createElement('p');
+    if (presentation.viewId === 'semanticDiff') {
+      title.textContent = row.factId || row.id || 'Fact revision';
+      detail.textContent = (row.change || 'UNKNOWN') + ' · ' + (row.beforeValue || '∅') + ' → ' + (row.afterValue || '∅');
+      item.dataset.wseRevisionStatus = row.change || 'UNKNOWN';
+    } else if (presentation.viewId === 'retconSimulator') {
+      title.textContent = row.factId || row.id || 'Simulated fact';
+      detail.textContent = (row.change || 'UNKNOWN') + ' · ' + (row.simulationState || 'SIMULATED_NOT_APPLIED');
+      item.dataset.wseRevisionStatus = row.simulationState || 'UNKNOWN';
+    } else if (presentation.viewId === 'storyClock') {
+      title.textContent = row.propositionId || row.id || 'Story time';
+      detail.textContent = 'story ' + String(row.storyTime?.ordinal ?? 'UNKNOWN') + ' · narrative '
+        + String(row.narrativeTime?.ordinal ?? 'UNKNOWN') + ' · knowledge ' + String(row.knowledgeTime?.ordinal ?? 'UNKNOWN');
+      item.dataset.wseRevisionStatus = row.storyTime?.certainty || 'UNKNOWN';
+    } else {
+      title.textContent = row.objectId || row.id || 'Object custody';
+      detail.textContent = (row.status || 'UNKNOWN') + ' · holder ' + (row.currentHolderEntityId || 'UNKNOWN')
+        + ' · ' + String(row.eventCount || 0) + ' events';
+      item.dataset.wseRevisionStatus = row.status || 'UNKNOWN';
+    }
+    item.append(title, detail);
+    appendAtlasWseEvidenceButton(item, wseRevisionTimeObjectRowEvidence(row));
+    section.appendChild(item);
+  }
+  if (presentation.view.omittedCount > 0) {
+    const omitted = document.createElement('div');
+    omitted.className = 'right-rail-atlas-state';
+    omitted.textContent = presentation.view.omittedCount + ' revision/time rows omitted by the bounded view.';
+    section.appendChild(omitted);
+  }
+  parent.appendChild(section);
+}
+
 function handleAtlasContinuityLedgerKeydown(event) {
   const current = event.target instanceof Element
-    ? event.target.closest('[data-atlas-wse-view], [data-atlas-wse-thread-view]')
+    ? event.target.closest('[data-atlas-wse-view], [data-atlas-wse-thread-view], [data-atlas-wse-revision-view]')
     : null;
   if (!(current instanceof HTMLElement) || !['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
   const isThreadView = current.hasAttribute('data-atlas-wse-thread-view');
-  const selector = isThreadView ? '[data-atlas-wse-thread-view]' : '[data-atlas-wse-view]';
+  const isRevisionView = current.hasAttribute('data-atlas-wse-revision-view');
+  const selector = isRevisionView ? '[data-atlas-wse-revision-view]'
+    : isThreadView ? '[data-atlas-wse-thread-view]' : '[data-atlas-wse-view]';
   const tabs = [...atlasContinuityLedgerHost.querySelectorAll(selector)];
   const index = tabs.indexOf(current);
   if (index < 0) return;
   event.preventDefault();
   const nextIndex = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1
     : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
-  if (isThreadView) atlasContinuityThreadView = tabs[nextIndex].dataset.atlasWseThreadView || 'setupPayoffBoard';
+  if (isRevisionView) atlasContinuityRevisionView = tabs[nextIndex].dataset.atlasWseRevisionView || 'semanticDiff';
+  else if (isThreadView) atlasContinuityThreadView = tabs[nextIndex].dataset.atlasWseThreadView || 'setupPayoffBoard';
   else atlasContinuityWseView = tabs[nextIndex].dataset.atlasWseView || 'storyStateDebugger';
   renderAtlasContinuityLedgerState();
-  const nextView = isThreadView ? atlasContinuityThreadView : atlasContinuityWseView;
-  const focusSelector = isThreadView
-    ? '[data-atlas-wse-thread-view="' + nextView + '"]'
-    : '[data-atlas-wse-view="' + nextView + '"]';
+  const nextView = isRevisionView ? atlasContinuityRevisionView : isThreadView ? atlasContinuityThreadView : atlasContinuityWseView;
+  const focusSelector = isRevisionView ? '[data-atlas-wse-revision-view="' + nextView + '"]'
+    : isThreadView ? '[data-atlas-wse-thread-view="' + nextView + '"]'
+      : '[data-atlas-wse-view="' + nextView + '"]';
   atlasContinuityLedgerHost.querySelector(focusSelector)?.focus();
 }
 
@@ -17090,6 +17184,7 @@ function renderAtlasContinuityLedgerState() {
   atlasContinuityLedgerHost.appendChild(actionBar);
   appendAtlasWseView(atlasContinuityLedgerHost, state.wseStateEvidence);
   appendAtlasWseThreadsExplanation(atlasContinuityLedgerHost, state.wseThreadsExplanation);
+  appendAtlasWseRevisionTimeObject(atlasContinuityLedgerHost, state.wseRevisionTimeObject);
   appendAtlasContinuityAuthorControls(atlasContinuityLedgerHost);
 
   if (state.state === 'unavailable') {

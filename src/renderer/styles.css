@@ -4825,6 +4825,21 @@ body.dark-theme [data-right-panel-atlas]:not([hidden]) {
   border-inline-start: 2px solid var(--divider);
 }
 
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="CHANGED"],
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="REMOVED"],
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="UNKNOWN"] {
+  border-inline-start: 2px solid rgba(138, 111, 46, 0.5);
+}
+
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="SIMULATED_NOT_APPLIED"] {
+  border-inline-start: 2px dashed var(--divider);
+}
+
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="VERIFIED_CHAIN"],
+.right-rail-atlas-wse-revision-row[data-wse-revision-status="EXACT"] {
+  border-inline-start: 2px solid var(--accent);
+}
+
 .right-rail-atlas-heatmap td[data-atlas-heatmap-tile="true"] {
   text-align: center;
   color: var(--atlas-rail-muted);

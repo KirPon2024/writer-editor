@@ -1,0 +1,91 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "evidenceStampId": "ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CONTRACT",
+  "stageId": "WP-605_WSE_REVISION_TIME_OBJECT",
+  "kind": "CONTRACT",
+  "status": "PASS",
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "test": {
+    "denominator": 12,
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "src/core/wse-revision-time-object-v1.mjs",
+        "sha256": "f134ff3e3f067de49ad74a5c710ec80d612accbefa9a6e6867bf9694cdd1a247"
+      },
+      {
+        "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+        "sha256": "5cafce60def0e2cf6b295a86b0f871dd3f50103de3b538ad2362fa15c212e272"
+      },
+      {
+        "path": "src/renderer/atlasWseRevisionTimeObjectPresentationModel.mjs",
+        "sha256": "fa28895b362fc601008d9b25650c1b4b96441c5e037d163fa1f4cc4e52c49357"
+      },
+      {
+        "path": "src/renderer/editor.js",
+        "sha256": "26aec3d081a146a0ce505896d4bc06f712ce611172a86339bc63e7e74190312a"
+      },
+      {
+        "path": "src/renderer/editor.bundle.js",
+        "sha256": "b7a8724e03977cbda139e7eb0f3752a62044829bbd1d98090e57bca69fb077ec"
+      },
+      {
+        "path": "src/renderer/styles.css",
+        "sha256": "c0a60c0815f8f0daad837ca057ea3a4ca9589f1898bb15fd0c001f37758c43e3"
+      },
+      {
+        "path": "test/fixtures/r24-wp605-wse-revision-time-object-fixtures.js",
+        "sha256": "4523910f850b969d14182ea949f032587a04d50b6a3b8023cac1f9d95a561812"
+      },
+      {
+        "path": "test/unit/r24-wp605-wse-revision-time-object.test.js",
+        "sha256": "e26d2ca12367c95f001749b19da7246c286fdc9181128883c88e0297c76877da"
+      },
+      {
+        "path": "test/unit/r24-wp605-wse-revision-time-object-integration.test.js",
+        "sha256": "74d71b82b404c834bec00b7c2346ebbc6f4fdff64ab73621565ad20c60f7b562"
+      },
+      {
+        "path": "test/unit/r24-wp605-wse-revision-time-object-mutants.test.js",
+        "sha256": "34ee1b22518eeb3442bc6306ea76f7d0069f8a04d7f5ff96edda7353c976376b"
+      },
+      {
+        "path": "test/unit/r24-wp605-wse-revision-time-object-ui-e2e-smoke.mjs",
+        "sha256": "cda877af306962fd9f1efb107f5bfb7b0631406ed8ddd67c20cf1c003c131713"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP605_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "dca267213907d8f4753f9b7fdff1208b68d9be3fcf18d68e66c96bf5115062bc",
+      "byteLength": 1998,
+      "node": "22.12.0",
+      "processExitCode": 0,
+      "testDenominator": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "command": "node --test --test-reporter=tap test/unit/r24-wp605-wse-revision-time-object.test.js test/unit/r24-wp605-wse-revision-time-object-integration.test.js test/unit/r24-wp605-wse-revision-time-object-mutants.test.js test/unit/r24-wp605-wse-revision-time-object-ui-e2e-smoke.mjs",
+      "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDYwNSBleGlzdGluZyBDb250aW51aXR5IHF1ZXJ5IHB1Ymxpc2hlcyBob25lc3QgdW5rbm93biB2aWV3cyB3aXRob3V0IGEgbmV3IHJ1bnRpbWUgc3RvcmUKb2sgMSAtIFdQNjA1IGV4aXN0aW5nIENvbnRpbnVpdHkgcXVlcnkgcHVibGlzaGVzIGhvbmVzdCB1bmtub3duIHZpZXdzIHdpdGhvdXQgYSBuZXcgcnVudGltZSBzdG9yZQogIC0tLQogIGR1cmF0aW9uX21zOiAzOC43MDAyNQogIC4uLgojIFN1YnRlc3Q6IFdQNjA1IHByZXNlbnRhdGlvbiByZWplY3RzIGFuIHVua25vd24gc2VsZWN0ZWQgdGFiIGFuZCBrZWVwcyB2aXNpYmxlIGRlbm9taW5hdG9yIGhvbmVzdApvayAyIC0gV1A2MDUgcHJlc2VudGF0aW9uIHJlamVjdHMgYW4gdW5rbm93biBzZWxlY3RlZCB0YWIgYW5kIGtlZXBzIHZpc2libGUgZGVub21pbmF0b3IgaG9uZXN0CiAgLS0tCiAgZHVyYXRpb25fbXM6IDAuMjA1MTY2CiAgLi4uCiMgU3VidGVzdDogV1A2MDUgcmVqZWN0cyBhbGwgcmVnaXN0ZXJlZCBzdGFsZSwgYXV0aG9yaXR5IGFuZCBzZW1hbnRpYyBtdXRhbnRzCm9rIDMgLSBXUDYwNSByZWplY3RzIGFsbCByZWdpc3RlcmVkIHN0YWxlLCBhdXRob3JpdHkgYW5kIHNlbWFudGljIG11dGFudHMKICAtLS0KICBkdXJhdGlvbl9tczogNTIuMjU1NDU5CiAgLi4uCiMgU3VidGVzdDogV1A2MDUgbWFya3MgYSBicm9rZW4gY3VzdG9keSBjaGFpbiB1bmtub3duIGluc3RlYWQgb2YgZ3Vlc3NpbmcgYSBob2xkZXIKb2sgNCAtIFdQNjA1IG1hcmtzIGEgYnJva2VuIGN1c3RvZHkgY2hhaW4gdW5rbm93biBpbnN0ZWFkIG9mIGd1ZXNzaW5nIGEgaG9sZGVyCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUuNDk1MTI1CiAgLi4uCiMgU3VidGVzdDogV1A2MDUgQ29udGludWl0eSBVSSBleHBvc2VzIGZvdXIgcmVhZC1vbmx5IGtleWJvYXJkIHRhYnMgd2l0aG91dCBtdXRhdGlvbiByb3V0ZXMKb2sgNSAtIFdQNjA1IENvbnRpbnVpdHkgVUkgZXhwb3NlcyBmb3VyIHJlYWQtb25seSBrZXlib2FyZCB0YWJzIHdpdGhvdXQgbXV0YXRpb24gcm91dGVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDQuNzcyODc1CiAgLi4uCiMgU3VidGVzdDogV1A2MDUgcHJvamVjdHMgZm91ciBib3VuZGVkIGV2aWRlbmNlLWF3YXJlIHJldmlzaW9uLCB0aW1lIGFuZCBjdXN0b2R5IHZpZXdzCm9rIDYgLSBXUDYwNSBwcm9qZWN0cyBmb3VyIGJvdW5kZWQgZXZpZGVuY2UtYXdhcmUgcmV2aXNpb24sIHRpbWUgYW5kIGN1c3RvZHkgdmlld3MKICAtLS0KICBkdXJhdGlvbl9tczogMzMuODUwNjY2CiAgLi4uCiMgU3VidGVzdDogV1A2MDUgcHJlc2VydmVzIG9wZW4td29ybGQgdW5rbm93biBzdGF0ZXMgd2hlbiBvcHRpb25hbCBhdXRob3JpdGF0aXZlIHNvdXJjZXMgYXJlIGFic2VudApvayA3IC0gV1A2MDUgcHJlc2VydmVzIG9wZW4td29ybGQgdW5rbm93biBzdGF0ZXMgd2hlbiBvcHRpb25hbCBhdXRob3JpdGF0aXZlIHNvdXJjZXMgYXJlIGFic2VudAogIC0tLQogIGR1cmF0aW9uX21zOiAwLjg4MzIwOAogIC4uLgojIFN1YnRlc3Q6IFdQNjA1IG1hbmlmZXN0cyBrZWVwIHRoZSBleGlzdGluZyByZWFkLW9ubHkgQ29udGludWl0eSBzZWFtCm9rIDggLSBXUDYwNSBtYW5pZmVzdHMga2VlcCB0aGUgZXhpc3RpbmcgcmVhZC1vbmx5IENvbnRpbnVpdHkgc2VhbQogIC0tLQogIGR1cmF0aW9uX21zOiAwLjE0MQogIC4uLgojIFN1YnRlc3Q6IFdQNjA1IGxhcmdlIGNvcnB1cyByZW1haW5zIGJvdW5kZWQgYW5kIHJlcG9ydHMgdGhlIGNvbXBsZXRlIGRlbm9taW5hdG9yCm9rIDkgLSBXUDYwNSBsYXJnZSBjb3JwdXMgcmVtYWlucyBib3VuZGVkIGFuZCByZXBvcnRzIHRoZSBjb21wbGV0ZSBkZW5vbWluYXRvcgogIC0tLQogIGR1cmF0aW9uX21zOiA0MTQuMjExNzA5CiAgLi4uCjEuLjkKIyB0ZXN0cyA5CiMgc3VpdGVzIDAKIyBwYXNzIDkKIyBmYWlsIDAKIyBjYW5jZWxsZWQgMAojIHNraXBwZWQgMAojIHRvZG8gMAojIGR1cmF0aW9uX21zIDUyMS4wMzQ5MTYK"
+    }
+  },
+  "claim": {
+    "ceiling": "WP605_NODE_ONLY",
+    "semanticDiff": "EXPLICIT_REVISION_SNAPSHOTS_ONLY",
+    "retcon": "SIMULATED_NOT_APPLIED",
+    "storyTime": "VERIFIED_ATLAS_TRIPLE_TIME_OR_UNKNOWN",
+    "objectCustody": "CONTIGUOUS_EXPLICIT_EVENT_CHAIN_OR_UNKNOWN",
+    "productMutation": false,
+    "networkAuthority": false
+  }
+}

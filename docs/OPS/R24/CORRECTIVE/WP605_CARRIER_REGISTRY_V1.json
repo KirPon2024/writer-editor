@@ -1,0 +1,199 @@
+{
+  "schemaVersion": "YALKEN_R24_WP605_CARRIER_REGISTRY_V1",
+  "stageId": "WP-605_WSE_REVISION_TIME_OBJECT",
+  "evidenceStampId": "ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CLAIM-BINDINGS",
+  "status": "COMPLETE_PREPUBLICATION_DENOMINATOR",
+  "baseIdentity": {
+    "sha": "250fa6533776556a6f98c07b03ef6d179fb62c79",
+    "tree": "fc4fa5757cdbeddc188420fad1382559ed11043a"
+  },
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 33,
+  "verifiedCarrierCount": 33,
+  "missingCarrierCount": 0,
+  "mismatchedCarrierCount": 0,
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP605_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP605_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CLAIM-BINDINGS.json"
+  ],
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "6821d78aecb870d710327c75ce4f5efc428ed7845ba947655b044aed36fe076e",
+      "byteLength": 15305
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "8738e80b3e77c1615922281d5b2fff34e16c6db774ece2a512c131e648ee4268",
+      "byteLength": 418548
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "1e2649fe79c5f3da9448648181bc77b0db75470feba3bf269dba5a81a755265b",
+      "byteLength": 5919
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_FIXTURE_MANIFEST_V1.json",
+      "sha256": "74118c17c2a7a0465de2debce1bbd94dab4e23d0777d1fe4b619c568cee3476b",
+      "byteLength": 1675
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "96faae68d8828738993817d62ae6c96c915a7c349022aaef3740560e6a699c63",
+      "byteLength": 12011
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "0e84676d46c9100c1f41abf0fd07d4edd02b05e035f24e1cec06e543770db8db",
+      "byteLength": 946
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "ac51e1174e0d30466ff8ee5f9627aee436fd35dd230b52ad1d142cbba04dae4e",
+      "byteLength": 1824
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "706fc78778223d2fae4fb1fed1152afcde4e4094e99193102f9b3a1d8cfe4544",
+      "byteLength": 12487
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "5bb3f215850f044aaddc1cc5718a308e488fadc0037f8ab044e3fd5c5bbb67b6",
+      "byteLength": 107654
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "53be2c1565a14c417dee21be1b80664eb6a2e47fc73367109251c076bc380448",
+      "byteLength": 1810
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP605_WP604_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "eb300d835873fd9975e7f2ad07d655e9100ae7f5143a435d1e9f7b02e3dec3e9",
+      "byteLength": 1481
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CONTRACT.json",
+      "sha256": "d93452e52946b91ef0aeb809a4fa448f0f4e0227db52b31aba200ac480ae0bf8",
+      "byteLength": 6203
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-INTEGRATION.json",
+      "sha256": "a547be714735fff688985ae32797055738173de64fd25278bde72a6365c66571",
+      "byteLength": 6207
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-MODEL.json",
+      "sha256": "a211c5c7e7dfc669d1c04c87bfa7c7903fab0c5e9594dacf039cd9dfe16dcd0c",
+      "byteLength": 6195
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-MUTANTS.json",
+      "sha256": "1095dcbed803954bbe4aa33de2d3663631048cec7286565dead0d595154e80a1",
+      "byteLength": 6201
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "2319c19adc55462fb045f0a4573c32668ae2bb26ec54589480c8fdf004994c9a",
+      "byteLength": 599435
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "04a5046a5354da76af8d2f62cde108737e7f9f025f35655b2be40062b281abcd",
+      "byteLength": 12569
+    },
+    {
+      "path": "src/core/wse-revision-time-object-v1.mjs",
+      "sha256": "f134ff3e3f067de49ad74a5c710ec80d612accbefa9a6e6867bf9694cdd1a247",
+      "byteLength": 20422
+    },
+    {
+      "path": "src/derived/atlas/deriveAtlasContinuityLedgerSurface.mjs",
+      "sha256": "5cafce60def0e2cf6b295a86b0f871dd3f50103de3b538ad2362fa15c212e272",
+      "byteLength": 18028
+    },
+    {
+      "path": "src/renderer/atlasWseRevisionTimeObjectPresentationModel.mjs",
+      "sha256": "fa28895b362fc601008d9b25650c1b4b96441c5e037d163fa1f4cc4e52c49357",
+      "byteLength": 2391
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "b7a8724e03977cbda139e7eb0f3752a62044829bbd1d98090e57bca69fb077ec",
+      "byteLength": 1322363
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "26aec3d081a146a0ce505896d4bc06f712ce611172a86339bc63e7e74190312a",
+      "byteLength": 937391
+    },
+    {
+      "path": "src/renderer/styles.css",
+      "sha256": "c0a60c0815f8f0daad837ca057ea3a4ca9589f1898bb15fd0c001f37758c43e3",
+      "byteLength": 222040
+    },
+    {
+      "path": "test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs",
+      "sha256": "6e48e50e2090b5057363cc0bd2a944fd741d80d5d32deed0a53644e3cf3bd3bd",
+      "byteLength": 4719
+    },
+    {
+      "path": "test/contracts/r24-wp605-post-audit-compatibility.contract.test.mjs",
+      "sha256": "5d4997342cce9c66a089debecfbc1e549abb33d1d3435ce7bf82a4740d4344cb",
+      "byteLength": 4504
+    },
+    {
+      "path": "test/contracts/r24-wp605-terminal-carriers.contract.test.mjs",
+      "sha256": "8f050a0d34cfe1129173bfc85cf8928618f00f96ae48f577b709e1f20ebb6455",
+      "byteLength": 8517
+    },
+    {
+      "path": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "0f50e14598f3c19c6c5548cd4de35caefa0b40907f301da839a5a8a7dd574b19",
+      "byteLength": 94235
+    },
+    {
+      "path": "test/fixtures/r24-wp605-wse-revision-time-object-fixtures.js",
+      "sha256": "4523910f850b969d14182ea949f032587a04d50b6a3b8023cac1f9d95a561812",
+      "byteLength": 6201
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "29185af4d5204d962f6a4f4df995e327557edf5b1d938582c834fccf3ceac45a",
+      "byteLength": 6519
+    },
+    {
+      "path": "test/unit/r24-wp605-wse-revision-time-object-integration.test.js",
+      "sha256": "74d71b82b404c834bec00b7c2346ebbc6f4fdff64ab73621565ad20c60f7b562",
+      "byteLength": 2071
+    },
+    {
+      "path": "test/unit/r24-wp605-wse-revision-time-object-mutants.test.js",
+      "sha256": "34ee1b22518eeb3442bc6306ea76f7d0069f8a04d7f5ff96edda7353c976376b",
+      "byteLength": 3290
+    },
+    {
+      "path": "test/unit/r24-wp605-wse-revision-time-object-ui-e2e-smoke.mjs",
+      "sha256": "cda877af306962fd9f1efb107f5bfb7b0631406ed8ddd67c20cf1c003c131713",
+      "byteLength": 1102
+    },
+    {
+      "path": "test/unit/r24-wp605-wse-revision-time-object.test.js",
+      "sha256": "e26d2ca12367c95f001749b19da7246c286fdc9181128883c88e0297c76877da",
+      "byteLength": 4067
+    }
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false
+}

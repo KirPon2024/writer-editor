@@ -1,0 +1,137 @@
+{
+  "schemaVersion": "YALKEN_R24_WP605_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-605_WSE_REVISION_TIME_OBJECT",
+  "evidenceStampId": "ES-R24-WP-605-WSE-REVISION-TIME-OBJECT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_EVIDENCE_WITH_REQUIRED_GATES_AND_EXTERNAL_PREDICATES_NOT_PRECLAIMED",
+  "denominator": 23,
+  "localPassCount": 16,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "rows": [
+    {
+      "id": "PINNED_STAGE_ADMISSION",
+      "status": "PASS",
+      "evidence": "ac51e1174e0d30466ff8ee5f9627aee436fd35dd230b52ad1d142cbba04dae4e"
+    },
+    {
+      "id": "EXACT_41_PATH_WRITE_SET",
+      "status": "PASS",
+      "evidence": "8c9566252d3b30a3421fc989aa0204db8577e57d3fde96aad9d1a3a8ce64672b"
+    },
+    {
+      "id": "PROTECTED_WIP_BEFORE",
+      "status": "PASS",
+      "evidence": "5bb3f215850f044aaddc1cc5718a308e488fadc0037f8ab044e3fd5c5bbb67b6"
+    },
+    {
+      "id": "MODEL",
+      "status": "PASS",
+      "evidence": "a211c5c7e7dfc669d1c04c87bfa7c7903fab0c5e9594dacf039cd9dfe16dcd0c"
+    },
+    {
+      "id": "CONTRACT",
+      "status": "PASS",
+      "evidence": "d93452e52946b91ef0aeb809a4fa448f0f4e0227db52b31aba200ac480ae0bf8"
+    },
+    {
+      "id": "INTEGRATION",
+      "status": "PASS",
+      "evidence": "a547be714735fff688985ae32797055738173de64fd25278bde72a6365c66571"
+    },
+    {
+      "id": "MUTANTS_12_OF_12",
+      "status": "PASS",
+      "evidence": "1095dcbed803954bbe4aa33de2d3663631048cec7286565dead0d595154e80a1"
+    },
+    {
+      "id": "COMPLETE_CARRIER_DENOMINATOR",
+      "status": "PASS",
+      "evidence": "44323495b18b78c87371447fe0bdce230f922f6ebbe6a1c30fbcab1a92552ab0"
+    },
+    {
+      "id": "SEMANTIC_DIFF_EXPLICIT_SNAPSHOTS_ONLY",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "RETCON_PREVIEW_NO_APPLY",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "STORY_CLOCK_VERIFIED_TRIPLE_TIME",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "OBJECT_CUSTODY_CONTIGUOUS_EVENTS_ONLY",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "OPEN_WORLD_UNKNOWN_PRESERVED",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "IDENTITY_REVISION_GENERATION_GUARDS",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "BOUNDED_10000_INPUT_128_VISIBLE",
+      "status": "PASS",
+      "evidence": "EXECUTED_FOCUSED_CORPUS"
+    },
+    {
+      "id": "PROGRAM_DONE_FALSE",
+      "status": "PASS",
+      "evidence": "NODE_ONLY_SCOPE"
+    },
+    {
+      "id": "FULL_REQUIRED_LOCAL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_DESKTOP_BUILD_LIFECYCLE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_EXACT_DESKTOP_LIFECYCLE_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS",
+  "claimCeiling": "WP605_NODE_ONLY"
+}

@@ -4,6 +4,7 @@ import { deriveAtlasContinuityFindings } from './deriveAtlasContinuityFindings.m
 import { requireAtlasSceneOrder } from './atlasSceneOrder.mjs';
 import { buildWseStateEvidence } from '../../core/wse-state-evidence-v1.mjs';
 import { buildWseThreadsExplanation } from '../../core/wse-threads-explanation-v1.mjs';
+import { buildWseRevisionTimeObject } from '../../core/wse-revision-time-object-v1.mjs';
 import {
   ATLAS_CONTINUITY_LEDGER_CORRECTION_ROUTE_SCHEMA_VERSION,
   ATLAS_CONTINUITY_LEDGER_EVIDENCE_ROW_SCHEMA_VERSION,
@@ -288,6 +289,19 @@ function emptyState(projectId, reason = '') {
     causalContext: null,
     rowLimit: 32,
   });
+  const wseRevisionTimeObject = buildWseRevisionTimeObject({
+    projectId: projectId || 'unavailable-project',
+    sourceRevision: reason || 'empty',
+    currentSourceRevision: reason || 'empty',
+    generation: 0,
+    currentGeneration: 0,
+    currentFacts: [],
+    previousSnapshot: null,
+    retconProposal: null,
+    timeKnowledgeInput: null,
+    objectCustodyEvents: null,
+    rowLimit: 32,
+  });
   return {
     schemaVersion: ATLAS_CONTINUITY_LEDGER_SURFACE_SCHEMA_VERSION,
     state: reason ? 'unavailable' : 'empty',
@@ -311,6 +325,7 @@ function emptyState(projectId, reason = '') {
     rows: [],
     wseStateEvidence,
     wseThreadsExplanation,
+    wseRevisionTimeObject,
     listParity: buildListParity([], 0),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash: '', sourceHash: '' }),
@@ -354,12 +369,26 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     causalContext: null,
     rowLimit: Math.min(128, Math.max(rowLimit, 32)),
   });
+  const wseRevisionTimeObject = buildWseRevisionTimeObject({
+    projectId,
+    sourceRevision: meta.invalidationKey,
+    currentSourceRevision: meta.invalidationKey,
+    generation: 0,
+    currentGeneration: 0,
+    currentFacts: allFacts,
+    previousSnapshot: null,
+    retconProposal: null,
+    timeKnowledgeInput: null,
+    objectCustodyEvents: null,
+    rowLimit: Math.min(128, Math.max(rowLimit, 32)),
+  });
   const surfaceHash = hashCanonicalValue({
     rows: visibleRows,
     sourceHash,
     rowLimit,
     wseProjectionDigest: wseStateEvidence.projectionDigest,
     wseThreadsExplanationDigest: wseThreadsExplanation.projectionDigest,
+    wseRevisionTimeObjectDigest: wseRevisionTimeObject.projectionDigest,
   });
   const degradedRowCount = visibleRows.filter((row) => row.evidenceRows.some((evidenceRow) => evidenceRow.evidenceState !== 'current')).length;
   return {
@@ -387,6 +416,7 @@ function buildState({ project, projectId, findingsResult, factLedgersResult, row
     rows: visibleRows,
     wseStateEvidence,
     wseThreadsExplanation,
+    wseRevisionTimeObject,
     listParity: buildListParity(visibleRows, omittedRowCount),
     keyboardContract: buildKeyboardContract(),
     evidence: buildEvidence({ surfaceHash, sourceHash }),

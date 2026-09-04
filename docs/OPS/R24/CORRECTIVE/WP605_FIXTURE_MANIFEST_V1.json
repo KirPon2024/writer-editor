@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "YALKEN_R24_WP605_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-605_WSE_REVISION_TIME_OBJECT",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "CONTRACT_NEGATIVE",
+      "path": "test/unit/r24-wp605-wse-revision-time-object.test.js"
+    },
+    {
+      "id": "UNIT",
+      "path": "test/unit/r24-wp605-wse-revision-time-object.test.js"
+    },
+    {
+      "id": "INTEGRATION",
+      "path": "test/unit/r24-wp605-wse-revision-time-object-integration.test.js"
+    },
+    {
+      "id": "IMPLEMENTATION_MUTANTS",
+      "path": "test/unit/r24-wp605-wse-revision-time-object-mutants.test.js"
+    },
+    {
+      "id": "OPEN_WORLD_COUNTEREXAMPLE",
+      "path": "test/unit/r24-wp605-wse-revision-time-object.test.js"
+    },
+    {
+      "id": "STALE_REJECTION",
+      "path": "test/unit/r24-wp605-wse-revision-time-object-mutants.test.js"
+    },
+    {
+      "id": "BOUNDED_10000_INPUT_128_VISIBLE",
+      "path": "test/unit/r24-wp605-wse-revision-time-object.test.js"
+    },
+    {
+      "id": "WSE_UI_SOURCE_CONTRACT",
+      "path": "test/unit/r24-wp605-wse-revision-time-object-ui-e2e-smoke.mjs"
+    },
+    {
+      "id": "EXACT_DESKTOP_LIFECYCLE",
+      "path": "scripts/ops/yalken-atlas-v5-final-audit-p0-03-packaged-visible-journey.mjs"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "WRITER_LOCAL_OFFLINE",
+  "designEvidence": {
+    "provider": "LAZYWEB_ADVISORY_ONLY",
+    "searchId": "dcca8fbd-5a65-4d90-bf2d-eeebd369c4b8",
+    "referenceIds": [
+      "screens:a55a2e2a4a34f07acb298857",
+      "screens:802d92b5d5d6616d73492cad",
+      "screens:6de400e865af3c11b0d5612a"
+    ],
+    "runtimeDependency": false
+  }
+}

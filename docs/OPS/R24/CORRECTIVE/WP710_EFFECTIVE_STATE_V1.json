@@ -23,8 +23,8 @@
     "fixtureManifestDigest": "ff293b4383cf839800d23d0f8bc01a968d550479db3f58bfbb5afdfcac44c653",
     "exportContractDigest": "57823d34baf6feb85fdc53c71f81f254b810fff2dc6893e7dc7370d4ab443166",
     "featureIntegrationManifestDigest": "48eb35e11cd99b544ac193d06191628c837f8088b79d02019130a790c933de45",
-    "acceptanceMatrixDigest": "2e60f76bddb117865d66ccfae94fb2b64f6ef8f65b6e7d72151eff431321a78a",
-    "carrierRegistryDigest": "5286be30f04a2e8ad506c5bdd305a1c924bf86cde955ccfbbbaa07ee8a0bae77"
+    "acceptanceMatrixDigest": "a297842af57b00f31bafd7c9ad37fe4c81dff2754eefeebd867e504129ed7703",
+    "carrierRegistryDigest": "4f5e47eb33d7754d7dec52a17de098178c1f82ea73f9127b9dcd4131d2964b1b"
   },
   "completeGraphDenominator": 109,
   "currentCounts": {

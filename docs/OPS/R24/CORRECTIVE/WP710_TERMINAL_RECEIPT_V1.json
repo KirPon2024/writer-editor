@@ -10,7 +10,7 @@
   "programDone": false,
   "receiptId": "WP710_TERMINAL_RECEIPT_V1",
   "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
-  "observedAtUtc": "2026-09-04T10:46:35.391Z",
+  "observedAtUtc": "2026-09-04T11:38:35.139Z",
   "repositoryEvidenceStampId": "ES-R24-WP-710-EVIDENCE-CAPSULE-EXPORT-CLAIM-BINDINGS",
   "baseIdentity": {
     "sha": "725b47c254895a5075c381ce5182592a40c31b45",
@@ -30,11 +30,11 @@
     "fixtureManifestDigest": "ff293b4383cf839800d23d0f8bc01a968d550479db3f58bfbb5afdfcac44c653",
     "exportContractDigest": "57823d34baf6feb85fdc53c71f81f254b810fff2dc6893e7dc7370d4ab443166",
     "featureIntegrationManifestDigest": "48eb35e11cd99b544ac193d06191628c837f8088b79d02019130a790c933de45",
-    "acceptanceMatrixDigest": "2e60f76bddb117865d66ccfae94fb2b64f6ef8f65b6e7d72151eff431321a78a",
-    "carrierRegistryDigest": "5286be30f04a2e8ad506c5bdd305a1c924bf86cde955ccfbbbaa07ee8a0bae77",
-    "effectiveStateDigest": "fd90954de696bd68039265e14a78ccbe36a492007c2a3a6baa05f8b4f6b8b546",
-    "stageRegistryDigest": "0f3d9ddc877695c911451a47b6ea6fcbb38a98439bc387c1eb9c98af7d575ac3",
-    "leaseReleaseDigest": "b45dfb3df95627a0a196f2fab081f4a78502a807cdc25ee37a245b97159843f9"
+    "acceptanceMatrixDigest": "a297842af57b00f31bafd7c9ad37fe4c81dff2754eefeebd867e504129ed7703",
+    "carrierRegistryDigest": "4f5e47eb33d7754d7dec52a17de098178c1f82ea73f9127b9dcd4131d2964b1b",
+    "effectiveStateDigest": "7d7fcade1b38a6767c38ceb80ba63fa6cfbc989f06b7224e0d2f9a673fdd0f20",
+    "stageRegistryDigest": "a5a7698161ab60ada7dc5c7495f202e46278276dbe98cfed3cb1b11592932c9a",
+    "leaseReleaseDigest": "ba0fe10617c182ea49fc449c7ad6f4f4f1bc28c48c2a508334a65d4bc1557ecb"
   },
   "implementationArtifacts": [
     {

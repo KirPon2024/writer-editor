@@ -6,7 +6,7 @@
   "verdict": "PASS",
   "headSha": "725b47c254895a5075c381ce5182592a40c31b45",
   "originMainSha": "725b47c254895a5075c381ce5182592a40c31b45",
-  "generatedAtUtc": "2026-09-04T10:46:35.393Z",
+  "generatedAtUtc": "2026-09-04T11:38:35.140Z",
   "oracle": "Exact admitted worktree-byte bindings; base SHA is admission identity. Full gates, protected delivery, exact postmerge and external terminal release remain unclaimed predicates.",
   "claimBindings": [
     {
@@ -121,7 +121,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_CARRIER_REGISTRY_V1.json",
-      "sha256": "5286be30f04a2e8ad506c5bdd305a1c924bf86cde955ccfbbbaa07ee8a0bae77",
+      "sha256": "4f5e47eb33d7754d7dec52a17de098178c1f82ea73f9127b9dcd4131d2964b1b",
       "claimTerms": [
         "READY",
         "PASS",
@@ -131,7 +131,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_ACCEPTANCE_MATRIX_V1.json",
-      "sha256": "2e60f76bddb117865d66ccfae94fb2b64f6ef8f65b6e7d72151eff431321a78a",
+      "sha256": "a297842af57b00f31bafd7c9ad37fe4c81dff2754eefeebd867e504129ed7703",
       "claimTerms": [
         "READY",
         "PASS",
@@ -141,7 +141,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_EFFECTIVE_STATE_V1.json",
-      "sha256": "fd90954de696bd68039265e14a78ccbe36a492007c2a3a6baa05f8b4f6b8b546",
+      "sha256": "7d7fcade1b38a6767c38ceb80ba63fa6cfbc989f06b7224e0d2f9a673fdd0f20",
       "claimTerms": [
         "READY",
         "PASS",
@@ -151,7 +151,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_STAGE_REGISTRY_V1.json",
-      "sha256": "0f3d9ddc877695c911451a47b6ea6fcbb38a98439bc387c1eb9c98af7d575ac3",
+      "sha256": "a5a7698161ab60ada7dc5c7495f202e46278276dbe98cfed3cb1b11592932c9a",
       "claimTerms": [
         "READY",
         "PASS",
@@ -161,7 +161,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_LEASE_RELEASE_V1.json",
-      "sha256": "b45dfb3df95627a0a196f2fab081f4a78502a807cdc25ee37a245b97159843f9",
+      "sha256": "ba0fe10617c182ea49fc449c7ad6f4f4f1bc28c48c2a508334a65d4bc1557ecb",
       "claimTerms": [
         "READY",
         "PASS",
@@ -171,7 +171,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP710_TERMINAL_RECEIPT_V1.json",
-      "sha256": "8691e7a78ac479ac82f43c1fd33937db8b696c96e8c32a6c91dd7c29d79591f1",
+      "sha256": "25dea5de5669433fa71a00aa46353d9400fa7535ab76402b8f9153193955fae1",
       "claimTerms": [
         "READY",
         "PASS",

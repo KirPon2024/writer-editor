@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP801_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-801_PULSE_LEDGER",
+  "status": "GRAPH_DERIVED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-04T20:09:16.915Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "acfbd6896cd9830ab48f794bbbb2a433bd72b42d",
+  "baseTree": "1981f9b3d7a9963b54472ea3b0d47b40f13fa359",
+  "readySet": [
+    "WP-801_PULSE_LEDGER"
+  ],
+  "ownerGate": null,
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 79,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 17
+  },
+  "programDone": false,
+  "leaseAtSelection": {
+    "fencingCounter": 91,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "e0c755502d4e3ace92d0c0aa41bc3b14b46e2a931864f7da951a1af13e36e366"
+  },
+  "mutationAdmissionGranted": false
+}

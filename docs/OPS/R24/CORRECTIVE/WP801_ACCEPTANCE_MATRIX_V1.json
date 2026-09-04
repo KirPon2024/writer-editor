@@ -1,0 +1,166 @@
+{
+  "schemaVersion": "YALKEN_R24_WP801_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-801_PULSE_LEDGER",
+  "evidenceStampId": "ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "LOCAL_PROOF_COMPLETE_EXTERNAL_DELIVERY_PENDING",
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_41_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "GRAPH_DERIVED_SUCCESSOR_WITHOUT_OWNER_GATE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "LOGICAL_APPEND_ONLY_LEDGER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "DURABLE_INTENT_AND_OUTBOX_JOURNALS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-CONTRACT"
+    },
+    {
+      "id": "EXPECTED_SEQUENCE_COMPARE_AND_SWAP",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-CONTRACT"
+    },
+    {
+      "id": "HASH_CHAINED_ENTRY_IDENTITY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-CONTRACT"
+    },
+    {
+      "id": "IDEMPOTENT_REPLAY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-CONTRACT"
+    },
+    {
+      "id": "IDEMPOTENCY_CONFLICT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MUTANTS"
+    },
+    {
+      "id": "HASHED_IDEMPOTENCY_KEY_AT_REST",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MUTANTS"
+    },
+    {
+      "id": "CONCURRENT_HANDLE_SERIALIZATION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-INTEGRATION"
+    },
+    {
+      "id": "CLOSE_AND_REOPEN_DURABILITY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-INTEGRATION"
+    },
+    {
+      "id": "FIVE_PHASE_ACK_LOSS_RECOVERY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-INTEGRATION"
+    },
+    {
+      "id": "INVALID_TORN_FINAL_TAIL_ONLY_REPAIR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-INTEGRATION"
+    },
+    {
+      "id": "VALID_MISSING_FINAL_LF_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MUTANTS"
+    },
+    {
+      "id": "MIDDLE_CORRUPTION_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MUTANTS"
+    },
+    {
+      "id": "LEDGER_AND_JOURNAL_DIVERGENCE_REJECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MUTANTS"
+    },
+    {
+      "id": "STRICT_WP800_RECEIPT_VALIDATION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-CONTRACT"
+    },
+    {
+      "id": "MAXIMUM_ENTRIES_AND_BYTES_BOUND",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "IMMUTABLE_DEEP_FROZEN_SNAPSHOT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "SYNTHETIC_FIXTURES_NO_PRIVATE_OWNER_DATA",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "NO_UI_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-801-PULSE-LEDGER-MODEL"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ],
+  "denominator": 29,
+  "localPassCount": 22,
+  "localRequiredCount": 2,
+  "externalRequiredCount": 5,
+  "failCount": 0,
+  "unknownCount": 0,
+  "activationRule": "ALL_REQUIRED_LOCAL_GATES_CLEAN_ENGINE_EXACT_DESKTOP_FIXTURE_SCENARIOS_AND_ALL_FIVE_EXTERNAL_DELIVERY_PREDICATES_PASS"
+}

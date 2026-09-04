@@ -96,10 +96,17 @@ export const HISTORICAL_INVENTORY_CLAIM_PINS_V11 = Object.freeze([
   Object.freeze({ stampId: 'ES-R24-WP-800-PULSE-POLICY-CODEC-CLAIM-BINDINGS', stampSha256: '1afa04b7d79b978f2fdec427fb7076b8503df0362e782f4bc6037452dc4314e0',
     evaluationSha: 'acfbd6896cd9830ab48f794bbbb2a433bd72b42d', evaluationTree: '1981f9b3d7a9963b54472ea3b0d47b40f13fa359', targetSha256: '3f1eed6cebb483b42ef182fee19af777417b01d65aca8fd431ded4f1c9c50aef' }),
 ]);
+// WP802 successor compatibility: retain the WP801 inventory binding at the
+// exact WP801 terminal merge while WP802 publishes the current inventory.
+export const HISTORICAL_INVENTORY_CLAIM_PINS_V12 = Object.freeze([
+  ...HISTORICAL_INVENTORY_CLAIM_PINS_V11,
+  Object.freeze({ stampId: 'ES-R24-WP-801-PULSE-LEDGER-CLAIM-BINDINGS', stampSha256: '43367af52e9f00ea4dcd846dde273b8bb4083a917c7b5262b6fd854f2e448870',
+    evaluationSha: '0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5', evaluationTree: '4e20bc39abe02228b8d1e2833c37cb694eb12a51', targetSha256: '67f41cf7aec9ea96b4369dbb30a6bed7a38ac100183c50fac8c37f0e2f0feffb' }),
+]);
 const INVENTORY_PATH = 'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json';
 const historicalGit = (rootDir, args) => execFileSync('git', args, { cwd: rootDir, encoding: null, maxBuffer: 4 * 1024 * 1024, timeout: 15000, stdio: ['ignore','pipe','pipe'] });
 export function verifyHistoricalInventoryClaim({ rootDir, stamp, stampBytes, binding, git = historicalGit }) {
-  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V11.find(item => item.stampId === stamp.stampId);
+  const pin = HISTORICAL_INVENTORY_CLAIM_PINS_V12.find(item => item.stampId === stamp.stampId);
   if (!pin || binding.filePath !== INVENTORY_PATH) return null;
   const fail = () => { const error = new Error('E_HISTORICAL_INVENTORY_BINDING'); error.code = error.message; throw error; };
   if (sha256hex(stampBytes) !== pin.stampSha256 || binding.sha256 !== pin.targetSha256) fail();

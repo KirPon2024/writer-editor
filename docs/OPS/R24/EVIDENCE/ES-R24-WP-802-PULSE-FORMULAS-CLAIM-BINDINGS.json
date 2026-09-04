@@ -1,0 +1,143 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+  "contourId": "WP-802_PULSE_FORMULAS",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5",
+  "originMainSha": "0482b9f1c838b3e89eb9055edb19dd2d9f0a93a5",
+  "generatedAtUtc": "2026-09-04T21:32:10Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "e0673bf7e0f83838ca14d450d30a4a4797f529991def43e698f3530910d96cd2",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "36d5e23e21c469f61e37526d1b4b35d6f2a73466901f44a75dd6de1d8fdacaa0",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "3ce5ddd148ac75eda4a23c9c4d0701a62965af6ae7f27617af5722eaafd6d6e2",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_PULSE_FORMULAS_CONTRACT_V1.json",
+      "sha256": "1c7b59b9956f3353c4636d16bb3f29565e403dfe11849b7efb026d637806cf01",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_TERMINAL_RECEIPT_V1.json",
+      "sha256": "8a783b8c8136d45b548d914e1b9f93c535ccfb39d3b6ab7bb792939bb8fec0a9",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_WP801_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "4bef7748e6f7a2a186a6442d612f69c2d12c365d053b62c223fab562ed4a7ed8",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-formulas-v1.mjs",
+      "sha256": "39296c0d1541c9faa73913e00fc06e68f572e0091b225ac77898ede2f5490014",
+      "terms": [
+        "WP802_VERSIONED_PULSE_FORMULAS_AND_MERKLE_CHECKPOINTS"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp802-pulse-formulas-fixtures.js",
+      "sha256": "4a8ea0e8256bad5924a0387f7574eaad3bd90f7559f8d4bf5bca9489251765fa",
+      "terms": [
+        "WP802_VERSIONED_PULSE_FORMULAS_AND_MERKLE_CHECKPOINTS"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas.test.js",
+      "sha256": "bc29a405dbaae3d1e19119883bde9cc85071b0ce55b4c7c0a39628464ed6468e",
+      "terms": [
+        "WP802_VERSIONED_PULSE_FORMULAS_AND_MERKLE_CHECKPOINTS"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas-integration.test.js",
+      "sha256": "293119a6b0d49343d169e5d3f78c06eace88c8d73b761ff5807091f89baa4dcb",
+      "terms": [
+        "WP802_VERSIONED_PULSE_FORMULAS_AND_MERKLE_CHECKPOINTS"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp802-pulse-formulas-mutants.test.js",
+      "sha256": "781178cedef43f2495c718ce883f6442266ed6797372bd8a89cc0549a5bd35dc",
+      "terms": [
+        "WP802_VERSIONED_PULSE_FORMULAS_AND_MERKLE_CHECKPOINTS"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test --test-reporter=tap test/unit/r24-wp802-pulse-formulas.test.js test/unit/r24-wp802-pulse-formulas-integration.test.js test/unit/r24-wp802-pulse-formulas-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      }
+    },
+    {
+      "command": "registered ledger checkpoint input and arithmetic mutants",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 15,
+        "survived": 0
+      }
+    },
+    {
+      "command": "checkpoint-assisted recomputation after durable ledger advance and reopen",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 2,
+        "fail": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_OR_TELEMETRY_DATA",
+    "NO_PERSISTENCE_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP802_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

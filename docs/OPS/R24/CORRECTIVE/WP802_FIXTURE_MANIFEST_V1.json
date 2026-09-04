@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP802_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "VERSIONED_FORMULAS_CHECKPOINTS_AND_MERKLE",
+      "path": "test/unit/r24-wp802-pulse-formulas.test.js"
+    },
+    {
+      "id": "LEDGER_ADVANCE_REOPEN_AND_CROSS_LEDGER_REJECTION",
+      "path": "test/unit/r24-wp802-pulse-formulas-integration.test.js"
+    },
+    {
+      "id": "LEDGER_CHECKPOINT_INPUT_AND_OVERFLOW_MUTANTS",
+      "path": "test/unit/r24-wp802-pulse-formulas-mutants.test.js"
+    },
+    {
+      "id": "SYNTHETIC_LOCAL_AGGREGATE_LEDGER_INPUTS",
+      "path": "test/fixtures/r24-wp802-pulse-formulas-fixtures.js"
+    },
+    {
+      "id": "DISPOSABLE_BUILD_PROFILE_LIFECYCLE",
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "PULSE_LOCAL_HISTORY_OFFLINE",
+  "physicalScenario": {
+    "create": 1,
+    "write": 1,
+    "save": 1,
+    "close": 1,
+    "reopen": 1,
+    "recovery": 1,
+    "export": 1,
+    "source": "EXISTING_DISPOSABLE_FIXTURE_BASELINE_REQUIRED_AT_FULL_GATE"
+  },
+  "designEvidence": {
+    "status": "NOT_APPLICABLE_NO_UI_CHANGE",
+    "runtimeDependency": false,
+    "canonicalDesignAuthority": false
+  }
+}

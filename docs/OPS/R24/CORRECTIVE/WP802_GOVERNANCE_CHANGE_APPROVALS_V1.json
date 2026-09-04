@@ -1,0 +1,269 @@
+{
+  "version": "v1.0",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+    "ES-R24-WP-802-PULSE-FORMULAS-MODEL",
+    "ES-R24-WP-802-PULSE-FORMULAS-CONTRACT",
+    "ES-R24-WP-802-PULSE-FORMULAS-INTEGRATION",
+    "ES-R24-WP-802-PULSE-FORMULAS-MUTANTS"
+  ],
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "50e9f8bee3e503f87a9ea2fcd0ea86f1a994fb080d4de1dc414f92a2e1f2c633",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "6723bc06bb2af3ba60ccf03bc4c805a0f138110ecdb2579bb8c001100ae29273",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "bc8241750b7e8135fdab177e398bc12ca8c0b759c6e03dc21c98de5ff256396a",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_CARRIER_REGISTRY_V1.json",
+      "sha256": "008fe3e6f8a6ff0decfe3277bd4aa25d737366e401c75893ac2cf78a3bcf4123",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "e0673bf7e0f83838ca14d450d30a4a4797f529991def43e698f3530910d96cd2",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_EFFECTIVE_STATE_V1.json",
+      "sha256": "74d82bdbfd2f60e017587a2cc7509ae7d7c5ed15c07455fb90eb71ec510175b1",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "36d5e23e21c469f61e37526d1b4b35d6f2a73466901f44a75dd6de1d8fdacaa0",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_FIXTURE_MANIFEST_V1.json",
+      "sha256": "20fa137de3b2a0ffde732c382fb4ec2e0d6872673707402481934ef276c6d6e3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_LEASE_RELEASE_V1.json",
+      "sha256": "3adc7e4cfe9fa6a22d8e209f3fdda8b68c6cb3458859693698043608c1457e21",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "b7a0d5ca54ad7deedc47db4ef2eebce72d10d5e02ed678c475710f279b611f47",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "3ce5ddd148ac75eda4a23c9c4d0701a62965af6ae7f27617af5722eaafd6d6e2",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "8948922792a58f2714b76cdff7c52f56ee8a8205719cc5b3af0f207a91eb9913",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "0b28cb20451b725f4e840319edaf94665e7415ae1a4c0e9fe1bff99a6468a44e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "3481b8b295cde5b8c717d7ba22788acc7f78cd1a00fa9bc65b7dff249190af5f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_PULSE_FORMULAS_CONTRACT_V1.json",
+      "sha256": "1c7b59b9956f3353c4636d16bb3f29565e403dfe11849b7efb026d637806cf01",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "6219e0a579a74bc737b96c109e18388c935527b5dd940abd2c58de889527a881",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_STAGE_REGISTRY_V1.json",
+      "sha256": "23a063233cd1483c53b762d3678ce12575cc795cd5be54056420af9298431cde",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_TERMINAL_RECEIPT_V1.json",
+      "sha256": "8a783b8c8136d45b548d914e1b9f93c535ccfb39d3b6ab7bb792939bb8fec0a9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP802_WP801_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "4bef7748e6f7a2a186a6442d612f69c2d12c365d053b62c223fab562ed4a7ed8",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS.json",
+      "sha256": "1be32fd18a2a6897ad8d3ad1b244015ef419fa8f9487a8fee16488bbbcc31d4c",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-802-PULSE-FORMULAS-CONTRACT.json",
+      "sha256": "cc9f7c7b888ce15b88490cb9f72b02172c0cac76c6a8694084a437b1f524fd8d",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-802-PULSE-FORMULAS-INTEGRATION.json",
+      "sha256": "2ac7553c0e3b75c161498cef9750625b7bc4a2615820e519f109a6926ccfb152",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-802-PULSE-FORMULAS-MODEL.json",
+      "sha256": "fb67ff88b808fb5afb053c83aec3a02dcab777615b7d643f9315b4c3114d20ac",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-802-PULSE-FORMULAS-MUTANTS.json",
+      "sha256": "efa2372c6133190962d88cc5e4efb8813c85ae81ff3563d8f34374478b558c13",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "0d04df9912f3cc49e231ff672105137506fc389503f02e7fd877e8525c7e4c33",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "772ade286a1126e05a98457c255871b628306bb721ed01b86513abfd2719d5fc",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "src/core/pulse-formulas-v1.mjs",
+      "sha256": "39296c0d1541c9faa73913e00fc06e68f572e0091b225ac77898ede2f5490014",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/contracts/r24-wp801-post-audit-compatibility.contract.test.mjs",
+      "sha256": "722593a7349bd05bc75b7a6b5c2b4ae75100dd3e48d1d8ae25e791d4f519a616",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/contracts/r24-wp801-terminal-carriers.contract.test.mjs",
+      "sha256": "ce115b4c09dda2de7b22ec312a733c571ae3f5ad416f4d1eced345f33aec560e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/contracts/r24-wp802-post-audit-compatibility.contract.test.mjs",
+      "sha256": "6d01463ac16cde02c7a514a63614a2addf8180644917f80076ba446e36945263",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/contracts/r24-wp802-terminal-carriers.contract.test.mjs",
+      "sha256": "fff42e1fd541902aa40b597d39684a6e6846cfc297e6b9a2c65b4a817c5f82bb",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "dfdba8c5dfebbb77b13dfd50eaa87a3e8700f09e93531c662b0b8b83263526b9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp802-pulse-formulas-fixtures.js",
+      "sha256": "4a8ea0e8256bad5924a0387f7574eaad3bd90f7559f8d4bf5bca9489251765fa",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/unit/r24-wp802-pulse-formulas-integration.test.js",
+      "sha256": "293119a6b0d49343d169e5d3f78c06eace88c8d73b761ff5807091f89baa4dcb",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/unit/r24-wp802-pulse-formulas-mutants.test.js",
+      "sha256": "781178cedef43f2495c718ce883f6442266ed6797372bd8a89cc0549a5bd35dc",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    },
+    {
+      "filePath": "test/unit/r24-wp802-pulse-formulas.test.js",
+      "sha256": "bc29a405dbaae3d1e19119883bde9cc85071b0ce55b4c7c0a39628464ed6468e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP802_PULSE_FORMULAS_V1",
+      "approvedAtUtc": "2026-09-04T21:32:10Z",
+      "rationale": "Owner-authorized WP802 delivery binds deterministic versioned Pulse formulas, prefix checkpoints, domain-separated Merkle roots and fail-closed recomputation over immutable WP801 ledger snapshots."
+    }
+  ]
+}

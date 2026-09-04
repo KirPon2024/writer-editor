@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-802_PULSE_FORMULAS",
+  "evidenceStampId": "ES-R24-WP-802-PULSE-FORMULAS-CLAIM-BINDINGS",
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "STRICT_IMMUTABLE_WP801_PULSE_LEDGER_SNAPSHOT",
+    "mutation": "NONE_REBUILDABLE_DERIVED_PROJECTION"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.pulseFormulaProjection",
+      "query.pulseFormulaCheckpoint"
+    ],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": [
+      "rebuild.pulseFormulaProjection"
+    ]
+  },
+  "ports": {
+    "product": [
+      "immutablePulseLedgerSnapshot"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schemas": [
+      "yalken.r24.pulseFormulaCheckpoint.v1",
+      "yalken.r24.pulseFormulaProjection.v1"
+    ],
+    "immutable": true,
+    "identityGuards": [
+      "formulaVersion",
+      "formulaSetDigest",
+      "throughSequence",
+      "ledgerHeadDigest",
+      "merkleRoot",
+      "checkpointDigest",
+      "projectionDigest"
+    ],
+    "maximumEntries": 4096
+  },
+  "fallbacks": [
+    "FULL_RECOMPUTATION_WHEN_NO_CHECKPOINT",
+    "REJECT_UNKNOWN_FORMULA_VERSION",
+    "REJECT_STALE_OR_TAMPERED_CHECKPOINT",
+    "REJECT_LEDGER_CHAIN_OR_RECEIPT_TAMPER",
+    "REJECT_UNSAFE_INTEGER_RESULT"
+  ],
+  "recovery": "REBUILD_FROM_IMMUTABLE_WP801_LEDGER_SNAPSHOT",
+  "performance": {
+    "maximumEntries": 4096,
+    "validation": "LINEAR",
+    "merkle": "LINEAR_PER_RECOMPUTATION"
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "UNKNOWN_FIELDS",
+    "ACCESSORS",
+    "SYMBOLS",
+    "SEQUENCE_MISMATCH",
+    "HEAD_MISMATCH",
+    "CHAIN_TAMPER",
+    "ENTRY_DIGEST_TAMPER",
+    "RECEIPT_TAMPER",
+    "FORMULA_VERSION_MISMATCH",
+    "CHECKPOINT_DIGEST_TAMPER",
+    "MERKLE_TAMPER",
+    "STALE_PREFIX",
+    "SAFE_INTEGER_OVERFLOW"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "programDone": false,
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  }
+}

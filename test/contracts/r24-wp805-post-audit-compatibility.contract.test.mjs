@@ -16,6 +16,7 @@ const WP806_SUCCESSOR_PATHS = new Set([
   'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
   'scripts/ops/r24/corrective/post-audit-certification-set.mjs',
   'scripts/ops/r24/docs-claim-lint.mjs',
+  'test/contracts/r24-wp804-terminal-carriers.contract.test.mjs',
   'test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs',
   'test/contracts/r24-wp805-terminal-carriers.contract.test.mjs',
   'test/contracts/rtk-release01-terminal-claims.contract.test.js',

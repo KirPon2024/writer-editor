@@ -36,12 +36,12 @@
     }
   ],
   "authority": {
-    "authorityDigest": "2d1feefc618255ce8e9d35fc49322d9f2e61a07904f1c6ba4bdf701ca22177ff",
-    "stageInstanceDigest": "f652ba742d54e0ae2c13d55086eb0021a18f1fd3044ca7dca28e819c86dcefed",
-    "writeSetDigest": "3c17ff99030dc88de819bf847541701eded36e22d2ffc73e4bab1ad72a8b3277",
+    "authorityDigest": "4cc0e94e2b1c63cfd793de53a5cc771cf9c30273ad05a723cd56d247d8be7d20",
+    "stageInstanceDigest": "084199bfd07fb847a680baf3ecbb6698bd089ea12eacdf98850e0101e30011b9",
+    "writeSetDigest": "b93bf307c528c0859cd8ea2767ce838b148a46b55ae72889047440ed3e7de86d",
     "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
     "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
-    "stageAdmissionDigest": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f",
+    "stageAdmissionDigest": "910a24f2bfea599c5685a70718c85e017fbb87bf4e0ab831164e07cb7d493b1c",
     "ownerAuthorityBindingDigest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9"
   },
   "completeHistoricalRegistryChecksPreserved": true

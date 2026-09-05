@@ -10,6 +10,11 @@ import { HISTORICAL_INVENTORY_CLAIM_PINS_V14 } from '../../scripts/ops/r24/docs-
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file));
+const WP804_MERGE_SHA = '22a12573e3539c5f91064cc6db90c0a1c47cbaa1';
+const WP806_SUCCESSOR_PATHS = new Set(['src/core/pulse-privacy-v1.mjs']);
+const historicalWp804Bytes = file => WP806_SUCCESSOR_PATHS.has(file)
+  ? execFileSync('git', ['show', `${WP804_MERGE_SHA}:${file}`], { encoding: null })
+  : fs.readFileSync(file);
 const names = ['MAIN_PRODUCT_OWNER_AUTHORITY','MAIN_PRODUCT_STAGE_INSTANCE','MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION','PROTECTED_WIP_BEFORE',
   'WP803_TERMINAL_PREDECESSOR','PULSE_PRIVACY_CONTRACT','FEATURE_INTEGRATION_MANIFEST','EFFECTIVE_GRAPH_BASELINE','CARRIER_REGISTRY','ACCEPTANCE_MATRIX',
   'EFFECTIVE_STATE','STAGE_REGISTRY','LEASE_RELEASE','TERMINAL_RECEIPT'];
@@ -91,7 +96,7 @@ test('WP804 evidence carries 24 executed tests and 10 actual implementation muta
     assert.equal(h(bytes), raw.sha256);
     assert.match(bytes.toString(), /\n1\.\.24\n# tests 24\n# suites 0\n# pass 24\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n/u);
     assert.equal(raw.processExitCode, 0);
-    for (const artifact of evidence.artifact.implementationArtifacts) assert.equal(h(fs.readFileSync(artifact.path)), artifact.sha256);
+    for (const artifact of evidence.artifact.implementationArtifacts) assert.equal(h(historicalWp804Bytes(artifact.path)), artifact.sha256);
     if (kind === 'MUTANTS') {
       assert.equal(evidence.test.denominator, 10);
       assert.equal(evidence.claim.actualSourceMutations, true);

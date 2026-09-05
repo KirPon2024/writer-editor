@@ -131,6 +131,7 @@
       "src/main.js",
       "src/renderer/editor.bundle.js",
       "src/renderer/editor.js",
+      "test/contracts/r24-wp804-terminal-carriers.contract.test.mjs",
       "test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs",
       "test/contracts/r24-wp805-terminal-carriers.contract.test.mjs",
       "test/contracts/rtk-release01-terminal-claims.contract.test.js",

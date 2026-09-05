@@ -10,14 +10,14 @@
   "programDone": false,
   "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
   "bindings": {
-    "authorityDigest": "2d1feefc618255ce8e9d35fc49322d9f2e61a07904f1c6ba4bdf701ca22177ff",
-    "stageInstanceDigest": "f652ba742d54e0ae2c13d55086eb0021a18f1fd3044ca7dca28e819c86dcefed",
-    "writeSetDigest": "3c17ff99030dc88de819bf847541701eded36e22d2ffc73e4bab1ad72a8b3277",
+    "authorityDigest": "4cc0e94e2b1c63cfd793de53a5cc771cf9c30273ad05a723cd56d247d8be7d20",
+    "stageInstanceDigest": "084199bfd07fb847a680baf3ecbb6698bd089ea12eacdf98850e0101e30011b9",
+    "writeSetDigest": "b93bf307c528c0859cd8ea2767ce838b148a46b55ae72889047440ed3e7de86d",
     "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
     "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
-    "stageAdmissionDigest": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f",
-    "selectionReceiptDigest": "2530f7d93821df483e9b42514e6711bda81275c9fbedaf299ecc1e5910b34f51",
-    "ownerDecisionDigest": "fae7a196711bae766579f1f3a0cb11d5835459ded084ec700333df967056f3e3",
+    "stageAdmissionDigest": "910a24f2bfea599c5685a70718c85e017fbb87bf4e0ab831164e07cb7d493b1c",
+    "selectionReceiptDigest": "e5ad6640b2ec2fab118b6947f73401cb9a295ce1dab912b5fdc7e844ed6dd866",
+    "ownerDecisionDigest": "202303ea13515d7aa9591a8330489e6f34b28b84f306178a3cf9e1f9ffb49a24",
     "wp805TerminalPredecessorDigest": "eaa76eab9e017d4bb14f3d2153800536d02c961e68048de5be8b8d3bb0cfd814",
     "pulseClaimContractDigest": "260c658df4687c6c8181030db4aafd988de5f3479c127baa698596b54835808e",
     "effectiveGraphBaselineDigest": "4d35a989713a92c0a875aa597a30967d402a21a53ad9e73d7a503e67ed36aff7",
@@ -25,8 +25,8 @@
     "fixtureManifestDigest": "f47a0b64b501858fa54f4573e86777db627f4486858cc2125cb495de462ff3cc",
     "featureIntegrationManifestDigest": "a915f4cdd54abe7430fdf23e90a18a2626a3f2bf23bfdf384839b869ea3acfe9",
     "surfaceManifestDigest": "7ec1d635b4d503d71a1c65dd6b32500e71f12495a1ac881c81b0a4fdddd35f05",
-    "acceptanceMatrixDigest": "bc85a2152df2fe6ca11982c08a91719ae22c7a9e4d7c2b23f2ea97932bb9dd4c",
-    "carrierRegistryDigest": "8f62521951233a89bc89aae310e1977162e693912282dde7ed28709a7800527f"
+    "acceptanceMatrixDigest": "5235ceafb6c2d05a6ae3db100c041abf181763ec27dda8c1d380265c3f3085a2",
+    "carrierRegistryDigest": "0a6a03afc741d5f6ee955699cc4e3753ccad1d1532aa852eb0154a853772bcdd"
   },
   "completeGraphDenominator": 109,
   "currentCounts": {

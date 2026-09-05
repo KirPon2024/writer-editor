@@ -1,0 +1,98 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "WP801_LOCAL_AGGREGATE_LEDGER_PLUS_EXPLICIT_PRIVACY_COMMANDS",
+    "mutation": "ATOMIC_PRIVACY_STATE_APPEND_ONLY_CORRECTIONS_AND_EXISTING_LEDGER_PORT"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [
+      "command.pulseOptIn",
+      "command.pulseOptOut",
+      "command.pulseAppendCorrection",
+      "command.pulseExport",
+      "command.pulseDelete"
+    ],
+    "queries": [
+      "query.pulsePrivacyExplanation"
+    ],
+    "events": [
+      "event.pulseAggregateReceiptAccepted"
+    ],
+    "effects": [
+      "effect.pulseAggregateExport",
+      "effect.pulseAggregateDeletion"
+    ],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "existingPulseLedgerPort",
+      "durableSaveTransaction",
+      "pulseAggregateExportPort",
+      "pulseAggregateDeletionPort"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schemas": [
+      "yalken.r24.pulsePrivacyExplanation.v1",
+      "yalken.r24.pulsePrivacyExport.v1"
+    ],
+    "immutable": true,
+    "identityGuards": [
+      "privacyRevision",
+      "privacyStateDigest",
+      "ledgerSequence",
+      "ledgerHeadDigest",
+      "correctionSequence",
+      "correctionHeadDigest"
+    ],
+    "maximumEntries": 4096
+  },
+  "fallbacks": [
+    "DEFAULT_OPTED_OUT",
+    "REJECT_STALE_OR_TAMPERED_INPUT",
+    "NO_AUTOMATIC_CLEANUP",
+    "NO_IMPLICIT_EXPORT_OR_DELETE"
+  ],
+  "recovery": "REOPEN_CANONICAL_STATE_LEDGER_AND_CORRECTION_CHAIN_OR_FAIL_TYPED",
+  "performance": {
+    "maximumLedgerEntries": 4096,
+    "maximumCorrectionEntries": 4096,
+    "validation": "LINEAR_BOUNDED"
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "COLLECTION_WITHOUT_OPT_IN",
+    "POST_OPT_OUT_COLLECTION",
+    "RETENTION_OVERFLOW",
+    "CORRECTION_TARGET_DRIFT",
+    "STALE_EXPORT",
+    "STALE_DELETE",
+    "REQUEST_PATH_AUTHORITY",
+    "PORT_RESULT_FORGERY",
+    "TAMPERED_STATE",
+    "TAMPERED_CORRECTION_CHAIN",
+    "ACCESSOR_SYMBOL_UNKNOWN_FIELD",
+    "IMPLEMENTATION_MUTANTS"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false
+}

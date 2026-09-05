@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
-import { HISTORICAL_INVENTORY_CLAIM_PINS_V13 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
+import { HISTORICAL_INVENTORY_CLAIM_PINS_V14 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = b => crypto.createHash('sha256').update(b).digest('hex');
 const read = p => JSON.parse(fs.readFileSync(p));
@@ -28,13 +29,13 @@ function verify(v) {
   assert.deepEqual(v.EFFECTIVE_STATE.targetStates,{...graph.states,'WP-803_DESCRIPTIVE_HISTORY':'DONE'}); assert.deepEqual(v.EFFECTIVE_STATE.targetCounts,{BLOCKED_TYPED:3,DONE:82,INELIGIBLE_OPTIONAL:10,PENDING:14});
   const admitted=[...i.operations.modifyPaths,...i.operations.createPaths].sort();const r=v.CARRIER_REGISTRY;
   assert.deepEqual([...r.carriers.map(x=>x.path),...r.excludedDependentCarriers].sort(),admitted);assert.equal(admitted.length,37);assert.equal(r.carrierDenominator,29);assert.equal(r.currentTreeFallbackAllowed,false);
-  for(const x of r.carriers){const bytes=fs.readFileSync(x.path);assert.equal(h(bytes),x.sha256,x.path);assert.equal(bytes.length,x.byteLength);}
+  for(const x of r.carriers){const bytes=execFileSync('git',['show','86b79c5b3866e3c2d819569f17b8a38f4ffe26aa:'+x.path]);assert.equal(h(bytes),x.sha256,x.path);assert.equal(bytes.length,x.byteLength);}
   const acceptance=v.ACCEPTANCE_MATRIX;assert.equal(acceptance.denominator,29);assert.equal(acceptance.rows.filter(x=>x.status==='PASS').length,22);assert.equal(acceptance.rows.filter(x=>x.status==='REQUIRED_NOT_PRECLAIMED').length,7);
   assert.equal(v.TERMINAL_RECEIPT.status,'CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES');assert.equal(v.TERMINAL_RECEIPT.activationOutcome.doneCount,82);assert.equal(v.LEASE_RELEASE.currentLease.status,'ACTIVE');assert.equal(v.LEASE_RELEASE.targetLease.wip,0);
   for(const [field,n] of [['leaseReleaseDigest','LEASE_RELEASE'],['acceptanceMatrixDigest','ACCEPTANCE_MATRIX'],['effectiveStateDigest','EFFECTIVE_STATE'],['stageRegistryDigest','STAGE_REGISTRY']])assert.equal(v.TERMINAL_RECEIPT.bindings[field],h(fs.readFileSync(C+'WP803_'+n+'_V1.json')));
   for(const x of Object.values(v))if(Object.hasOwn(x,'programDone'))assert.equal(x.programDone,false);
 }
-test('WP803 carriers bind exact admission, history semantics, bytes and conditional release',()=>{verify(load());const claim=buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS.json'));for(const b of claim.claimBindings)assert.equal(h(fs.readFileSync(b.filePath)),b.sha256);assert.equal(HISTORICAL_INVENTORY_CLAIM_PINS_V13.at(-1).evaluationSha,'e62310f3e958db6d86a7f71d4a310c2bc65461ce');});
+test('WP803 carriers bind exact admission, history semantics, bytes and conditional release',()=>{verify(load());const claim=buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-CLAIM-BINDINGS.json'));for(const b of claim.claimBindings)if(!b.filePath.endsWith('C1B_TEST_INVENTORY_V1.json'))assert.equal(h(fs.readFileSync(b.filePath)),b.sha256);assert.equal(HISTORICAL_INVENTORY_CLAIM_PINS_V14.at(-1).evaluationSha,'86b79c5b3866e3c2d819569f17b8a38f4ffe26aa');});
 test('WP803 evidence carries 23 executed tests and 10 actual implementation mutants',()=>{
   for(const kind of ['MODEL','CONTRACT','INTEGRATION','MUTANTS']){const e=read('docs/OPS/R24/EVIDENCE/ES-R24-WP-803-DESCRIPTIVE-HISTORY-'+kind+'.json');const raw=e.artifact.rawEvidence,b=Buffer.from(raw.stdoutBase64,'base64');assert.equal(b.length,raw.byteLength);assert.equal(h(b),raw.sha256);assert.match(b.toString(),/\n1\.\.23\n# tests 23\n# suites 0\n# pass 23\n# fail 0\n# cancelled 0\n# skipped 0\n# todo 0\n/u);assert.equal(raw.processExitCode,0);for(const x of e.artifact.implementationArtifacts)assert.equal(h(fs.readFileSync(x.path)),x.sha256);if(kind==='MUTANTS'){assert.equal(e.test.denominator,10);assert.equal(e.claim.actualSourceMutations,true);assert.equal((b.toString().match(/^ok \d+ - WP803 kills implementation mutant:/gm)||[]).length,10);}}
 });

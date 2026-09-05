@@ -1,0 +1,297 @@
+{
+  "version": "v1.0",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+    "ES-R24-WP-804-PULSE-PRIVACY-MODEL",
+    "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT",
+    "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION",
+    "ES-R24-WP-804-PULSE-PRIVACY-MUTANTS"
+  ],
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "92e3f5b6785563dc760dd7375ba672695bbcb35653ee9c726ea454306f442a92",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "fd37b1349fceae304b908e1aab0b99ae8b66380201656055b41fb790c8f46228",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "730936d709c5ebe7a8c346caefbd8e1f5b7c960d0c71a55beb535597f0a2dbb4",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_CARRIER_REGISTRY_V1.json",
+      "sha256": "dca8b9e9d3fe1236891e634cd1a6bc3597e0eab7d5654445b56195a5e1923775",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "afe23280176cab9152ea678e84b8fc7f0ade5a1584925195542c2fe942b6ab90",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_EFFECTIVE_STATE_V1.json",
+      "sha256": "6ab0e39fecfec0482850d8ab46ed3e251349ab9f04fb8180eb2b5f4df496e90f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "6d3111de37491ef1a376edd8c4a9bdccd97b6c5b4bebe9d2497405335be97d06",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_FIXTURE_MANIFEST_V1.json",
+      "sha256": "82184514cb995d509eb70345e3dd0a5a755bf37963b16ccb332a1ea5ce193915",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_LEASE_RELEASE_V1.json",
+      "sha256": "18369503a1332253120603307668fe8c98eedca2b7e9188ed83dc2671382cab9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "165256d2ec8cad19fa9214fb6dcd20b297fba6edcd0c65447bc1e9dc4b6fdb9e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "42bdea2357b5f64dd9eb7b5b743d07d6e232ef15e968343c321149237da0db2a",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5533d8d9caa75751251a9697251dd50d86c64bb53433bddbfd1b5d9c793e2c43",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "f50a700482da9fa7f198f55f99d05395bb3b2f522f173550a9928d4d69c6c89a",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "6df88c1457177bc325a6f899ba0d28d09613ce341c171f7f236e413c430f6ba6",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_PULSE_PRIVACY_CONTRACT_V1.json",
+      "sha256": "4d4b2ae501864efbc9069e7832c715ddeeea4b7d922a5bd2ccaa50179db6c4ff",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "9283ea366940cd0d179646080d150546bcd5d62f0206261cdc70647038b4dff6",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_STAGE_REGISTRY_V1.json",
+      "sha256": "e47882bb319207e3741432a991325e74932883ba65f081353df8c075722c465a",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_TERMINAL_RECEIPT_V1.json",
+      "sha256": "16514efaed8ff270e7d3a2dec4b21709388e08e56b2672fef0ffdc0b6491df54",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_WP803_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "9d648a20f1a6ca6a73e1bd8c376db12df3121293a2e55886593a4879ea814bbb",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS.json",
+      "sha256": "128367e68a32830e1f94a779bafedc1ffc9113db887165b9d116c1226e42f8e2",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-CONTRACT.json",
+      "sha256": "c68da2a427bc9382baa2d440cc75cee8134696db0838e01f8a9c5bc8218ada46",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION.json",
+      "sha256": "7f2e9985468c617eecb4427fa562ee6ffa960c0905bac58272ec8c43e9301e54",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-MODEL.json",
+      "sha256": "179730780b5c2a91bc034187a79ba3bd8d78feeca136f27b63b06c10b41a8b69",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-MUTANTS.json",
+      "sha256": "702d1400d5389d9ebb284e943d35d93f2ae66e37af3a8788014f06a007b86c4e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/OWNER_GATE_AMENDMENTS_R2_4.json",
+      "sha256": "489481b2a993385bc58a23c8e3e95fed7f00d061063a1a899406068d8a584365",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_RETENTION_ADR_WP804_PULSE_PRIVACY_V1.json",
+      "sha256": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "c0e92c59006c108d46c22fbd8b9f59a4157fc657fcf855d10e9fe8461d0da20f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "681b237ff138662d380509a6490a0ff26c647b7eef9bee819b5732350953a80f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "scripts/ops/r24/owner-gate-decisions.mjs",
+      "sha256": "34488cfafbc21026fcf6ca224f42823798060a5ea26661ca368722358178a03d",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "scripts/ops/r24/tests/owner-gate-decisions.test.mjs",
+      "sha256": "7ea637b705bdf59d29b719da2e4e8ffef7b7f9285d5eb235821316d5047e4abc",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "src/core/pulse-privacy-v1.mjs",
+      "sha256": "cd87bb7a502e0d3891ec27950942efee83ff64af335f4d492c9bcf61d90cdd5f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/contracts/r24-wp803-post-audit-compatibility.contract.test.mjs",
+      "sha256": "7cec3f9db2f8abf2e5ecc48ae50fa6343097d7c989b76365f2c041205308a6f3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/contracts/r24-wp803-terminal-carriers.contract.test.mjs",
+      "sha256": "e5e062774329b9b5802c92166c91d78b85a049c775ec8d31dccf232590202e08",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/contracts/r24-wp804-post-audit-compatibility.contract.test.mjs",
+      "sha256": "f57c90c5c5fb2723203833f6ca8e6921c2a762421257e4bc27bdab0c96e578cc",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/contracts/r24-wp804-terminal-carriers.contract.test.mjs",
+      "sha256": "de3f5da964716cf9d2e7fbbcd0c971a03f488455ff3755691affcd1feaa35327",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "8fc2c65c17a05fb48e4060324a18e27d596d9c226d80897d3d9c0e2d01ae7209",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp804-pulse-privacy-fixtures.js",
+      "sha256": "a6597e4d4b03df9af322c4fba487cb4b038306b1ed2aebae7e21d93adaea6fd3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/unit/r24-wp804-pulse-privacy-integration.test.js",
+      "sha256": "0f3b3b4e1be36a5ce3fdf20033cbfacf5796770fdccb2358c2049433965e5bb3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/unit/r24-wp804-pulse-privacy-mutants.test.js",
+      "sha256": "6ccf30fc66e2d75d8e9e83448f7ffd1eaec7bcb2fbbad7d752cf4eac976fa2d9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    },
+    {
+      "filePath": "test/unit/r24-wp804-pulse-privacy.test.js",
+      "sha256": "b45538f3e9e332ebdaaedf79fb9ae6145b366c95fa779ec12b828a200dae9e9a",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_YALKEN_R24_WP804_PULSE_PRIVACY_V1",
+      "approvedAtUtc": "2026-09-05T06:09:20Z",
+      "rationale": "Owner-confirmed bounded WP804 local aggregate privacy, consent, retention, correction, export and deletion contract."
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "contourId": "WP-804_PULSE_PRIVACY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "86b79c5b3866e3c2d819569f17b8a38f4ffe26aa",
+  "originMainSha": "86b79c5b3866e3c2d819569f17b8a38f4ffe26aa",
+  "generatedAtUtc": "2026-09-05T06:09:20Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "afe23280176cab9152ea678e84b8fc7f0ade5a1584925195542c2fe942b6ab90",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "6d3111de37491ef1a376edd8c4a9bdccd97b6c5b4bebe9d2497405335be97d06",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "42bdea2357b5f64dd9eb7b5b743d07d6e232ef15e968343c321149237da0db2a",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_PULSE_PRIVACY_CONTRACT_V1.json",
+      "sha256": "4d4b2ae501864efbc9069e7832c715ddeeea4b7d922a5bd2ccaa50179db6c4ff",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_TERMINAL_RECEIPT_V1.json",
+      "sha256": "16514efaed8ff270e7d3a2dec4b21709388e08e56b2672fef0ffdc0b6491df54",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP804_WP803_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "9d648a20f1a6ca6a73e1bd8c376db12df3121293a2e55886593a4879ea814bbb",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "fd37b1349fceae304b908e1aab0b99ae8b66380201656055b41fb790c8f46228",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-privacy-v1.mjs",
+      "sha256": "cd87bb7a502e0d3891ec27950942efee83ff64af335f4d492c9bcf61d90cdd5f",
+      "terms": [
+        "WP804_PULSE_PRIVACY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp804-pulse-privacy-fixtures.js",
+      "sha256": "a6597e4d4b03df9af322c4fba487cb4b038306b1ed2aebae7e21d93adaea6fd3",
+      "terms": [
+        "WP804_PULSE_PRIVACY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy.test.js",
+      "sha256": "b45538f3e9e332ebdaaedf79fb9ae6145b366c95fa779ec12b828a200dae9e9a",
+      "terms": [
+        "WP804_PULSE_PRIVACY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy-integration.test.js",
+      "sha256": "0f3b3b4e1be36a5ce3fdf20033cbfacf5796770fdccb2358c2049433965e5bb3",
+      "terms": [
+        "WP804_PULSE_PRIVACY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy-mutants.test.js",
+      "sha256": "6ccf30fc66e2d75d8e9e83448f7ffd1eaec7bcb2fbbad7d752cf4eac976fa2d9",
+      "terms": [
+        "WP804_PULSE_PRIVACY"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp804-pulse-privacy.test.js test/unit/r24-wp804-pulse-privacy-integration.test.js test/unit/r24-wp804-pulse-privacy-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 24,
+        "fail": 0
+      }
+    },
+    {
+      "command": "Ten source-mutated modules exercised against behavioral oracles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_BYPASS_OR_TELEMETRY_DATA",
+    "NO_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP804_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

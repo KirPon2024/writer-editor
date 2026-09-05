@@ -1,0 +1,156 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "receiptId": "WP804_TERMINAL_RECEIPT_V1",
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_PREDICATES",
+  "observedAtUtc": "2026-09-05T06:09:20Z",
+  "repositoryEvidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "baseIdentity": {
+    "sha": "86b79c5b3866e3c2d819569f17b8a38f4ffe26aa",
+    "treeSha": "d07717fe8060372297f83a1ee193d6da46b432d6"
+  },
+  "bindings": {
+    "authorityDigest": "165256d2ec8cad19fa9214fb6dcd20b297fba6edcd0c65447bc1e9dc4b6fdb9e",
+    "stageInstanceDigest": "f50a700482da9fa7f198f55f99d05395bb3b2f522f173550a9928d4d69c6c89a",
+    "writeSetDigest": "e59291eae2a450800a0d08e90be6a37927599e22a9102b1648b93818fd9382a5",
+    "commandScopeDigest": "57fd9f77da754e7459f0aa310fc09c03600033c42f1c258bd89275d704f6d42a",
+    "acceptanceSignalsDigest": "54a2dd65d79211867473b7451865073492b9f65f6d2f2409ffe659a656ce05c4",
+    "stageAdmissionDigest": "5533d8d9caa75751251a9697251dd50d86c64bb53433bddbfd1b5d9c793e2c43",
+    "ownerDecisionDigest": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3",
+    "selectionReceiptDigest": "42bdea2357b5f64dd9eb7b5b743d07d6e232ef15e968343c321149237da0db2a",
+    "wp803TerminalPredecessorDigest": "9d648a20f1a6ca6a73e1bd8c376db12df3121293a2e55886593a4879ea814bbb",
+    "pulsePrivacyContractDigest": "4d4b2ae501864efbc9069e7832c715ddeeea4b7d922a5bd2ccaa50179db6c4ff",
+    "effectiveGraphBaselineDigest": "afe23280176cab9152ea678e84b8fc7f0ade5a1584925195542c2fe942b6ab90",
+    "protectedWipBeforeRawDigest": "6df88c1457177bc325a6f899ba0d28d09613ce341c171f7f236e413c430f6ba6",
+    "fixtureManifestDigest": "82184514cb995d509eb70345e3dd0a5a755bf37963b16ccb332a1ea5ce193915",
+    "featureIntegrationManifestDigest": "6d3111de37491ef1a376edd8c4a9bdccd97b6c5b4bebe9d2497405335be97d06",
+    "acceptanceMatrixDigest": "730936d709c5ebe7a8c346caefbd8e1f5b7c960d0c71a55beb535597f0a2dbb4",
+    "carrierRegistryDigest": "dca8b9e9d3fe1236891e634cd1a6bc3597e0eab7d5654445b56195a5e1923775",
+    "effectiveStateDigest": "6ab0e39fecfec0482850d8ab46ed3e251349ab9f04fb8180eb2b5f4df496e90f",
+    "stageRegistryDigest": "e47882bb319207e3741432a991325e74932883ba65f081353df8c075722c465a",
+    "leaseReleaseDigest": "18369503a1332253120603307668fe8c98eedca2b7e9188ed83dc2671382cab9"
+  },
+  "implementationArtifacts": [
+    {
+      "path": "src/core/pulse-privacy-v1.mjs",
+      "sha256": "cd87bb7a502e0d3891ec27950942efee83ff64af335f4d492c9bcf61d90cdd5f"
+    },
+    {
+      "path": "test/fixtures/r24-wp804-pulse-privacy-fixtures.js",
+      "sha256": "a6597e4d4b03df9af322c4fba487cb4b038306b1ed2aebae7e21d93adaea6fd3"
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy.test.js",
+      "sha256": "b45538f3e9e332ebdaaedf79fb9ae6145b366c95fa779ec12b828a200dae9e9a"
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy-integration.test.js",
+      "sha256": "0f3b3b4e1be36a5ce3fdf20033cbfacf5796770fdccb2358c2049433965e5bb3"
+    },
+    {
+      "path": "test/unit/r24-wp804-pulse-privacy-mutants.test.js",
+      "sha256": "6ccf30fc66e2d75d8e9e83448f7ffd1eaec7bcb2fbbad7d752cf4eac976fa2d9"
+    }
+  ],
+  "localEvidence": {
+    "exactDesktopFixtureScenarios": {
+      "create": 1,
+      "write": 1,
+      "save": 1,
+      "close": 1,
+      "reopen": 1,
+      "recovery": 1,
+      "export": 1,
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "syntheticDisposableFixtureOnly": true
+    },
+    "cleanEngineStrictInstall": {
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "requiredFullGates": {
+      "status": "REQUIRED_NOT_PRECLAIMED"
+    },
+    "focusedWp804": {
+      "tests": 24,
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "status": "PASS",
+      "rawEvidence": {
+        "basename": "WP804_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap",
+        "sha256": "d4a2fe9adb082907bea528e27b75c598b6b1780a61cf5059a149f9e30bdbf304",
+        "byteLength": 4939,
+        "node": "22.12.0",
+        "processExitCode": 0,
+        "testDenominator": 24,
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0,
+        "todo": 0,
+        "command": "node --test test/unit/r24-wp804-pulse-privacy.test.js test/unit/r24-wp804-pulse-privacy-integration.test.js test/unit/r24-wp804-pulse-privacy-mutants.test.js",
+        "stdoutBase64": "VEFQIHZlcnNpb24gMTMKIyBTdWJ0ZXN0OiBXUDgwNCBzdXJ2aXZlcyBhIGZyZXNoIHByb2Nlc3Mgd2l0aCBjb25zZW50LCBsZWRnZXIgYW5kIGNvcnJlY3Rpb25zIGludGFjdApvayAxIC0gV1A4MDQgc3Vydml2ZXMgYSBmcmVzaCBwcm9jZXNzIHdpdGggY29uc2VudCwgbGVkZ2VyIGFuZCBjb3JyZWN0aW9ucyBpbnRhY3QKICAtLS0KICBkdXJhdGlvbl9tczogMjU5LjMyNDcwOAogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGJpbmRzIGV4cG9ydCB0byBhIGZyZXNoIGxlZGdlciBhbmQgY29ycmVjdGlvbiBpZGVudGl0eQpvayAyIC0gV1A4MDQgYmluZHMgZXhwb3J0IHRvIGEgZnJlc2ggbGVkZ2VyIGFuZCBjb3JyZWN0aW9uIGlkZW50aXR5CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE5MC4wNjA3NQogIC4uLgojIFN1YnRlc3Q6IFdQODA0IHJlamVjdHMgdGFtcGVyZWQgbG9jYWwgcHJpdmFjeSBzdGF0ZSBhbmQgY29ycmVjdGlvbiBqb3VybmFsIGJlZm9yZSBhbnkgcG9ydCBlZmZlY3QKb2sgMyAtIFdQODA0IHJlamVjdHMgdGFtcGVyZWQgbG9jYWwgcHJpdmFjeSBzdGF0ZSBhbmQgY29ycmVjdGlvbiBqb3VybmFsIGJlZm9yZSBhbnkgcG9ydCBlZmZlY3QKICAtLS0KICBkdXJhdGlvbl9tczogMjI1LjM3MDU0MQogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGRpc3Bvc2FibGUgZW5kLXRvLWVuZCBmbG93IGNvbGxlY3RzLCBjb3JyZWN0cywgZXhwb3J0cywgb3B0cyBvdXQsIGRlbGV0ZXMgYW5kIHJlb3BlbnMgc2FmZWx5Cm9rIDQgLSBXUDgwNCBkaXNwb3NhYmxlIGVuZC10by1lbmQgZmxvdyBjb2xsZWN0cywgY29ycmVjdHMsIGV4cG9ydHMsIG9wdHMgb3V0LCBkZWxldGVzIGFuZCByZW9wZW5zIHNhZmVseQogIC0tLQogIGR1cmF0aW9uX21zOiAyMzkuNDE4NTgzCiAgLi4uCiMgU3VidGVzdDogV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBkZWZhdWx0IG9wdC1vdXQgcmVtb3ZlZApvayA1IC0gV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBkZWZhdWx0IG9wdC1vdXQgcmVtb3ZlZAogIC0tLQogIGR1cmF0aW9uX21zOiAyMS43Njc3NQogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogYXV0b21hdGljIGNsZWFudXAgYWxsb3dlZApvayA2IC0gV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBhdXRvbWF0aWMgY2xlYW51cCBhbGxvd2VkCiAgLS0tCiAgZHVyYXRpb25fbXM6IDIuMDQ4NjI1CiAgLi4uCiMgU3VidGVzdDogV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBjb2xsZWN0aW9uIG9wdC1pbiBndWFyZCBpbnZlcnRlZApvayA3IC0gV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBjb2xsZWN0aW9uIG9wdC1pbiBndWFyZCBpbnZlcnRlZAogIC0tLQogIGR1cmF0aW9uX21zOiAxOTIuMjQzNzA4CiAgLi4uCiMgU3VidGVzdDogV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiByZXRlbnRpb24gbWF4aW11bSBtYWRlIG9mZiBieSBvbmUKb2sgOCAtIFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogcmV0ZW50aW9uIG1heGltdW0gbWFkZSBvZmYgYnkgb25lCiAgLS0tCiAgZHVyYXRpb25fbXM6IDUxLjE4MDUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IG9wdC1vdXQgcGVyc2lzdGVuY2UgcmVtYWlucyBvcHRlZCBpbgpvayA5IC0gV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBvcHQtb3V0IHBlcnNpc3RlbmNlIHJlbWFpbnMgb3B0ZWQgaW4KICAtLS0KICBkdXJhdGlvbl9tczogMTM4LjIzOTUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGNvcnJlY3Rpb24gY2hhaW4gaGVhZCByZXNldApvayAxMCAtIFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogY29ycmVjdGlvbiBjaGFpbiBoZWFkIHJlc2V0CiAgLS0tCiAgZHVyYXRpb25fbXM6IDQyNi41MzMzNzUKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGV4cG9ydCBjb3JyZWN0aW9uIGlkZW50aXR5IGd1YXJkIHJlbW92ZWQKb2sgMTEgLSBXUDgwNCBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IGV4cG9ydCBjb3JyZWN0aW9uIGlkZW50aXR5IGd1YXJkIHJlbW92ZWQKICAtLS0KICBkdXJhdGlvbl9tczogMjkyLjM0MzMzMwogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogZGVsZXRlIGxlZGdlciBpZGVudGl0eSBndWFyZCByZW1vdmVkCm9rIDEyIC0gV1A4MDQga2lsbHMgaW1wbGVtZW50YXRpb24gbXV0YW50OiBkZWxldGUgbGVkZ2VyIGlkZW50aXR5IGd1YXJkIHJlbW92ZWQKICAtLS0KICBkdXJhdGlvbl9tczogMzEwLjExODI5MgogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogZGVsZXRlIHBvcnQgcmVzdWx0IHZhbGlkYXRpb24gcmVtb3ZlZApvayAxMyAtIFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogZGVsZXRlIHBvcnQgcmVzdWx0IHZhbGlkYXRpb24gcmVtb3ZlZAogIC0tLQogIGR1cmF0aW9uX21zOiA1NS4xNDY5NTgKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCBraWxscyBpbXBsZW1lbnRhdGlvbiBtdXRhbnQ6IHBlcnNpc3RlZCBjb3JyZWN0aW9uIG5vIGxvbmdlciBib3VuZCB0byBjdXJyZW50IGxlZGdlcgpvayAxNCAtIFdQODA0IGtpbGxzIGltcGxlbWVudGF0aW9uIG11dGFudDogcGVyc2lzdGVkIGNvcnJlY3Rpb24gbm8gbG9uZ2VyIGJvdW5kIHRvIGN1cnJlbnQgbGVkZ2VyCiAgLS0tCiAgZHVyYXRpb25fbXM6IDU0LjkyOTc5MgogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGRlZmF1bHRzIHRvIG9wdGVkIG91dCBhbmQgZXhwbGFpbnMgdGhlIGV4YWN0IG93bmVyIHBvbGljeQpvayAxNSAtIFdQODA0IGRlZmF1bHRzIHRvIG9wdGVkIG91dCBhbmQgZXhwbGFpbnMgdGhlIGV4YWN0IG93bmVyIHBvbGljeQogIC0tLQogIGR1cmF0aW9uX21zOiAxMS45OTc1ODQKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCByZXF1aXJlcyBleHBsaWNpdCBvcHQtaW4gYW5kIHN0b3JlcyBubyByYXcgcmVxdWVzdCBpZApvayAxNiAtIFdQODA0IHJlcXVpcmVzIGV4cGxpY2l0IG9wdC1pbiBhbmQgc3RvcmVzIG5vIHJhdyByZXF1ZXN0IGlkCiAgLS0tCiAgZHVyYXRpb25fbXM6IDE2MS44NTY3NQogIC4uLgojIFN1YnRlc3Q6IFdQODA0IHNlcmlhbGl6ZXMgb3B0LW91dCBiZWZvcmUgYW5kIGJsb2NrcyBldmVyeSBsYXRlciBjb2xsZWN0aW9uCm9rIDE3IC0gV1A4MDQgc2VyaWFsaXplcyBvcHQtb3V0IGJlZm9yZSBhbmQgYmxvY2tzIGV2ZXJ5IGxhdGVyIGNvbGxlY3Rpb24KICAtLS0KICBkdXJhdGlvbl9tczogMTQwLjk2NzI5MgogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGtlZXBzIGNvcnJlY3Rpb25zIGFzIHNlcGFyYXRlIGFwcGVuZC1vbmx5IGVudHJpZXMgYW5kIGFwcGxpZXMgdGhlIGxhdGVzdCB2YWx1ZQpvayAxOCAtIFdQODA0IGtlZXBzIGNvcnJlY3Rpb25zIGFzIHNlcGFyYXRlIGFwcGVuZC1vbmx5IGVudHJpZXMgYW5kIGFwcGxpZXMgdGhlIGxhdGVzdCB2YWx1ZQogIC0tLQogIGR1cmF0aW9uX21zOiAyMTMuNzgxMzc1CiAgLi4uCiMgU3VidGVzdDogV1A4MDQgcmVqZWN0cyBzdGFsZSBjb3JyZWN0aW9uIGlkZW50aXR5LCB3cm9uZyB0YXJnZXQgYW5kIHVucmVjb3JkZWQgbWV0cmljcwpvayAxOSAtIFdQODA0IHJlamVjdHMgc3RhbGUgY29ycmVjdGlvbiBpZGVudGl0eSwgd3JvbmcgdGFyZ2V0IGFuZCB1bnJlY29yZGVkIG1ldHJpY3MKICAtLS0KICBkdXJhdGlvbl9tczogMTU0LjgzNDE2NwogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGV4cG9ydHMgb25seSB0aHJvdWdoIHRoZSBuYW1lZCBwb3J0IGFmdGVyIGFuIGV4YWN0IGV4cGxpY2l0IHJlcXVlc3QKb2sgMjAgLSBXUDgwNCBleHBvcnRzIG9ubHkgdGhyb3VnaCB0aGUgbmFtZWQgcG9ydCBhZnRlciBhbiBleGFjdCBleHBsaWNpdCByZXF1ZXN0CiAgLS0tCiAgZHVyYXRpb25fbXM6IDE2NC4yMDgwNDIKICAuLi4KIyBTdWJ0ZXN0OiBXUDgwNCBkZWxldGlvbiB1c2VzIG9ubHkgZml4ZWQgYmFzZW5hbWVzIGFuZCByZW9wZW5zIGVtcHR5IGFuZCBvcHRlZCBvdXQKb2sgMjEgLSBXUDgwNCBkZWxldGlvbiB1c2VzIG9ubHkgZml4ZWQgYmFzZW5hbWVzIGFuZCByZW9wZW5zIGVtcHR5IGFuZCBvcHRlZCBvdXQKICAtLS0KICBkdXJhdGlvbl9tczogMTQyLjU1MTE2NgogIC4uLgojIFN1YnRlc3Q6IFdQODA0IGRlbGV0aW9uIGZhaWx1cmUgcHJlc2VydmVzIHRoZSBjb21taXR0ZWQgb3B0LW91dCBzdGF0ZQpvayAyMiAtIFdQODA0IGRlbGV0aW9uIGZhaWx1cmUgcHJlc2VydmVzIHRoZSBjb21taXR0ZWQgb3B0LW91dCBzdGF0ZQogIC0tLQogIGR1cmF0aW9uX21zOiAxMzcuMjEyMDg0CiAgLi4uCiMgU3VidGVzdDogV1A4MDQgZmFpbHMgY2xvc2VkIGF0IGNhcGFjaXR5IGFuZCBuZXZlciBjYWxscyBhdXRvbWF0aWMgY2xlYW51cApvayAyMyAtIFdQODA0IGZhaWxzIGNsb3NlZCBhdCBjYXBhY2l0eSBhbmQgbmV2ZXIgY2FsbHMgYXV0b21hdGljIGNsZWFudXAKICAtLS0KICBkdXJhdGlvbl9tczogMjcuMTQyNzA5CiAgLi4uCiMgU3VidGVzdDogV1A4MDQgcmVqZWN0cyBhY2Nlc3NvcnMsIHN5bWJvbHMsIHVua25vd24gZmllbGRzLCBjeWNsZXMgYW5kIHN0YWxlIGVmZmVjdCBpZGVudGl0aWVzCm9rIDI0IC0gV1A4MDQgcmVqZWN0cyBhY2Nlc3NvcnMsIHN5bWJvbHMsIHVua25vd24gZmllbGRzLCBjeWNsZXMgYW5kIHN0YWxlIGVmZmVjdCBpZGVudGl0aWVzCiAgLS0tCiAgZHVyYXRpb25fbXM6IDI1LjY0MjA0MQogIC4uLgoxLi4yNAojIHRlc3RzIDI0CiMgc3VpdGVzIDAKIyBwYXNzIDI0CiMgZmFpbCAwCiMgY2FuY2VsbGVkIDAKIyBza2lwcGVkIDAKIyB0b2RvIDAKIyBkdXJhdGlvbl9tcyAxNjE0LjAwMTc1Cg=="
+      }
+    }
+  },
+  "activationOutcome": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0,
+    "doneCount": 83,
+    "blockedTypedCount": 3,
+    "pendingCount": 13,
+    "ineligibleOptionalCount": 10,
+    "completeGraphDenominator": 109
+  },
+  "externalDeliveryPredicates": [
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null,
+      "providerIdentity": null
+    }
+  ],
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "nextGraphNodeStarted": false,
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_NETWORK_EXPORT_BYPASS_OR_TELEMETRY_DATA",
+    "NO_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP804_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

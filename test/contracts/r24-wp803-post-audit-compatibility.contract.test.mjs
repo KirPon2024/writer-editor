@@ -9,6 +9,7 @@ import {
 
 const FINAL_SHA = 'f802f802f802f802f802f802f802f802f802f802';
 const FINAL_TREE = 'a802a802a802a802a802a802a802a802a802a802';
+const WP803_MERGE_SHA = '86b79c5b3866e3c2d819569f17b8a38f4ffe26aa';
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? String(value) + '\n' : Buffer.from(String(value) + '\n');
@@ -31,9 +32,8 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
-        : fs.readFileSync(file);
+      let bytes = execFileSync('git', ['show', `${sha === E.baseSha ? E.baseSha : WP803_MERGE_SHA}:${file}`],
+        { encoding: null, maxBuffer: 32 * 1024 * 1024 });
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
         mutateJson.apply(value);
@@ -72,7 +72,7 @@ test('WP803 candidate oracle rejects a forged lease and carrier-registry fallbac
   assert.throws(() => verifyWp803MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP803_CARRIER_REGISTRY_V1.json', apply: (value) => { value.currentTreeFallbackAllowed = true; } } }) }), /E_WP803_CARRIER_DENOMINATOR/u);
 });
 
-test('WP803 routing pins the WP802 oracle to the immutable WP803 base', () => {
+test('WP804 routing pins the WP803 oracle to the immutable WP804 base', () => {
   const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
-  assert.match(source, /verifyWp802MainProductPostEvaluationException\(\{candidateSha:wp803Enabled\?WP803_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
+  assert.match(source, /verifyWp803MainProductPostEvaluationException\(\{candidateSha:wp804Enabled\?WP804_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
 });

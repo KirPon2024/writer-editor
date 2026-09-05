@@ -65,6 +65,15 @@
       "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_METRIC_PRIVACY_ADR_WP800_PULSE_POLICY_CODEC_V1.json",
       "decisionArtifactSha256": "bb8a3c9392949a299132cda36dd53a6d76a23af3475c7a678783d48b1ce0bb46",
       "revocationEpoch": 0
+    },
+    {
+      "gateId": "PULSE_RETENTION_ADR",
+      "nodeId": "WP-804_PULSE_PRIVACY",
+      "transitionFrom": "UNRESOLVED",
+      "transitionTo": "APPROVED",
+      "decisionArtifactPath": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_RETENTION_ADR_WP804_PULSE_PRIVACY_V1.json",
+      "decisionArtifactSha256": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3",
+      "revocationEpoch": 0
     }
   ]
 }

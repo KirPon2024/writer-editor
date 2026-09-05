@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_REQUIRED_EXTERNAL_PREDICATES_OPEN",
+  "denominator": 29,
+  "passed": 22,
+  "requiredNotPreclaimed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "todo": 0,
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_41_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "PULSE_RETENTION_OWNER_DECISION_EXACT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "GRAPH_DERIVED_SUCCESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "LOCAL_AGGREGATES_ONLY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "DEFAULT_OPTED_OUT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "EXPLICIT_OPT_IN_REQUIRED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "OPT_OUT_SERIALIZED_BEFORE_COLLECTION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "RETENTION_UNTIL_USER_DELETE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "CAPACITY_4096_NO_AUTOCLEANUP",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "CORRECTIONS_APPEND_ONLY_HASH_CHAIN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "CORRECTION_TARGET_REVALIDATED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "EXPLANATION_EFFECTIVE_VALUES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "EXPORT_EXPLICIT_FRESH_IDENTITY_NAMED_PORT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "DELETE_EXPLICIT_FRESH_IDENTITY_FIXED_BASENAMES",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "REQUEST_PATH_AUTHORITY_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "DELETE_FAILURE_REMAINS_OPTED_OUT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "FRESH_PROCESS_REOPEN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-INTEGRATION"
+    },
+    {
+      "id": "STATE_AND_CORRECTION_TAMPER_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "ACCESSOR_SYMBOL_UNKNOWN_CYCLE_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-CONTRACT"
+    },
+    {
+      "id": "TEN_ACTUAL_SOURCE_MUTANTS_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MUTANTS"
+    },
+    {
+      "id": "NO_UI_IPC_NETWORK_DEPENDENCY_OR_REAL_OWNER_DATA",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-804-PULSE-PRIVACY-MODEL"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ]
+}

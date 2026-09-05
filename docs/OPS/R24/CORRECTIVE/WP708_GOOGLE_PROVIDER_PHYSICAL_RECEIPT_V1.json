@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "YALKEN_R24_WP708_GOOGLE_PROVIDER_PHYSICAL_RECEIPT_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "status": "PASS_WITH_VERIFIED_CLEANUP",
+  "profile": "GOOGLE_INTERCHANGE",
+  "claimCeiling": "EXACT_GATE05_SYNTHETIC_NATIVE_AND_BRIDGE_LIFECYCLE_ONLY",
+  "ownerDecisionSha256": "563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
+  "externalGate04CleanupReceiptSha256": "43fd74f89eed7bae3f6c89df351b0ca855dbd4f4a11ca74d8cad777cdd0268f6",
+  "externalGate05ProposalSha256": "f238b76a4ba9565d240d22b7301d8d2991d902c9127c646bf8cfec073001d973",
+  "externalGate05ReceiptSha256": "9f853c11be3d8d77e50ddbe034efc1701769fd3f671db447e491a774bada419f",
+  "sourceIdentity": {
+    "baseSha": "7734cc48666f260c9554fbf46357c0a3b8b97c4d",
+    "baseTree": "e46a1b50943b7fa36e784400291080fd033235b2",
+    "branch": "codex/r24-wp708-google-provider-v1-20260905",
+    "fencingCounter": 98
+  },
+  "accountBinding": {
+    "emailSha256": "a85b42a94c665fdafd11ef712af6fff3ea5502c0343a484913b611c12758c3e7",
+    "accountIdSha256": "8fe4a76185146a7f917b6bc0f692ecb92e8d800dc929a9600ce6d66c2b31957d"
+  },
+  "artifactIdentity": {
+    "fileIdSha256": "9fa7d8dd25194fed1208f8d750caa9ef76be7e2869590677f58d5cd99cf8fd2b",
+    "urlSha256": "537d39d899c70a575bdc63a0296e560101493d4787d88956be5eda09a51df622",
+    "titleSha256": "f4c4441a21748c8baca1b2fc3e6d5397ce815b03a4895868a7fa6e549937635b",
+    "mimeType": "application/vnd.google-apps.document",
+    "privateUnshared": true,
+    "rawIdentifiersPersisted": false
+  },
+  "evidence": {
+    "payloadSha256": "5bbe9ad002487df0b003287a03dfed01566f556dabe2931f72488c826db2dc6e",
+    "payloadUtf16CodeUnits": 524,
+    "finalTextSha256": "a6ce64e65c29ead25c1f62394a4842ebfa00af134ae559a34c46234a5d0f76a5",
+    "finalTextUtf16CodeUnits": 517,
+    "paragraphDenominator": 12,
+    "commentLifecycle": "CREATE_READ_RESOLVE_READBACK_PASS",
+    "applyOccurrencesChanged": 1,
+    "staleRevisionDisposition": "PROVIDER_REJECTED_INVALID_ARGUMENT_WITH_REVISION_AND_TEXT_UNCHANGED",
+    "textExportSha256": "f1e31fad7427d7618ca81bbfca78653b71d2e93b4b3576d65a4be4b5ffbaf56a",
+    "textExportBytes": 548,
+    "docxExportSha256": "6ba70a1623f7483b30edec93c845d7862377a92cdfcc41abf672bb0fb093b608",
+    "docxExportBytes": 7050,
+    "docxZipSignature": true,
+    "reuploaded": false
+  },
+  "cleanup": {
+    "gate04ResidualDeletedAndNotFound": true,
+    "gate05CreatedFileDeletedAndNotFound": true,
+    "providerArtifactsRemaining": 0,
+    "cleanupRequiredForTerminal": true,
+    "cleanupVerified": true
+  },
+  "profileClaims": {
+    "native": "PHYSICAL_PASS_BOUNDED_TO_EXACT_SYNTHETIC_LIFECYCLE",
+    "bridge": "PHYSICAL_PASS_BOUNDED_TO_EXACT_CONNECTOR_LIFECYCLE",
+    "office": "ABSTAIN_NO_PHYSICAL_PASS_NO_INHERITANCE",
+    "applyDefault": "DENY_OUTSIDE_EXACT_CURRENT_REVISION_CAPABILITY",
+    "productRuntimeAutomaticApply": false,
+    "runtimeNetworkAuthority": false
+  },
+  "recordedAtUtc": "2026-09-05T22:06:47Z"
+}

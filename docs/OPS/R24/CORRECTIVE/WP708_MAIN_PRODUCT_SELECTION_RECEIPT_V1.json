@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "YALKEN_R24_WP708_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "OWNER_GATE_APPROVED_AND_ADMITTED_READY_SUCCESSOR",
+  "selectedAtUtc": "2026-09-05T22:06:47Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "7734cc48666f260c9554fbf46357c0a3b8b97c4d",
+  "baseTree": "e46a1b50943b7fa36e784400291080fd033235b2",
+  "readySet": ["WP-708_GOOGLE_PROVIDER"],
+  "ownerGate": {
+    "id": "GOOGLE_EGRESS_APPLY_ADR",
+    "decision": "APPROVED",
+    "bindingDigest": "563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
+    "registryStatePreserved": "UNRESOLVED_SAFE_DEFAULT_DENY"
+  },
+  "graphCounts": {"BLOCKED_TYPED": 3, "DONE": 85, "INELIGIBLE_OPTIONAL": 10, "PENDING": 11},
+  "leaseAtSelection": {
+    "fencingCounter": 97,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c"
+  },
+  "mutationAdmissionGranted": true,
+  "providerEffectAlreadyConsumedAndCleaned": true
+}

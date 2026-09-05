@@ -1,0 +1,48 @@
+{
+  "schemaVersion": "WP806_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP805_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "fb3627a030a93e59974279bcbc493affbc72f8eeff9e3f97f14a1fd087040426",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "0eed3261e0d7f2b394336be0b082140e633981e2",
+    "treeSha": "d22411ca09571f9fb9cde35af806b111fb588a7c"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:655f95584fbd2c96ee99e92cd404e9599666db98eb5107d1e2ebd660777dd13a"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "4cc0e94e2b1c63cfd793de53a5cc771cf9c30273ad05a723cd56d247d8be7d20",
+    "stageInstanceDigest": "084199bfd07fb847a680baf3ecbb6698bd089ea12eacdf98850e0101e30011b9",
+    "writeSetDigest": "b93bf307c528c0859cd8ea2767ce838b148a46b55ae72889047440ed3e7de86d",
+    "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
+    "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
+    "stageAdmissionDigest": "910a24f2bfea599c5685a70718c85e017fbb87bf4e0ab831164e07cb7d493b1c",
+    "ownerAuthorityBindingDigest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9"
+  },
+  "completeHistoricalRegistryChecksPreserved": true
+}

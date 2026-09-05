@@ -12197,6 +12197,18 @@ function loadAtlasContinuityLedgerSurfaceModule() {
   return atlasContinuityLedgerSurfaceModulePromise;
 }
 
+let pulseClaimModulePromise = null;
+function loadPulseClaimModule() {
+  if (!pulseClaimModulePromise) {
+    const modulePath = pathToFileURL(path.join(__dirname, 'core', 'pulse-claim-v1.mjs')).href;
+    pulseClaimModulePromise = import(modulePath).catch((error) => {
+      pulseClaimModulePromise = null;
+      throw error;
+    });
+  }
+  return pulseClaimModulePromise;
+}
+
 let atlasReportsSavedQueriesModulePromise = null;
 function loadAtlasReportsSavedQueriesModule() {
   if (!atlasReportsSavedQueriesModulePromise) {
@@ -13725,7 +13737,24 @@ function makeAtlasContinuityLedgerSurfaceFallback(projectId, reason, extra = {})
       noPointerOnlyState: true,
       equivalentListParity: true,
     },
+    pulseClaim: makePulseClaimFallback(reason || 'ATLAS_CONTINUITY_LEDGER_EMPTY'),
     ...(extra.error ? { error: extra.error } : {}),
+  };
+}
+
+function makePulseClaimFallback(reason = 'PULSE_CLAIM_UNAVAILABLE') {
+  return {
+    schemaVersion: 'yalken.r24.pulseClaim.v1',
+    stageId: 'WP-806_PULSE_CLAIM',
+    state: 'unavailable',
+    unavailableReason: reason,
+    privacy: { collectionStatus: 'OPTED_OUT', aggregateOnly: true },
+    historyIdentity: null,
+    summary: { totalRows: 0, visibleRows: 0, omittedRows: 0, recordedFields: 0, partialFields: 0, notRecordedFields: 0 },
+    rows: [],
+    claims: [],
+    accessibility: { role: 'list', itemRole: 'article', keyboard: ['Tab'], provenanceVisible: true, denominatorVisible: true, noPointerOnlyState: true },
+    authority: { readOnly: true, explicitOpenRequired: true, productMutation: false, manuscriptMutation: false, storageMutation: false, networkMutation: false, rendererPathAuthority: false },
   };
 }
 
@@ -15104,9 +15133,17 @@ async function handleWorkspaceAtlasContinuityLedgerSurfaceQuery(payload = {}) {
         ),
       };
     }
+    let pulseClaim;
+    try {
+      const pulseClaimModule = await loadPulseClaimModule();
+      pulseClaim = await pulseClaimModule.readPulseClaimProjection(path.join(app.getPath('userData'), 'pulse'));
+    } catch (error) {
+      logDevError('query.pulseClaim', error);
+      pulseClaim = makePulseClaimFallback(error && typeof error.code === 'string' ? error.code : 'PULSE_CLAIM_READ_FAILED');
+    }
     return {
       ok: true,
-      atlasContinuityLedgerSurface: continuityLedger.value,
+      atlasContinuityLedgerSurface: { ...continuityLedger.value, pulseClaim },
     };
   } catch (error) {
     logDevError('query.atlasContinuityLedgerSurface', error);

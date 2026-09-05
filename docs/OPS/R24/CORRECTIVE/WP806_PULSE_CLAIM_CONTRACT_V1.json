@@ -1,0 +1,68 @@
+{
+  "schemaVersion": "YALKEN_R24_WP806_PULSE_CLAIM_CONTRACT_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "outcome": "ACCESSIBLE_DESCRIPTIVE_HISTORY_PRODUCT_WIRING",
+  "sourceTruth": [
+    "PULSE_PRIVACY_STATE_V1",
+    "PULSE_LEDGER_SNAPSHOT_V1",
+    "PULSE_DESCRIPTIVE_HISTORY_V1"
+  ],
+  "claims": {
+    "descriptiveOnly": true,
+    "productivityScore": false,
+    "effortScore": false,
+    "contentOrIdentity": false,
+    "recordedDenominatorsVisible": true,
+    "provenanceVisible": true
+  },
+  "missingValues": {
+    "states": [
+      "RECORDED",
+      "PARTIAL",
+      "NOT_RECORDED"
+    ],
+    "notRecordedIsZero": false,
+    "zeroRemainsRecorded": true
+  },
+  "identityGuards": [
+    "ledgerSequence",
+    "ledgerHeadDigest",
+    "declarationRevisionOrdinal",
+    "generation",
+    "projectionDigest"
+  ],
+  "bounds": {
+    "maximumVisibleRows": 64,
+    "defaultVisibleRows": 32,
+    "omittedDenominatorRequired": true
+  },
+  "privacy": {
+    "default": "OPTED_OUT",
+    "optedOutHistoryRead": false,
+    "aggregateOnly": true
+  },
+  "authority": {
+    "readOnly": true,
+    "explicitOpenRequired": true,
+    "rendererPath": false,
+    "productMutation": false,
+    "manuscriptMutation": false,
+    "storageMutation": false,
+    "network": false,
+    "repair": false
+  },
+  "fallbacks": [
+    "OPTED_OUT_PRIVATE",
+    "MISSING_DIRECTORY_EMPTY",
+    "CORRUPT_OR_STALE_TYPED_UNAVAILABLE",
+    "BOUNDED_WITH_TRUE_DENOMINATOR"
+  ]
+}

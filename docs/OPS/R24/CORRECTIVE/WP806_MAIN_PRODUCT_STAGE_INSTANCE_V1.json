@@ -1,0 +1,260 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP806_PULSE_CLAIM_V1",
+  "ownerAuthorityBindingDigest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
+  "headSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
+  "treeSha": "d22411ca09571f9fb9cde35af806b111fb588a7c",
+  "branch": "codex/r24-wp806-pulse-claim-v1-20260905",
+  "targetRemote": "origin",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP805_LEASE_RELEASE_V1.json",
+      "sha256": "e2da4c9a53062f16a76a7d6339415ec9b1e0f4b83042bcaffde444ce91401549"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP805_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e56b4358484ccef2a445e1443591241b8e12641fd58d37b6887b950c553af2d2"
+    },
+    {
+      "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "operations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "docs/YALKEN_DESIGN_OS_CHANGE_GUIDE_V2_2.md",
+      "docs/references/YALKEN_DESIGN_TOOL_MATRIX_V1.md",
+      "scripts/ops/r24/canonical-json.mjs",
+      "scripts/ops/r24/claim-binding.mjs",
+      "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "src/core/browser-safe-hash.mjs",
+      "src/core/descriptive-history-v1.mjs",
+      "src/core/pulse-formulas-v1.mjs",
+      "src/core/pulse-local-history-v1.mjs",
+      "src/core/pulse-policy-codec-v1.mjs",
+      "src/renderer/atlasWseClaimsPresentationModel.mjs"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/docs-claim-lint.mjs",
+      "src/core/pulse-ledger-v1.mjs",
+      "src/core/pulse-privacy-v1.mjs",
+      "src/main.js",
+      "src/renderer/editor.bundle.js",
+      "src/renderer/editor.js",
+      "test/contracts/r24-wp804-terminal-carriers.contract.test.mjs",
+      "test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp805-terminal-carriers.contract.test.mjs",
+      "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP806_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_FIXTURE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_PULSE_CLAIM_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_PULSE_PRODUCT_ADMISSION_OWNER_DECISION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_SURFACE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_WP805_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-806-PULSE-CLAIM-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-806-PULSE-CLAIM-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-806-PULSE-CLAIM-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-806-PULSE-CLAIM-MUTANTS.json",
+      "src/core/pulse-claim-v1.mjs",
+      "src/renderer/pulseHistoryPresentationModel.mjs",
+      "test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp806-terminal-carriers.contract.test.mjs",
+      "test/fixtures/r24-wp806-pulse-claim-fixtures.js",
+      "test/unit/r24-wp806-pulse-claim-integration.test.js",
+      "test/unit/r24-wp806-pulse-claim-mutants.test.js",
+      "test/unit/r24-wp806-pulse-claim.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "npm run agent:bootstrap -- --objective WP806 accessible descriptive history product wiring",
+    "npm run agent:preflight -- --declaration /tmp/WP806_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+    "node scripts/ops/r24/corrective/admission-preparation.mjs",
+    "node --test test/unit/r24-wp806-pulse-claim.test.js test/unit/r24-wp806-pulse-claim-integration.test.js test/unit/r24-wp806-pulse-claim-mutants.test.js test/contracts/r24-wp806-terminal-carriers.contract.test.mjs test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs",
+    "npm run r24:test-inventory",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_WP806_WRITE_SET",
+    "git commit -m Implement WP806 Pulse claim",
+    "git fetch origin main",
+    "git push origin codex/r24-wp806-pulse-claim-v1-20260905",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run watch RUN --exit-status",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+    "node /tmp/WP806_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP806_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "acceptanceSignals": [
+    "OWNER_GATE_PULSE_PRODUCT_ADMISSION_EXPLICITLY_APPROVED",
+    "WP805_CERTIFIED_DONE_FENCE_96_RELEASED_WIP_0",
+    "ACCESSIBLE_DESCRIPTIVE_HISTORY_PRODUCT_WIRING",
+    "READ_ONLY_EXPLICIT_OPEN_QUERY",
+    "OPTED_OUT_AND_MISSING_DATA_TYPED",
+    "RECORDED_PARTIAL_AND_NOT_RECORDED_DISTINCT",
+    "PROVENANCE_AND_DENOMINATORS_VISIBLE",
+    "NATIVE_LIST_KEYBOARD_AND_FOCUS_CONTRACT",
+    "NO_SCORE_EFFORT_CONTENT_IDENTITY_PATH_NETWORK_OR_WRITE_AUTHORITY",
+    "STALE_TAMPER_ACCESSOR_SYMBOL_UNKNOWN_FIELD_AND_LIMITS_REJECTED",
+    "ACTUAL_SOURCE_IMPLEMENTATION_MUTANTS_KILLED",
+    "DISPOSABLE_EXACT_DESKTOP_SCENARIOS",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP806_FENCE_97_RELEASED_WIP_0",
+    "PRODUCT_GRAPH_INCREMENT_ONE",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP805_PULSE_CLAIM_PREDECESSOR_TERMINAL_RECEIPT",
+      "digest": "b13d3a75bb3621657cbaf9da9f81385b15f65559535049050181c0673cbffa77",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP805_PULSE_CLAIM_PREDECESSOR_TERMINAL_VERIFICATION",
+      "digest": "9207e51c9f0a92491e8825932b5dc898733d07c85468b88412f7f63ca39b258b",
+      "status": "PASS"
+    },
+    {
+      "id": "WP805_LEASE_RELEASE_DISPOSITION",
+      "digest": "aace469be1af1657d077314b3718a830bf27ddaa1ef4cdb91ddb4024662a3efd",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "PULSE_PRODUCT_ADMISSION_OWNER_DECISION",
+      "digest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9",
+      "status": "APPROVED_WP806_ONLY"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 97,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "aace469be1af1657d077314b3718a830bf27ddaa1ef4cdb91ddb4024662a3efd"
+  },
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "AUTHORITY_UNAVAILABLE_OR_COMPROMISED",
+    "BASE_HEAD_TREE_OR_DELTA_AMBIGUOUS",
+    "CREDENTIAL_IDENTITY_OR_SECRET_REQUIRED",
+    "DESTRUCTIVE_IRREVERSIBLE_OR_FORCE_ACTION_REQUIRED",
+    "DIRTY_OR_PRESERVED_WIP_WOULD_BE_LOST",
+    "EXACT_WRITE_SET_OR_COMMAND_SCOPE_WOULD_EXPAND",
+    "EXTERNAL_EFFECT_OUTSIDE_ADMITTED_STAGE",
+    "LEASE_FENCE_OR_ONE_WRITER_VIOLATION",
+    "MATERIAL_SEMANTIC_DEVIATION_WITHOUT_OWNER_AMENDMENT",
+    "MODEL_OR_REASONING_RUNTIME_MISMATCH",
+    "REQUIRED_EVIDENCE_MISSING_STALE_SKIPPED_OR_SELF_AUTHORED"
+  ]
+}

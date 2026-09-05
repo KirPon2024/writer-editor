@@ -137,6 +137,7 @@ import { normalizeWseThreadsExplanationPresentation, wseThreadsRowEvidence } fro
 import { normalizeWseRevisionTimeObjectPresentation, wseRevisionTimeObjectRowEvidence } from './atlasWseRevisionTimeObjectPresentationModel.mjs';
 import { normalizeWseSeriesMultiLayerPresentation } from './atlasWseSeriesMultiLayerPresentationModel.mjs';
 import { normalizeWseClaimsPresentation } from './atlasWseClaimsPresentationModel.mjs';
+import { normalizePulseHistoryPresentation } from './pulseHistoryPresentationModel.mjs';
 import { hashCanonicalValue } from '../core/browser-safe-hash.mjs';
 import {
   assertAtlasDossierPresentationParity,
@@ -16719,6 +16720,9 @@ function normalizeAtlasContinuityLedgerSurface(result = {}) {
     wseClaims: source.wseClaims && typeof source.wseClaims === 'object' && !Array.isArray(source.wseClaims)
       ? source.wseClaims
       : {},
+    pulseClaim: source.pulseClaim && typeof source.pulseClaim === 'object' && !Array.isArray(source.pulseClaim)
+      ? source.pulseClaim
+      : {},
   };
 }
 
@@ -17270,6 +17274,49 @@ function appendAtlasWseClaims(parent, source) {
   parent.appendChild(section);
 }
 
+function appendPulseHistory(parent, source) {
+  const presentation = normalizePulseHistoryPresentation(source);
+  const heading = document.createElement('div');
+  heading.className = 'right-rail-section__label right-rail-atlas-wse-thread-heading';
+  heading.id = 'atlas-pulse-history-heading';
+  heading.textContent = 'Writing history';
+  parent.appendChild(heading);
+
+  const section = document.createElement('section');
+  section.className = 'right-rail-atlas-wse-view';
+  section.setAttribute('aria-labelledby', heading.id);
+  section.dataset.pulseHistoryState = presentation.state;
+  const status = document.createElement('div');
+  status.className = 'right-rail-atlas-wse-status';
+  status.textContent = presentation.statusText;
+  section.appendChild(status);
+
+  if (presentation.rows.length > 0) {
+    const list = document.createElement('div');
+    list.setAttribute('role', 'list');
+    list.setAttribute('aria-label', 'Writing revision history');
+    for (const row of presentation.rows) {
+      const item = document.createElement('article');
+      item.className = 'right-rail-atlas-wse-row right-rail-atlas-wse-series-row';
+      item.setAttribute('role', 'listitem');
+      const title = document.createElement('strong');
+      title.textContent = `Revision ${row.sourceRevisionOrdinal}`;
+      const detail = document.createElement('p');
+      detail.textContent = row.metrics.map((metric) => `${metric.fieldLabel}: ${metric.displayValue}${metric.provenance ? ` (${metric.provenance})` : ''}`).join(' · ');
+      item.append(title, detail);
+      list.appendChild(item);
+    }
+    section.appendChild(list);
+  }
+  if (presentation.omittedRows > 0) {
+    const omitted = document.createElement('div');
+    omitted.className = 'right-rail-atlas-state';
+    omitted.textContent = `${presentation.omittedRows} revisions omitted by the bounded view.`;
+    section.appendChild(omitted);
+  }
+  parent.appendChild(section);
+}
+
 function handleAtlasContinuityLedgerKeydown(event) {
   const current = event.target instanceof Element
     ? event.target.closest('[data-atlas-wse-view], [data-atlas-wse-thread-view], [data-atlas-wse-revision-view], [data-atlas-wse-series-view], [data-atlas-wse-claims-view]')
@@ -17353,6 +17400,7 @@ function renderAtlasContinuityLedgerState() {
   appendAtlasWseRevisionTimeObject(atlasContinuityLedgerHost, state.wseRevisionTimeObject);
   appendAtlasWseSeriesMultiLayer(atlasContinuityLedgerHost, state.wseSeriesMultiLayer);
   appendAtlasWseClaims(atlasContinuityLedgerHost, state.wseClaims);
+  appendPulseHistory(atlasContinuityLedgerHost, state.pulseClaim);
   appendAtlasContinuityAuthorControls(atlasContinuityLedgerHost);
 
   if (state.state === 'unavailable') {

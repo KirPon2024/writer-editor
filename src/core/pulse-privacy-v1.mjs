@@ -281,6 +281,15 @@ function fixedPaths(directory) {
     corrections: path.join(directory, CORRECTIONS_BASENAME),
   };
 }
+
+export function readPulsePrivacyStateSnapshot(directory) {
+  if (typeof directory !== 'string' || !path.isAbsolute(directory)) fail('E_WP804_DIRECTORY_REQUIRED');
+  if (!fs.existsSync(directory)) return cloneFrozen(defaultState());
+  const directoryStat = fs.lstatSync(directory);
+  if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) fail('E_WP806_PRIVACY_DIRECTORY');
+  const directoryKey = fs.realpathSync(directory);
+  return cloneFrozen(readState(fixedPaths(directoryKey).state));
+}
 function validatePortResult(result, expected, code) {
   assertPlainData(result);
   exactKeys(result, Object.keys(expected), code);

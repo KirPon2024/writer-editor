@@ -176,6 +176,61 @@ async function readJsonl(filePath, code, saveTransaction) {
   return records;
 }
 
+function validateLoadedChannels(ledger, intents, outbox, maxEntries) {
+  validateLedger(ledger, maxEntries);
+  const intentState = validateIntentEvents(intents);
+  const outboxState = validateOutboxEvents(outbox);
+  for (const entry of ledger) {
+    const intent = intentState.get(entry.transactionDigest);
+    if (!intent || intent.admission.entryDigest !== entry.entryDigest) fail('E_WP801_LEDGER_ORPHAN_ENTRY');
+  }
+  for (const [transactionDigest, outboxEntry] of outboxState) {
+    const intent = intentState.get(transactionDigest);
+    if (!intent || intent.admission.entryDigest !== outboxEntry.pending.entryDigest) fail('E_WP801_OUTBOX_ORPHAN');
+  }
+  for (const [transactionDigest, intent] of intentState) {
+    const entry = ledger.find((item) => item.transactionDigest === transactionDigest);
+    if (intent.commit && (!entry || entry.entryDigest !== intent.commit.entryDigest)) fail('E_WP801_COMMIT_WITHOUT_LEDGER');
+    const effect = outboxState.get(transactionDigest);
+    if (effect?.applied && (!intent.commit || !entry)) fail('E_WP801_APPLIED_WITHOUT_COMMIT');
+  }
+  return { intentState, outboxState };
+}
+
+export async function readPulseLedgerSnapshot(directory, {
+  maxEntries = PULSE_LEDGER_DEFAULT_MAX_ENTRIES,
+} = {}) {
+  if (typeof directory !== 'string' || !path.isAbsolute(directory)) fail('E_WP801_DIRECTORY_REQUIRED');
+  if (!Number.isSafeInteger(maxEntries) || maxEntries < 1 || maxEntries > PULSE_LEDGER_DEFAULT_MAX_ENTRIES) fail('E_WP801_MAX_ENTRIES');
+  if (!fs.existsSync(directory)) return cloneFrozen({
+    schemaVersion: 'yalken.r24.pulseLedgerSnapshot.v1',
+    sequence: 0,
+    headDigest: PULSE_LEDGER_ZERO_DIGEST,
+    entries: [],
+  });
+  const directoryStat = fs.lstatSync(directory);
+  if (!directoryStat.isDirectory() || directoryStat.isSymbolicLink()) fail('E_WP806_LEDGER_DIRECTORY');
+  const directoryKey = fs.realpathSync(directory);
+  const paths = {
+    ledger: path.join(directoryKey, LEDGER_BASENAME),
+    intents: path.join(directoryKey, INTENT_BASENAME),
+    outbox: path.join(directoryKey, OUTBOX_BASENAME),
+  };
+  const denyRepair = async () => fail('E_WP806_READ_ONLY_REPAIR_REQUIRED');
+  const [ledger, intents, outbox] = await Promise.all([
+    readJsonl(paths.ledger, 'E_WP801_LEDGER_CORRUPT', denyRepair),
+    readJsonl(paths.intents, 'E_WP801_INTENT_LOG_CORRUPT', denyRepair),
+    readJsonl(paths.outbox, 'E_WP801_OUTBOX_LOG_CORRUPT', denyRepair),
+  ]);
+  validateLoadedChannels(ledger, intents, outbox, maxEntries);
+  return cloneFrozen({
+    schemaVersion: 'yalken.r24.pulseLedgerSnapshot.v1',
+    sequence: ledger.length,
+    headDigest: ledger.at(-1)?.entryDigest ?? PULSE_LEDGER_ZERO_DIGEST,
+    entries: ledger,
+  });
+}
+
 async function persist(filePath, records, saveTransaction) {
   const content = serializeJsonl(records);
   if (Buffer.byteLength(content, 'utf8') > PULSE_LEDGER_MAX_FILE_BYTES) fail('E_WP801_FILE_CAPACITY');
@@ -204,23 +259,7 @@ export async function openPulseLedger(directory, {
       readJsonl(paths.intents, 'E_WP801_INTENT_LOG_CORRUPT', saveTransaction),
       readJsonl(paths.outbox, 'E_WP801_OUTBOX_LOG_CORRUPT', saveTransaction),
     ]);
-    validateLedger(ledger, maxEntries);
-    const intentState = validateIntentEvents(intents);
-    const outboxState = validateOutboxEvents(outbox);
-    for (const entry of ledger) {
-      const intent = intentState.get(entry.transactionDigest);
-      if (!intent || intent.admission.entryDigest !== entry.entryDigest) fail('E_WP801_LEDGER_ORPHAN_ENTRY');
-    }
-    for (const [transactionDigest, outbox] of outboxState) {
-      const intent = intentState.get(transactionDigest);
-      if (!intent || intent.admission.entryDigest !== outbox.pending.entryDigest) fail('E_WP801_OUTBOX_ORPHAN');
-    }
-    for (const [transactionDigest, intent] of intentState) {
-      const entry = ledger.find((item) => item.transactionDigest === transactionDigest);
-      if (intent.commit && (!entry || entry.entryDigest !== intent.commit.entryDigest)) fail('E_WP801_COMMIT_WITHOUT_LEDGER');
-      const effect = outboxState.get(transactionDigest);
-      if (effect?.applied && (!intent.commit || !entry)) fail('E_WP801_APPLIED_WITHOUT_COMMIT');
-    }
+    const { intentState, outboxState } = validateLoadedChannels(ledger, intents, outbox, maxEntries);
     state.ledger = ledger;
     state.intents = intents;
     state.outbox = outbox;

@@ -1,14 +1,29 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
-import { HISTORICAL_INVENTORY_CLAIM_PINS_V15 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
+import { HISTORICAL_INVENTORY_CLAIM_PINS_V16 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file));
+const WP805_MERGE_SHA = '0eed3261e0d7f2b394336be0b082140e633981e2';
+const WP806_SUCCESSOR_PATHS = new Set([
+  '.github/workflows/oss-policy.yml',
+  'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
+  'scripts/ops/r24/corrective/post-audit-certification-set.mjs',
+  'scripts/ops/r24/docs-claim-lint.mjs',
+  'test/contracts/r24-wp804-terminal-carriers.contract.test.mjs',
+  'test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs',
+  'test/contracts/r24-wp805-terminal-carriers.contract.test.mjs',
+  'test/contracts/rtk-release01-terminal-claims.contract.test.js',
+]);
+const historicalCarrierBytes = file => WP806_SUCCESSOR_PATHS.has(file)
+  ? execFileSync('git', ['show', `${WP805_MERGE_SHA}:${file}`], { encoding: null })
+  : fs.readFileSync(file);
 const names = ['MAIN_PRODUCT_OWNER_AUTHORITY','MAIN_PRODUCT_STAGE_INSTANCE','MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION','PROTECTED_WIP_BEFORE',
   'WP804_TERMINAL_PREDECESSOR','LOCAL_HISTORY_CONTRACT','FEATURE_INTEGRATION_MANIFEST','EFFECTIVE_GRAPH_BASELINE','CARRIER_REGISTRY','ACCEPTANCE_MATRIX',
   'EFFECTIVE_STATE','STAGE_REGISTRY','LEASE_RELEASE','TERMINAL_RECEIPT'];
@@ -54,7 +69,7 @@ function verify(value) {
   assert.equal(registry.carrierDenominator, 29);
   assert.equal(registry.currentTreeFallbackAllowed, false);
   for (const binding of registry.carriers) {
-    const bytes = fs.readFileSync(binding.path);
+    const bytes = historicalCarrierBytes(binding.path);
     assert.equal(h(bytes), binding.sha256, binding.path);
     assert.equal(bytes.length, binding.byteLength);
   }
@@ -74,13 +89,13 @@ function verify(value) {
 test('WP805 carriers bind exact admission, local-history semantics, bytes and conditional release', () => {
   verify(load());
   const claim = buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS.json'));
-  for (const binding of claim.claimBindings) assert.equal(h(fs.readFileSync(binding.filePath)), binding.sha256);
-  assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V15.at(-1), {
-    stampId: 'ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS',
-    stampSha256: '128367e68a32830e1f94a779bafedc1ffc9113db887165b9d116c1226e42f8e2',
-    evaluationSha: '22a12573e3539c5f91064cc6db90c0a1c47cbaa1',
-    evaluationTree: 'fe4f6bb400bc3eb776929f34d50b3fed7e5980f3',
-    targetSha256: 'fd37b1349fceae304b908e1aab0b99ae8b66380201656055b41fb790c8f46228',
+  for (const binding of claim.claimBindings) assert.equal(h(historicalCarrierBytes(binding.filePath)), binding.sha256);
+  assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V16.at(-1), {
+    stampId: 'ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS',
+    stampSha256: 'e3929caec7d09b9a6f7620d4b5f76c6984ad4051117107ad680d14d40b6f2310',
+    evaluationSha: '0eed3261e0d7f2b394336be0b082140e633981e2',
+    evaluationTree: 'd22411ca09571f9fb9cde35af806b111fb588a7c',
+    targetSha256: 'ccf2a2d09b25e202849179eda96ba8e60f5f23dccb5849e12356482a5a4a7985',
   });
 });
 

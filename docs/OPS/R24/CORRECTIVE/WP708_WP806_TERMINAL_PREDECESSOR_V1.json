@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "YALKEN_R24_WP708_WP806_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "VERIFIED_RELEASED_PREDECESSOR",
+  "predecessorStageId": "WP-806_PULSE_CLAIM",
+  "predecessorMergeSha": "7734cc48666f260c9554fbf46357c0a3b8b97c4d",
+  "predecessorMergeTree": "e46a1b50943b7fa36e784400291080fd033235b2",
+  "predecessorLeaseStatus": "RELEASED",
+  "predecessorWip": 0,
+  "predecessorGraphCounts": {
+    "DONE": 85,
+    "INELIGIBLE_OPTIONAL": 10,
+    "BLOCKED_TYPED": 3,
+    "PENDING": 11
+  },
+  "predecessorTerminalVerification": {
+    "status": "PASS",
+    "sha256": "ccf4916544deb6bdfc6af4608078568734606901582cb658e41b1e587e734de6"
+  },
+  "predecessorTerminalReceiptSha256": "85fdfb4deca1f82faddd1b5af8fe0b8bfddd546c465ecb0e8438550e2735dc34",
+  "predecessorLeaseReleaseDispositionSha256": "ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c",
+  "predecessorDurableReleaseRecorded": true
+}

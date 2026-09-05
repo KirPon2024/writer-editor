@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-MUTANTS",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "programDone": false,
+  "status": "PASS",
+  "kind": "MUTANTS",
+  "artifact": {
+    "implementationArtifacts": [
+      {"path":"src/core/google-provider-profile-v1.mjs","sha256":"8094820e7ad46b71f393c7dd434e32f99a946902d729f60bde13ef094e8a4a3f"},
+      {"path":"test/unit/r24-wp708-google-provider-mutants.test.js","sha256":"43875510ef38a07953c3e3575a3356d6890219130aa409ae885771e25fa504d6"}
+    ],
+    "rawEvidenceReference": {"evidenceStampId":"ES-R24-WP-708-GOOGLE-PROVIDER-MODEL","sha256":"4e734a89981f2cc1fdf6694c83805beeddf42a6178d13d7631e98696e3ef032c","byteLength":3913}
+  },
+  "test": {"denominator":19,"passed":19,"failed":0,"skipped":0,"todo":0},
+  "claim": {"ceiling":"WP708_ACTUAL_SOURCE_MUTATION_SCORE_ONLY","actualSourceMutations":true,"killed":19,"survived":0,"syntaxOrImportFailuresCountedAsKills":false}
+}

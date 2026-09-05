@@ -1,0 +1,252 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP708_GOOGLE_PROVIDER_V1",
+  "ownerAuthorityBindingDigest": "563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "7734cc48666f260c9554fbf46357c0a3b8b97c4d",
+  "baseTree": "e46a1b50943b7fa36e784400291080fd033235b2",
+  "branch": "codex/r24-wp708-google-provider-v1-20260905",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP806_LEASE_RELEASE_V1.json",
+      "sha256": "9c7c980c4623582f4090684f3a0827744dbb0db4d597dec6bb4f3bbf5aff6bd9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP806_TERMINAL_RECEIPT_V1.json",
+      "sha256": "78670e7b7ff6dc08919c22f1317e6a0141f218c723c1c254a2397d2f89b08283"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective WP708 independent Google provider profiles",
+    "npm run agent:preflight -- --declaration /tmp/WP708_TASK_ARCHITECTURE_DECLARATION_TAKEOVER_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+    "node scripts/ops/r24/corrective/admission-preparation.mjs",
+    "node --test test/unit/r24-wp708-google-provider-profile.test.js test/unit/r24-wp708-google-provider-integration.test.js test/unit/r24-wp708-google-provider-mutants.test.js test/contracts/r24-wp708-terminal-carriers.contract.test.mjs test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs",
+    "npm run r24:test-inventory",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_WP708_WRITE_SET",
+    "git commit -m Implement WP708 Google provider profiles",
+    "git fetch origin main",
+    "git push origin codex/r24-wp708-google-provider-v1-20260905",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run watch RUN --exit-status",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+    "google_drive connector exact GATE04 cleanup and one GATE05 lifecycle from current owner task",
+    "node /tmp/WP708_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP708_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP806_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "docs/OPS/RTK/GOOGLE_BUILD_PROFILE_REGISTRY_V1.json",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "scripts/ops/r24/canonical-json.mjs",
+      "scripts/ops/r24/claim-binding.mjs",
+      "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/rtk-google-build-profiles-v1.mjs",
+      "test/contracts/rtk-google01-provider-profiles.contract.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/docs-claim-lint.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP708_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_FIXTURE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_GOOGLE_EGRESS_APPLY_OWNER_DECISION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_GOOGLE_PROVIDER_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_GOOGLE_PROVIDER_PHYSICAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_WP806_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-MUTANTS.json",
+      "src/core/google-provider-profile-v1.mjs",
+      "test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp708-terminal-carriers.contract.test.mjs",
+      "test/fixtures/r24-wp708-google-provider-fixtures.js",
+      "test/unit/r24-wp708-google-provider-integration.test.js",
+      "test/unit/r24-wp708-google-provider-mutants.test.js",
+      "test/unit/r24-wp708-google-provider-profile.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "OWNER_GATE_GOOGLE_EGRESS_APPLY_ADR_DIGEST_BOUND_APPROVED",
+    "WP806_CERTIFIED_DONE_FENCE_97_RELEASED_WIP_0",
+    "INDEPENDENT_NATIVE_OFFICE_AND_BRIDGE_PROFILE_PROJECTION",
+    "OFFICE_MODE_ABSTAIN_NO_PASS_INHERITANCE",
+    "APPLY_DEFAULT_DENY_AND_EXACT_REVISION_CAPABILITY_GUARDS",
+    "ONE_EXACT_SYNTHETIC_NATIVE_GOOGLE_DOC_LIFECYCLE",
+    "COMMENT_CREATE_READ_RESOLVE_READBACK",
+    "STALE_REVISION_PROVIDER_REJECTION_AND_SENTINEL_ABSENT",
+    "TEXT_AND_DOCX_EXPORT_OBSERVED_WITHOUT_REUPLOAD",
+    "EXACT_RETURNED_FILE_ID_PERMANENT_DELETE_AND_POSTDELETE_NOT_FOUND",
+    "ACTUAL_SOURCE_IMPLEMENTATION_MUTANTS_KILLED",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP708_FENCE_98_RELEASED_WIP_0",
+    "PRODUCT_GRAPH_INCREMENT_ONE",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GOOGLE_CONNECTOR_EXACT_SYNTHETIC_LIFECYCLE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "GOOGLE_DOC_CREATE_ONE",
+    "GOOGLE_DOC_REVISION_GUARDED_UPDATE_THREE_INCLUDING_STALE_REJECT",
+    "GOOGLE_DOC_COMMENT_CREATE_AND_RESOLVE",
+    "GOOGLE_DOC_EXPORT_TEXT_AND_DOCX",
+    "GOOGLE_DOC_PERMANENT_DELETE_EXACT_RETURNED_ID",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP806_PREDECESSOR_TERMINAL_RECEIPT",
+      "digest": "85fdfb4deca1f82faddd1b5af8fe0b8bfddd546c465ecb0e8438550e2735dc34",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP806_PREDECESSOR_TERMINAL_VERIFICATION",
+      "digest": "ccf4916544deb6bdfc6af4608078568734606901582cb658e41b1e587e734de6",
+      "status": "PASS"
+    },
+    {
+      "id": "WP806_LEASE_RELEASE_DISPOSITION",
+      "digest": "ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "GOOGLE_EGRESS_APPLY_OWNER_DECISION",
+      "digest": "563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
+      "status": "APPROVED_CURRENT_TASK_SUCCESSOR_BOUND_TO_IMMUTABLE_REGISTRY"
+    },
+    {
+      "id": "GOOGLE_EGRESS_APPLY_PROPOSAL",
+      "digest": "f238b76a4ba9565d240d22b7301d8d2991d902c9127c646bf8cfec073001d973",
+      "status": "CURRENT_GATE05_DIGEST_BOUND_CONSUMED_CLEANED"
+    },
+    {
+      "id": "GOOGLE_EGRESS_GATE04_CLEANUP_RECEIPT",
+      "digest": "43fd74f89eed7bae3f6c89df351b0ca855dbd4f4a11ca74d8cad777cdd0268f6",
+      "status": "PASS_POSTDELETE_NOT_FOUND"
+    },
+    {
+      "id": "GOOGLE_EGRESS_GATE05_PHYSICAL_RECEIPT",
+      "digest": "9f853c11be3d8d77e50ddbe034efc1701769fd3f671db447e491a774bada419f",
+      "status": "PASS_WITH_VERIFIED_CLEANUP"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 98,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c"
+  }
+}

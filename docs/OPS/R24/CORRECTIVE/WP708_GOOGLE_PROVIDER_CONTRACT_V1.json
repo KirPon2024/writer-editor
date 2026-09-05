@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "YALKEN_R24_WP708_GOOGLE_PROVIDER_CONTRACT_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "outcome": "INDEPENDENT_GOOGLE_NATIVE_OFFICE_AND_BRIDGE_PROFILE_PROJECTION",
+  "profiles": [
+    {
+      "id": "GOOGLE_NATIVE_CONVERSION_BOUNDED_V1",
+      "physicalDisposition": "PASS_BOUNDED_TO_EXACT_GATE05_SYNTHETIC_LIFECYCLE",
+      "requiresOwnEvidenceAtom": true,
+      "mayInheritAnotherProfile": false
+    },
+    {
+      "id": "GOOGLE_OFFICE_MODE_ABSTAIN_V1",
+      "physicalDisposition": "ABSTAIN_NO_PHYSICAL_PASS",
+      "requiresOwnEvidenceAtom": false,
+      "mayInheritAnotherProfile": false
+    },
+    {
+      "id": "GOOGLE_DRIVE_DOCS_BRIDGE_BOUNDED_V1",
+      "physicalDisposition": "PASS_BOUNDED_TO_EXACT_GATE05_CONNECTOR_LIFECYCLE",
+      "requiresOwnEvidenceAtom": true,
+      "mayInheritAnotherProfile": false
+    }
+  ],
+  "historicalRegistry": {
+    "source": "GOOGLE_BUILD_PROFILE_REGISTRY_V1",
+    "expectedEntryCount": 2,
+    "expectedStatus": "DECLARED",
+    "maySeedCurrentPass": false,
+    "mutated": false
+  },
+  "evidenceIsolation": {
+    "selfDigestingAtoms": true,
+    "claimDigestReuseAcrossProfiles": false,
+    "samePhysicalReceiptRequiresDistinctAtoms": true
+  },
+  "applyAdmission": {
+    "default": "DENY",
+    "eligibleResult": "ELIGIBLE_REQUIRES_COMMAND_KERNEL_REVALIDATION",
+    "grantsProductAuthority": false,
+    "grantsProviderAuthority": false,
+    "requiresExactCurrentIdentityRevisionGenerationCapabilityAndSingleSyntheticTarget": true,
+    "staleRevisionMustBeRejected": true
+  },
+  "providerBoundary": {
+    "runtimeNetwork": false,
+    "automaticApply": false,
+    "existingOwnerFilesRead": false,
+    "syntheticDisposableFixtureOnly": true,
+    "cleanupRequiredForTerminal": true
+  },
+  "physicalProof": {
+    "ownerDecisionSha256": "563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
+    "receiptSha256": "36e3541cfee9629ca98470cfce20722a5e9812f1abbb379b86bb446955bdb5e6",
+    "externalGate05ReceiptSha256": "9f853c11be3d8d77e50ddbe034efc1701769fd3f671db447e491a774bada419f",
+    "commentLifecycle": "CREATE_READ_RESOLVE_READBACK_PASS",
+    "textAndDocxExportObservedWithoutReupload": true,
+    "staleSentinelAbsent": true,
+    "providerArtifactsRemaining": 0
+  }
+}

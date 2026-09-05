@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "FEATURE_INTEGRATION_MANIFEST_V1",
+  "featureId": "WP-708_GOOGLE_PROVIDER",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "ADMITTED_PURE_QUERY_PROFILE_PROJECTION",
+  "productPlane": {
+    "truthOwner": "PRODUCT_CORE_EXISTING_GOOGLE_PROFILE_REGISTRY_READ_ONLY",
+    "commandOwner": "COMMAND_KERNEL_REVALIDATION_REQUIRED_BEFORE_ANY_FUTURE_APPLY",
+    "newProductMutation": false,
+    "newPersistence": false
+  },
+  "interfacePlane": {
+    "owner": "NOT_APPLICABLE_NO_NEW_UI_SURFACE",
+    "projection": "IMMUTABLE_REVISION_BOUND_PROFILE_EVALUATION",
+    "rendererAuthority": false
+  },
+  "operations": {
+    "queries": ["PROJECT_GOOGLE_PROVIDER_PROFILES", "VERIFY_GOOGLE_PROVIDER_PROFILE_REPLAY"],
+    "commands": [],
+    "events": [],
+    "effects": []
+  },
+  "ports": {
+    "productPortsAdded": [],
+    "designOsReadOnlyPortsAdded": [],
+    "providerAdapterAdded": false
+  },
+  "stateClasses": {
+    "projectState": "READ_ONLY_INPUT",
+    "authoringWorkingState": "NOT_TOUCHED",
+    "derivedState": "EPHEMERAL_IMMUTABLE_PROJECTION",
+    "shellState": "NOT_TOUCHED",
+    "transientState": "NOT_TOUCHED"
+  },
+  "identityGuards": ["projectId", "entityId", "sourceRevision", "generation", "docsRevisionId", "profileId", "evidenceAtomDigest"],
+  "fallbacks": ["OFFICE_ABSTAIN", "HISTORICAL_DECLARED_NON_EVIDENCE", "APPLY_DEFAULT_DENY", "STALE_OR_TAMPERED_TYPED_DENY"],
+  "runtimeNetwork": false,
+  "externalPhysicalEvidenceWasTaskBoundAndCleaned": true,
+  "accessibility": "NOT_APPLICABLE_NO_UI_CHANGE",
+  "performance": "SYNCHRONOUS_PURE_QUERY_MEASURED_NONZERO",
+  "negativeTests": ["CROSS_PROFILE_EVIDENCE_REUSE", "HISTORICAL_PASS_SEED", "OWNER_GATE_DRIFT", "STALE_REVISION", "CAPABILITY_OR_IDENTITY_DRIFT", "MULTI_TARGET", "EXECUTABLE_INPUT", "AUTHORITY_OVERCLAIM"]
+}

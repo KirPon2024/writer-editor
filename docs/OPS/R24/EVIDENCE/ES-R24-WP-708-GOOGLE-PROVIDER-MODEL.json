@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-708_GOOGLE_PROVIDER",
+  "evidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-MODEL",
+  "sourcePlanRoles": {"externalSourcePlanDigest":"1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a","compiledProgramFileDigest":"da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a","rolesDistinct":true},
+  "programDone": false,
+  "status": "PASS",
+  "kind": "MODEL",
+  "artifact": {
+    "implementationArtifacts": [
+      {"path":"src/core/google-provider-profile-v1.mjs","sha256":"8094820e7ad46b71f393c7dd434e32f99a946902d729f60bde13ef094e8a4a3f"},
+      {"path":"test/fixtures/r24-wp708-google-provider-fixtures.js","sha256":"a7031c06e14af60c824fc7d3fa0612acff742df78a2cb5ebbc0b10f7c5bad7ff"},
+      {"path":"test/unit/r24-wp708-google-provider-profile.test.js","sha256":"b200d0ec1c3904b7bb6c53abb326e4b39633e648bfb07dad1527b8a1fa4f0d9b"},
+      {"path":"test/unit/r24-wp708-google-provider-integration.test.js","sha256":"d2d01ddba234c19813f648b91d733c6e958ab2a5d67f94b02acab8aa9ddea27b"},
+      {"path":"test/unit/r24-wp708-google-provider-mutants.test.js","sha256":"43875510ef38a07953c3e3575a3356d6890219130aa409ae885771e25fa504d6"}
+    ],
+    "rawEvidence": {"basename":"WP708_PRODUCT_FOCUSED_PREPUBLICATION_V1.tap","sha256":"4e734a89981f2cc1fdf6694c83805beeddf42a6178d13d7631e98696e3ef032c","byteLength":3913,"node":"22.12.0","npm":"10.9.0","processExitCode":0,"testDenominator":14,"passed":14,"failed":0,"skipped":0,"todo":0,"command":"node --test --test-reporter tap test/unit/r24-wp708-google-provider-profile.test.js test/unit/r24-wp708-google-provider-integration.test.js test/unit/r24-wp708-google-provider-mutants.test.js","storedInline":false}
+  },
+  "test": {"denominator":14,"passed":14,"failed":0,"skipped":0,"todo":0},
+  "claim": {"ceiling":"WP708_THREE_INDEPENDENT_BOUNDED_GOOGLE_PROFILES_ONLY","nativeCurrentPhysical":true,"bridgeCurrentPhysical":true,"officeAbstain":true,"historicalDeclaredIsEvidence":false}
+}

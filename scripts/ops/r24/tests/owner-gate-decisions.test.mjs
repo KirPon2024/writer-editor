@@ -21,6 +21,7 @@ const BRAND_LICENSE_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', '
 const WORD_PHYSICAL_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'WORD_PHYSICAL_SESSION_AUTHORITY_W0_WORD_PHYSICAL_RECERTIFICATION_V1.json');
 const SERIES_IDENTITY_PRIVACY_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13_WP606_WSE_SERIES_MULTI_LAYER_V1.json');
 const PULSE_METRIC_PRIVACY_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'PULSE_METRIC_PRIVACY_ADR_WP800_PULSE_POLICY_CODEC_V1.json');
+const PULSE_RETENTION_DECISION_PATH = path.join(R24_DIR, 'OWNER_GATE_DECISIONS', 'PULSE_RETENTION_ADR_WP804_PULSE_PRIVACY_V1.json');
 const clone = (value) => structuredClone(value);
 
 function fixture() {
@@ -31,6 +32,7 @@ function fixture() {
   const wordPhysicalDecision = readJsonBounded(WORD_PHYSICAL_DECISION_PATH);
   const seriesIdentityPrivacyDecision = readJsonBounded(SERIES_IDENTITY_PRIVACY_DECISION_PATH);
   const pulseMetricPrivacyDecision = readJsonBounded(PULSE_METRIC_PRIVACY_DECISION_PATH);
+  const pulseRetentionDecision = readJsonBounded(PULSE_RETENTION_DECISION_PATH);
   return {
     program: readJsonBounded(PROGRAM_PATH),
     missionContract: readJsonBounded(MISSION_PATH),
@@ -51,6 +53,8 @@ function fixture() {
     seriesIdentityPrivacyDecisionDigest: sha256hex(fs.readFileSync(SERIES_IDENTITY_PRIVACY_DECISION_PATH)),
     pulseMetricPrivacyDecision,
     pulseMetricPrivacyDecisionDigest: sha256hex(fs.readFileSync(PULSE_METRIC_PRIVACY_DECISION_PATH)),
+    pulseRetentionDecision,
+    pulseRetentionDecisionDigest: sha256hex(fs.readFileSync(PULSE_RETENTION_DECISION_PATH)),
   };
 }
 
@@ -63,6 +67,7 @@ function validate(values, artifacts = {}) {
     [values.wordPhysicalDecision.decisionId]: { value: values.wordPhysicalDecision, digest: values.wordPhysicalDecisionDigest },
     [values.seriesIdentityPrivacyDecision.decisionId]: { value: values.seriesIdentityPrivacyDecision, digest: values.seriesIdentityPrivacyDecisionDigest },
     [values.pulseMetricPrivacyDecision.decisionId]: { value: values.pulseMetricPrivacyDecision, digest: values.pulseMetricPrivacyDecisionDigest },
+    [values.pulseRetentionDecision.decisionId]: { value: values.pulseRetentionDecision, digest: values.pulseRetentionDecisionDigest },
     ...artifacts,
   };
   return validateOwnerGateAmendments({
@@ -87,6 +92,7 @@ test('exact owner decisions yield every mission-bound owner-gate disposition', (
   assert.equal(values.registry.entries.find((entry) => entry.id === 'WORD_PHYSICAL_SESSION_AUTHORITY').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13').status, 'UNRESOLVED');
   assert.equal(values.registry.entries.find((entry) => entry.id === 'PULSE_METRIC_PRIVACY_ADR').status, 'UNRESOLVED');
+  assert.equal(values.registry.entries.find((entry) => entry.id === 'PULSE_RETENTION_ADR').status, 'UNRESOLVED');
   assert.deepEqual(validate(values), {
     STORAGE_AUTHORITY_ADR: 'APPROVED',
     ENTITLEMENT_SEMANTICS_ADR_OR_DENY: 'DENIED',
@@ -95,6 +101,7 @@ test('exact owner decisions yield every mission-bound owner-gate disposition', (
     WORD_PHYSICAL_SESSION_AUTHORITY: 'APPROVED',
     SERIES_IDENTITY_PRIVACY_GATE_FOR_MODULE_13: 'APPROVED',
     PULSE_METRIC_PRIVACY_ADR: 'APPROVED',
+    PULSE_RETENTION_ADR: 'APPROVED',
   });
 });
 
@@ -364,6 +371,69 @@ test('WP800 Pulse privacy approval remains local aggregate-only', () => {
   assert.throws(
     () => validate(values, {
       [wrongNode.decisionId]: { value: wrongNode, digest: values.pulseMetricPrivacyDecisionDigest },
+    }),
+    (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
+  );
+});
+
+test('WP804 Pulse retention approval stays explicit, local and bounded', () => {
+  const values = fixture();
+  for (const key of [
+    'contentData',
+    'identityData',
+    'pathAuthorityFromRequest',
+    'networkData',
+    'telemetryData',
+    'privateOwnerData',
+    'credentialsOrSecrets',
+    'dependencyAdoption',
+    'runtimeNetwork',
+    'automaticCleanup',
+  ]) {
+    const decision = clone(values.pulseRetentionDecision);
+    decision.authorizedScope[key] = true;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.pulseRetentionDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  for (const key of [
+    'localAggregateMetricsOnly',
+    'productCorePrivacyControl',
+    'explicitOptInRequired',
+    'optOutImmediatelyStopsCollection',
+    'retentionUntilExplicitUserDeletion',
+    'appendOnlyCorrectionEntries',
+    'exportOnlyOnExplicitUserRequest',
+    'deletionOnlyOnExplicitUserRequest',
+    'disposableFixturesOnly',
+  ]) {
+    const decision = clone(values.pulseRetentionDecision);
+    decision.authorizedScope[key] = false;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.pulseRetentionDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  for (const maximumRetainedEntries of [0, 4095, 4097]) {
+    const decision = clone(values.pulseRetentionDecision);
+    decision.authorizedScope.maximumRetainedEntries = maximumRetainedEntries;
+    assert.throws(
+      () => validate(values, {
+        [decision.decisionId]: { value: decision, digest: values.pulseRetentionDecisionDigest },
+      }),
+      (error) => error.code === 'E_R24_OWNER_GATE_DECISION_SCOPE_WIDENING',
+    );
+  }
+  const wrongNode = clone(values.pulseRetentionDecision);
+  wrongNode.nodeId = 'WP-805_LOCAL_HISTORY';
+  assert.throws(
+    () => validate(values, {
+      [wrongNode.decisionId]: { value: wrongNode, digest: values.pulseRetentionDecisionDigest },
     }),
     (error) => error.code === 'E_R24_OWNER_GATE_DECISION_NODE',
   );

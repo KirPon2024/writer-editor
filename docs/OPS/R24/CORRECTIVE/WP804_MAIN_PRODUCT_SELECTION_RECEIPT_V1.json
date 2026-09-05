@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "OWNER_GATE_CONFIRMED_ELIGIBLE_SUCCESSOR",
+  "selectedAtUtc": "2026-09-05T06:09:20Z",
+  "sourceProgramSha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "baseSha": "86b79c5b3866e3c2d819569f17b8a38f4ffe26aa",
+  "baseTree": "d07717fe8060372297f83a1ee193d6da46b432d6",
+  "readySet": [
+    "WP-804_PULSE_PRIVACY"
+  ],
+  "ownerGate": {
+    "gateId": "PULSE_RETENTION_ADR",
+    "decision": "APPROVED_BY_DIRECT_OWNER_DECISION",
+    "decisionArtifactSha256": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3",
+    "authorityDigest": "165256d2ec8cad19fa9214fb6dcd20b297fba6edcd0c65447bc1e9dc4b6fdb9e"
+  },
+  "graphCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 82,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 14
+  },
+  "leaseAtSelection": {
+    "fencingCounter": 94,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseDigest": "8543978f6f6dfadd8659e0de171c9ec3adaa0f288b53a0fa6d0096136660ffca"
+  },
+  "mutationAdmissionGranted": false
+}

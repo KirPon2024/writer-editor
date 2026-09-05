@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "fixtures": [
+    {
+      "id": "PULSE_PRIVACY_POLICY_CONSENT_CORRECTION_EXPORT_DELETE",
+      "path": "test/unit/r24-wp804-pulse-privacy.test.js"
+    },
+    {
+      "id": "FRESH_PROCESS_TAMPER_AND_FULL_DISPOSABLE_CHAIN",
+      "path": "test/unit/r24-wp804-pulse-privacy-integration.test.js"
+    },
+    {
+      "id": "TEN_REAL_SOURCE_MUTANTS",
+      "path": "test/unit/r24-wp804-pulse-privacy-mutants.test.js"
+    },
+    {
+      "id": "CONTENT_FREE_DISPOSABLE_AGGREGATES_AND_EFFECT_PORTS",
+      "path": "test/fixtures/r24-wp804-pulse-privacy-fixtures.js"
+    },
+    {
+      "id": "DISPOSABLE_BUILD_PROFILE_LIFECYCLE",
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js"
+    }
+  ],
+  "syntheticOnly": true,
+  "realOwnerDocuments": false,
+  "requiredProfile": "PULSE_LOCAL_PRIVACY_OFFLINE",
+  "physicalScenario": {
+    "create": 1,
+    "write": 1,
+    "save": 1,
+    "close": 1,
+    "reopen": 1,
+    "recovery": 1,
+    "export": 1,
+    "source": "EXISTING_DISPOSABLE_FIXTURE_BASELINE_REQUIRED_AT_FULL_GATE"
+  },
+  "designEvidence": {
+    "status": "NOT_APPLICABLE_NO_UI_CHANGE",
+    "runtimeDependency": false,
+    "canonicalDesignAuthority": false
+  }
+}

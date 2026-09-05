@@ -1,0 +1,77 @@
+{
+  "schemaVersion": "YALKEN_R24_WP804_PULSE_PRIVACY_CONTRACT_V1",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "evidenceStampId": "ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "privacyVersion": "PULSE_PRIVACY_V1",
+  "ownerDecision": {
+    "path": "docs/OPS/R24/OWNER_GATE_DECISIONS/PULSE_RETENTION_ADR_WP804_PULSE_PRIVACY_V1.json",
+    "sha256": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3",
+    "gateId": "PULSE_RETENTION_ADR"
+  },
+  "policy": {
+    "dataScope": "LOCAL_AGGREGATES_ONLY",
+    "maximumRetainedEntries": 4096,
+    "retention": "UNTIL_EXPLICIT_USER_DELETION",
+    "automaticCleanup": false,
+    "content": false,
+    "identity": false,
+    "pathAuthorityFromRequest": false,
+    "network": false,
+    "telemetry": false
+  },
+  "consent": {
+    "defaultStatus": "OPTED_OUT",
+    "explicitOptInRequired": true,
+    "optOutImmediatelyStopsCollection": true,
+    "optOutSerializedBeforeLaterCollection": true,
+    "reopenUsesPersistedState": true
+  },
+  "corrections": {
+    "separateEntries": true,
+    "appendOnlyHashChain": true,
+    "currentLedgerTargetRevalidation": true,
+    "targetFields": [
+      "targetLedgerSequence",
+      "targetEntryDigest",
+      "metricId"
+    ],
+    "maximumEntries": 4096
+  },
+  "effects": {
+    "exportOnlyOnExplicitUserRequest": true,
+    "deletionOnlyOnExplicitUserRequest": true,
+    "requestPathAuthority": false,
+    "namedProductPorts": [
+      "pulseAggregateExportPort",
+      "pulseAggregateDeletionPort"
+    ],
+    "deletionFixedBasenames": true,
+    "failedDeletionRemainsOptedOut": true,
+    "portResultValidated": true
+  },
+  "persistence": {
+    "state": "CANONICAL_ATOMIC_JSON",
+    "corrections": "CANONICAL_ATOMIC_APPEND_ONLY_JSONL",
+    "requestIds": "SHA256_DIGEST_ONLY",
+    "recovery": "STRICT_REOPEN_OR_TYPED_REJECTION"
+  },
+  "authority": {
+    "productCore": true,
+    "projectDocumentMutation": false,
+    "renderer": false,
+    "ipc": false,
+    "network": false,
+    "cloud": false
+  },
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false
+}

@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "WP804_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-804_PULSE_PRIVACY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP803_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "0fca012ec28301a2a5d8d58a06705866a6b2c632d15a2ec43c57dd71e7581e0b",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "86b79c5b3866e3c2d819569f17b8a38f4ffe26aa",
+    "treeSha": "d07717fe8060372297f83a1ee193d6da46b432d6"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "165256d2ec8cad19fa9214fb6dcd20b297fba6edcd0c65447bc1e9dc4b6fdb9e",
+    "stageInstanceDigest": "f50a700482da9fa7f198f55f99d05395bb3b2f522f173550a9928d4d69c6c89a",
+    "writeSetDigest": "e59291eae2a450800a0d08e90be6a37927599e22a9102b1648b93818fd9382a5",
+    "commandScopeDigest": "57fd9f77da754e7459f0aa310fc09c03600033c42f1c258bd89275d704f6d42a",
+    "acceptanceSignalsDigest": "54a2dd65d79211867473b7451865073492b9f65f6d2f2409ffe659a656ce05c4",
+    "stageAdmissionDigest": "5533d8d9caa75751251a9697251dd50d86c64bb53433bddbfd1b5d9c793e2c43",
+    "ownerDecisionDigest": "020e35546b2e568e2be0e532cc7f057f3aacfc07dfd4737286508fac0a599dd3"
+  },
+  "completeHistoricalRegistryChecksPreserved": true,
+  "programDone": false
+}

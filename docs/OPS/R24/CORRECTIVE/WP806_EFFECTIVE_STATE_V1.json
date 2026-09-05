@@ -16,7 +16,7 @@
     "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
     "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
     "stageAdmissionDigest": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f",
-    "selectionReceiptDigest": "906a48bb057362c09ac804e9f527ad298f76d43614518698ffbe223f8902b635",
+    "selectionReceiptDigest": "2530f7d93821df483e9b42514e6711bda81275c9fbedaf299ecc1e5910b34f51",
     "ownerDecisionDigest": "fae7a196711bae766579f1f3a0cb11d5835459ded084ec700333df967056f3e3",
     "wp805TerminalPredecessorDigest": "eaa76eab9e017d4bb14f3d2153800536d02c961e68048de5be8b8d3bb0cfd814",
     "pulseClaimContractDigest": "260c658df4687c6c8181030db4aafd988de5f3479c127baa698596b54835808e",
@@ -26,7 +26,7 @@
     "featureIntegrationManifestDigest": "a915f4cdd54abe7430fdf23e90a18a2626a3f2bf23bfdf384839b869ea3acfe9",
     "surfaceManifestDigest": "7ec1d635b4d503d71a1c65dd6b32500e71f12495a1ac881c81b0a4fdddd35f05",
     "acceptanceMatrixDigest": "bc85a2152df2fe6ca11982c08a91719ae22c7a9e4d7c2b23f2ea97932bb9dd4c",
-    "carrierRegistryDigest": "7c099934a95f94a2ecee1b6a2eca4dd0504e6faa0c0dc10baa8d2d24c0a8e91a"
+    "carrierRegistryDigest": "8f62521951233a89bc89aae310e1977162e693912282dde7ed28709a7800527f"
   },
   "completeGraphDenominator": 109,
   "currentCounts": {

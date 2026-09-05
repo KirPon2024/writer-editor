@@ -12,8 +12,8 @@
   "bindings": {
     "predecessorReleaseDigest": "aace469be1af1657d077314b3718a830bf27ddaa1ef4cdb91ddb4024662a3efd",
     "acceptanceMatrixDigest": "bc85a2152df2fe6ca11982c08a91719ae22c7a9e4d7c2b23f2ea97932bb9dd4c",
-    "effectiveStateDigest": "ddbea79fb0cc6cb4c20ce7c14e97504b2d40d8f6496ce6958e509f4306ca8e3d",
-    "stageRegistryDigest": "8c7d32b0903c673d9e2c7e72d19f2f0c75b5c65b6cacaabd594cb2f1f9788502",
+    "effectiveStateDigest": "b13a6dadba6f2f46ffb0facd531ff6a03ff848a8acf305bb4697e2547a87ab34",
+    "stageRegistryDigest": "01c9958e5a79e6b7bb72fa00e9380cebd37582aef8ce95aa8c11225c574b69f4",
     "stageAdmissionDigest": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f"
   },
   "currentLease": {

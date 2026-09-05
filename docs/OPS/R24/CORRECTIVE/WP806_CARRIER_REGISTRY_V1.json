@@ -52,7 +52,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
-      "sha256": "906a48bb057362c09ac804e9f527ad298f76d43614518698ffbe223f8902b635",
+      "sha256": "2530f7d93821df483e9b42514e6711bda81275c9fbedaf299ecc1e5910b34f51",
       "byteLength": 1329
     },
     {
@@ -117,7 +117,7 @@
     },
     {
       "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "649226f03b79f14046af727b252fff1ecfb76bc8a0eda7465916fe6ed5536293",
+      "sha256": "921fabbe6f4c8148732eed6649cd1170cdb9164ad1d6cba3c1718fc4b5bcb795",
       "byteLength": 697033
     },
     {

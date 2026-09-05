@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
+import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
@@ -54,7 +55,7 @@ function verify(value) {
   assert.equal(registry.carrierDenominator, 33);
   assert.equal(registry.currentTreeFallbackAllowed, false);
   for (const binding of registry.carriers) {
-    const bytes = fs.readFileSync(binding.path);
+    const bytes = execFileSync('git', ['show', `22a12573e3539c5f91064cc6db90c0a1c47cbaa1:${binding.path}`]);
     assert.equal(h(bytes), binding.sha256, binding.path);
     assert.equal(bytes.length, binding.byteLength);
   }
@@ -74,7 +75,10 @@ function verify(value) {
 test('WP804 carriers bind exact admission, privacy semantics, bytes and conditional release', () => {
   verify(load());
   const claim = buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-804-PULSE-PRIVACY-CLAIM-BINDINGS.json'));
-  for (const binding of claim.claimBindings) assert.equal(h(fs.readFileSync(binding.filePath)), binding.sha256);
+  for (const binding of claim.claimBindings) {
+    const bytes = execFileSync('git', ['show', `22a12573e3539c5f91064cc6db90c0a1c47cbaa1:${binding.filePath}`]);
+    assert.equal(h(bytes), binding.sha256);
+  }
   assert.equal(HISTORICAL_INVENTORY_CLAIM_PINS_V14.at(-1).evaluationSha, '86b79c5b3866e3c2d819569f17b8a38f4ffe26aa');
 });
 
@@ -113,4 +117,13 @@ test('WP804 carriers reject implicit collection, cleanup, path authority, graph 
     mutate(value);
     assert.throws(() => verify(value), undefined, `carrier mutation ${index + 1} must be rejected`);
   }
+});
+
+test('WP804 terminal receipt is the exact released predecessor of WP805', () => {
+  const successor = read(`${C}WP805_WP804_TERMINAL_PREDECESSOR_V1.json`);
+  assert.equal(successor.predecessorStageId, 'WP-804_PULSE_PRIVACY');
+  assert.equal(successor.predecessorMergeSha, '22a12573e3539c5f91064cc6db90c0a1c47cbaa1');
+  assert.equal(successor.predecessorTerminalReceiptSha256, 'a89b3154c4ecb8dbdc720e4a0b1ae8ec55b3100b7362d15fbe0a4bc1f92cd6b3');
+  assert.equal(successor.predecessorLeaseReleaseDispositionSha256, '610ba880eb36af11305d66e56f62e152dcd3104591a6cb12297cc347c60f84a9');
+  assert.equal(successor.predecessorWip, 0);
 });

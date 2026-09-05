@@ -4,11 +4,22 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import {
   WP805_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
+  WP806_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   verifyWp805MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FINAL_SHA = 'f805f805f805f805f805f805f805f805f805f805';
 const FINAL_TREE = 'a805a805a805a805a805a805a805a805a805a805';
+const WP805_MERGE_SHA = '0eed3261e0d7f2b394336be0b082140e633981e2';
+const WP806_SUCCESSOR_PATHS = new Set([
+  '.github/workflows/oss-policy.yml',
+  'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
+  'scripts/ops/r24/corrective/post-audit-certification-set.mjs',
+  'scripts/ops/r24/docs-claim-lint.mjs',
+  'test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs',
+  'test/contracts/r24-wp805-terminal-carriers.contract.test.mjs',
+  'test/contracts/rtk-release01-terminal-claims.contract.test.js',
+]);
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? `${value}\n` : Buffer.from(`${value}\n`);
@@ -33,7 +44,9 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       if (file === missingArtifact) throw new Error('MISSING');
       let bytes = sha === E.baseSha
         ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
-        : fs.readFileSync(file);
+        : WP806_SUCCESSOR_PATHS.has(file)
+          ? execFileSync('git', ['show', `${WP805_MERGE_SHA}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
+          : fs.readFileSync(file);
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
         mutateJson.apply(value);
@@ -77,4 +90,6 @@ test('WP805 candidate oracle rejects forged lease, owner binding and carrier fal
 test('WP805 routing pins the WP804 oracle to the immutable WP805 base', () => {
   const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
   assert.match(source, /verifyWp804MainProductPostEvaluationException\(\{candidateSha:wp805Enabled\?WP805_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
+  assert.equal(WP806_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha, '0eed3261e0d7f2b394336be0b082140e633981e2');
+  assert.match(source, /verifyWp805MainProductPostEvaluationException\(\{candidateSha:wp806Enabled\?WP806_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
 });

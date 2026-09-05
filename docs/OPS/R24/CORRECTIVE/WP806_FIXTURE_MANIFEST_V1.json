@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP806_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "fixture": "r24-wp806-pulse-claim-fixtures.js",
+  "privacy": "DISPOSABLE_EXPLICIT_OPT_IN",
+  "data": "SYNTHETIC_LOCAL_AGGREGATES_ONLY",
+  "realOwnerDocuments": false,
+  "scenarios": [
+    "OPTED_OUT_NO_READ",
+    "ZERO_RECORDED",
+    "MISSING_NOT_RECORDED",
+    "BOUNDED_DENOMINATOR",
+    "FRESH_PROCESS_REOPEN",
+    "BYTE_IDENTICAL_READ",
+    "SYMLINK_REJECTED",
+    "ACCESSIBLE_PRESENTATION"
+  ],
+  "cleanup": "TEST_SCOPED_TEMPORARY_DIRECTORY"
+}

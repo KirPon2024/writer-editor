@@ -1,0 +1,21 @@
+{
+  "schemaVersion": "YALKEN_R24_WP806_PULSE_PRODUCT_ADMISSION_OWNER_DECISION_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CURRENT_OWNER_APPROVAL",
+  "decision": "APPROVED",
+  "authorizationId": "PULSE_PRODUCT_ADMISSION_FOR_WP806",
+  "sourceThreadId": "01a05e55-ac3b-7b42-a9a4-9586f3aa0aea",
+  "instruction": "APPROVED PULSE_PRODUCT_ADMISSION FOR WP-806_PULSE_CLAIM",
+  "scope": "WP-806_PULSE_CLAIM_ONLY",
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "ownerAuthorityBindingDigest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9",
+  "admissionDigest": "d1b491856ec3c480b7278e9c1d36fb75fd1eef12b137c02168071855c9106853"
+}

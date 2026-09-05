@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "YALKEN_R24_WP806_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_REQUIRED_EXTERNAL_PREDICATES_OPEN",
+  "denominator": 29,
+  "passed": 22,
+  "requiredNotPreclaimed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "todo": 0,
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER_SOL_XHIGH",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "OWNER_PULSE_PRODUCT_ADMISSION_APPROVED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "WP805_RELEASED_PREDECESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_45_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "GRAPH_DERIVED_SUCCESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "OPTED_OUT_HISTORY_NOT_READ",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "LOCAL_AGGREGATES_ONLY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "ZERO_REMAINS_RECORDED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "MISSING_REMAINS_NOT_RECORDED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "VISIBLE_PROVENANCE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "VISIBLE_TRUE_DENOMINATORS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "BOUNDED_VISIBLE_ROWS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "REVISION_GENERATION_DIGEST_CURRENT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "STALE_AND_TAMPER_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "SYMLINK_DIRECTORY_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "READ_ONLY_BYTES_UNCHANGED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "MAIN_OWNS_FIXED_INTERNAL_DIRECTORY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "NO_PRODUCTIVITY_OR_EFFORT_SCORE",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "NO_CONTENT_IDENTITY_OR_PATH_FIELDS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-CONTRACT"
+    },
+    {
+      "id": "NATIVE_SEMANTIC_LIST_KEYBOARD",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "TEN_ACTUAL_SOURCE_MUTANTS_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-MUTANTS"
+    },
+    {
+      "id": "ACTUAL_RENDERER_BUNDLE_BUILT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-806-PULSE-CLAIM-INTEGRATION"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ]
+}

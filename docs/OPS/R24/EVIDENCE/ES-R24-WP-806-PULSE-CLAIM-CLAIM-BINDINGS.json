@@ -1,0 +1,216 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "contourId": "WP-806_PULSE_CLAIM",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
+  "originMainSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
+  "generatedAtUtc": "2026-09-05T12:46:34.598095Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "4d35a989713a92c0a875aa597a30967d402a21a53ad9e73d7a503e67ed36aff7",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "a915f4cdd54abe7430fdf23e90a18a2626a3f2bf23bfdf384839b869ea3acfe9",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "25280ae7908d3d48090929806e8b76a40926ca39fa6927ad7b6a850b09d78164",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_PULSE_PRODUCT_ADMISSION_OWNER_DECISION_V1.json",
+      "sha256": "7ab7dbd15549c4a2410de058b85138a0a886250b645770a16cbdadf49d401573",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_PULSE_CLAIM_CONTRACT_V1.json",
+      "sha256": "260c658df4687c6c8181030db4aafd988de5f3479c127baa698596b54835808e",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_SURFACE_MANIFEST_V1.json",
+      "sha256": "7ec1d635b4d503d71a1c65dd6b32500e71f12495a1ac881c81b0a4fdddd35f05",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_TERMINAL_RECEIPT_V1.json",
+      "sha256": "f8463c329d163d76cf6772907affcb20bead03241d30e29af0004a9e2f9b0698",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP806_WP805_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "eaa76eab9e017d4bb14f3d2153800536d02c961e68048de5be8b8d3bb0cfd814",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "047e17394fffe9f960db03852ce605d1c9f3ee7c3e173419fe9661fc5d4b46eb",
+      "claimTerms": [
+        "PASS",
+        "DONE",
+        "READY",
+        "SAFE",
+        "COMPLETE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-ledger-v1.mjs",
+      "sha256": "3d0fec80d997ce4415649f7cff04e103ab15231bd05b3c62c4618cf32696b08b",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/core/pulse-privacy-v1.mjs",
+      "sha256": "0aba8b0d3a53e6752e1b73480bacc476aa8e9de867053e5f86512bfb326f9eb5",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/core/pulse-claim-v1.mjs",
+      "sha256": "bc31ef150c13f3c011b434534a08133050d168d34ba4ab0d37bf92daee219734",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/main.js",
+      "sha256": "c84dbc2eb640ec9dc5cbf58c71c91c252c7e4c022a30f864b67be3e6e81be082",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.js",
+      "sha256": "655f95584fbd2c96ee99e92cd404e9599666db98eb5107d1e2ebd660777dd13a",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/renderer/editor.bundle.js",
+      "sha256": "7a14f15d5ccb792b2e2523aec32fb3e2d89b099cdcb0688326af2f84d71bcf60",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "src/renderer/pulseHistoryPresentationModel.mjs",
+      "sha256": "81d51b7d67135ca4318c08e183436e14420ace58c2f187a943d7d7eb2f2aa16d",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp806-pulse-claim-fixtures.js",
+      "sha256": "60070a4de6d578f7902565a3b7fc57da587572e167304ee3afb866959d25e266",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp806-pulse-claim.test.js",
+      "sha256": "054d76feb047646b203812b62e3f377322ecbd34ff75be198ef765b5a468dab5",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp806-pulse-claim-integration.test.js",
+      "sha256": "aeef9807843370718b38bfecbb580aa48887c69a167777ed96dbd6e0e0214f8f",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp806-pulse-claim-mutants.test.js",
+      "sha256": "223e889e103b31b4cf448419f6d319d51b359042335a86aff117398abcde34f6",
+      "terms": [
+        "WP806_PULSE_CLAIM"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp806-pulse-claim.test.js test/unit/r24-wp806-pulse-claim-integration.test.js test/unit/r24-wp806-pulse-claim-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 22,
+        "fail": 0
+      }
+    },
+    {
+      "command": "Ten source-mutated modules exercised against behavioral oracles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_OR_NETWORK_DATA",
+    "NO_RENDERER_PATH_STORAGE_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP806_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

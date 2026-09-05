@@ -1,0 +1,82 @@
+{
+  "schemaVersion": "YALKEN_R24_WP806_FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-806_PULSE_CLAIM",
+  "evidenceStampId": "ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "IMMUTABLE_PULSE_LOCAL_AGGREGATES",
+    "mutation": "NONE_READ_ONLY"
+  },
+  "interfacePlane": {
+    "surface": "EXISTING_ATLAS_CONTINUITY_RIGHT_RAIL",
+    "renderer": "INTENT_AND_PROJECTION_ONLY",
+    "designOs": "EXISTING_SLOT_NO_NEW_VISUAL_LANGUAGE"
+  },
+  "operations": {
+    "commands": [],
+    "queries": [
+      "query.workspace.atlasContinuityLedgerSurface",
+      "query.pulseClaimProjection"
+    ],
+    "events": [],
+    "effects": [
+      "effect.fixedInternalPulseDirectoryReadOnly"
+    ],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "MAIN_OWNED_FIXED_USER_DATA_PULSE_DIRECTORY_READ_ONLY"
+    ],
+    "designOs": [
+      "rightRail.context.atlas.continuityLedger"
+    ]
+  },
+  "projection": {
+    "schema": "yalken.r24.pulseClaim.v1",
+    "immutable": true,
+    "revisionBound": true,
+    "maximumVisibleRows": 64
+  },
+  "fallbacks": [
+    "OPTED_OUT",
+    "EMPTY",
+    "DEGRADED",
+    "UNAVAILABLE"
+  ],
+  "recovery": "NO_REPAIR_ON_READ_TYPED_UNAVAILABLE",
+  "performance": {
+    "explicitOpenOnly": true,
+    "boundedRows": true,
+    "typingHotPath": false
+  },
+  "accessibility": {
+    "nativeList": true,
+    "nativeListItems": true,
+    "keyboard": [
+      "Tab"
+    ],
+    "visibleStatus": true,
+    "visibleProvenance": true,
+    "visibleDenominator": true
+  },
+  "negativeProofs": [
+    "RENDERER_PATH_AUTHORITY",
+    "OPTED_OUT_READ",
+    "STALE_OR_TAMPERED_HISTORY",
+    "MISSING_AS_ZERO",
+    "UNBOUNDED_ROWS",
+    "HIDDEN_PROVENANCE",
+    "STORAGE_OR_NETWORK_MUTATION",
+    "IMPLEMENTATION_MUTANTS"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false
+}

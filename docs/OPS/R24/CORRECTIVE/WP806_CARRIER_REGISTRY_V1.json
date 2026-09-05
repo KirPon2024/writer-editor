@@ -15,8 +15,8 @@
   },
   "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
   "currentTreeFallbackAllowed": false,
-  "carrierDenominator": 37,
-  "verifiedCarrierCount": 37,
+  "carrierDenominator": 38,
+  "verifiedCarrierCount": 38,
   "missingCarrierCount": 0,
   "mismatchedCarrierCount": 0,
   "carriers": [
@@ -27,7 +27,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "047e17394fffe9f960db03852ce605d1c9f3ee7c3e173419fe9661fc5d4b46eb",
+      "sha256": "8146c3612af68bf7476a2fda4ac7baeb4169dff9f9f4203f89f4742e285dd03d",
       "byteLength": 433628
     },
     {
@@ -47,23 +47,23 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
-      "sha256": "5cd42c23b209399610961615843dfe9df6b50db5a7ed649c43f69c28987c2132",
-      "byteLength": 10942
+      "sha256": "2d1feefc618255ce8e9d35fc49322d9f2e61a07904f1c6ba4bdf701ca22177ff",
+      "byteLength": 11012
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
-      "sha256": "25280ae7908d3d48090929806e8b76a40926ca39fa6927ad7b6a850b09d78164",
+      "sha256": "906a48bb057362c09ac804e9f527ad298f76d43614518698ffbe223f8902b635",
       "byteLength": 1329
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
-      "sha256": "d1b491856ec3c480b7278e9c1d36fb75fd1eef12b137c02168071855c9106853",
+      "sha256": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f",
       "byteLength": 1758
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
-      "sha256": "0e46419de6f60c6fe222194f4f0b5e869edf33c39bb9524fbdd0b7180221957c",
-      "byteLength": 11522
+      "sha256": "f652ba742d54e0ae2c13d55086eb0021a18f1fd3044ca7dca28e819c86dcefed",
+      "byteLength": 11592
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_PROTECTED_WIP_BEFORE_V1.json",
@@ -77,12 +77,12 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_PULSE_PRODUCT_ADMISSION_OWNER_DECISION_V1.json",
-      "sha256": "7ab7dbd15549c4a2410de058b85138a0a886250b645770a16cbdadf49d401573",
+      "sha256": "fae7a196711bae766579f1f3a0cb11d5835459ded084ec700333df967056f3e3",
       "byteLength": 1005
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
-      "sha256": "fd52a142b70d31c9d4f808a087fcdbaecd063f30f8c1ab8696f29f2a01453d21",
+      "sha256": "1c529681fa2dc4d55e80d754ad232f1cdec9edef0d64fd8acfc3dfa286f4c2a6",
       "byteLength": 2248
     },
     {
@@ -117,7 +117,7 @@
     },
     {
       "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "sha256": "154a9763baacb0ccbe5c609b4948fe2d73504d5f461bb18bfd01b3d21cf9bff8",
+      "sha256": "649226f03b79f14046af727b252fff1ecfb76bc8a0eda7465916fe6ed5536293",
       "byteLength": 697033
     },
     {
@@ -172,12 +172,12 @@
     },
     {
       "path": "test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs",
-      "sha256": "9d5a8eb03c234b897678fc3dc455a58e1c127634dc9e3d9c0f4aff9a082cd07f",
+      "sha256": "f0e0a5bef21cc9e1f81bc55070d2cfafbb22f7a63bc6f19771158eb92751112a",
       "byteLength": 5204
     },
     {
       "path": "test/contracts/r24-wp806-terminal-carriers.contract.test.mjs",
-      "sha256": "36bedcc96f889bc26e74f3e68b5c7d04fb82af3d47204c62e78b4804dc137e6f",
+      "sha256": "08e32bc631edb2596c618ea0d810073c33f97d612a45b6ec15a3709cca8c608f",
       "byteLength": 8510
     },
     {
@@ -189,6 +189,11 @@
       "path": "test/fixtures/r24-wp806-pulse-claim-fixtures.js",
       "sha256": "60070a4de6d578f7902565a3b7fc57da587572e167304ee3afb866959d25e266",
       "byteLength": 1129
+    },
+    {
+      "path": "test/unit/r24-wp307-writer-local-profile-integration.test.js",
+      "sha256": "fb94388e64a68194654648d028f92ea22597035c161984eeb517720b8e3e588e",
+      "byteLength": 8286
     },
     {
       "path": "test/unit/r24-wp806-pulse-claim-integration.test.js",

@@ -6,7 +6,7 @@
   "verdict": "PASS",
   "headSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
   "originMainSha": "0eed3261e0d7f2b394336be0b082140e633981e2",
-  "generatedAtUtc": "2026-09-05T12:46:34.598095Z",
+  "generatedAtUtc": "2026-09-05T13:14:13.354896Z",
   "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
   "claimBindings": [
     {
@@ -33,7 +33,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
-      "sha256": "25280ae7908d3d48090929806e8b76a40926ca39fa6927ad7b6a850b09d78164",
+      "sha256": "906a48bb057362c09ac804e9f527ad298f76d43614518698ffbe223f8902b635",
       "claimTerms": [
         "PASS",
         "DONE",
@@ -44,7 +44,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP806_PULSE_PRODUCT_ADMISSION_OWNER_DECISION_V1.json",
-      "sha256": "7ab7dbd15549c4a2410de058b85138a0a886250b645770a16cbdadf49d401573",
+      "sha256": "fae7a196711bae766579f1f3a0cb11d5835459ded084ec700333df967056f3e3",
       "claimTerms": [
         "PASS",
         "DONE",
@@ -77,7 +77,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP806_TERMINAL_RECEIPT_V1.json",
-      "sha256": "f8463c329d163d76cf6772907affcb20bead03241d30e29af0004a9e2f9b0698",
+      "sha256": "b6328a116b306f52839c75fe6e938a052fe205d522777c020a18ce3f85f7227c",
       "claimTerms": [
         "PASS",
         "DONE",
@@ -99,7 +99,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "047e17394fffe9f960db03852ce605d1c9f3ee7c3e173419fe9661fc5d4b46eb",
+      "sha256": "8146c3612af68bf7476a2fda4ac7baeb4169dff9f9f4203f89f4742e285dd03d",
       "claimTerms": [
         "PASS",
         "DONE",

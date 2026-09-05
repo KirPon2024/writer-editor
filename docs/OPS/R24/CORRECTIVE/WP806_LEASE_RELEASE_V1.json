@@ -11,10 +11,10 @@
   "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
   "bindings": {
     "predecessorReleaseDigest": "aace469be1af1657d077314b3718a830bf27ddaa1ef4cdb91ddb4024662a3efd",
-    "acceptanceMatrixDigest": "9b4065dfb3b94b221ad5a0c0eb7d5eb824d625793451b1823d45622458d022d7",
-    "effectiveStateDigest": "b19fa48749fce25f4ac59ab59c1622f3167c52ae903142d5e1a7c15a761e2284",
-    "stageRegistryDigest": "f6f3b1fa7e1fe78012f091d6ed3529ddec799dafecb8ca237db350b7a403cb23",
-    "stageAdmissionDigest": "d1b491856ec3c480b7278e9c1d36fb75fd1eef12b137c02168071855c9106853"
+    "acceptanceMatrixDigest": "bc85a2152df2fe6ca11982c08a91719ae22c7a9e4d7c2b23f2ea97932bb9dd4c",
+    "effectiveStateDigest": "ddbea79fb0cc6cb4c20ce7c14e97504b2d40d8f6496ce6958e509f4306ca8e3d",
+    "stageRegistryDigest": "8c7d32b0903c673d9e2c7e72d19f2f0c75b5c65b6cacaabd594cb2f1f9788502",
+    "stageAdmissionDigest": "e43cc7f98d088d49f9331365205a8470d9df85eaee68a3d7b969e8de935a384f"
   },
   "currentLease": {
     "fencingCounter": 97,

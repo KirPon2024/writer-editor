@@ -5,13 +5,13 @@
   "decision": "INSTANCE_IS_EXACT_SUBSET_OF_OWNER_AUTHORIZED_SUCCESSOR",
   "stageId": "WP-806_PULSE_CLAIM",
   "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP806_PULSE_CLAIM_V1",
-  "authorityDigest": "5cd42c23b209399610961615843dfe9df6b50db5a7ed649c43f69c28987c2132",
+  "authorityDigest": "2d1feefc618255ce8e9d35fc49322d9f2e61a07904f1c6ba4bdf701ca22177ff",
   "ownerAuthorityBindingDigest": "c656dd55f95080cb032dc023b15b6ef16f1d124fe3226b4053e152fce93665b9",
   "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
   "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
   "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
-  "stageInstanceDigest": "0e46419de6f60c6fe222194f4f0b5e869edf33c39bb9524fbdd0b7180221957c",
-  "writeSetDigest": "a4219d73c121e9faf24a0a9d518117e3f6b5cd3ee7bb55eea80f6c32c7f39453",
+  "stageInstanceDigest": "f652ba742d54e0ae2c13d55086eb0021a18f1fd3044ca7dca28e819c86dcefed",
+  "writeSetDigest": "3c17ff99030dc88de819bf847541701eded36e22d2ffc73e4bab1ad72a8b3277",
   "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
   "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
   "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
@@ -28,5 +28,5 @@
     "wip": 1,
     "predecessorReleaseDigest": "aace469be1af1657d077314b3718a830bf27ddaa1ef4cdb91ddb4024662a3efd"
   },
-  "observedAtUtc": "2026-09-05T12:20:36.552508Z"
+  "observedAtUtc": "2026-09-05T13:12:24.227630Z"
 }

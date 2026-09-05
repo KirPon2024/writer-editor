@@ -1,0 +1,165 @@
+{
+  "schemaVersion": "YALKEN_R24_WP805_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "evidenceStampId": "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_REQUIRED_EXTERNAL_PREDICATES_OPEN",
+  "denominator": 29,
+  "passed": 22,
+  "requiredNotPreclaimed": 7,
+  "failed": 0,
+  "skipped": 0,
+  "todo": 0,
+  "rows": [
+    {
+      "id": "ADMISSION_NATIVE_VERIFIER",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "ADMISSION_PREPARATION_EXACT_37_PATHS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "WP804_RELEASED_PREDECESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "GRAPH_DERIVED_SUCCESSOR",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "IMMUTABLE_WP804_EXPLANATION_INPUT",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "THREE_WAY_SEMANTIC_DIFF",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "APPEND_ONLY_LINEAGE_REVALIDATED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "OURS_THEIRS_IDENTICAL_CONFLICT_CLASSIFICATION",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "TYPED_CONFLICT_IDENTITY",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "UNRESOLVED_CONFLICT_BLOCKS_SYNC_READINESS",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "EXPLICIT_LOCAL_DECISION_REQUIRED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "DECISION_APPEND_ONLY_HASH_CHAIN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "STALE_REVIEW_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "STALE_DECISION_IDENTITY_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "UNKNOWN_CONFLICT_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "REQUEST_PATH_AUTHORITY_DENIED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "RAW_REQUEST_ID_NOT_PERSISTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT"
+    },
+    {
+      "id": "TAMPER_AND_NONCANONICAL_CHAIN_REJECTED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "FRESH_PROCESS_REOPEN",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "CONCURRENT_STALE_DECISION_FAILS_CLOSED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION"
+    },
+    {
+      "id": "TEN_ACTUAL_SOURCE_MUTANTS_KILLED",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MUTANTS"
+    },
+    {
+      "id": "NO_UI_IPC_NETWORK_DEPENDENCY_OR_REAL_OWNER_DATA",
+      "status": "PASS",
+      "evidence": "ES-R24-WP-805-LOCAL-HISTORY-MODEL"
+    },
+    {
+      "id": "CLEAN_ENGINE_STRICT_INSTALL_AND_REQUIRED_FULL_GATES",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "DISPOSABLE_EXACT_DESKTOP_CREATE_WRITE_SAVE_CLOSE_REOPEN_RECOVERY_EXPORT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "NORMAL_PROTECTED_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "FRESH_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "OPS_VECTOR_CLOSE_EXACT_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_AND_FINAL_WIP",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": null
+    }
+  ]
+}

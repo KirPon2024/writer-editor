@@ -1,0 +1,254 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP805_LOCAL_HISTORY_V1",
+  "ownerAuthorityBindingDigest": "f726ba4ef121caad141ac462456567def032552556fee3aecbc71e5bfbbf3f02",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "22a12573e3539c5f91064cc6db90c0a1c47cbaa1",
+  "baseTree": "fe4f6bb400bc3eb776929f34d50b3fed7e5980f3",
+  "branch": "codex/r24-wp805-local-history-admission-recovery-v1-20260905",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "verifierDigest": "aa3ee410111bc245b6d5fa2e13864957887bd4634795be839a68d7ed507cd542",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP804_LEASE_RELEASE_V1.json",
+      "sha256": "18369503a1332253120603307668fe8c98eedca2b7e9188ed83dc2671382cab9"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "5533d8d9caa75751251a9697251dd50d86c64bb53433bddbfd1b5d9c793e2c43"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP804_TERMINAL_RECEIPT_V1.json",
+      "sha256": "16514efaed8ff270e7d3a2dec4b21709388e08e56b2672fef0ffdc0b6491df54"
+    },
+    {
+      "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-v3.mjs",
+      "sha256": "aa3ee410111bc245b6d5fa2e13864957887bd4634795be839a68d7ed507cd542"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective WP805 local semantic history review conflict before network sync",
+    "npm run agent:preflight -- --declaration /tmp/WP805_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-v3.mjs",
+    "node scripts/ops/r24/corrective/admission-preparation-v2.mjs",
+    "node --test test/unit/r24-wp805-local-history.test.js test/unit/r24-wp805-local-history-integration.test.js test/unit/r24-wp805-local-history-mutants.test.js test/contracts/r24-wp805-terminal-carriers.contract.test.mjs test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs",
+    "npm run r24:test-inventory",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_WP805_WRITE_SET",
+    "git commit -m Implement WP805 local history",
+    "git fetch origin main",
+    "git push origin codex/r24-wp805-local-history-admission-recovery-v1-20260905",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run watch RUN --exit-status",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+    "node /tmp/WP805_PACKAGED_WRITER_LOCAL_LIFECYCLE_HARNESS_V1.mjs",
+    "node /tmp/WP805_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP805_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP804_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "docs/corex/COREX.md",
+      "docs/corex/COREX.v2.md",
+      "scripts/ops/r24/canonical-json.mjs",
+      "scripts/ops/r24/claim-binding.mjs",
+      "scripts/ops/r24/corrective/admission-preparation-v2.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v3.mjs",
+      "src/core/browser-safe-hash.mjs",
+      "src/core/descriptive-history-v1.mjs",
+      "src/core/pulse-formulas-v1.mjs",
+      "src/core/pulse-ledger-v1.mjs",
+      "src/core/pulse-policy-codec-v1.mjs",
+      "src/core/pulse-privacy-v1.mjs"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/docs-claim-lint.mjs",
+      "test/contracts/r24-wp804-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp804-terminal-carriers.contract.test.mjs",
+      "test/contracts/rtk-release01-terminal-claims.contract.test.js"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP805_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_FIXTURE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_LOCAL_HISTORY_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP805_WP804_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-MUTANTS.json",
+      "src/core/pulse-local-history-v1.mjs",
+      "test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp805-terminal-carriers.contract.test.mjs",
+      "test/fixtures/r24-wp805-local-history-fixtures.js",
+      "test/unit/r24-wp805-local-history-integration.test.js",
+      "test/unit/r24-wp805-local-history-mutants.test.js",
+      "test/unit/r24-wp805-local-history.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "WP805_IS_UNIQUE_GRAPH_READY_NODE_AFTER_WP804_TERMINAL",
+    "OFFLINE_THREE_WAY_SEMANTIC_DIFF",
+    "BASE_OURS_THEIRS_IMMUTABLE_WP804_EXPLANATIONS_VERIFIED",
+    "OURS_THEIRS_AND_BOTH_CHANGE_CLASSES_DISTINCT",
+    "DIVERGENT_EFFECTIVE_AGGREGATES_CREATE_TYPED_CONFLICT",
+    "IDENTICAL_PARALLEL_CHANGE_IS_NOT_CONFLICT",
+    "APPEND_ONLY_LEDGER_PREFIX_REWRITE_REJECTED",
+    "LOCAL_REVIEW_DECISION_REQUIRES_EXACT_REVIEW_DIGEST",
+    "LOCAL_DECISION_JOURNAL_HASH_CHAINED_APPEND_ONLY",
+    "FRESH_PROCESS_REOPEN_PRESERVES_DECISIONS",
+    "NO_NETWORK_CLOUD_CONTENT_IDENTITY_PATH_OR_PROVIDER_AUTHORITY",
+    "ACCESSORS_SYMBOLS_UNKNOWN_FIELDS_STALE_TAMPER_AND_CAPACITY_REJECTED",
+    "ACTUAL_SOURCE_IMPLEMENTATION_MUTANTS_KILLED",
+    "DISPOSABLE_FIXTURE_REVIEW_CONFLICT_DECIDE_REOPEN",
+    "WP804_CERTIFIED_DONE_FENCE_95_RELEASED_WIP_0",
+    "292_PROTECTED_ENTRIES_TEN_DIRTY_PRESERVED",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP805_FENCE_96_RELEASED_WIP_0",
+    "PRODUCT_GRAPH_INCREMENT_ONE",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP804_PULSE_PRIVACY_TERMINAL_RECEIPT_V1",
+      "digest": "a89b3154c4ecb8dbdc720e4a0b1ae8ec55b3100b7362d15fbe0a4bc1f92cd6b3",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP804_PULSE_PRIVACY_TERMINAL_VERIFICATION_V1",
+      "digest": "61d8092687c7162b136c8a2bab893b15650b80837e0f992ad7445d719e525e14",
+      "status": "PASS"
+    },
+    {
+      "id": "WP804_LEASE_RELEASE_DISPOSITION_V1",
+      "digest": "610ba880eb36af11305d66e56f62e152dcd3104591a6cb12297cc347c60f84a9",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "WP804_PULSE_PRIVACY_DURABLE_CARRIER_V1",
+      "digest": "ad07db3cae73704b72c3abfb4efba57e395a73508776687ba69dbe43990a95bb",
+      "status": "DURABLE"
+    },
+    {
+      "id": "WP804_NEXT_READY_SET_V1",
+      "digest": "dd9d92e1932844117b7e38cad3e715a2350b5c9abf963cac841928953fa0be00",
+      "status": "UNIQUE_WP805_READY"
+    },
+    {
+      "id": "CURRENT_OWNER_CONTINUOUS_PRODUCT_QUEUE_AUTHORITY",
+      "digest": "f726ba4ef121caad141ac462456567def032552556fee3aecbc71e5bfbbf3f02",
+      "status": "AUTHORIZED_NO_ROUTINE_REAPPROVAL"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 96,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "610ba880eb36af11305d66e56f62e152dcd3104591a6cb12297cc347c60f84a9"
+  }
+}

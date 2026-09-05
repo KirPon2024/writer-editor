@@ -1,0 +1,87 @@
+{
+  "schemaVersion": "YALKEN_R24_WP805_FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "evidenceStampId": "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "productPlane": {
+    "owner": "PRODUCT_CORE_AUTHORITY",
+    "sourceTruth": "WP804_IMMUTABLE_PRIVACY_EXPLANATION_PROJECTIONS",
+    "mutation": "ATOMIC_APPEND_ONLY_LOCAL_REVIEW_DECISION_JOURNAL"
+  },
+  "interfacePlane": {
+    "surface": "NONE",
+    "renderer": "NONE",
+    "designOs": "NOT_APPLICABLE_NO_UI"
+  },
+  "operations": {
+    "commands": [
+      "command.pulseLocalHistoryDecideConflict"
+    ],
+    "queries": [
+      "query.pulseLocalHistoryThreeWayReview"
+    ],
+    "events": [
+      "event.pulseLocalHistoryDecisionAppended"
+    ],
+    "effects": [
+      "effect.durableLocalDecisionSave"
+    ],
+    "backgroundJobs": []
+  },
+  "ports": {
+    "product": [
+      "durableSaveTransaction"
+    ],
+    "designOs": []
+  },
+  "projection": {
+    "schemas": [
+      "yalken.r24.pulseLocalHistoryReview.v1"
+    ],
+    "immutable": true,
+    "identityGuards": [
+      "base.explanationDigest",
+      "ours.explanationDigest",
+      "theirs.explanationDigest",
+      "reviewDigest",
+      "decisionSequence",
+      "decisionHeadDigest"
+    ],
+    "maximumEntries": 4096
+  },
+  "fallbacks": [
+    "BLOCK_UNRESOLVED_CONFLICT",
+    "REJECT_STALE_OR_TAMPERED_INPUT",
+    "NO_AUTOMATIC_CLEANUP",
+    "NO_NETWORK_EFFECT"
+  ],
+  "recovery": "REOPEN_CANONICAL_DECISION_CHAIN_OR_FAIL_TYPED",
+  "performance": {
+    "maximumHistoryEntries": 4096,
+    "maximumDecisionEntries": 4096,
+    "validation": "LINEAR_BOUNDED"
+  },
+  "accessibility": {
+    "status": "NOT_APPLICABLE_NO_UI"
+  },
+  "negativeProofs": [
+    "LINEAGE_REWIND",
+    "IMMUTABLE_LINEAGE_DRIFT",
+    "STALE_REVIEW",
+    "STALE_DECISION_CHAIN",
+    "UNKNOWN_CONFLICT",
+    "REQUEST_PATH_AUTHORITY",
+    "UNRESOLVED_NETWORK_READINESS",
+    "TAMPERED_DECISION_CHAIN",
+    "ACCESSOR_SYMBOL_UNKNOWN_FIELD",
+    "IMPLEMENTATION_MUTANTS"
+  ],
+  "dependencies": [],
+  "runtimeNetwork": false
+}

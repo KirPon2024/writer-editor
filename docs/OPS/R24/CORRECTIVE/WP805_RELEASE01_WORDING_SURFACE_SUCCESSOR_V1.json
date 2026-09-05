@@ -1,0 +1,47 @@
+{
+  "schemaVersion": "WP805_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1",
+  "status": "CURRENT_APPEND_ONLY_SUCCESSOR",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "historicalRegistry": {
+    "path": "docs/OPS/RTK/YALKEN_INTEROP_TERMINAL_CLAIM_REGISTRY_V1.json",
+    "sha256": "9064441a85e1ce2758ef018cdb82c76229e921cb1adeea844792e102ee96cba2",
+    "status": "PRESERVED_HISTORICAL_BYTES"
+  },
+  "predecessorSuccessor": {
+    "path": "docs/OPS/R24/CORRECTIVE/WP804_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+    "sha256": "9283ea366940cd0d179646080d150546bcd5d62f0206261cdc70647038b4dff6",
+    "status": "PRESERVED_APPEND_ONLY_PREDECESSOR"
+  },
+  "evaluationBase": {
+    "sha": "22a12573e3539c5f91064cc6db90c0a1c47cbaa1",
+    "treeSha": "fe4f6bb400bc3eb776929f34d50b3fed7e5980f3"
+  },
+  "surfaceOverrides": [
+    {
+      "surfaceId": "surface-package-json",
+      "path": "package.json",
+      "sha256": "sha256:e1eb71358e8cdd8d114814f6ad6286ced35bf21229210b385a939b1e4c149e57"
+    },
+    {
+      "surfaceId": "surface-editor-js",
+      "path": "src/renderer/editor.js",
+      "sha256": "sha256:28e5222e9cc08b18b72ac1cf9941ca7943b0ff76326ada691edb6c97cc645850"
+    }
+  ],
+  "authority": {
+    "authorityDigest": "9e617c71a311a68f331e8e00a22f0dd4513551e30aeaf2fb9983502bcaeaee92",
+    "stageInstanceDigest": "65163e833173b72408cde717bc408c88ef59309a2cb8689f2faccb2c96f98177",
+    "writeSetDigest": "23891eebfc31baff6574b3803b7705f74304a5474e53fabafefd611169ae38ea",
+    "commandScopeDigest": "37501efd5e22e54a5861c8ad5c99701b1beb9053a7188ab39fb36b34e8a60f59",
+    "acceptanceSignalsDigest": "37810421fb12480d12250a6207d9aa1aff65c56cb81ac2b38f064761435eadf3",
+    "stageAdmissionDigest": "c6221c7b603ffeac99e7774899f5058be0d917917e7b98bcae47e24085ca5caa",
+    "ownerAuthorityBindingDigest": "f726ba4ef121caad141ac462456567def032552556fee3aecbc71e5bfbbf3f02"
+  },
+  "completeHistoricalRegistryChecksPreserved": true,
+  "programDone": false
+}

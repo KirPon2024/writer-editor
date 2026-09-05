@@ -1,0 +1,142 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+  "contourId": "WP-805_LOCAL_HISTORY",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "22a12573e3539c5f91064cc6db90c0a1c47cbaa1",
+  "originMainSha": "22a12573e3539c5f91064cc6db90c0a1c47cbaa1",
+  "generatedAtUtc": "2026-09-05T08:26:56.303Z",
+  "oracle": "EXECUTED_FOCUSED_TESTS_PLUS_PINNED_CANDIDATE_CARRIERS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "57bf3d45d555aa115787012dbb74143c450dadf6103df448e8561cd2b1cd3868",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "83d5b47ef3b8e4a1297bbd6242961728f80161a89b5a1bda2818294ddeb56586",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "938d2ec564c35830a1bc2dd12b8bd090068152324a078c6807379b20b05ecaa9",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_LOCAL_HISTORY_CONTRACT_V1.json",
+      "sha256": "95fb8ee07bf19f53a752d4e333ba7dd57ee2d0e7094e93b07239423debf8de87",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e56b4358484ccef2a445e1443591241b8e12641fd58d37b6887b950c553af2d2",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_WP804_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "8ff96ec5487e2a9d05a2ae756ca58069f2d89c8cb51335a3b380c76bfa9798e2",
+      "claimTerms": [
+        "READY",
+        "PASS",
+        "SAFE",
+        "COMPLETE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "ccf2a2d09b25e202849179eda96ba8e60f5f23dccb5849e12356482a5a4a7985",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "src/core/pulse-local-history-v1.mjs",
+      "sha256": "be068cfc066c089bd0f5dfd6ba49c6b7a02c9706dcb0ddb4ffe25ead929e29a9",
+      "terms": [
+        "WP805_LOCAL_HISTORY"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp805-local-history-fixtures.js",
+      "sha256": "ae99289b6c1c2cd172bd3390d78a4c3b076b9e64936157aecf5d5048e1faa1b3",
+      "terms": [
+        "WP805_LOCAL_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp805-local-history.test.js",
+      "sha256": "eebe18efe4fe7802b75907a5f6fb9ddec866740627bfa4f06c7e7d85ebeee928",
+      "terms": [
+        "WP805_LOCAL_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp805-local-history-integration.test.js",
+      "sha256": "0d368a85ee2e4f7ec1a9f096be50ecf8cb57e4ea9b127bc54b196b9ab0cf28d0",
+      "terms": [
+        "WP805_LOCAL_HISTORY"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp805-local-history-mutants.test.js",
+      "sha256": "c705ad36d028b261276dc527b4ca9c3e7de416fbbc0d4f071172fa47a287d2b5",
+      "terms": [
+        "WP805_LOCAL_HISTORY"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test test/unit/r24-wp805-local-history.test.js test/unit/r24-wp805-local-history-integration.test.js test/unit/r24-wp805-local-history-mutants.test.js",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 23,
+        "fail": 0
+      }
+    },
+    {
+      "command": "Ten source-mutated modules exercised against behavioral oracles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FUTURE_PROVIDER_IDENTITY_PRECLAIMED",
+    "NO_CONTENT_IDENTITY_PATH_OR_NETWORK_DATA",
+    "NO_RENDERER_IPC_NETWORK_CLOUD_OR_NEW_DEPENDENCY_AUTHORITY",
+    "NO_WP805_DONE_BEFORE_REQUIRED_GATES_EXTERNAL_TERMINAL_PROOF_AND_RELEASE",
+    "PROGRAM_DONE_FALSE"
+  ]
+}

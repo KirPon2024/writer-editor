@@ -1,0 +1,269 @@
+{
+  "version": "v1.0",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "evidenceStampIds": [
+    "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+    "ES-R24-WP-805-LOCAL-HISTORY-MODEL",
+    "ES-R24-WP-805-LOCAL-HISTORY-CONTRACT",
+    "ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION",
+    "ES-R24-WP-805-LOCAL-HISTORY-MUTANTS"
+  ],
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "9b04c096feb6334e7349bb3f6d75f6f85d1192ac22ac83de8b46f1adfe1ffad4",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "ccf2a2d09b25e202849179eda96ba8e60f5f23dccb5849e12356482a5a4a7985",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "07f2d1812d38791182eddee91c09a2e433b284f2376908eac5cc54f539772cfc",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_CARRIER_REGISTRY_V1.json",
+      "sha256": "bda78e32a7e7ac2d988b426108686310fb009fb03afe22f2d56fb1adbcf6fba6",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "57bf3d45d555aa115787012dbb74143c450dadf6103df448e8561cd2b1cd3868",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_EFFECTIVE_STATE_V1.json",
+      "sha256": "11f00735664574091d5a664066acc33bd346726c6ed225f34c40484bb2f75e56",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "83d5b47ef3b8e4a1297bbd6242961728f80161a89b5a1bda2818294ddeb56586",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_FIXTURE_MANIFEST_V1.json",
+      "sha256": "ac9945fd8b67143481aa42bf28dfed382e2de39a48fbeaf67334e6449acef2fe",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_LEASE_RELEASE_V1.json",
+      "sha256": "e2da4c9a53062f16a76a7d6339415ec9b1e0f4b83042bcaffde444ce91401549",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_LOCAL_HISTORY_CONTRACT_V1.json",
+      "sha256": "95fb8ee07bf19f53a752d4e333ba7dd57ee2d0e7094e93b07239423debf8de87",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "9e617c71a311a68f331e8e00a22f0dd4513551e30aeaf2fb9983502bcaeaee92",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "938d2ec564c35830a1bc2dd12b8bd090068152324a078c6807379b20b05ecaa9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "c6221c7b603ffeac99e7774899f5058be0d917917e7b98bcae47e24085ca5caa",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "65163e833173b72408cde717bc408c88ef59309a2cb8689f2faccb2c96f98177",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "3fc419723142530f70f78a3fb7d046d4a14dfeda4ad33eaed7b0d39adb7ff612",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_RELEASE01_WORDING_SURFACE_SUCCESSOR_V1.json",
+      "sha256": "fb3627a030a93e59974279bcbc493affbc72f8eeff9e3f97f14a1fd087040426",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_STAGE_REGISTRY_V1.json",
+      "sha256": "d2a1d526130d48a8dc326ac95d99105d5da368bfd7abc7b071bd91fc27ebf71d",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_TERMINAL_RECEIPT_V1.json",
+      "sha256": "e56b4358484ccef2a445e1443591241b8e12641fd58d37b6887b950c553af2d2",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP805_WP804_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "8ff96ec5487e2a9d05a2ae756ca58069f2d89c8cb51335a3b380c76bfa9798e2",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS.json",
+      "sha256": "e3929caec7d09b9a6f7620d4b5f76c6984ad4051117107ad680d14d40b6f2310",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-CONTRACT.json",
+      "sha256": "163210e8e3b9799072458102e7b55a48fade2a3f60cf2e9e0a444d28a267d3a7",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-INTEGRATION.json",
+      "sha256": "c4563c90e0439ac19fd9e910a5ad5ff972067717513394fd3da67aa2566a21e7",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-MODEL.json",
+      "sha256": "8888a77be62d1e93536cd614d32801ac217e56b46360818f0212725b0a37ec7e",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-805-LOCAL-HISTORY-MUTANTS.json",
+      "sha256": "2c6cf409cfe0d863850877ae7d226ca8c738f142b6c20ea5c16a1ca3b531b942",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "a49aa17490adb9dfb1d8941c81bcaedef07e8423c9205d5f2a93b3e5028ca2b7",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "6ae0dc820a7271004c6949d148f0bcb515bb9baaef0b793884c02f6b614aaf66",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "src/core/pulse-local-history-v1.mjs",
+      "sha256": "be068cfc066c089bd0f5dfd6ba49c6b7a02c9706dcb0ddb4ffe25ead929e29a9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/contracts/r24-wp804-post-audit-compatibility.contract.test.mjs",
+      "sha256": "38fecdd947f5a179ed1ba9198e8e150edaa3e6513c5f199ef1e17a6a0913e88c",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/contracts/r24-wp804-terminal-carriers.contract.test.mjs",
+      "sha256": "fcc3637b801cbbcd04c5778bc2907bb768e246982c3bffa5c3d8c3f4030338b9",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs",
+      "sha256": "1f36d969391142ed3486868e4caa71dbb8cebb20e1b9ffc600391605e4f0b71f",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/contracts/r24-wp805-terminal-carriers.contract.test.mjs",
+      "sha256": "a30fa90d097f60e6bc32d9d5734a59a06bf83e5dbefc8271c49305ab9173ed11",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/contracts/rtk-release01-terminal-claims.contract.test.js",
+      "sha256": "c69c7e8fda3425f4400197485b6bb445d2e7c7dd556388a32f371bbcdb6d6bdf",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp805-local-history-fixtures.js",
+      "sha256": "ae99289b6c1c2cd172bd3390d78a4c3b076b9e64936157aecf5d5048e1faa1b3",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/unit/r24-wp805-local-history-integration.test.js",
+      "sha256": "0d368a85ee2e4f7ec1a9f096be50ecf8cb57e4ea9b127bc54b196b9ab0cf28d0",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/unit/r24-wp805-local-history-mutants.test.js",
+      "sha256": "c705ad36d028b261276dc527b4ca9c3e7de416fbbc0d4f071172fa47a287d2b5",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    },
+    {
+      "filePath": "test/unit/r24-wp805-local-history.test.js",
+      "sha256": "eebe18efe4fe7802b75907a5f6fb9ddec866740627bfa4f06c7e7d85ebeee928",
+      "approvedBy": "owner-standing:OWNER_AUTHORIZED_CONTINUOUS_ORDINARY_R24_PRODUCT_QUEUE",
+      "approvedAtUtc": "2026-09-05T08:26:56.303Z",
+      "rationale": "Owner-authorized bounded WP805 offline semantic history review, typed conflict and local decision product node."
+    }
+  ]
+}

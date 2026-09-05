@@ -1,0 +1,44 @@
+{
+  "schemaVersion": "YALKEN_R24_WP805_STAGE_REGISTRY_V1",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "evidenceStampId": "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_ACTIVE_PENDING_REQUIRED_GATES_AND_EXTERNAL_DELIVERY",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP805_LOCAL_HISTORY_V1",
+  "authorityDigest": "9e617c71a311a68f331e8e00a22f0dd4513551e30aeaf2fb9983502bcaeaee92",
+  "ownerAuthorityBindingDigest": "f726ba4ef121caad141ac462456567def032552556fee3aecbc71e5bfbbf3f02",
+  "stageInstanceDigest": "65163e833173b72408cde717bc408c88ef59309a2cb8689f2faccb2c96f98177",
+  "stageAdmissionDigest": "c6221c7b603ffeac99e7774899f5058be0d917917e7b98bcae47e24085ca5caa",
+  "writeSetDigest": "23891eebfc31baff6574b3803b7705f74304a5474e53fabafefd611169ae38ea",
+  "commandScopeDigest": "37501efd5e22e54a5861c8ad5c99701b1beb9053a7188ab39fb36b34e8a60f59",
+  "acceptanceSignalsDigest": "37810421fb12480d12250a6207d9aa1aff65c56cb81ac2b38f064761435eadf3",
+  "selectionReceiptDigest": "938d2ec564c35830a1bc2dd12b8bd090068152324a078c6807379b20b05ecaa9",
+  "protectedWipBeforeRawDigest": "3fc419723142530f70f78a3fb7d046d4a14dfeda4ad33eaed7b0d39adb7ff612",
+  "fixtureManifestDigest": "ac9945fd8b67143481aa42bf28dfed382e2de39a48fbeaf67334e6449acef2fe",
+  "featureIntegrationManifestDigest": "83d5b47ef3b8e4a1297bbd6242961728f80161a89b5a1bda2818294ddeb56586",
+  "baseSha": "22a12573e3539c5f91064cc6db90c0a1c47cbaa1",
+  "baseTree": "fe4f6bb400bc3eb776929f34d50b3fed7e5980f3",
+  "lease": {
+    "fencingCounter": 96,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "610ba880eb36af11305d66e56f62e152dcd3104591a6cb12297cc347c60f84a9"
+  },
+  "targetTransition": {
+    "nodeState": "DONE",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
+  "effectiveGraphBaselineDigest": "57bf3d45d555aa115787012dbb74143c450dadf6103df448e8561cd2b1cd3868",
+  "carrierRegistryDigest": "bda78e32a7e7ac2d988b426108686310fb009fb03afe22f2d56fb1adbcf6fba6",
+  "acceptanceMatrixDigest": "07f2d1812d38791182eddee91c09a2e433b284f2376908eac5cc54f539772cfc",
+  "effectiveStateDigest": "11f00735664574091d5a664066acc33bd346726c6ed225f34c40484bb2f75e56",
+  "wp804TerminalPredecessorDigest": "8ff96ec5487e2a9d05a2ae756ca58069f2d89c8cb51335a3b380c76bfa9798e2",
+  "localHistoryContractDigest": "95fb8ee07bf19f53a752d4e333ba7dd57ee2d0e7094e93b07239423debf8de87"
+}

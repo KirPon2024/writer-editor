@@ -1,0 +1,83 @@
+{
+  "schemaVersion": "YALKEN_R24_WP805_LOCAL_HISTORY_CONTRACT_V1",
+  "stageId": "WP-805_LOCAL_HISTORY",
+  "evidenceStampId": "ES-R24-WP-805-LOCAL-HISTORY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED",
+  "localHistoryVersion": "PULSE_LOCAL_HISTORY_V1",
+  "sourceProjection": {
+    "schema": "yalken.r24.pulsePrivacyExplanation.v1",
+    "immutable": true,
+    "readOnly": true,
+    "exactIdentity": [
+      "explanationDigest",
+      "ledgerSequence",
+      "ledgerHeadDigest",
+      "correctionSequence",
+      "correctionHeadDigest",
+      "privacyRevision",
+      "privacyStateDigest"
+    ]
+  },
+  "semanticDiff": {
+    "mode": "THREE_WAY_EFFECTIVE_AGGREGATE_VALUES",
+    "classifications": [
+      "OURS_ONLY",
+      "THEIRS_ONLY",
+      "BOTH_IDENTICAL",
+      "CONFLICT"
+    ],
+    "unchangedOmitted": true
+  },
+  "lineage": {
+    "appendOnly": true,
+    "immutableFields": [
+      "ledgerSequence",
+      "entryDigest",
+      "receiptDigest",
+      "sourceRevisionOrdinal",
+      "generation",
+      "metricId",
+      "originalValue"
+    ],
+    "rewindRejected": true,
+    "driftRejected": true
+  },
+  "conflicts": {
+    "typed": true,
+    "explicitLocalDecisionRequired": true,
+    "unresolvedBlocksNetworkSyncReadiness": true,
+    "decisions": [
+      "KEEP_OURS",
+      "KEEP_THEIRS",
+      "DEFER"
+    ]
+  },
+  "persistence": {
+    "basename": "pulse-local-history-decisions.v1.jsonl",
+    "format": "CANONICAL_ATOMIC_APPEND_ONLY_JSONL",
+    "appendOnlyHashChain": true,
+    "maximumEntries": 4096,
+    "maximumBytes": 8388608,
+    "requestIds": "SHA256_DIGEST_ONLY",
+    "recovery": "STRICT_REOPEN_OR_TYPED_REJECTION"
+  },
+  "authority": {
+    "productCore": true,
+    "projectDocumentMutation": false,
+    "renderer": false,
+    "ipc": false,
+    "requestPath": false,
+    "network": false,
+    "cloud": false
+  },
+  "dependencies": [],
+  "runtimeNetwork": false,
+  "syntheticFixturesOnly": true,
+  "privateOwnerData": false
+}

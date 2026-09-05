@@ -4,11 +4,13 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import {
   WP804_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
+  WP805_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   verifyWp804MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FINAL_SHA = 'f804f804f804f804f804f804f804f804f804f804';
 const FINAL_TREE = 'a804a804a804a804a804a804a804a804a804a804';
+const WP804_MERGE_SHA = '22a12573e3539c5f91064cc6db90c0a1c47cbaa1';
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? `${value}\n` : Buffer.from(`${value}\n`);
@@ -31,9 +33,8 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
-        : fs.readFileSync(file);
+      let bytes = execFileSync('git', ['show', `${sha === E.baseSha ? E.baseSha : WP804_MERGE_SHA}:${file}`],
+        { encoding: null, maxBuffer: 32 * 1024 * 1024 });
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
         mutateJson.apply(value);
@@ -77,4 +78,9 @@ test('WP804 candidate oracle rejects forged lease, owner policy and carrier fall
 test('WP804 routing pins the WP803 oracle to the immutable WP804 base', () => {
   const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
   assert.match(source, /verifyWp803MainProductPostEvaluationException\(\{candidateSha:wp804Enabled\?WP804_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
+});
+
+test('WP804 exposes the admitted WP805 successor at its exact terminal merge', () => {
+  assert.equal(WP805_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha, '22a12573e3539c5f91064cc6db90c0a1c47cbaa1');
+  assert.equal(WP805_MAIN_PRODUCT_ADMISSION_EXPECTATION.predecessorReleaseDigest, '610ba880eb36af11305d66e56f62e152dcd3104591a6cb12297cc347c60f84a9');
 });

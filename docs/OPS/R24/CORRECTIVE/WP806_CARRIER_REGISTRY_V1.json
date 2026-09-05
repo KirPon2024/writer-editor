@@ -27,8 +27,8 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "b9c9ed05adab3230db88df44f7195ce544dddbddac95afe48361e25d6d4b3c7a",
-      "byteLength": 553359
+      "sha256": "17a3d2651b3148d6aac58fc52a07c64ac0ffb9914ba0c7408a8b1c39d3cd2432",
+      "byteLength": 433628
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_EFFECTIVE_GRAPH_BASELINE_V1.json",
@@ -52,7 +52,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
-      "sha256": "e5ad6640b2ec2fab118b6947f73401cb9a295ce1dab912b5fdc7e844ed6dd866",
+      "sha256": "bd919bd8e996d55196a87f514b872d21c55aad6dedda85c1832253f923397d20",
       "byteLength": 1329
     },
     {

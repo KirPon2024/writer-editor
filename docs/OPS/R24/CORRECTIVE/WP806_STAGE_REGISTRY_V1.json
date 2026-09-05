@@ -17,7 +17,7 @@
   "writeSetDigest": "b93bf307c528c0859cd8ea2767ce838b148a46b55ae72889047440ed3e7de86d",
   "commandScopeDigest": "2306744c0624edc9f16ca004b6eeb88c61c6d428ca03468d0e62a285d5e40aee",
   "acceptanceSignalsDigest": "c5e2e3a2a019b98e599a160299aa86b18c0e3e98b7b45566d141f3a77dd51e69",
-  "selectionReceiptDigest": "e5ad6640b2ec2fab118b6947f73401cb9a295ce1dab912b5fdc7e844ed6dd866",
+  "selectionReceiptDigest": "bd919bd8e996d55196a87f514b872d21c55aad6dedda85c1832253f923397d20",
   "protectedWipBeforeRawDigest": "638624c1b961969501a8d6252d039b82fbfaf9df57d99f9dee0bb529ee342ed0",
   "fixtureManifestDigest": "f47a0b64b501858fa54f4573e86777db627f4486858cc2125cb495de462ff3cc",
   "featureIntegrationManifestDigest": "a915f4cdd54abe7430fdf23e90a18a2626a3f2bf23bfdf384839b869ea3acfe9",
@@ -37,9 +37,9 @@
   },
   "singleTerminalPrRule": "SINGLE_TERMINAL_PR_RULE_V1",
   "effectiveGraphBaselineDigest": "4d35a989713a92c0a875aa597a30967d402a21a53ad9e73d7a503e67ed36aff7",
-  "carrierRegistryDigest": "0a6a03afc741d5f6ee955699cc4e3753ccad1d1532aa852eb0154a853772bcdd",
+  "carrierRegistryDigest": "95cf8d3b402ab5b32e7e808b88cc5bba4f601420bef6527ecb934ddf895af4f6",
   "acceptanceMatrixDigest": "5235ceafb6c2d05a6ae3db100c041abf181763ec27dda8c1d380265c3f3085a2",
-  "effectiveStateDigest": "598ce31e0e0c70f12102f4e7825a5b22de1b1ee70e996ae231d915dad0bad65d",
+  "effectiveStateDigest": "9f80b82ce59ef2c0736bf9019cbe55c9f2e3ec7f699a36c2308717a1ffd9e9b0",
   "wp805TerminalPredecessorDigest": "eaa76eab9e017d4bb14f3d2153800536d02c961e68048de5be8b8d3bb0cfd814",
   "pulseClaimContractDigest": "260c658df4687c6c8181030db4aafd988de5f3479c127baa698596b54835808e"
 }

@@ -26,12 +26,12 @@ function verify(value) {
   const before = value.PROTECTED_WIP_BEFORE;
   const graph = value.EFFECTIVE_GRAPH_BASELINE;
   const contract = value.GOOGLE_PROVIDER_CONTRACT;
-  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json`)), '85a0c11c0d4e2e7b56bf13b99f5f4b999e9404e0a9becff853d4f0ef3b54f797');
-  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_STAGE_INSTANCE_V1.json`)), '7d4ff91db8d101b00c7c40edf59697684f0896eb144207ee2462f9e8cf73af66');
-  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json`)), '7cf448f3cfbd17c330c26302029e50449672b553b16dbefb89bb704a3b26c0bd');
+  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json`)), '916d26a4a6a4224885c1a60ec21373241aa6b3ce8c58f790cb89172ad41d83f8');
+  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_STAGE_INSTANCE_V1.json`)), '5945388287d25dcdd4d33a7217747e672ef762ef3e9afddbe5faea3f558d9f51');
+  assert.equal(h(fs.readFileSync(`${C}WP708_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json`)), 'cd6e60f5059ec2a7e486e0961b0345be66fec914ee0da0e3750c990b57816fc8');
   assert.equal(instance.model, 'gpt-5.6-sol');
   assert.equal(instance.reasoningEffort, 'xhigh');
-  assert.equal(admission.writeSetDigest, '4c76665eb6c720c91adb8368eb4051d3c7d0693787207107a14b9430832d3cec');
+  assert.equal(admission.writeSetDigest, 'e9f7715043e1b295e073f6a42ba99a9a82ed933cccc89a3fd8a5d32d6da6e1e0');
   assert.deepEqual(instance.lease, { fencingCounter: 98, status: 'ACTIVE', wip: 1, predecessorReleaseDigest: 'ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c' });
   const { snapshotSha256, ...payload } = before;
   assert.equal(h(Buffer.from(`${JSON.stringify(payload)}\n`)), snapshotSha256);
@@ -65,8 +65,8 @@ function verify(value) {
   const admitted = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
   const registry = value.CARRIER_REGISTRY;
   assert.deepEqual([...registry.carriers.map(binding => binding.path), ...registry.excludedDependentCarriers].sort(), admitted);
-  assert.equal(admitted.length, 35);
-  assert.equal(registry.carrierDenominator, 27);
+  assert.equal(admitted.length, 37);
+  assert.equal(registry.carrierDenominator, 29);
   assert.equal(registry.currentTreeFallbackAllowed, false);
   for (const binding of registry.carriers) {
     const bytes = fs.readFileSync(binding.path);

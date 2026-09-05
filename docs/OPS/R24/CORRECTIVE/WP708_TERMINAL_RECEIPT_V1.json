@@ -10,12 +10,12 @@
   "repositoryEvidenceStampId": "ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS",
   "baseIdentity": {"sha":"7734cc48666f260c9554fbf46357c0a3b8b97c4d","treeSha":"e46a1b50943b7fa36e784400291080fd033235b2"},
   "bindings": {
-    "authorityDigest":"85a0c11c0d4e2e7b56bf13b99f5f4b999e9404e0a9becff853d4f0ef3b54f797",
-    "stageInstanceDigest":"7d4ff91db8d101b00c7c40edf59697684f0896eb144207ee2462f9e8cf73af66",
-    "writeSetDigest":"4c76665eb6c720c91adb8368eb4051d3c7d0693787207107a14b9430832d3cec",
+    "authorityDigest":"916d26a4a6a4224885c1a60ec21373241aa6b3ce8c58f790cb89172ad41d83f8",
+    "stageInstanceDigest":"5945388287d25dcdd4d33a7217747e672ef762ef3e9afddbe5faea3f558d9f51",
+    "writeSetDigest":"e9f7715043e1b295e073f6a42ba99a9a82ed933cccc89a3fd8a5d32d6da6e1e0",
     "commandScopeDigest":"0998fa95a5df84ce0dd569a70e390b7865a7de1cf5398f7807cabb1dd80138b3",
     "acceptanceSignalsDigest":"76a1a138a0e2385914a4bf72de0cae00383328b8b868bba3b3723753c16c5ff8",
-    "stageAdmissionDigest":"7cf448f3cfbd17c330c26302029e50449672b553b16dbefb89bb704a3b26c0bd",
+    "stageAdmissionDigest":"cd6e60f5059ec2a7e486e0961b0345be66fec914ee0da0e3750c990b57816fc8",
     "selectionReceiptDigest":"eff15ed9f05e99caaf2d5460548175549c8272333ceb75667bc668e253109ef0",
     "ownerDecisionDigest":"563fb536463a637c0bf5191883b9c410f24314dd832d2744a68084590b856c49",
     "physicalReceiptDigest":"36e3541cfee9629ca98470cfce20722a5e9812f1abbb379b86bb446955bdb5e6",
@@ -26,10 +26,10 @@
     "fixtureManifestDigest":"ac6cdda20380089d833b1dd2ccd38ed3e70d33b60e9dee85ac2cf63333f6dfcd",
     "featureIntegrationManifestDigest":"720104773c5e54cb44aaa702566602de39039dd6a406a19919a686de05ddc74e",
     "acceptanceMatrixDigest":"d9e6403fe023616b9ded282c277f19d287a0972c7e110b8108e36683430aaf50",
-    "carrierRegistryDigest":"2e36b3bb443847602ca9cbff3526616c94ea0598e0d20d065e011e40e4ebaebb",
-    "effectiveStateDigest":"90eba732403031891187c2df3baf33304cceaed406fdcb5a90728fa5e3114b8a",
-    "stageRegistryDigest":"cabd16c367b8d3fa8a90dd7ff4286cfdac159435b523f0bf96da4956739b0df4",
-    "leaseReleaseDigest":"321638af5ba2b85bdecf6fb6e9161c77018cf4573a95927fa2477bf34b354cc3"
+    "carrierRegistryDigest":"43ee2c33815d3ddb55c1413e98a90d88c0edb03ecbbb722f500fd44c515e02fb",
+    "effectiveStateDigest":"218d84a41540dc71e0a7b2664fc1324c977d289728ee88872cde27ffae0537d9",
+    "stageRegistryDigest":"dd9861d2e6806181181f41997e721cfaad3b1cccc88871eb368135691968620d",
+    "leaseReleaseDigest":"b1f4b49461f85a81db5857ea53eab2daf360ee5c9cbbfc0255c2f2ab634cf4a1"
   },
   "implementationArtifacts": [
     {"path":"src/core/google-provider-profile-v1.mjs","sha256":"8094820e7ad46b71f393c7dd434e32f99a946902d729f60bde13ef094e8a4a3f"},

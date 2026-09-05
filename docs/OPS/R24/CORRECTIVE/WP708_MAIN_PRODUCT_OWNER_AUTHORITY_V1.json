@@ -125,7 +125,9 @@
       ".github/workflows/oss-policy.yml",
       "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
       "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
-      "scripts/ops/r24/docs-claim-lint.mjs"
+      "scripts/ops/r24/docs-claim-lint.mjs",
+      "test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp806-terminal-carriers.contract.test.mjs"
     ],
     "createPaths": [
       "docs/OPS/R24/CORRECTIVE/WP708_ACCEPTANCE_MATRIX_V1.json",

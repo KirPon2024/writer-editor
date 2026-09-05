@@ -8,9 +8,9 @@
   "bindings": {
     "predecessorReleaseDigest":"ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c",
     "acceptanceMatrixDigest":"d9e6403fe023616b9ded282c277f19d287a0972c7e110b8108e36683430aaf50",
-    "effectiveStateDigest":"90eba732403031891187c2df3baf33304cceaed406fdcb5a90728fa5e3114b8a",
-    "stageRegistryDigest":"cabd16c367b8d3fa8a90dd7ff4286cfdac159435b523f0bf96da4956739b0df4",
-    "stageAdmissionDigest":"7cf448f3cfbd17c330c26302029e50449672b553b16dbefb89bb704a3b26c0bd",
+    "effectiveStateDigest":"218d84a41540dc71e0a7b2664fc1324c977d289728ee88872cde27ffae0537d9",
+    "stageRegistryDigest":"dd9861d2e6806181181f41997e721cfaad3b1cccc88871eb368135691968620d",
+    "stageAdmissionDigest":"cd6e60f5059ec2a7e486e0961b0345be66fec914ee0da0e3750c990b57816fc8",
     "physicalReceiptDigest":"36e3541cfee9629ca98470cfce20722a5e9812f1abbb379b86bb446955bdb5e6"
   },
   "currentLease": {"fencingCounter":98,"status":"ACTIVE","wip":1,"predecessorReleaseDigest":"ad0514727c76d467cad99d027db89fe0f07b8b1ebef0ee8cd3412b76616bd46c"},

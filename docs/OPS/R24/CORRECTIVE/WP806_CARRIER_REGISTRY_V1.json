@@ -27,7 +27,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "17a3d2651b3148d6aac58fc52a07c64ac0ffb9914ba0c7408a8b1c39d3cd2432",
+      "sha256": "8f7c411a9521a97aa39f2367319ebb9b75cab8941fb35b702690151b80aeedff",
       "byteLength": 433628
     },
     {
@@ -52,7 +52,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/WP806_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
-      "sha256": "bd919bd8e996d55196a87f514b872d21c55aad6dedda85c1832253f923397d20",
+      "sha256": "ba0692116fa46993d28d7309537e43eb5702a0e2fa8d4a35114d36a9a75a8def",
       "byteLength": 1329
     },
     {
@@ -172,8 +172,8 @@
     },
     {
       "path": "test/contracts/r24-wp805-terminal-carriers.contract.test.mjs",
-      "sha256": "e83396ec0d582c7fcab63d5fb4fa24c06157ca898a9854ffe09042e781a159d1",
-      "byteLength": 8991
+      "sha256": "017464480a31c3b08b2c300f202888e322033964c03049bae8a454dc5cba1b50",
+      "byteLength": 9057
     },
     {
       "path": "test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs",

@@ -30,8 +30,8 @@
     },
     {
       "path": ".github/workflows/rtk-required.yml",
-      "sha256": "f8cd6dd54a3772043341b4902abc4210bc6ec05a1eb671da7cd7b6a2cdfa4da8",
-      "byteLength": 5757
+      "sha256": "56f350c697ed5606b9be864da4f5e66343ec263f38db692eb3d396013d75ee78",
+      "byteLength": 5628
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",

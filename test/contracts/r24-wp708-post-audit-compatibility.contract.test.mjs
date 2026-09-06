@@ -4,13 +4,23 @@ import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import {
   WP708_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
+  V2_MAIN_PRODUCT_ADMISSION_EXPECTATION,
   verifyWp708MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
 const FINAL_SHA = 'f708f708f708f708f708f708f708f708f708f708';
 const FINAL_TREE = 'a708a708a708a708a708a708a708a708a708a708';
+const WP708_MERGE_SHA = '2cc2d22d9427261f6eefe66394791083af049ca9';
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
+const V2_SUCCESSOR_PATHS = new Set([
+  '.github/workflows/oss-policy.yml',
+  'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
+  'scripts/ops/r24/corrective/post-audit-certification-set.mjs',
+  'scripts/ops/r24/docs-claim-lint.mjs',
+  'test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs',
+  'test/contracts/r24-wp708-terminal-carriers.contract.test.mjs',
+]);
 const response = (value, encoding) => encoding === 'utf8' ? `${value}\n` : Buffer.from(`${value}\n`);
 
 function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifact = null, byteDrift = null, ancestor = true, mutateJson = null } = {}) {
@@ -31,8 +41,8 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
+      let bytes = sha === E.baseSha || V2_SUCCESSOR_PATHS.has(file)
+        ? execFileSync('git', ['show', `${V2_SUCCESSOR_PATHS.has(file) ? WP708_MERGE_SHA : E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
         : fs.readFileSync(file);
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
@@ -77,4 +87,6 @@ test('WP708 candidate oracle rejects forged lease, owner binding and carrier fal
 test('WP708 routing pins the WP806 oracle to the immutable WP708 base', () => {
   const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
   assert.match(source, /verifyWp806MainProductPostEvaluationException\(\{candidateSha:wp708Enabled\?WP708_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
+  assert.equal(V2_MAIN_PRODUCT_ADMISSION_EXPECTATION.baseSha, '2cc2d22d9427261f6eefe66394791083af049ca9');
+  assert.match(source, /verifyWp708MainProductPostEvaluationException\(\{candidateSha:v2Enabled\?V2_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
 });

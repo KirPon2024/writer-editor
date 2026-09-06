@@ -1,0 +1,18 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CONTRACT",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "kind": "CONTRACT",
+  "contractDigest": "8d0e983c815a0ceefbb3414c911cc3e7d62b78599a558806a8d394674d660d2a",
+  "scientificContractDigest": "d108f4d11faae8451a72e4f610c2d09b7c379bf4eee7f298823c8379cc8cb33e",
+  "programDagDigest": "bf3f7e6e3871ebc5e5a4a83b6ded88db3ce6759df59b466b62cba1eea792be2e",
+  "verdict": "BLOCKED",
+  "claimCeiling": "PROFILE_VERDICT_ONLY"
+}

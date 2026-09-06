@@ -1,0 +1,113 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "contourId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+  "originMainSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+  "generatedAtUtc": "2026-09-06T00:34:14Z",
+  "oracle": "V2_CANDIDATE_POST_AUDIT_AND_TERMINAL_CARRIER_CONTRACTS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "b141bd93fc000fd13a2c61a67ffab43f01784d3c19e9c5d88187a6caf6f5fd7e",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "20c54df19dfbf4dc6f90a53fe037bf5fbe83d1e591c65afd4e4364153d9b2149",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_FIXTURE_MANIFEST_V1.json",
+      "sha256": "fac2a826d17b2b2a4f51737a87732ecd038875be0907b4c0714a49a83b46a157",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "86aa46b074cacf4528bc809cafeaaa8a758e760e40ff230c0b7d43da59a6f0c3",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_WORD_CLAIM_CONTRACT_V1.json",
+      "sha256": "8d0e983c815a0ceefbb3414c911cc3e7d62b78599a558806a8d394674d660d2a",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_WP708_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "20d07031724beeef81512b70cec4f2da61ebef3dfe6bf2e78e737c503fc53f70",
+      "claimTerms": [
+        "DONE"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "scripts/ops/r24/word-claim-compiler-v2.mjs",
+      "sha256": "7b692b26f5dd820708be4eb7a57053a4d1a49de034f0551348e09cd0897231a2",
+      "terms": [
+        "V2_COMPILER_PASS_WITH_WORD_PROFILE_BLOCKED"
+      ]
+    },
+    {
+      "path": "test/unit/r24-v2-word-claim-compiler.test.js",
+      "sha256": "8a31631fa6abbcc6f94015cf71309b29493244e3ae2aed6a83642dd8677401b2",
+      "terms": [
+        "FOCUSED_COMPILER_TESTS"
+      ]
+    },
+    {
+      "path": "test/unit/r24-v2-word-claim-mutants.test.js",
+      "sha256": "70dd60ab92e4d1e6a0714bf57483fb3f7ac69a0fc6f8a7b6790c21a43deafd32",
+      "terms": [
+        "ACTUAL_SOURCE_MUTANTS"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test V2 focused compiler and mutant profiles",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 7,
+        "fail": 0
+      }
+    },
+    {
+      "command": "actual source mutation profiles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_GOOGLE_EVIDENCE_TRANSFER",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

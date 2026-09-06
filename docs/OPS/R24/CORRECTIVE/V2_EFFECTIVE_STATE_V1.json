@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_EFFECTIVE_STATE_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_DELIVERY",
+  "baseSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+  "sourceBindings": {
+    "baselineDigest": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+    "wordClaimContractDigest": "8d0e983c815a0ceefbb3414c911cc3e7d62b78599a558806a8d394674d660d2a",
+    "carrierRegistryDigest": "62063c75f593cd05e5c540c8655a49005107bcf6d5b8117c966e354e02544e01",
+    "acceptanceMatrixDigest": "ac2225d5be12241b923542a76a76c785fad8945369626301a914ad9ae68cd427",
+    "claimBindingDigest": "9d50b57f07368f9eed011717a98be57b9dc890062e9fd2d5ce3b2b0274655218"
+  },
+  "sourceCounts": {
+    "BLOCKED_TYPED": 3,
+    "DONE": 86,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 10
+  },
+  "targetCounts": {
+    "BLOCKED_TYPED": 2,
+    "DONE": 87,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 10
+  },
+  "targetGraph": {
+    "completeGraphDenominator": 109,
+    "statesDigest": "f7a21136d4a813a43c1fc8f49f6cf1ef9d03b118bc4fc16868ef3f0faa7736fd",
+    "transition": {
+      "nodeId": "V2_WORD_CLAIM_COMPILER",
+      "from": "BLOCKED_TYPED",
+      "to": "DONE",
+      "basis": "COMPILER_CONTOUR_DELIVERED_PROFILE_VERDICT_REMAINS_BLOCKED"
+    }
+  },
+  "wordProfileVerdict": "BLOCKED",
+  "wordProfileTerminalPass": false,
+  "nextReadySet": [
+    "WP-706_WORD_REPORT"
+  ],
+  "nextReadyActivated": false,
+  "successorAuthorityGranted": false,
+  "nonClaims": [
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_RELEASE_READINESS",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_PROGRAM_DONE"
+  ]
+}

@@ -1,0 +1,270 @@
+{
+  "schemaVersion": "POST_AUDIT_CORRECTIONS_OWNER_AUTHORITY_V1",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_V2_WORD_CLAIM_COMPILER_UNBLOCK_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+  "baseTree": "eec02a2f54063d80eed3f37a9cce13a99acf2318",
+  "branch": "codex/r24-v2-word-claim-compiler-unblock-v1-20260906",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "verifierDigest": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+      "sha256": "bf3f7e6e3871ebc5e5a4a83b6ded88db3ce6759df59b466b62cba1eea792be2e"
+    },
+    {
+      "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+      "sha256": "d108f4d11faae8451a72e4f610c2d09b7c379bf4eee7f298823c8379cc8cb33e"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C8B_WORD_PHYSICAL_CONTRACT_V1.json",
+      "sha256": "c027961bd3c7faa781962e86b325b844053268b8ea4d1b3a958d1861c627304a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C8B_WORD_PHYSICAL_EVIDENCE_V1.json",
+      "sha256": "90d52e4fc6d9521e051a3c3d76a5061e0f75c8384c83df67c04de98d093ee1b8"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C9_EFFECTIVE_STATE_V1.json",
+      "sha256": "027ab9944b4e3a3ad8109c8c69cd318b57c21982b3468b5ce88a6221940eea23"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "sha256": "6c833c964318da3e61e1743365f8763206be838647b5222c187b3bda8d1c6b9a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "sha256": "c8af046b5918f43a50af66886b0b5c9d2e22ea6501240d4b239101d8836ced1a"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP708_LEASE_RELEASE_V1.json",
+      "sha256": "b1f4b49461f85a81db5857ea53eab2daf360ee5c9cbbfc0255c2f2ab634cf4a1"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP708_TERMINAL_RECEIPT_V1.json",
+      "sha256": "2c52b9635c7aacafb259ff89462c634836a85de460697014345a9d68d5bfb0d9"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    }
+  ],
+  "allowedCommands": [
+    "npm run agent:bootstrap -- --objective V2 Word claim compiler typed blocker resolution",
+    "npm run agent:preflight -- --declaration /tmp/V2_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+    "node scripts/ops/r24/corrective/admission-preparation.mjs",
+    "node --test test/unit/r24-v2-word-claim-compiler.test.js test/unit/r24-v2-word-claim-mutants.test.js test/contracts/r24-v2-terminal-carriers.contract.test.mjs test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs",
+    "npm run r24:test-inventory",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_V2_WRITE_SET",
+    "git commit -m Implement V2 Word claim compiler",
+    "git fetch origin main",
+    "git push origin codex/r24-v2-word-claim-compiler-unblock-v1-20260906",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run watch RUN --exit-status",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+    "node /tmp/V2_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/V2_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "allowedOperations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/AGENT_START_PROTOCOL.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+      "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+      "docs/OPS/R24/CORRECTIVE/C8B_WORD_PHYSICAL_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C8B_WORD_PHYSICAL_EVIDENCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/C9_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/PROGRAM_TEMPLATE_V1_1.json",
+      "docs/OPS/R24/CORRECTIVE/STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP708_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "scripts/ops/r24/canonical-json.mjs",
+      "scripts/ops/r24/claim-binding.mjs",
+      "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/executable-program.mjs",
+      "scripts/ops/r24/observed-evidence-v2.mjs",
+      "scripts/ops/r24/package-claim-compiler-v3.mjs",
+      "scripts/ops/r24/word-physical-recertification-w0.mjs",
+      "test/unit/r24-v3-package-claim-compiler.test.js",
+      "test/unit/r24-v3-package-claim-mutants.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      ".github/workflows/rtk-required.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/docs-claim-lint.mjs",
+      "test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp708-terminal-carriers.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/V2_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_FIXTURE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_WORD_CLAIM_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_WP708_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MUTANTS.json",
+      "scripts/ops/r24/word-claim-compiler-v2.mjs",
+      "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-v2-terminal-carriers.contract.test.mjs",
+      "test/unit/r24-v2-word-claim-compiler.test.js",
+      "test/unit/r24-v2-word-claim-mutants.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "acceptanceSignals": [
+    "V2_TYPED_BLOCKER_ENGINEERING_DEFECT_RESOLVED",
+    "WP708_CERTIFIED_DONE_FENCE_98_RELEASED_WIP_0",
+    "C8B_W0_CERTIFIED_PHYSICAL_INPUT_BOUND",
+    "WORD_ROUNDTRIP_PROFILE_VERDICT_BLOCKED",
+    "NO_APPLY_SAFE_APPLY_USER_DOCUMENT_OR_GOOGLE_AUTHORITY",
+    "SEVEN_REQUIRED_TEST_PROFILES_CLOSED",
+    "ACTUAL_SOURCE_IMPLEMENTATION_MUTANTS_KILLED",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "V2_FENCE_99_RELEASED_WIP_0",
+    "PRODUCT_GRAPH_INCREMENT_ONE",
+    "WP706_NEXT_READY_NOT_ACTIVATED",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "WP708_PREDECESSOR_TERMINAL_RECEIPT",
+      "digest": "43a763e6ad03eb14f3142feb6299286f56f707a43c0c282dd08bbde3e0ff5468",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "WP708_PREDECESSOR_TERMINAL_VERIFICATION",
+      "digest": "7ee1c63dcf1c60a271dca6f8132027c3c2408f3727c38720eac6d1977652dcf0",
+      "status": "PASS"
+    },
+    {
+      "id": "WP708_LEASE_RELEASE_DISPOSITION",
+      "digest": "4cb082a94ce18ec2b844038a5692dbf4bd8048e197265b845726c478a8b6efd9",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "C8B_W0_WORD_PHYSICAL_CONTRACT",
+      "digest": "c027961bd3c7faa781962e86b325b844053268b8ea4d1b3a958d1861c627304a",
+      "status": "CERTIFIED_BY_C9_APPEND_ONLY_CORRECTION"
+    },
+    {
+      "id": "C8B_W0_WORD_PHYSICAL_EVIDENCE",
+      "digest": "90d52e4fc6d9521e051a3c3d76a5061e0f75c8384c83df67c04de98d093ee1b8",
+      "status": "CERTIFIED_BY_C9_APPEND_ONLY_CORRECTION"
+    },
+    {
+      "id": "C8B_W0_EXTERNAL_TERMINAL_ATTESTATION",
+      "digest": "d83dcb271ae1067e41bdaf82e1dc787905721edb4880350646a7e3b18ec6d7b8",
+      "status": "VERIFIED"
+    },
+    {
+      "id": "STANDING_OWNER_AUTHORITY_BINDING",
+      "digest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "status": "ACTIVE_WITH_PARENT_TYPED_BLOCKER_REPAIR_DIRECTION"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 99,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "4cb082a94ce18ec2b844038a5692dbf4bd8048e197265b845726c478a8b6efd9"
+  }
+}

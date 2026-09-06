@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_FIXTURE_MANIFEST_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "denominator": 7,
+  "fixtures": [
+    {
+      "profileId": "CONTRACT_NEGATIVE",
+      "selector": "SCIENTIFIC_CONTRACT_MUTATIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "UNIT",
+      "selector": "WORD_COMPILER_VALID_AND_INVALID_INPUTS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "INTEGRATION",
+      "selector": "C8B_C9_W0_CHAIN_BINDING",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "IMPLEMENTATION_MUTANTS",
+      "selector": "TEN_ACTUAL_SOURCE_MUTATIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "HOSTILE_CORPUS",
+      "selector": "AUTHORITY_AND_PROFILE_PROMOTION_REQUESTS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "ROUNDTRIP",
+      "selector": "C8B_FOUR_ROOT_COMMENT_ROUNDTRIP",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "PHYSICAL_PROVIDER",
+      "selector": "C8B_WORD_16_112_CERTIFIED_PHYSICAL_EVIDENCE",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    }
+  ],
+  "zeroDenominatorFails": true,
+  "skipsFailRequiredEvidence": true
+}

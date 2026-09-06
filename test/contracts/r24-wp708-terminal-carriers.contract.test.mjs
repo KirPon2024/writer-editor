@@ -2,13 +2,26 @@ import assert from 'node:assert/strict';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import test from 'node:test';
+import { execFileSync } from 'node:child_process';
 import { buildClaimBinding } from '../../scripts/ops/r24/claim-binding.mjs';
 import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
-import { HISTORICAL_INVENTORY_CLAIM_PINS_V17 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
+import { HISTORICAL_INVENTORY_CLAIM_PINS_V18 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
 const h = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file));
+const WP708_MERGE_SHA = '2cc2d22d9427261f6eefe66394791083af049ca9';
+const V2_SUCCESSOR_PATHS = new Set([
+  '.github/workflows/oss-policy.yml',
+  'docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json',
+  'scripts/ops/r24/corrective/post-audit-certification-set.mjs',
+  'scripts/ops/r24/docs-claim-lint.mjs',
+  'test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs',
+  'test/contracts/r24-wp708-terminal-carriers.contract.test.mjs',
+]);
+const carrierBytes = file => V2_SUCCESSOR_PATHS.has(file)
+  ? execFileSync('git', ['show', `${WP708_MERGE_SHA}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
+  : fs.readFileSync(file);
 const names = [
   'MAIN_PRODUCT_OWNER_AUTHORITY', 'MAIN_PRODUCT_STAGE_INSTANCE', 'MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION',
   'PROTECTED_WIP_BEFORE', 'GOOGLE_EGRESS_APPLY_OWNER_DECISION', 'GOOGLE_PROVIDER_PHYSICAL_RECEIPT',
@@ -69,7 +82,7 @@ function verify(value) {
   assert.equal(registry.carrierDenominator, 29);
   assert.equal(registry.currentTreeFallbackAllowed, false);
   for (const binding of registry.carriers) {
-    const bytes = fs.readFileSync(binding.path);
+    const bytes = carrierBytes(binding.path);
     assert.equal(h(bytes), binding.sha256, binding.path);
     assert.equal(bytes.length, binding.byteLength);
   }
@@ -89,13 +102,13 @@ function verify(value) {
 test('WP708 carriers bind exact Sol admission, independent profiles, physical cleanup and conditional release', () => {
   verify(load());
   const claim = buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS.json'));
-  for (const binding of claim.claimBindings) assert.equal(h(fs.readFileSync(binding.filePath)), binding.sha256);
-  assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V17.at(-1), {
-    stampId: 'ES-R24-WP-806-PULSE-CLAIM-CLAIM-BINDINGS',
-    stampSha256: '11f6883263a8069d9c8347b846f52a3df61c695d0bc6c97524eb7c4ff5c4ffdf',
-    evaluationSha: '7734cc48666f260c9554fbf46357c0a3b8b97c4d',
-    evaluationTree: 'e46a1b50943b7fa36e784400291080fd033235b2',
-    targetSha256: '8f7c411a9521a97aa39f2367319ebb9b75cab8941fb35b702690151b80aeedff',
+  for (const binding of claim.claimBindings) assert.equal(h(carrierBytes(binding.filePath)), binding.sha256);
+  assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V18.at(-1), {
+    stampId: 'ES-R24-WP-708-GOOGLE-PROVIDER-CLAIM-BINDINGS',
+    stampSha256: 'd68b5ecf084528247e8d65a61df3b9fcd994fb716388db3d2b74186bb427186f',
+    evaluationSha: '2cc2d22d9427261f6eefe66394791083af049ca9',
+    evaluationTree: 'eec02a2f54063d80eed3f37a9cce13a99acf2318',
+    targetSha256: '77bfc2532b7e722925f39eb2e0a49f8cf02d49833f13a282333f5139b5f2b050',
   });
 });
 

@@ -108,7 +108,17 @@ jobs:
       - name: Verify V2 bounded Word claim compiler and terminal carriers
         run: node --test test/unit/r24-v2-word-claim-compiler.test.js test/unit/r24-v2-word-claim-mutants.test.js test/contracts/r24-v2-terminal-carriers.contract.test.mjs
       - name: Verify WP-706 disposable full-book report-only harness and blocked Word claim
-        run: node --test test/unit/r24-wp706-word-report.test.js test/unit/r24-wp706-word-report-integration.test.js test/unit/r24-wp706-word-report-mutants.test.js
+        run: |
+          wp706_checkout="$(mktemp -d)"
+          cleanup_wp706() {
+            git worktree remove --force "$wp706_checkout"
+          }
+          trap cleanup_wp706 EXIT
+          git worktree add --detach "$wp706_checkout" d52b9c7abc03cc0818e437ab5faea5c914a18098
+          (
+            cd "$wp706_checkout"
+            node --test test/unit/r24-wp706-word-report.test.js test/unit/r24-wp706-word-report-integration.test.js test/unit/r24-wp706-word-report-mutants.test.js test/contracts/r24-wp706-terminal-carriers.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs
+          )
       - name: Verify WP-707 explicit single-scene Word apply and physical proof
         run: node --test test/unit/r24-wp707-word-apply.test.js test/unit/r24-wp707-word-apply-integration.test.js test/unit/r24-wp707-word-apply-mutants.test.js test/contracts/r24-wp707-terminal-carriers.contract.test.mjs test/contracts/r24-wp707-post-audit-compatibility.contract.test.mjs
 

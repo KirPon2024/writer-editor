@@ -25,13 +25,13 @@
   "carriers": [
     {
       "path": ".github/workflows/oss-policy.yml",
-      "sha256": "58cd430879ac47d433c8eb8500d35b804346e12e15738cdc6517c36e6447ce81",
-      "byteLength": 21667
+      "sha256": "983abb64acc409bfa517dcd60c7dc9549a2a2f1fdc59d6998aca9f026f72e683",
+      "byteLength": 22134
     },
     {
       "path": ".github/workflows/rtk-required.yml",
-      "sha256": "56f350c697ed5606b9be864da4f5e66343ec263f38db692eb3d396013d75ee78",
-      "byteLength": 5628
+      "sha256": "e3601d046d1da234a06573a68fbddd9a48e0ba9f311a9d46870c5ea75d7bc4e9",
+      "byteLength": 6095
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",

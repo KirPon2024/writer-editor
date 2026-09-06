@@ -11,12 +11,12 @@
     "branch": "codex/r24-wp706-word-report-v1-20260906"
   },
   "bindings": {
-    "carrierRegistryDigest": "fe874ad15f27cc1b34f193840bcc773f4d4f343f57a4d912de8f6c676cd027e8",
-    "claimBindingDigest": "04dd7e0d71430182f000251fd509f3fb02b6ac3d64f972ad386a73399f59b846",
-    "leaseReleaseDigest": "3be63c5635abffa4931f51763baf8ea35b7db3e84ef6e4eb68f9b778ebd81b95",
+    "carrierRegistryDigest": "7a410f0ad70abc2a9a69d6ef87b707bcb2da2c2bb5b5d2bca820a69e2ad4779c",
+    "claimBindingDigest": "3cfdcce9ce8e5dbaafb7decf709c9217ba3940c41196c591df8bd464dbc142d5",
+    "leaseReleaseDigest": "d1f9814d9759e023eec40cff9a81149cddedc04fed5446fa7f7276b12b627ef2",
     "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
-    "effectiveStateDigest": "0a19b6fa45a2c02bc0b2f7f041e4d5ca16b70595e6c1337f20810b56d1c9c4fa",
-    "stageRegistryDigest": "9a269b3fd25b652a3575e75b0ef73c57980e8509bf4b86cfc473d3c5ba52497e",
+    "effectiveStateDigest": "6e9f73be1c17c6a25b6ffe47008b6efb1f9919c5906cdb597965ce5a53d20446",
+    "stageRegistryDigest": "0978ccaf627e828cbcf45a75f92770a9bde4047b50b3e23a974a2606a3f96b86",
     "wordReportObservedDigest": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c"
   },
   "localEvidence": {

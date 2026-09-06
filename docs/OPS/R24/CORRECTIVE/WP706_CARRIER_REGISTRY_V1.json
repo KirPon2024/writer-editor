@@ -35,7 +35,7 @@
     },
     {
       "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
-      "sha256": "e0e1b92b6f82ec989cb00bf0c850cb3985a3afd4ac2646b419b981c8b42f6f8b",
+      "sha256": "1b7696e2a914ba9bacfb8049c81b312875e1917884c08206b58ce68661913c59",
       "byteLength": 437664
     },
     {
@@ -130,8 +130,8 @@
     },
     {
       "path": "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
-      "sha256": "3591f47c9bfac2948509e71d7dd51f30079fbf75ed931f2662b023e2d144ec45",
-      "byteLength": 5747
+      "sha256": "e421ae16074098045e31e9f050d2df4b2adf0b96048ddaa115bebb21fc03c0c8",
+      "byteLength": 5838
     },
     {
       "path": "test/contracts/r24-v2-terminal-carriers.contract.test.mjs",

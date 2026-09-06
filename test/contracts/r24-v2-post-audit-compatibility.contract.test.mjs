@@ -9,6 +9,7 @@ import {
 
 const FINAL_SHA = 'f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2';
 const FINAL_TREE = 'a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2';
+const V2_TERMINAL_MERGE_SHA = '19a064286e84454367ac91aeb539fd638e73959a';
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? `${value}\n` : Buffer.from(`${value}\n`);
@@ -31,9 +32,11 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
       const sha = args[1].slice(0, split);
       const file = args[1].slice(split + 1);
       if (file === missingArtifact) throw new Error('MISSING');
-      let bytes = sha === E.baseSha
-        ? execFileSync('git', ['show', `${E.baseSha}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 })
-        : fs.readFileSync(file);
+      let bytes = execFileSync(
+        'git',
+        ['show', `${sha === E.baseSha ? E.baseSha : V2_TERMINAL_MERGE_SHA}:${file}`],
+        { encoding: null, maxBuffer: 32 * 1024 * 1024 },
+      );
       if (mutateJson?.path === file) {
         const value = JSON.parse(bytes);
         mutateJson.apply(value);

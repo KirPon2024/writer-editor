@@ -17,9 +17,9 @@
     "admittedPathDenominator": 37
   },
   "deliveryBindings": {
-    "carrierRegistryDigest": "fe874ad15f27cc1b34f193840bcc773f4d4f343f57a4d912de8f6c676cd027e8",
+    "carrierRegistryDigest": "7a410f0ad70abc2a9a69d6ef87b707bcb2da2c2bb5b5d2bca820a69e2ad4779c",
     "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
-    "effectiveStateDigest": "0a19b6fa45a2c02bc0b2f7f041e4d5ca16b70595e6c1337f20810b56d1c9c4fa"
+    "effectiveStateDigest": "6e9f73be1c17c6a25b6ffe47008b6efb1f9919c5906cdb597965ce5a53d20446"
   },
   "nodeOutcome": {
     "sourceState": "PENDING",

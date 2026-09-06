@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-MUTANTS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "kind": "IMPLEMENTATION_MUTANTS",
+  "artifact": {
+    "implementationPath": "scripts/ops/r24/word-claim-compiler-v2.mjs",
+    "implementationDigest": "7b692b26f5dd820708be4eb7a57053a4d1a49de034f0551348e09cd0897231a2",
+    "testPath": "test/unit/r24-v2-word-claim-mutants.test.js",
+    "testDigest": "70dd60ab92e4d1e6a0714bf57483fb3f7ac69a0fc6f8a7b6790c21a43deafd32"
+  },
+  "claim": {
+    "ceiling": "V2_ACTUAL_SOURCE_MUTATION_SCORE_ONLY",
+    "actualSourceMutations": true,
+    "killed": 10,
+    "survived": 0,
+    "syntaxOrImportFailuresCountedAsKills": false
+  }
+}

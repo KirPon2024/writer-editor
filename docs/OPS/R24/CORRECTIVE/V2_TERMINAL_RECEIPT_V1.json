@@ -1,0 +1,93 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_TERMINAL_RECEIPT_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_DELIVERY_PREDICATES",
+  "issuedAtUtc": "2026-09-06T00:34:14Z",
+  "baseIdentity": {
+    "sha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+    "tree": "eec02a2f54063d80eed3f37a9cce13a99acf2318",
+    "branch": "codex/r24-v2-word-claim-compiler-unblock-v1-20260906"
+  },
+  "bindings": {
+    "carrierRegistryDigest": "62063c75f593cd05e5c540c8655a49005107bcf6d5b8117c966e354e02544e01",
+    "claimBindingDigest": "9d50b57f07368f9eed011717a98be57b9dc890062e9fd2d5ce3b2b0274655218",
+    "leaseReleaseDigest": "ecd3157061bd1868a7541221913b1a81c1f0aed1debc6ca81444519a6d8c0d7d",
+    "acceptanceMatrixDigest": "ac2225d5be12241b923542a76a76c785fad8945369626301a914ad9ae68cd427",
+    "effectiveStateDigest": "aade0b9376e15d0b1a9b8500e3e4dfa099e2ce4389ebbe9be0b8310ccef2c5bf",
+    "stageRegistryDigest": "bea12b3af3b79afedecdf8e0096f5fabbb897b15d280cd883a40cd6acde3ad41"
+  },
+  "localEvidence": {
+    "focusedTests": {
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "actualSourceMutants": {
+      "killed": 10,
+      "survived": 0
+    },
+    "inventory": {
+      "files": 1439,
+      "requiredSkips": 0,
+      "unexplainedSkips": 0
+    }
+  },
+  "activationOutcome": {
+    "nodeId": "V2_WORD_CLAIM_COMPILER",
+    "sourceState": "BLOCKED_TYPED",
+    "targetStateAfterDelivery": "DONE",
+    "doneCount": 87,
+    "blockedTypedCount": 2,
+    "pendingCount": 10,
+    "ineligibleOptionalCount": 10,
+    "wordProfileVerdict": "BLOCKED",
+    "nextReadySet": [
+      "WP-706_WORD_REPORT"
+    ],
+    "nextReadyActivated": false
+  },
+  "requiredDeliveryPredicates": [
+    {
+      "id": "COMMIT",
+      "status": "PENDING"
+    },
+    {
+      "id": "PUSH",
+      "status": "PENDING"
+    },
+    {
+      "id": "PULL_REQUEST",
+      "status": "PENDING"
+    },
+    {
+      "id": "CANDIDATE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "PROTECTED_MERGE",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_RECEIPT_AND_LEASE_RELEASE",
+      "status": "PENDING"
+    }
+  ],
+  "nonClaims": [
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_GOOGLE_EVIDENCE_TRANSFER",
+    "NO_RELEASE_READINESS",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_PROGRAM_DONE"
+  ]
+}

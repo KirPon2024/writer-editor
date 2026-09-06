@@ -1,0 +1,50 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_WORD_CLAIM_CONTRACT_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CURRENT_BASE_EVALUATED_PENDING_CANDIDATE_CI_MERGE_POSTMERGE_AND_EXTERNAL_TERMINAL",
+  "profileId": "WORD_ROUNDTRIP",
+  "profileVerdict": "BLOCKED",
+  "compilerVerdictOnValidEvidence": "PASS",
+  "claimCeiling": "V2_NODE_AND_WORD_PROFILE_BLOCKED_VERDICT_ONLY",
+  "sourceBindings": {
+    "baseSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+    "baseTree": "eec02a2f54063d80eed3f37a9cce13a99acf2318",
+    "authorityDigest": "b5a97ae3f8bd5186fae2c88eb41ed69be99937916e1d7e7afb987a787582cb0f",
+    "stageInstanceDigest": "eacea43d79ee4d4b99b7dbc19e6c37da23973ac74f49b5f284a30c1b9cbb393c",
+    "stageAdmissionDigest": "07ae156a3c1fbe418fd17b00a609c5151efcf10842474f29ed2ebfda5b0bf4f7",
+    "selectionReceiptDigest": "86aa46b074cacf4528bc809cafeaaa8a758e760e40ff230c0b7d43da59a6f0c3",
+    "effectiveGraphBaselineDigest": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+    "protectedWipBeforeRawDigest": "f37a4b863331f834d2552d018c2e197b35fc58f41d868a6ef82abab10cc4d910",
+    "fixtureManifestDigest": "fac2a826d17b2b2a4f51737a87732ecd038875be0907b4c0714a49a83b46a157",
+    "featureIntegrationManifestDigest": "20c54df19dfbf4dc6f90a53fe037bf5fbe83d1e591c65afd4e4364153d9b2149",
+    "predecessorDigest": "20d07031724beeef81512b70cec4f2da61ebef3dfe6bf2e78e737c503fc53f70",
+    "c8bContractDigest": "c027961bd3c7faa781962e86b325b844053268b8ea4d1b3a958d1861c627304a",
+    "c8bEvidenceDigest": "90d52e4fc6d9521e051a3c3d76a5061e0f75c8384c83df67c04de98d093ee1b8",
+    "c8bExternalTerminalDigest": "d83dcb271ae1067e41bdaf82e1dc787905721edb4880350646a7e3b18ec6d7b8"
+  },
+  "physicalInput": {
+    "wordVersion": "16.112",
+    "wordBuild": "16.112.26081010",
+    "syntheticOnly": true,
+    "rootCommentOperations": 4,
+    "routeGapCount": 0,
+    "userDocumentsTouched": false
+  },
+  "nonClaims": [
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_GOOGLE_EVIDENCE_TRANSFER",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

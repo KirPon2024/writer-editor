@@ -1,0 +1,220 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+    "ES-R24-V2-WORD-CLAIM-COMPILER-MODEL",
+    "ES-R24-V2-WORD-CLAIM-COMPILER-CONTRACT",
+    "ES-R24-V2-WORD-CLAIM-COMPILER-INTEGRATION",
+    "ES-R24-V2-WORD-CLAIM-COMPILER-MUTANTS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "b141bd93fc000fd13a2c61a67ffab43f01784d3c19e9c5d88187a6caf6f5fd7e",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "ac2225d5be12241b923542a76a76c785fad8945369626301a914ad9ae68cd427",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_CARRIER_REGISTRY_V1.json",
+      "sha256": "62063c75f593cd05e5c540c8655a49005107bcf6d5b8117c966e354e02544e01",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_STATE_V1.json",
+      "sha256": "aade0b9376e15d0b1a9b8500e3e4dfa099e2ce4389ebbe9be0b8310ccef2c5bf",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "20c54df19dfbf4dc6f90a53fe037bf5fbe83d1e591c65afd4e4364153d9b2149",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_FIXTURE_MANIFEST_V1.json",
+      "sha256": "fac2a826d17b2b2a4f51737a87732ecd038875be0907b4c0714a49a83b46a157",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_LEASE_RELEASE_V1.json",
+      "sha256": "ecd3157061bd1868a7541221913b1a81c1f0aed1debc6ca81444519a6d8c0d7d",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "b5a97ae3f8bd5186fae2c88eb41ed69be99937916e1d7e7afb987a787582cb0f",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "86aa46b074cacf4528bc809cafeaaa8a758e760e40ff230c0b7d43da59a6f0c3",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "07ae156a3c1fbe418fd17b00a609c5151efcf10842474f29ed2ebfda5b0bf4f7",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "eacea43d79ee4d4b99b7dbc19e6c37da23973ac74f49b5f284a30c1b9cbb393c",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f37a4b863331f834d2552d018c2e197b35fc58f41d868a6ef82abab10cc4d910",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_STAGE_REGISTRY_V1.json",
+      "sha256": "bea12b3af3b79afedecdf8e0096f5fabbb897b15d280cd883a40cd6acde3ad41",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_TERMINAL_RECEIPT_V1.json",
+      "sha256": "17bceeb5206684d27e5668bf715749f92ff51f7b81a5e7f4573485a7a6b94893",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_WORD_CLAIM_CONTRACT_V1.json",
+      "sha256": "8d0e983c815a0ceefbb3414c911cc3e7d62b78599a558806a8d394674d660d2a",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/V2_WP708_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "20d07031724beeef81512b70cec4f2da61ebef3dfe6bf2e78e737c503fc53f70",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS.json",
+      "sha256": "9d50b57f07368f9eed011717a98be57b9dc890062e9fd2d5ce3b2b0274655218",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CONTRACT.json",
+      "sha256": "7c76e5f6547ce7304d8fd74c8ab73f69d50cb1c9c8237f3d886606406c1085ee",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-INTEGRATION.json",
+      "sha256": "38f1e56e6acd14d0c625deaee5944095b475a270e181cc9e854bf40a45725b00",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MODEL.json",
+      "sha256": "516de9a9b05c9604d41b984e6d01b87b565ccdbd2d4fcd3d1fddd3ef4565c192",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MUTANTS.json",
+      "sha256": "ce45aa2ec6770c4365f5a67698f075237fb0dc3ac07eb598527c10c136d9aab6",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "aaa71cfad4d79f06c1b8423e5ed1711c2bd928cc91359bb29733277d207ee6ff",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "7bdf62edb46df3bc7d5ca999bfa3f81034a82b3653dba9ffc6998b21671f68dc",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/word-claim-compiler-v2.mjs",
+      "sha256": "7b692b26f5dd820708be4eb7a57053a4d1a49de034f0551348e09cd0897231a2",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+      "sha256": "f82b47f2b9ff1a55d3b1217bf02ca30f9f988763e8382869d4f27a7638b8d51d",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "test/contracts/r24-v2-terminal-carriers.contract.test.mjs",
+      "sha256": "cf1f06688aa290b21b1c1f4d643877c2555f54886a72d79e4737a96f16c77a4c",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs",
+      "sha256": "31cd36bcc537f1d5e02c9110b08fa61716bd6445ac50602d5c231f9bb7a1b757",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    },
+    {
+      "filePath": "test/contracts/r24-wp708-terminal-carriers.contract.test.mjs",
+      "sha256": "65d0c3e348fafa7eb7c267f0da44bb30da2f04952a2feaef584a7ceb784bf1b2",
+      "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "approvedAtUtc": "2026-09-06T00:34:14Z",
+      "rationale": "Bounded V2 repair; Word remains BLOCKED and successor activation is denied."
+    }
+  ]
+}

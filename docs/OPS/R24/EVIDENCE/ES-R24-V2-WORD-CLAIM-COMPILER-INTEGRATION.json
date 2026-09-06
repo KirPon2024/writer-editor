@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-INTEGRATION",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "kind": "INTEGRATION",
+  "observations": {
+    "w0NodeCertifiedDone": true,
+    "c8bWordPhysicalPass": true,
+    "rootCommentOperations": 4,
+    "routeGapCount": 0,
+    "userDocumentsTouched": false,
+    "wordProductTerminalPass": false,
+    "profileVerdict": "BLOCKED"
+  },
+  "sourceDigests": {
+    "c8bContract": "c027961bd3c7faa781962e86b325b844053268b8ea4d1b3a958d1861c627304a",
+    "c8bEvidence": "90d52e4fc6d9521e051a3c3d76a5061e0f75c8384c83df67c04de98d093ee1b8",
+    "c8bExternalTerminal": "d83dcb271ae1067e41bdaf82e1dc787905721edb4880350646a7e3b18ec6d7b8"
+  }
+}

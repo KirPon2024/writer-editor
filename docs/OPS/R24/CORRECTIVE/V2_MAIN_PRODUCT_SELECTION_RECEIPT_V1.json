@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "SELECTED_TYPED_BLOCKER_REPAIR",
+  "selectedNode": "V2_WORD_CLAIM_COMPILER",
+  "selectedNodeStateBefore": "BLOCKED_TYPED",
+  "rawSchedulerReadySet": [],
+  "selectionClass": "ENGINEERING_AND_AUTHORITY_BINDING_DEFECT_REPAIR",
+  "selectionAuthority": "CURRENT_OWNER_ASSIGNMENT_PLUS_PARENT_EXPLICIT_DIRECTION",
+  "ownerGate": null,
+  "dependencies": {
+    "V0_WRITER_CLAIM_COMPILER": "DONE",
+    "W0_WORD_PHYSICAL_RECERTIFICATION": "DONE"
+  },
+  "effectiveGraphBaselineDigest": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+  "nonClaims": [
+    "NOT_SCHEDULER_READY_SET_SELECTION",
+    "NO_OWNER_GATE_INVENTION",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_WORD_PROFILE_PROMOTION",
+    "NO_PROGRAM_DONE"
+  ]
+}

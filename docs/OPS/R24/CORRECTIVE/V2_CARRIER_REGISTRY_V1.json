@@ -1,0 +1,158 @@
+{
+  "schemaVersion": "YALKEN_R24_V2_CARRIER_REGISTRY_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CANDIDATE_BYTES_BOUND",
+  "baseSha": "2cc2d22d9427261f6eefe66394791083af049ca9",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 26,
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/V2_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/V2_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS.json"
+  ],
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "8d81bb8089212aa520c41ad10edcb1a26b7781888744619f2f968f8a3340e2e1",
+      "byteLength": 21483
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "234b49829d9a7bd6fc016c763d00238283d2ebafddc989c5b362a57d6ebb7555",
+      "byteLength": 5042
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "b141bd93fc000fd13a2c61a67ffab43f01784d3c19e9c5d88187a6caf6f5fd7e",
+      "byteLength": 436230
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "da03c403cb1a510a96322f6a3c57c43b2f6335c7987db176278658692dc3afc6",
+      "byteLength": 5836
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "20c54df19dfbf4dc6f90a53fe037bf5fbe83d1e591c65afd4e4364153d9b2149",
+      "byteLength": 1497
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_FIXTURE_MANIFEST_V1.json",
+      "sha256": "fac2a826d17b2b2a4f51737a87732ecd038875be0907b4c0714a49a83b46a157",
+      "byteLength": 1824
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "b5a97ae3f8bd5186fae2c88eb41ed69be99937916e1d7e7afb987a787582cb0f",
+      "byteLength": 12034
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "86aa46b074cacf4528bc809cafeaaa8a758e760e40ff230c0b7d43da59a6f0c3",
+      "byteLength": 1194
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "07ae156a3c1fbe418fd17b00a609c5151efcf10842474f29ed2ebfda5b0bf4f7",
+      "byteLength": 1785
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "eacea43d79ee4d4b99b7dbc19e6c37da23973ac74f49b5f284a30c1b9cbb393c",
+      "byteLength": 12305
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "f37a4b863331f834d2552d018c2e197b35fc58f41d868a6ef82abab10cc4d910",
+      "byteLength": 117639
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_WORD_CLAIM_CONTRACT_V1.json",
+      "sha256": "8d0e983c815a0ceefbb3414c911cc3e7d62b78599a558806a8d394674d660d2a",
+      "byteLength": 2510
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_WP708_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "20d07031724beeef81512b70cec4f2da61ebef3dfe6bf2e78e737c503fc53f70",
+      "byteLength": 1025
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CONTRACT.json",
+      "sha256": "7c76e5f6547ce7304d8fd74c8ab73f69d50cb1c9c8237f3d886606406c1085ee",
+      "byteLength": 819
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-INTEGRATION.json",
+      "sha256": "38f1e56e6acd14d0c625deaee5944095b475a270e181cc9e854bf40a45725b00",
+      "byteLength": 1029
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MODEL.json",
+      "sha256": "516de9a9b05c9604d41b984e6d01b87b565ccdbd2d4fcd3d1fddd3ef4565c192",
+      "byteLength": 1651
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-MUTANTS.json",
+      "sha256": "ce45aa2ec6770c4365f5a67698f075237fb0dc3ac07eb598527c10c136d9aab6",
+      "byteLength": 1022
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "aaa71cfad4d79f06c1b8423e5ed1711c2bd928cc91359bb29733277d207ee6ff",
+      "byteLength": 717529
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "7bdf62edb46df3bc7d5ca999bfa3f81034a82b3653dba9ffc6998b21671f68dc",
+      "byteLength": 19578
+    },
+    {
+      "path": "scripts/ops/r24/word-claim-compiler-v2.mjs",
+      "sha256": "7b692b26f5dd820708be4eb7a57053a4d1a49de034f0551348e09cd0897231a2",
+      "byteLength": 21460
+    },
+    {
+      "path": "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+      "sha256": "f82b47f2b9ff1a55d3b1217bf02ca30f9f988763e8382869d4f27a7638b8d51d",
+      "byteLength": 5449
+    },
+    {
+      "path": "test/contracts/r24-v2-terminal-carriers.contract.test.mjs",
+      "sha256": "cf1f06688aa290b21b1c1f4d643877c2555f54886a72d79e4737a96f16c77a4c",
+      "byteLength": 8687
+    },
+    {
+      "path": "test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs",
+      "sha256": "31cd36bcc537f1d5e02c9110b08fa61716bd6445ac50602d5c231f9bb7a1b757",
+      "byteLength": 6055
+    },
+    {
+      "path": "test/contracts/r24-wp708-terminal-carriers.contract.test.mjs",
+      "sha256": "65d0c3e348fafa7eb7c267f0da44bb30da2f04952a2feaef584a7ceb784bf1b2",
+      "byteLength": 10035
+    },
+    {
+      "path": "test/unit/r24-v2-word-claim-compiler.test.js",
+      "sha256": "8a31631fa6abbcc6f94015cf71309b29493244e3ae2aed6a83642dd8677401b2",
+      "byteLength": 10621
+    },
+    {
+      "path": "test/unit/r24-v2-word-claim-mutants.test.js",
+      "sha256": "70dd60ab92e4d1e6a0714bf57483fb3f7ac69a0fc6f8a7b6790c21a43deafd32",
+      "byteLength": 6525
+    }
+  ]
+}

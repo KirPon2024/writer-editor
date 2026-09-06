@@ -1,0 +1,55 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "V2_WORD_CLAIM_COMPILER",
+  "evidenceStampId": "ES-R24-V2-WORD-CLAIM-COMPILER-MODEL",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "kind": "MODEL",
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "scripts/ops/r24/word-claim-compiler-v2.mjs",
+        "sha256": "7b692b26f5dd820708be4eb7a57053a4d1a49de034f0551348e09cd0897231a2"
+      },
+      {
+        "path": "test/unit/r24-v2-word-claim-compiler.test.js",
+        "sha256": "8a31631fa6abbcc6f94015cf71309b29493244e3ae2aed6a83642dd8677401b2"
+      },
+      {
+        "path": "test/unit/r24-v2-word-claim-mutants.test.js",
+        "sha256": "70dd60ab92e4d1e6a0714bf57483fb3f7ac69a0fc6f8a7b6790c21a43deafd32"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "V2_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "eda303635c061f453477cbce74a02c0aec05d3edcfe53b7530b46d10fb174345",
+      "byteLength": 1620,
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "processExitCode": 0,
+      "testDenominator": 7,
+      "passed": 7,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "storedInline": false
+    }
+  },
+  "test": {
+    "denominator": 7,
+    "passed": 7,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "claim": {
+    "ceiling": "V2_BLOCKED_WORD_PROFILE_ONLY",
+    "wordProfileBlocked": true,
+    "programDone": false
+  }
+}

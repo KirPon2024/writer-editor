@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_EFFECTIVE_STATE_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_DELIVERY",
+  "baseSha": "d52b9c7abc03cc0818e437ab5faea5c914a18098",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "sourceBindings": {
+    "baselineDigest": "9f9ebc8d5122c6fb8ebbcec34c6752f3d6e4f9849432bd0da08fcf9eab451ef1",
+    "wordApplyContractDigest": "9e7d1093d8b05ad7ae68afc6af2cd71d2ade34ca25913794f42b734a988229cf",
+    "physicalReceiptDigest": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f",
+    "ownerDecisionDigest": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+    "carrierRegistryDigest": "e1068b4c3a7c9b5cb8b9efad669068e210625f23c80db2091bfd5fdd90af905b",
+    "acceptanceMatrixDigest": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
+    "claimBindingDigest": "445f8cc6f3f94f1566979c4d33c406d83da535573f6be9235bd98ee68faaf802"
+  },
+  "sourceCounts": {
+    "DONE": 88,
+    "INELIGIBLE_OPTIONAL": 10,
+    "BLOCKED_TYPED": 2,
+    "PENDING": 9
+  },
+  "targetCounts": {
+    "DONE": 89,
+    "INELIGIBLE_OPTIONAL": 10,
+    "BLOCKED_TYPED": 2,
+    "PENDING": 8
+  },
+  "targetGraph": {
+    "completeGraphDenominator": 109,
+    "statesDigest": "c69c9212a0e8a05a94c801a9f9529157da9da102a0888c09b07375b916ffd73e",
+    "transition": {
+      "nodeId": "WP-707_WORD_APPLY",
+      "from": "PENDING",
+      "to": "DONE",
+      "basis": "EXPLICIT_SINGLE_SCENE_WORD_APPLY_PHYSICAL_PROOF_AND_REQUIRED_DELIVERY"
+    }
+  },
+  "wordApplyVerdict": "PASS",
+  "physicalWordRepetitionDenominator": 3,
+  "physicalWordRepetitionPass": 3,
+  "automaticApply": false,
+  "multiSceneApply": false,
+  "nextReadySet": [],
+  "ownerGatedSuccessorSet": [
+    "WP-709_MIXED_CHAINS"
+  ],
+  "nextReadyActivated": false,
+  "successorAuthorityGranted": false,
+  "ownerGateStatus": "UNRESOLVED_DENY",
+  "nonClaims": [
+    "NO_AUTOMATIC_APPLY",
+    "NO_MULTI_SCENE_APPLY",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_WP709_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

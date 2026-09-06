@@ -1,0 +1,29 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_WP706_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS_WP706_EXTERNALLY_CERTIFIED_DONE_AND_RELEASED",
+  "predecessorStageId": "WP-706_WORD_REPORT",
+  "predecessorState": "DONE",
+  "externalTerminal": {
+    "receiptSha256": "790e1d2f5029cbb49a21db7750e62feb5aa174842ccfc4def4ee85563b109e1d",
+    "verificationSha256": "ac919dcc9b776d691dc2a5f448bac60bf433f1ff49d895ee0d9d13f00887c532",
+    "releaseDispositionSha256": "4df6fbb00361189803a30c52344c251d281d874c0849ccb5ffa5445d3cf10b7a",
+    "status": "CERTIFIED_DONE",
+    "verificationStatus": "PASS",
+    "leaseStatus": "RELEASED",
+    "wip": 0
+  },
+  "repositoryBindings": {
+    "terminalReceiptSha256": "4020784b2ee455983ec827e433c8eaea4b9ea24a5b18f4d38b155ce4efe69f0e",
+    "leaseReleaseSha256": "ef72db647b10c0123d747aa313f31285102af7e2b6cde19fbc2bc8e6af5bfc16",
+    "effectiveStateSha256": "ab2458ecf45c7482ff8edea8c84ad25253adc42213de49a6496a7d37b897d26a"
+  },
+  "successorAuthorityTransfer": false
+}

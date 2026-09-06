@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CONTRACT",
+  "kind": "CONTRACT",
+  "contractDigest": "9e7d1093d8b05ad7ae68afc6af2cd71d2ade34ca25913794f42b734a988229cf",
+  "decisionDigest": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+  "featureManifestDigest": "079c8bcefba8011fe9d220272e5eeacb511ee2f9b1e130020bb1f713689496a6",
+  "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "verdict": "PASS",
+  "claimCeiling": "NODE_AND_SINGLE_SCENE_WORD_APPLY_ONLY"
+}

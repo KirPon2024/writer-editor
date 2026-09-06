@@ -36,7 +36,7 @@ jobs:
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
         env:
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP707_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: npm test
       - name: Verify WP-500 association scope semantics and mutants
         run: node --test test/unit/r24-wp500-associations.test.js test/unit/r24-wp500-associations-integration.test.js test/unit/r24-wp500-associations-mutants.test.js
@@ -109,6 +109,8 @@ jobs:
         run: node --test test/unit/r24-v2-word-claim-compiler.test.js test/unit/r24-v2-word-claim-mutants.test.js test/contracts/r24-v2-terminal-carriers.contract.test.mjs test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs
       - name: Verify WP-706 disposable full-book report-only harness and blocked Word claim
         run: node --test test/unit/r24-wp706-word-report.test.js test/unit/r24-wp706-word-report-integration.test.js test/unit/r24-wp706-word-report-mutants.test.js test/contracts/r24-wp706-terminal-carriers.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs
+      - name: Verify WP-707 explicit single-scene Word apply and physical proof
+        run: node --test test/unit/r24-wp707-word-apply.test.js test/unit/r24-wp707-word-apply-integration.test.js test/unit/r24-wp707-word-apply-mutants.test.js test/contracts/r24-wp707-terminal-carriers.contract.test.mjs test/contracts/r24-wp707-post-audit-compatibility.contract.test.mjs
 
   e0-mutants:
     runs-on: ubuntu-latest
@@ -143,7 +145,7 @@ jobs:
       - name: Run focused post-audit negative contracts after real build
         run: |
           npm run test:r24-post-audit
-          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp605-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp801-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp802-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp803-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp804-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs
+          node --test test/contracts/r24-post-audit-certification-set.contract.test.mjs test/contracts/r24-protected-wip-snapshot.contract.test.mjs test/contracts/r24-wp604-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp605-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp710-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp606-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp607-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp800-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp801-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp802-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp803-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp804-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp805-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp806-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp708-post-audit-compatibility.contract.test.mjs test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs test/contracts/r24-wp707-post-audit-compatibility.contract.test.mjs
       - name: Run full maintained RTK after real build
         run: npm run test:rtk
 
@@ -163,8 +165,8 @@ jobs:
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
       - env:
           EFFECTIVE_MODE: STRICT
-          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
+          GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP707_GOVERNANCE_CHANGE_APPROVALS_V1.json
+        run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP707_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:
     runs-on: ubuntu-latest

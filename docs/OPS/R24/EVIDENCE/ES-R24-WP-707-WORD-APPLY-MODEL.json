@@ -1,0 +1,73 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-MODEL",
+  "kind": "MODEL",
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "src/interchange/word-single-scene-apply-v1.mjs",
+        "sha256": "7e02a0ee99ab0e67c9246688d603bc0eebdf15fc6dd699bbfe2e324364be5d6e",
+        "byteLength": 18720
+      },
+      {
+        "path": "scripts/ops/r24/word-apply-wp707.mjs",
+        "sha256": "62b54dc12a1faa83de4d029dfd044f80ccdfb83cc69c1113507e98f8cd774c12",
+        "byteLength": 20047
+      },
+      {
+        "path": "test/fixtures/r24-wp707-word-apply-fixtures.js",
+        "sha256": "fc130a2f7d03ff23b4b5cc2524b1c82ae69bf42a0c3299cf5be8f670e8a62895",
+        "byteLength": 9241
+      },
+      {
+        "path": "test/unit/r24-wp707-word-apply.test.js",
+        "sha256": "4af87702ceee2d5a0b43e0a3b0745c23df1cdb5f2fa93e9a578f2250ee92ee00",
+        "byteLength": 3874
+      },
+      {
+        "path": "test/unit/r24-wp707-word-apply-integration.test.js",
+        "sha256": "cf8622b337cee86326d3b0a15ceb21066d1c887590daabc4b7f432bd3dc2b5ca",
+        "byteLength": 1825
+      },
+      {
+        "path": "test/unit/r24-wp707-word-apply-mutants.test.js",
+        "sha256": "e1fc48ccf3ded319e604608fc8add0dc456bb72810adfca0c43540855e42d9f3",
+        "byteLength": 6754
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP707_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "72fa3fa9367354dba2062c9b85ef38271cd6d132e2b17f8ae2b842de4bfd7966",
+      "byteLength": 3389,
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "processExitCode": 0,
+      "testDenominator": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "storedInline": false
+    }
+  },
+  "test": {
+    "denominator": 22,
+    "passed": 22,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "claim": {
+    "ceiling": "WP707_SINGLE_SCENE_WORD_APPLY_ONLY",
+    "physicalDenominator": 3,
+    "programDone": false
+  }
+}

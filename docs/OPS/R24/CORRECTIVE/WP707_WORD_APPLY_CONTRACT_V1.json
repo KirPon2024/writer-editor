@@ -1,0 +1,63 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_WORD_APPLY_CONTRACT_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "profileId": "WORD_INTERCHANGE",
+  "operationFamily": "SINGLE_SCENE_NON_OVERLAP_EXACT_TEXT_APPLY",
+  "authority": {
+    "exactDecisionRequired": true,
+    "commandKernelRevalidationRequired": true,
+    "explicitUserConfirmationRequired": true,
+    "automaticApply": false,
+    "multiSceneApply": false,
+    "atomicMultiSceneSemantics": false
+  },
+  "dataBoundary": {
+    "syntheticOnly": true,
+    "taskCreatedDisposableDocumentsAndProjectsOnly": true,
+    "userDocuments": 0,
+    "existingFiles": 0,
+    "symlinksAllowed": false
+  },
+  "lifecycle": {
+    "analyzedReturnRequired": true,
+    "visibleExplicitPreviewRequired": true,
+    "closeReopenRequired": true,
+    "canonicalReadbackRequired": true,
+    "completedRoundReuseRequired": true,
+    "replayWriterCallsExpected": 0
+  },
+  "physical": {
+    "receiptSha256": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f",
+    "status": "PASS",
+    "wordVersion": "16.112",
+    "wordBuild": "16.112.26081010",
+    "denominator": 3,
+    "passed": 3,
+    "wordSandboxStableRoot": true,
+    "wordOpenedT7Directly": false,
+    "grantFileAccessInteractionCount": 0,
+    "sandboxAndDurableHashesMatch": true
+  },
+  "implementation": {
+    "subjectSha256": "7e02a0ee99ab0e67c9246688d603bc0eebdf15fc6dd699bbfe2e324364be5d6e",
+    "existingExactApplySha256": "c26c0352b5d7b5d7c8894015e7a33bb5c4f64d8e4db70c800db1a17f5d716b7a",
+    "secondWriterCreated": false
+  },
+  "claimCeiling": "WP707_SINGLE_SCENE_WORD_APPLY_ONLY",
+  "nonClaims": [
+    "NO_MULTI_SCENE_ATOMICITY",
+    "NO_AUTOMATIC_APPLY",
+    "NO_USER_DOCUMENT_SUPPORT",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

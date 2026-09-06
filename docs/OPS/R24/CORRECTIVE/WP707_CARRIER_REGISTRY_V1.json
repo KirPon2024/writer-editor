@@ -25,8 +25,8 @@
   "carriers": [
     {
       "path": ".github/workflows/oss-policy.yml",
-      "sha256": "7baae37f2cf749fd276ddffe208ab4ff5d4971d68ce954414d5a507a76df4933",
-      "byteLength": 21994
+      "sha256": "58cd430879ac47d433c8eb8500d35b804346e12e15738cdc6517c36e6447ce81",
+      "byteLength": 21667
     },
     {
       "path": ".github/workflows/rtk-required.yml",

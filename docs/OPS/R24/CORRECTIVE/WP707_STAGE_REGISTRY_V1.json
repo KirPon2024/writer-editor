@@ -19,9 +19,9 @@
     "ownerDecisionDigest": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3"
   },
   "deliveryBindings": {
-    "carrierRegistryDigest": "e1068b4c3a7c9b5cb8b9efad669068e210625f23c80db2091bfd5fdd90af905b",
+    "carrierRegistryDigest": "f97cef4cadaeae1c1ec1d6200ba54d2ca628794068bab55ed1e5da0a3c85f24b",
     "acceptanceMatrixDigest": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
-    "effectiveStateDigest": "4e2f70cd8fa81fb53d401bba319cfab8fd09f95a6d85aa1b0e22375a55ecce43",
+    "effectiveStateDigest": "7559b09a98527c4e6cf075dd88dd5ba7433d56f2b6abd037e573703e3e03e582",
     "physicalReceiptDigest": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f"
   },
   "nodeOutcome": {

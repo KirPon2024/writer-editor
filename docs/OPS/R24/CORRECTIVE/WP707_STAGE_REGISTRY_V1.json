@@ -1,0 +1,45 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_STAGE_REGISTRY_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_DELIVERY",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "baseIdentity": {
+    "sha": "d52b9c7abc03cc0818e437ab5faea5c914a18098",
+    "tree": "216b3b900b0cc435e4772f91ab3049232684c0e4"
+  },
+  "admission": {
+    "fencingCounter": 101,
+    "wip": 1,
+    "authorityDigest": "2ee4ac8b073f50292dcac2d74e2f1a7d0be8c4138a4c4d2b21cce2c6a60bdc86",
+    "stageInstanceDigest": "f4b482e69440c48680df7eb3de96384b4f82ca7b7f7d7f0dd7d63a0dd49bb741",
+    "stageAdmissionDigest": "0a71cbb9125674da0e0133237511deadd836c8c1ca9912299052e7e359c5276e",
+    "admittedPathDenominator": 37,
+    "ownerDecisionDigest": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3"
+  },
+  "deliveryBindings": {
+    "carrierRegistryDigest": "ad147a0d978112a54966675a20010174fa1524400cf90cc0fee4515e85a69777",
+    "acceptanceMatrixDigest": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
+    "effectiveStateDigest": "1344c3855e68cff420a52bfe01b4991e7addc1b46a2eaab12e7e5ec063e8bb1a",
+    "physicalReceiptDigest": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f"
+  },
+  "nodeOutcome": {
+    "sourceState": "PENDING",
+    "targetStateAfterRequiredDelivery": "DONE",
+    "operationFamily": "SINGLE_SCENE_NON_OVERLAP_EXACT_TEXT_APPLY",
+    "physicalRepetitionPass": 3,
+    "graphDerivedSuccessorStageId": "WP-709_MIXED_CHAINS",
+    "successorOwnerGateStatus": "UNRESOLVED_DENY",
+    "nextReadyActivated": false
+  },
+  "requiredDeliveryPredicates": [
+    "COMMIT",
+    "PUSH",
+    "PULL_REQUEST",
+    "CANDIDATE_CI",
+    "PROTECTED_MERGE",
+    "EXACT_POSTMERGE_CI",
+    "EXTERNAL_TERMINAL_RECEIPT_AND_LEASE_RELEASE"
+  ]
+}

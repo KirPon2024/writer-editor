@@ -1,0 +1,105 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_DELIVERY_PREDICATES",
+  "issuedAtUtc": "2026-09-06T09:00:00Z",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "baseIdentity": {
+    "sha": "d52b9c7abc03cc0818e437ab5faea5c914a18098",
+    "tree": "216b3b900b0cc435e4772f91ab3049232684c0e4",
+    "branch": "codex/r24-wp707-word-apply-v1-20260906"
+  },
+  "bindings": {
+    "carrierRegistryDigest": "ad147a0d978112a54966675a20010174fa1524400cf90cc0fee4515e85a69777",
+    "claimBindingDigest": "445f8cc6f3f94f1566979c4d33c406d83da535573f6be9235bd98ee68faaf802",
+    "leaseReleaseDigest": "9aa7769f1c8a0492cfe7b962abcdbc9d4b6abb71d2db55620619582ed5e132ae",
+    "acceptanceMatrixDigest": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
+    "effectiveStateDigest": "1344c3855e68cff420a52bfe01b4991e7addc1b46a2eaab12e7e5ec063e8bb1a",
+    "stageRegistryDigest": "0bf21967a2b5bbac245310a5e6fabf0c87d2098009e243606981af5c585f6d01",
+    "wordApplyContractDigest": "9e7d1093d8b05ad7ae68afc6af2cd71d2ade34ca25913794f42b734a988229cf",
+    "physicalReceiptDigest": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f",
+    "ownerDecisionDigest": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3"
+  },
+  "localEvidence": {
+    "focusedTests": {
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "actualSourceMutants": {
+      "killed": 10,
+      "survived": 0,
+      "importFailures": 0
+    },
+    "physicalWord": {
+      "repetitionDenominator": 3,
+      "repetitionPass": 3,
+      "wordVersion": "16.112",
+      "wordBuild": "16.112.26081010",
+      "grantFileAccessInteractions": 0,
+      "wordOpenedT7Directly": false
+    },
+    "inventory": {
+      "files": 1449,
+      "requiredSkips": 0,
+      "unexplainedSkips": 0
+    }
+  },
+  "activationOutcome": {
+    "nodeId": "WP-707_WORD_APPLY",
+    "sourceState": "PENDING",
+    "targetStateAfterDelivery": "DONE",
+    "doneCount": 89,
+    "blockedTypedCount": 2,
+    "pendingCount": 8,
+    "ineligibleOptionalCount": 10,
+    "physicalWordRepetitionPass": 3,
+    "automaticApply": false,
+    "multiSceneApply": false,
+    "graphDerivedSuccessor": "WP-709_MIXED_CHAINS",
+    "successorOwnerGateStatus": "UNRESOLVED_DENY",
+    "nextReadySet": [],
+    "nextReadyActivated": false
+  },
+  "requiredDeliveryPredicates": [
+    {
+      "id": "COMMIT",
+      "status": "PENDING"
+    },
+    {
+      "id": "PUSH",
+      "status": "PENDING"
+    },
+    {
+      "id": "PULL_REQUEST",
+      "status": "PENDING"
+    },
+    {
+      "id": "CANDIDATE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "PROTECTED_MERGE",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_RECEIPT_AND_LEASE_RELEASE",
+      "status": "PENDING"
+    }
+  ],
+  "nonClaims": [
+    "NO_AUTOMATIC_APPLY",
+    "NO_MULTI_SCENE_ATOMICITY",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_WP709_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

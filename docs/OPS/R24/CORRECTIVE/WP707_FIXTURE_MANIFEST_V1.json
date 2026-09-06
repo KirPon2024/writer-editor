@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "denominator": 7,
+  "fixtures": [
+    {
+      "profileId": "CONTRACT_NEGATIVE",
+      "selector": "AUTHORITY_LIFECYCLE_PATH_AND_CROSS_SCENE_REJECTIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "UNIT",
+      "selector": "EXPLICIT_SINGLE_SCENE_APPLY_AND_COMPLETED_ROUND_REUSE",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "INTEGRATION",
+      "selector": "THREE_DISTINCT_TASK_CREATED_DISPOSABLE_PROJECTS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "IMPLEMENTATION_MUTANTS",
+      "selector": "TEN_ACTUAL_SOURCE_MUTATIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "HOSTILE_CORPUS",
+      "selector": "USER_DATA_AUTOMATIC_MULTI_SCENE_SYMLINK_AND_IDENTITY_DRIFT",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "ROUNDTRIP",
+      "selector": "APPLY_CLOSE_REOPEN_CANONICAL_READBACK_AND_REPLAY",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "PHYSICAL_PROVIDER",
+      "selector": "THREE_WORD_SANDBOX_OPEN_EDIT_SAVE_CLOSE_REOPEN_RUNS_WITH_T7_HASH_COPY",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    }
+  ],
+  "zeroDenominatorFails": true,
+  "skipsFailRequiredEvidence": true
+}

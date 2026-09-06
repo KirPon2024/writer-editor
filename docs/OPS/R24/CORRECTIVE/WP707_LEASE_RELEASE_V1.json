@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_LEASE_RELEASE_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_DELIVERY",
+  "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+  "currentLease": {
+    "fencingCounter": 101,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "4df6fbb00361189803a30c52344c251d281d874c0849ccb5ffa5445d3cf10b7a"
+  },
+  "targetLease": {
+    "fencingCounter": 101,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseBasis": "WP707_REQUIRED_DELIVERY_AND_EXTERNAL_TERMINAL_VERIFIED"
+  },
+  "bindings": {
+    "carrierRegistryDigest": "ad147a0d978112a54966675a20010174fa1524400cf90cc0fee4515e85a69777",
+    "acceptanceMatrixDigest": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
+    "effectiveStateDigest": "1344c3855e68cff420a52bfe01b4991e7addc1b46a2eaab12e7e5ec063e8bb1a",
+    "stageRegistryDigest": "0bf21967a2b5bbac245310a5e6fabf0c87d2098009e243606981af5c585f6d01",
+    "physicalReceiptDigest": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f"
+  },
+  "releasePredicates": [
+    "EXACT_CANDIDATE_COMMIT",
+    "REMOTE_BRANCH_PUSHED",
+    "PULL_REQUEST_CREATED",
+    "CANDIDATE_CI_GREEN",
+    "PROTECTED_MERGE_COMPLETE",
+    "EXACT_MERGE_POSTMERGE_CI_GREEN",
+    "EXTERNAL_TERMINAL_RECEIPT_VERIFIED",
+    "PROTECTED_WIP_PRESERVED"
+  ],
+  "successorActivationAuthorized": false
+}

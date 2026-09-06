@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-MUTANTS",
+  "kind": "IMPLEMENTATION_MUTANTS",
+  "artifact": {
+    "implementationPath": "src/interchange/word-single-scene-apply-v1.mjs",
+    "implementationDigest": "7e02a0ee99ab0e67c9246688d603bc0eebdf15fc6dd699bbfe2e324364be5d6e",
+    "testPath": "test/unit/r24-wp707-word-apply-mutants.test.js",
+    "testDigest": "e1fc48ccf3ded319e604608fc8add0dc456bb72810adfca0c43540855e42d9f3"
+  },
+  "claim": {
+    "ceiling": "WP707_ACTUAL_SOURCE_MUTATION_SCORE_ONLY",
+    "actualSourceMutations": true,
+    "killed": 10,
+    "survived": 0,
+    "importFailures": 0,
+    "syntaxOrImportFailuresCountedAsKills": false
+  }
+}

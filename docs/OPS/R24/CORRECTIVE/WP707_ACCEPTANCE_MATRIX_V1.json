@@ -1,0 +1,160 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "LOCAL_IMPLEMENTATION_ACCEPTED_DELIVERY_NOT_PRECLAIMED",
+  "denominator": 30,
+  "rows": [
+    {
+      "id": "A01_ADMISSION",
+      "status": "PASS",
+      "evidence": "exact Sol xhigh admission at fence 101"
+    },
+    {
+      "id": "A02_PREDECESSOR",
+      "status": "PASS",
+      "evidence": "WP706 external terminal release verified"
+    },
+    {
+      "id": "A03_OWNER_DECISION",
+      "status": "PASS",
+      "evidence": "exact mission-bound single-scene owner decision approved"
+    },
+    {
+      "id": "A04_MISSION",
+      "status": "PASS",
+      "evidence": "mission digest fixed across authority contract and physical receipt"
+    },
+    {
+      "id": "A05_BASE_IDENTITY",
+      "status": "PASS",
+      "evidence": "exact base commit and tree bound"
+    },
+    {
+      "id": "A06_SINGLE_SCENE",
+      "status": "PASS",
+      "evidence": "exactly one scene is required"
+    },
+    {
+      "id": "A07_EXACT_OPERATIONS",
+      "status": "PASS",
+      "evidence": "bounded non-overlapping exact text replacements only"
+    },
+    {
+      "id": "A08_EXPLICIT_CONFIRMATION",
+      "status": "PASS",
+      "evidence": "explicit user confirmation is mandatory"
+    },
+    {
+      "id": "A09_REVALIDATION",
+      "status": "PASS",
+      "evidence": "Command Kernel revalidates before apply and replay"
+    },
+    {
+      "id": "A10_NO_AUTOMATIC",
+      "status": "PASS",
+      "evidence": "automatic apply is denied"
+    },
+    {
+      "id": "A11_NO_MULTI_SCENE",
+      "status": "PASS",
+      "evidence": "multi-scene apply and atomicity claims are denied"
+    },
+    {
+      "id": "A12_NO_USER_DOCS",
+      "status": "PASS",
+      "evidence": "user documents and existing files are out of scope"
+    },
+    {
+      "id": "A13_STABLE_WORD_SANDBOX",
+      "status": "PASS",
+      "evidence": "three Word runs use the stable sandbox root"
+    },
+    {
+      "id": "A14_NO_T7_WORD_OPEN",
+      "status": "PASS",
+      "evidence": "Word never opens a T7 path directly"
+    },
+    {
+      "id": "A15_NO_GRANT_PROMPT",
+      "status": "PASS",
+      "evidence": "Grant File Access interaction count is zero"
+    },
+    {
+      "id": "A16_LIFECYCLE",
+      "status": "PASS",
+      "evidence": "open save close reopen canonical readback proven 3 of 3"
+    },
+    {
+      "id": "A17_REPLAY",
+      "status": "PASS",
+      "evidence": "completed-round reuse performs zero rewrite"
+    },
+    {
+      "id": "A18_TESTS",
+      "status": "PASS",
+      "evidence": "22 focused tests passed with zero skips or todo"
+    },
+    {
+      "id": "A19_MUTANTS",
+      "status": "PASS",
+      "evidence": "10 actual source mutants killed with zero import failures"
+    },
+    {
+      "id": "A20_CARRIER_SET",
+      "status": "PASS",
+      "evidence": "29 independent candidate carriers bound"
+    },
+    {
+      "id": "A21_GRAPH_BASELINE",
+      "status": "PASS",
+      "evidence": "109-node baseline recomputed"
+    },
+    {
+      "id": "A22_PROTECTED_WIP",
+      "status": "PASS",
+      "evidence": "302 foreign worktrees including 11 dirty sets protected"
+    },
+    {
+      "id": "A23_PROGRAM_FALSE",
+      "status": "PASS",
+      "evidence": "programDone remains false"
+    },
+    {
+      "id": "D01_COMMIT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "candidate commit pending"
+    },
+    {
+      "id": "D02_PUSH",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "remote push pending"
+    },
+    {
+      "id": "D03_PR",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "pull request pending"
+    },
+    {
+      "id": "D04_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "candidate CI pending"
+    },
+    {
+      "id": "D05_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "protected merge pending"
+    },
+    {
+      "id": "D06_POSTMERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "exact postmerge CI pending"
+    },
+    {
+      "id": "D07_EXTERNAL_TERMINAL",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "external terminal receipt and lease release pending"
+    }
+  ]
+}

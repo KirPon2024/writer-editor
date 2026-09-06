@@ -1,0 +1,269 @@
+{
+  "version": "v1.0",
+  "evidenceStampIds": [
+    "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+    "ES-R24-WP-707-WORD-APPLY-MODEL",
+    "ES-R24-WP-707-WORD-APPLY-CONTRACT",
+    "ES-R24-WP-707-WORD-APPLY-INTEGRATION",
+    "ES-R24-WP-707-WORD-APPLY-MUTANTS"
+  ],
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "approvals": [
+    {
+      "filePath": ".github/workflows/oss-policy.yml",
+      "sha256": "983abb64acc409bfa517dcd60c7dc9549a2a2f1fdc59d6998aca9f026f72e683",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": ".github/workflows/rtk-required.yml",
+      "sha256": "e3601d046d1da234a06573a68fbddd9a48e0ba9f311a9d46870c5ea75d7bc4e9",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "f25bfb8ed27967794bded880cbdc569ff03dad9ae2b38d80353c9e9f9fd6c88b",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_ACCEPTANCE_MATRIX_V1.json",
+      "sha256": "ada9e99a61786400f5bbe98ec29b3fe35b86c9f44c053bb6f61b18fe24f16661",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_CARRIER_REGISTRY_V1.json",
+      "sha256": "ad147a0d978112a54966675a20010174fa1524400cf90cc0fee4515e85a69777",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "9f9ebc8d5122c6fb8ebbcec34c6752f3d6e4f9849432bd0da08fcf9eab451ef1",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_EFFECTIVE_STATE_V1.json",
+      "sha256": "1344c3855e68cff420a52bfe01b4991e7addc1b46a2eaab12e7e5ec063e8bb1a",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_EXACT_BOUND_OWNER_DECISION_V1.json",
+      "sha256": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "079c8bcefba8011fe9d220272e5eeacb511ee2f9b1e130020bb1f713689496a6",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_FIXTURE_MANIFEST_V1.json",
+      "sha256": "de2c62dc4295857ae016860780f53f06a7a90fda173dad16bf3e2026270b3d2d",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_LEASE_RELEASE_V1.json",
+      "sha256": "9aa7769f1c8a0492cfe7b962abcdbc9d4b6abb71d2db55620619582ed5e132ae",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "2ee4ac8b073f50292dcac2d74e2f1a7d0be8c4138a4c4d2b21cce2c6a60bdc86",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "1e6f692d38c602968ad9be031da5b5fa2f2aee35765dd241546880d32335db1d",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "0a71cbb9125674da0e0133237511deadd836c8c1ca9912299052e7e359c5276e",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "f4b482e69440c48680df7eb3de96384b4f82ca7b7f7d7f0dd7d63a0dd49bb741",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "71b8e8ac49c57282ab8198eee04f24be8e4583a089dcfc2174e4d0bb8f8f72d1",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_STAGE_REGISTRY_V1.json",
+      "sha256": "0bf21967a2b5bbac245310a5e6fabf0c87d2098009e243606981af5c585f6d01",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_TERMINAL_RECEIPT_V1.json",
+      "sha256": "3452b53cec6d0f86f9f05c863bf3693e5372ffbb1eea9a9f486e9784ece709f5",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_WORD_APPLY_CONTRACT_V1.json",
+      "sha256": "9e7d1093d8b05ad7ae68afc6af2cd71d2ade34ca25913794f42b734a988229cf",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_WORD_APPLY_PHYSICAL_RECEIPT_V1.json",
+      "sha256": "1db565259baac0b50d0d1d9d182fc037857022034f7b6052799b80103dd2b94f",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP707_WP706_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "eec0ca28a63eadb6a8ec52b5895c52ca2e5b50b4a1cd01dd48ef3077f55ad8ca",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS.json",
+      "sha256": "445f8cc6f3f94f1566979c4d33c406d83da535573f6be9235bd98ee68faaf802",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-707-WORD-APPLY-CONTRACT.json",
+      "sha256": "53a2cd5830613d9490a6c2d51fe993c7a06daadd02cfc3f6710cd8e661463268",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-707-WORD-APPLY-INTEGRATION.json",
+      "sha256": "2d6922c9361111a722399c7c6cb3fbbc92e7f3230808bd55c33ac92d481c39e3",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-707-WORD-APPLY-MODEL.json",
+      "sha256": "662fad184b103e91bbf4f39cdeecc5ace292d95e25b2d49a649d7ea35437310b",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "docs/OPS/R24/EVIDENCE/ES-R24-WP-707-WORD-APPLY-MUTANTS.json",
+      "sha256": "7d966b15d0323ddbf8ac3f1c500f2976cc250d96290d61fe50b8d50564a87c9a",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "ef82ff5f1b2f27922c67a7f1447b8d18971ec34bca7790fe0646815be0c001b6",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "fe3c1a81fa892d1370aa503287637142a89f05a13c6e4202ecc2d08255da0379",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "scripts/ops/r24/word-apply-wp707.mjs",
+      "sha256": "62b54dc12a1faa83de4d029dfd044f80ccdfb83cc69c1113507e98f8cd774c12",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "src/interchange/word-single-scene-apply-v1.mjs",
+      "sha256": "7e02a0ee99ab0e67c9246688d603bc0eebdf15fc6dd699bbfe2e324364be5d6e",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/contracts/r24-wp707-post-audit-compatibility.contract.test.mjs",
+      "sha256": "84cc409f0f51e50b4a2794e027d2596c8533bc7ed1b00bb148b1a810501e74f5",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/contracts/r24-wp707-terminal-carriers.contract.test.mjs",
+      "sha256": "aef24d656d2b546ae47a8759dbe52e4c5b587cdf38fa4d6083d4b08a18e8294f",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/fixtures/r24-wp707-word-apply-fixtures.js",
+      "sha256": "fc130a2f7d03ff23b4b5cc2524b1c82ae69bf42a0c3299cf5be8f670e8a62895",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/unit/r24-wp707-word-apply-integration.test.js",
+      "sha256": "cf8622b337cee86326d3b0a15ceb21066d1c887590daabc4b7f432bd3dc2b5ca",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/unit/r24-wp707-word-apply-mutants.test.js",
+      "sha256": "e1fc48ccf3ded319e604608fc8add0dc456bb72810adfca0c43540855e42d9f3",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    },
+    {
+      "filePath": "test/unit/r24-wp707-word-apply.test.js",
+      "sha256": "4af87702ceee2d5a0b43e0a3b0745c23df1cdb5f2fa93e9a578f2250ee92ee00",
+      "approvedBy": "owner-delegate-decision:5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+      "approvedAtUtc": "2026-09-06T09:00:00Z",
+      "rationale": "Mission-bound WP707 explicit single-scene Word apply; automatic, multi-scene and user-document authority remain denied."
+    }
+  ]
+}

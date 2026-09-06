@@ -1,0 +1,74 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS_BOUNDED_SINGLE_SCENE_APPLY",
+  "productPlane": {
+    "mutation": true,
+    "commands": [
+      "WORD_SINGLE_SCENE_EXACT_APPLY"
+    ],
+    "queries": [
+      "CANONICAL_SCENE_READBACK"
+    ],
+    "events": [
+      "SINGLE_SCENE_APPLY_VERIFIED"
+    ],
+    "effects": [
+      "EXISTING_EXACT_APPLY_WRITER",
+      "PROJECT_CLOSE_REOPEN_READBACK"
+    ],
+    "backgroundJobs": []
+  },
+  "interfacePlane": {
+    "uiSurface": false,
+    "designOs": false,
+    "rendererMutation": false
+  },
+  "stateClasses": [
+    "PROJECT_STATE",
+    "DERIVED_STATE"
+  ],
+  "ports": {
+    "productPorts": [
+      "COMMAND_KERNEL_REVALIDATION_PORT",
+      "EXISTING_EXACT_APPLY_PORT",
+      "PROJECT_LIFECYCLE_PORT"
+    ],
+    "designOsReadOnlyPorts": []
+  },
+  "identityGuards": [
+    "MISSION_DIGEST",
+    "DECISION_ID",
+    "PROJECT_ID",
+    "SCENE_ID",
+    "WORD_BUILD_ID",
+    "COMPLETED_ROUND_REQUEST_KEY"
+  ],
+  "authorityGuards": [
+    "EXPLICIT_CONFIRMATION",
+    "COMMAND_KERNEL_REVALIDATION_BEFORE_APPLY_AND_REPLAY",
+    "TASK_CREATED_DISPOSABLE_MARKER"
+  ],
+  "negativeGuards": [
+    "NO_USER_DOCUMENTS",
+    "NO_EXISTING_FILES",
+    "NO_AUTOMATIC_APPLY",
+    "NO_MULTI_SCENE_APPLY",
+    "NO_CROSS_SCENE_PATH",
+    "NO_SYMLINK_PATH",
+    "NO_SECOND_WRITER"
+  ],
+  "fallback": "FAIL_CLOSED_WITH_TYPED_REASON_AND_ZERO_WRITER_CALLS",
+  "recovery": "EXISTING_EXACT_APPLY_JOURNAL_RESERVATION_SNAPSHOT_AND_REPLAY",
+  "performance": "BOUNDED_64_EXACT_CHANGES_SINGLE_SCENE",
+  "accessibility": "NOT_APPLICABLE_NO_UI",
+  "runtimeNetwork": false,
+  "newDependency": false
+}

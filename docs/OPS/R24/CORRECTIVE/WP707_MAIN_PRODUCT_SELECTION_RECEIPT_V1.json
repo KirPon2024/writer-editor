@@ -1,0 +1,39 @@
+{
+  "schemaVersion": "YALKEN_R24_WP707_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-707_WORD_APPLY",
+  "evidenceStampId": "ES-R24-WP-707-WORD-APPLY-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS_SELECTED_EXACT_GATE_BOUND_SINGLE_SCENE_WORD_APPLY",
+  "selectedNode": "WP-707_WORD_APPLY",
+  "selectedNodeStateBefore": "PENDING",
+  "rawSchedulerReadySet": [
+    "WP-707_WORD_APPLY"
+  ],
+  "selectionClass": "GRAPH_DERIVED_NEXT_READY_EXACT_GATE_BOUND_WORD_APPLY",
+  "selectionAuthority": "EXPLICIT_DIGEST_BOUND_DELEGATE_DECISION",
+  "ownerGate": {
+    "gateId": "WORD_MULTI_SCENE_SEPARATE_ADR",
+    "decisionId": "WORD_MULTI_SCENE_SEPARATE_ADR_WP707_SINGLE_SCENE_ONLY_V1",
+    "decisionSha256": "5c07fdff658ad8baaf91f6e60c58531c60eec938711c4966bb9c37e3207718f3",
+    "missionDigest": "2d188140211c4e2a65f0f1bf1bef5bac53e396e3c3887cb3563fa253a10b0c80",
+    "status": "APPROVED_FOR_WP707_SINGLE_SCENE_ONLY"
+  },
+  "dependencies": {
+    "WP-706_WORD_REPORT": "DONE",
+    "WP-207_WRITER_REFINEMENT": "DONE",
+    "W0_WORD_PHYSICAL_RECERTIFICATION": "DONE",
+    "V2_WORD_CLAIM_COMPILER": "DONE"
+  },
+  "effectiveGraphBaselineDigest": "9f9ebc8d5122c6fb8ebbcec34c6752f3d6e4f9849432bd0da08fcf9eab451ef1",
+  "nonClaims": [
+    "NO_MULTI_SCENE_APPLY",
+    "NO_AUTOMATIC_APPLY",
+    "NO_USER_DOCUMENTS",
+    "NO_PROGRAM_DONE"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_LEASE_RELEASE_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_RELEASE_PENDING_REQUIRED_DELIVERY",
+  "currentLease": {
+    "fencingCounter": 100,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "8d86e62dd630f5e47d52a0ba86f6a38272eb69a92cbb09e6f7bea0676cef44c5"
+  },
+  "targetLease": {
+    "fencingCounter": 100,
+    "status": "RELEASED",
+    "wip": 0,
+    "releaseBasis": "WP706_REQUIRED_DELIVERY_AND_EXTERNAL_TERMINAL_VERIFIED"
+  },
+  "bindings": {
+    "carrierRegistryDigest": "cc90126d1d0c73d12d458cc8383447fed4c24305b3371d9feae6924bc1d747e4",
+    "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
+    "effectiveStateDigest": "1c43d09cc0c2fbed280979cd2c4dd6cef803687db1fd774fb8f957abaa13cddb",
+    "stageRegistryDigest": "80b22b2f6d286817a2eb762e27a657c743b31662aa1cc3505076d55f1cbfac9d"
+  },
+  "releasePredicates": [
+    "EXACT_CANDIDATE_COMMIT",
+    "REMOTE_BRANCH_PUSHED",
+    "PULL_REQUEST_CREATED",
+    "CANDIDATE_CI_GREEN",
+    "PROTECTED_MERGE_COMPLETE",
+    "EXACT_MERGE_POSTMERGE_CI_GREEN",
+    "EXTERNAL_TERMINAL_RECEIPT_VERIFIED",
+    "PROTECTED_WIP_PRESERVED"
+  ],
+  "successorActivationAuthorized": false
+}

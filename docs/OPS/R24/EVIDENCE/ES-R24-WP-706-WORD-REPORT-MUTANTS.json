@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-MUTANTS",
+  "kind": "IMPLEMENTATION_MUTANTS",
+  "artifact": {
+    "implementationPath": "scripts/ops/r24/word-report-wp706.mjs",
+    "implementationDigest": "861400a1d6ef65cb3e64ea514312753eb10e5026fa16720bc00286b0425e254f",
+    "testPath": "test/unit/r24-wp706-word-report-mutants.test.js",
+    "testDigest": "6e6900353737ddfb4a70564e57099bf01eaa71746990b3d9682a834e45a2fc53"
+  },
+  "claim": {
+    "ceiling": "WP706_ACTUAL_SOURCE_MUTATION_SCORE_ONLY",
+    "actualSourceMutations": true,
+    "killed": 10,
+    "survived": 0,
+    "importFailures": 0,
+    "syntaxOrImportFailuresCountedAsKills": false
+  }
+}

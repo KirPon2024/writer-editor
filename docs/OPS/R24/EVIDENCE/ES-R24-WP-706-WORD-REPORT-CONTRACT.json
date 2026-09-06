@@ -1,0 +1,19 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CONTRACT",
+  "kind": "CONTRACT",
+  "contractDigest": "dd18c87fe61e27b5aff24f304f6bb1a8513b0ef507816a6523cb9dd280747db6",
+  "scientificContractDigest": "d108f4d11faae8451a72e4f610c2d09b7c379bf4eee7f298823c8379cc8cb33e",
+  "executableProgramDigest": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5",
+  "verdict": "BLOCKED",
+  "reportHarnessVerdict": "PASS",
+  "claimCeiling": "NODE_AND_SELECTED_PROFILE_ONLY"
+}

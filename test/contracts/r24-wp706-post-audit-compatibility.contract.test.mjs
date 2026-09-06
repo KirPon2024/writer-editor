@@ -3,12 +3,12 @@ import fs from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import test from 'node:test';
 import {
-  V2_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
-  verifyV2MainProductPostEvaluationException,
+  WP706_MAIN_PRODUCT_ADMISSION_EXPECTATION as E,
+  verifyWp706MainProductPostEvaluationException,
 } from '../../scripts/ops/r24/corrective/post-audit-certification-set.mjs';
 
-const FINAL_SHA = 'f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2f2';
-const FINAL_TREE = 'a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2a2';
+const FINAL_SHA = 'f3'.repeat(20);
+const FINAL_TREE = 'a3'.repeat(20);
 const instance = JSON.parse(fs.readFileSync(E.instancePath));
 const ADMITTED = [...instance.operations.modifyPaths, ...instance.operations.createPaths].sort();
 const response = (value, encoding) => encoding === 'utf8' ? `${value}\n` : Buffer.from(`${value}\n`);
@@ -46,41 +46,40 @@ function fakeGit({ changedPaths = ADMITTED, baseTreeDrift = false, missingArtifa
   };
 }
 
-test('V2 candidate oracle binds the exact 34-path admission and protected baseline', () => {
-  const result = verifyV2MainProductPostEvaluationException({ git: fakeGit() });
+test('WP706 candidate oracle binds the exact 37-path admission and protected baseline', () => {
+  const result = verifyWp706MainProductPostEvaluationException({ git: fakeGit() });
   assert.equal(result.status, 'PASS');
   assert.equal(result.candidateSha, FINAL_SHA);
   assert.equal(result.candidateTree, FINAL_TREE);
-  assert.equal(result.admittedPathDenominator, 34);
+  assert.equal(result.admittedPathDenominator, 37);
   assert.deepEqual(result.changedPaths, ADMITTED);
-  assert.equal(result.protectedWipDenominator, 300);
+  assert.equal(result.protectedWipDenominator, 302);
   assert.equal(result.protectedDirtyDenominator, 11);
   assert.equal(result.profileVerdict, 'BLOCKED');
+  assert.equal(result.freshProviderExecutionByWp706, false);
   assert.equal(result.programDone, false);
   assert.equal(result.admission.writeSetDigest, E.writeSetDigest);
-  assert.equal(result.admission.ownerAuthorityBindingDigest, E.ownerAuthorityBindingDigest);
 });
 
-test('V2 candidate oracle rejects scope, base, ancestry, missing artifact and byte drift', () => {
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ changedPaths: [...ADMITTED, 'src/forbidden-v2.mjs'].sort() }) }), /E_V2_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ changedPaths: ADMITTED.slice(1) }) }), /E_V2_EXACT_ADMITTED_DELTA/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ baseTreeDrift: true }) }), /E_V2_ADMISSION_BASE/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ ancestor: false }) }), /E_V2_BASE_NOT_ANCESTOR/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ missingArtifact: E.instancePath }) }), /E_V2_CANDIDATE_ARTIFACT_MISSING/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ byteDrift: E.admissionPath }) }), /E_V2_CANONICAL_LF/u);
+test('WP706 candidate oracle rejects scope, base, ancestry, missing artifact and byte drift', () => {
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ changedPaths: [...ADMITTED, 'src/forbidden-wp706.mjs'].sort() }) }), /E_WP706_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ changedPaths: ADMITTED.slice(1) }) }), /E_WP706_EXACT_ADMITTED_DELTA/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ baseTreeDrift: true }) }), /E_WP706_ADMISSION_BASE/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ ancestor: false }) }), /E_WP706_BASE_NOT_ANCESTOR/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ missingArtifact: E.instancePath }) }), /E_WP706_CANDIDATE_ARTIFACT_MISSING/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ byteDrift: E.admissionPath }) }), /E_WP706_CANONICAL_LF/u);
 });
 
-test('V2 candidate oracle rejects forged admission, carrier fallback and false Word PASS', () => {
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: E.instancePath, apply: value => { value.lease.wip = 0; } } }) }), /E_V2_ADMISSION_CARRIER_DIGEST/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/V2_CARRIER_REGISTRY_V1.json', apply: value => { value.currentTreeFallbackAllowed = true; } } }) }), /E_V2_CARRIER_DENOMINATOR/u);
-  assert.throws(() => verifyV2MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/V2_WORD_CLAIM_CONTRACT_V1.json', apply: value => { value.profileVerdict = 'PASS'; } } }) }), /E_V2_WORD_CLAIM_CEILING/u);
+test('WP706 candidate oracle rejects forged admission, carrier fallback and false Word PASS', () => {
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: E.instancePath, apply: value => { value.lease.wip = 0; } } }) }), /E_WP706_ADMISSION_CARRIER_DIGEST/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP706_CARRIER_REGISTRY_V1.json', apply: value => { value.currentTreeFallbackAllowed = true; } } }) }), /E_WP706_CARRIER_DENOMINATOR/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_CONTRACT_V1.json', apply: value => { value.profileVerdict = 'PASS'; } } }) }), /E_WP706_WORD_REPORT_CEILING/u);
+  assert.throws(() => verifyWp706MainProductPostEvaluationException({ git: fakeGit({ mutateJson: { path: 'docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_OBSERVED_V1.json', apply: value => { value.authority.productApplyAuthority = true; } } }) }), /E_WP706_OBSERVED_REPORT/u);
 });
 
-test('V2 routing pins the WP708 oracle to the immutable V2 base', () => {
+test('WP706 routing pins V2 to the immutable WP706 base and admits only the WP706 candidate delta', () => {
   const source = fs.readFileSync('scripts/ops/r24/corrective/post-audit-certification-set.mjs', 'utf8');
-  assert.match(source, /verifyWp708MainProductPostEvaluationException\(\{candidateSha:v2Enabled\?V2_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\)/u);
   assert.match(source, /const v2Exception=v2Enabled\?verifyV2MainProductPostEvaluationException\(\{candidateSha:wp706Enabled\?WP706_MAIN_PRODUCT_ADMISSION_EXPECTATION\.baseSha:resolvedCandidate,git\}\):null/u);
   assert.match(source, /const wp706Exception=wp706Enabled\?verifyWp706MainProductPostEvaluationException\(\{candidateSha:resolvedCandidate,git\}\):null/u);
-  assert.match(source, /\.\.\.\(v2Exception\?\.admittedPaths\?\?\[\]\)/u);
   assert.match(source, /\.\.\.\(wp706Exception\?\.admittedPaths\?\?\[\]\)/u);
 });

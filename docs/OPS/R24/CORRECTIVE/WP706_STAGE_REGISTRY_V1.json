@@ -1,0 +1,43 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_STAGE_REGISTRY_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_DELIVERY",
+  "baseIdentity": {
+    "sha": "19a064286e84454367ac91aeb539fd638e73959a",
+    "tree": "3999b6863a4c3d293d0098ce05eb47e4f0296bca"
+  },
+  "admission": {
+    "fencingCounter": 100,
+    "wip": 1,
+    "authorityDigest": "eb35d186abfdba953f5752cc176b2cddda49b979d769dd3aed4327383554b6c3",
+    "stageInstanceDigest": "e1b675c3bca2de53af7b03b34e0e42d3b1181c93282939bf3a8ff93a0a393201",
+    "stageAdmissionDigest": "b3ad131741c75d450c1d65e4d62e8d2df387e399e4dd4a53b6cff21a936c50be",
+    "admittedPathDenominator": 37
+  },
+  "deliveryBindings": {
+    "carrierRegistryDigest": "cc90126d1d0c73d12d458cc8383447fed4c24305b3371d9feae6924bc1d747e4",
+    "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
+    "effectiveStateDigest": "1c43d09cc0c2fbed280979cd2c4dd6cef803687db1fd774fb8f957abaa13cddb"
+  },
+  "nodeOutcome": {
+    "sourceState": "PENDING",
+    "targetStateAfterRequiredDelivery": "DONE",
+    "profileId": "WORD_ROUNDTRIP",
+    "profileVerdict": "BLOCKED",
+    "reportHarnessVerdict": "PASS",
+    "graphDerivedSuccessorStageId": "WP-707_WORD_APPLY",
+    "successorOwnerGateStatus": "UNRESOLVED_DENY",
+    "nextReadyActivated": false
+  },
+  "requiredDeliveryPredicates": [
+    "COMMIT",
+    "PUSH",
+    "PULL_REQUEST",
+    "CANDIDATE_CI",
+    "PROTECTED_MERGE",
+    "EXACT_POSTMERGE_CI",
+    "EXTERNAL_TERMINAL_RECEIPT_AND_LEASE_RELEASE"
+  ]
+}

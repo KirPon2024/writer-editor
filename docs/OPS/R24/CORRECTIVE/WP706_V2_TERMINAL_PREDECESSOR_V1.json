@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_V2_TERMINAL_PREDECESSOR_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "predecessorStageId": "V2_WORD_CLAIM_COMPILER",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "predecessorReceiptSha256": "4c9ba500004601e9a4ecc634755e4c49360027ed47d49134abfdda6fadac9b8b",
+  "predecessorVerificationSha256": "fdbaa8822e978278f10654d48de61c88fad25685b48658e239d4b86d48964a5f",
+  "predecessorLeaseReleaseDispositionSha256": "8d86e62dd630f5e47d52a0ba86f6a38272eb69a92cbb09e6f7bea0676cef44c5",
+  "predecessorDurableCarrierSha256": "5543e4bc981bf09edc0ee5800fbdd70e1bde8fe373a4dab49aae14b3130a7d1e",
+  "predecessorLeaseStatus": "RELEASED",
+  "predecessorWip": 0,
+  "predecessorFence": 99,
+  "predecessorNodeState": "DONE",
+  "predecessorWordProfileVerdict": "BLOCKED",
+  "source": "EXTERNAL_TERMINAL_V2_VERIFIED",
+  "nextLease": {
+    "fencingCounter": 100,
+    "status": "ACTIVE",
+    "wip": 1
+  }
+}

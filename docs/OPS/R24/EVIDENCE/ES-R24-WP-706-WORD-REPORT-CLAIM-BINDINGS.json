@@ -1,0 +1,135 @@
+{
+  "schemaVersion": "ClaimBindingV1",
+  "stampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "contourId": "WP-706_WORD_REPORT",
+  "evidenceClass": "CONTRACT",
+  "verdict": "PASS",
+  "headSha": "19a064286e84454367ac91aeb539fd638e73959a",
+  "originMainSha": "19a064286e84454367ac91aeb539fd638e73959a",
+  "generatedAtUtc": "2026-09-06T02:00:00Z",
+  "oracle": "WP706_REPORT_ONLY_CURRENT_HEAD_POST_AUDIT_AND_TERMINAL_CARRIER_CONTRACTS",
+  "claimBindings": [
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "e0e1b92b6f82ec989cb00bf0c850cb3985a3afd4ac2646b419b981c8b42f6f8b",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "84b343cd0675ee38786a723782e71df3a86998c4754a22a74ead7cd5dbdc0be7",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_FIXTURE_MANIFEST_V1.json",
+      "sha256": "505f1ed8191bfed8c35034688ff8d6150c60028a1e1b80870bbd3c8db4c9fedb",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "00a76e9487bb3bdbceec2274d4becde12fceb31d35220cd4adf793d0a5a640af",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_V2_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "91173e0b6becf17ba811ea0f2ccb5c61989edf8494c6f34ed01f16e0e6092152",
+      "claimTerms": [
+        "DONE"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_CONTRACT_V1.json",
+      "sha256": "dd18c87fe61e27b5aff24f304f6bb1a8513b0ef507816a6523cb9dd280747db6",
+      "claimTerms": [
+        "PASS"
+      ]
+    },
+    {
+      "filePath": "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_OBSERVED_V1.json",
+      "sha256": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c",
+      "claimTerms": [
+        "PASS"
+      ]
+    }
+  ],
+  "implementationArtifactDigests": [
+    {
+      "path": "scripts/ops/r24/word-report-wp706.mjs",
+      "sha256": "861400a1d6ef65cb3e64ea514312753eb10e5026fa16720bc00286b0425e254f",
+      "terms": [
+        "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE"
+      ]
+    },
+    {
+      "path": "test/fixtures/r24-wp706-word-report-fixtures.js",
+      "sha256": "d3fab29267ec88381a90d155ece81454a3bcaf2f4fedda26eea1e824bc0e6e53",
+      "terms": [
+        "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report.test.js",
+      "sha256": "61bdf35fb3579b751d735a5e5de233c2125ab04eadf32d70bef5185317e09196",
+      "terms": [
+        "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report-integration.test.js",
+      "sha256": "d515e0a2834a84bbefcd19b5ca77d0488b05b85e1e68c2ac52c90def699585c1",
+      "terms": [
+        "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE"
+      ]
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report-mutants.test.js",
+      "sha256": "6e6900353737ddfb4a70564e57099bf01eaa71746990b3d9682a834e45a2fc53",
+      "terms": [
+        "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE"
+      ]
+    }
+  ],
+  "executedEvidence": [
+    {
+      "command": "node --test WP706 focused unit integration and mutant profiles",
+      "verdict": "PASS",
+      "tests": {
+        "pass": 9,
+        "fail": 0
+      }
+    },
+    {
+      "command": "actual source mutation profiles",
+      "verdict": "PASS",
+      "mutants": {
+        "killed": 10,
+        "survived": 0
+      }
+    }
+  ],
+  "nonClaims": [
+    "NO_FRESH_WORD_PROVIDER_EXECUTION_BY_WP706",
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

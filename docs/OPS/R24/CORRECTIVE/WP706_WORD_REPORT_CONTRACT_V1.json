@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_WORD_REPORT_CONTRACT_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CURRENT_BASE_EVALUATED_PENDING_CANDIDATE_CI_MERGE_POSTMERGE_AND_EXTERNAL_TERMINAL",
+  "profileId": "WORD_ROUNDTRIP",
+  "profileVerdict": "BLOCKED",
+  "reportHarnessVerdict": "PASS",
+  "claimCeiling": "WP706_NODE_AND_WORD_PROFILE_BLOCKED_REPORT_ONLY",
+  "sourceBindings": {
+    "baseSha": "19a064286e84454367ac91aeb539fd638e73959a",
+    "baseTree": "3999b6863a4c3d293d0098ce05eb47e4f0296bca",
+    "authorityDigest": "eb35d186abfdba953f5752cc176b2cddda49b979d769dd3aed4327383554b6c3",
+    "stageInstanceDigest": "e1b675c3bca2de53af7b03b34e0e42d3b1181c93282939bf3a8ff93a0a393201",
+    "stageAdmissionDigest": "b3ad131741c75d450c1d65e4d62e8d2df387e399e4dd4a53b6cff21a936c50be",
+    "selectionReceiptDigest": "00a76e9487bb3bdbceec2274d4becde12fceb31d35220cd4adf793d0a5a640af",
+    "effectiveGraphBaselineDigest": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
+    "protectedWipBeforeRawDigest": "0ea77252657bb55f8ceaa84a7f2fc0fa58a86be72cd696544df0ac96df670121",
+    "fixtureManifestDigest": "505f1ed8191bfed8c35034688ff8d6150c60028a1e1b80870bbd3c8db4c9fedb",
+    "featureIntegrationManifestDigest": "84b343cd0675ee38786a723782e71df3a86998c4754a22a74ead7cd5dbdc0be7",
+    "predecessorDigest": "91173e0b6becf17ba811ea0f2ccb5c61989edf8494c6f34ed01f16e0e6092152",
+    "c1ReceiptDigest": "e92dc34711f44c36346904b96329f1605d4770b199ca4541574a1df9d6794b3e",
+    "c1MatrixDigest": "9d1b42ea0036f61f7f4fb6883392976c76234a5810d55742ed7d7f762ed62fb5",
+    "observedReportDigest": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c"
+  },
+  "physicalInput": {
+    "physicalHeadSha": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
+    "wordVersion": "16.112",
+    "wordBuild": "16.112.26081010",
+    "syntheticOnly": true,
+    "freshProviderExecutionByWp706": false,
+    "plannedLedgerOperations": 2000,
+    "round01AttemptedOperations": 379,
+    "exactOperationIdsMatched": 0,
+    "exactOperationIdsExpected": 105,
+    "nativeLifecycleVerified": 0,
+    "nativeLifecycleBlocked": 38,
+    "userDocumentsTouched": false
+  },
+  "nonClaims": [
+    "NO_FRESH_WORD_PROVIDER_EXECUTION_BY_WP706",
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

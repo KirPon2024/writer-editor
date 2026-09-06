@@ -1,0 +1,65 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-MODEL",
+  "kind": "MODEL",
+  "artifact": {
+    "implementationArtifacts": [
+      {
+        "path": "scripts/ops/r24/word-report-wp706.mjs",
+        "sha256": "861400a1d6ef65cb3e64ea514312753eb10e5026fa16720bc00286b0425e254f"
+      },
+      {
+        "path": "test/fixtures/r24-wp706-word-report-fixtures.js",
+        "sha256": "d3fab29267ec88381a90d155ece81454a3bcaf2f4fedda26eea1e824bc0e6e53"
+      },
+      {
+        "path": "test/unit/r24-wp706-word-report.test.js",
+        "sha256": "61bdf35fb3579b751d735a5e5de233c2125ab04eadf32d70bef5185317e09196"
+      },
+      {
+        "path": "test/unit/r24-wp706-word-report-integration.test.js",
+        "sha256": "d515e0a2834a84bbefcd19b5ca77d0488b05b85e1e68c2ac52c90def699585c1"
+      },
+      {
+        "path": "test/unit/r24-wp706-word-report-mutants.test.js",
+        "sha256": "6e6900353737ddfb4a70564e57099bf01eaa71746990b3d9682a834e45a2fc53"
+      }
+    ],
+    "rawEvidence": {
+      "basename": "WP706_FOCUSED_PREPUBLICATION_V1.tap",
+      "sha256": "847773ec75da175d71d53261095387f29906d05bbaa674d045025f855c134e0a",
+      "byteLength": 2129,
+      "node": "22.12.0",
+      "npm": "10.9.0",
+      "processExitCode": 0,
+      "testDenominator": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "storedInline": false
+    }
+  },
+  "test": {
+    "denominator": 9,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 0,
+    "todo": 0
+  },
+  "claim": {
+    "ceiling": "WP706_REPORT_ONLY_BLOCKED_WORD_PROFILE",
+    "reportHarnessQualified": true,
+    "wordProfileBlocked": true,
+    "freshProviderExecutionByWp706": false,
+    "programDone": false
+  }
+}

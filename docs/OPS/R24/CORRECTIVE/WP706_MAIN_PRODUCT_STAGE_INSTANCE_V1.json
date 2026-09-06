@@ -1,0 +1,278 @@
+{
+  "schemaVersion": "STAGE_INSTANCE_V2",
+  "stageId": "WP-706_WORD_REPORT",
+  "authorityId": "OWNER_AUTHORIZED_YALKEN_R24_WP706_WORD_REPORT_V1",
+  "ownerAuthorityBindingDigest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+  "sourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+  "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+  "baseSha": "19a064286e84454367ac91aeb539fd638e73959a",
+  "headSha": "19a064286e84454367ac91aeb539fd638e73959a",
+  "treeSha": "3999b6863a4c3d293d0098ce05eb47e4f0296bca",
+  "branch": "codex/r24-wp706-word-report-v1-20260906",
+  "targetRemote": "origin",
+  "fixedBindings": [
+    {
+      "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+      "sha256": "bf3f7e6e3871ebc5e5a4a83b6ded88db3ce6759df59b466b62cba1eea792be2e"
+    },
+    {
+      "path": "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+      "sha256": "d108f4d11faae8451a72e4f610c2d09b7c379bf4eee7f298823c8379cc8cb33e"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "sha256": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "sha256": "4f6e4b3a191e0302ea44646659e8c2f71121af7d808cc0ee768269b4e156840d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_STATE_V1.json",
+      "sha256": "aade0b9376e15d0b1a9b8500e3e4dfa099e2ce4389ebbe9be0b8310ccef2c5bf"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_LEASE_RELEASE_V1.json",
+      "sha256": "ecd3157061bd1868a7541221913b1a81c1f0aed1debc6ca81444519a6d8c0d7d"
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/V2_TERMINAL_RECEIPT_V1.json",
+      "sha256": "17bceeb5206684d27e5668bf715749f92ff51f7b81a5e7f4573485a7a6b94893"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "sha256": "7185d649974289e8b3a0b310203b32dbd0bac96a613adf3cf26b308ff0067df5"
+    },
+    {
+      "path": "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "sha256": "0b2154eb93769ecb6a3b3164159cfe2c87d73c5345fdcb008af5576c630ae9d3"
+    },
+    {
+      "path": "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "sha256": "981dd5c2f9e8d5071e79083c17daed1474d753d34610e1c456d3d07d0969a1ce"
+    },
+    {
+      "path": "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "sha256": "4d8e3e0f7fcafb84f6e4b625af930b7a5fb06d64bbb5e59af6fe2940284315c8"
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
+      "sha256": "e92dc34711f44c36346904b96329f1605d4770b199ca4541574a1df9d6794b3e"
+    },
+    {
+      "path": "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
+      "sha256": "9d1b42ea0036f61f7f4fb6883392976c76234a5810d55742ed7d7f762ed62fb5"
+    },
+    {
+      "path": "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "sha256": "b9cb1d3ad98bbdd0e56dedc4563796f40d9768f1345b57324625ef8386c5bd3f"
+    },
+    {
+      "path": "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
+      "sha256": "ae0abef568a6e8ed25ccd9f3f99919ca8cadc4cba6ed76b4f1e314589500f85d"
+    }
+  ],
+  "operations": {
+    "readPaths": [
+      "AGENTS.md",
+      "CANON.md",
+      "docs/AGENT_START_PROTOCOL.md",
+      "docs/ARCHITECTURE_ONE_PAGE.md",
+      "docs/BIBLE.md",
+      "docs/CONTEXT.md",
+      "docs/DOCUMENTATION_CONSTITUTION.md",
+      "docs/HANDOFF.md",
+      "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/PROGRAM_DAG.json",
+      "docs/OPS/EVIDENCE/YALKEN_SCIENTIFIC_ASSURANCE_PROGRAM_R1/SCIENTIFIC_CONTRACTS.json",
+      "docs/OPS/R24/CORRECTIVE/STANDING_AUTHORITY_BINDING_V1.json",
+      "docs/OPS/R24/CORRECTIVE/TERMINAL_ATTESTATION_TRUST_MODEL_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/V2_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/EXECUTABLE_PROGRAM_R2_4.json",
+      "docs/OPS/R24/EXECUTION_ENVELOPES_R2_4.json",
+      "docs/OPS/R24/MISSION_CONTRACT_R2_4.json",
+      "docs/OPS/R24/OWNER_GATE_REGISTRY_R2_4.json",
+      "docs/OPS/RTK/YALKEN_INTEROP_C1_WORD_FULLBOOK_ROUTE_RECEIPT_V1.json",
+      "docs/OPS/RTK/YALKEN_INTEROP_CHAIN_MATRIX_V1.json",
+      "docs/PROCESS.md",
+      "docs/PRODUCT_GLOSSARY.md",
+      "scripts/ops/r24/canonical-json.mjs",
+      "scripts/ops/r24/claim-binding.mjs",
+      "scripts/ops/r24/corrective/admission-preparation.mjs",
+      "scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+      "scripts/ops/r24/corrective/stage-admission-verifier-v2.mjs",
+      "scripts/ops/r24/executable-program.mjs",
+      "scripts/ops/r24/observed-evidence-v2.mjs",
+      "scripts/ops/r24/word-claim-compiler-v2.mjs",
+      "scripts/ops/rtk-interop-c1-word-fullbook-route-v1.mjs",
+      "test/contracts/rtk-interop-c1-word-fullbook-route.contract.test.js",
+      "test/unit/r24-v2-word-claim-compiler.test.js",
+      "test/unit/r24-v2-word-claim-mutants.test.js"
+    ],
+    "modifyPaths": [
+      ".github/workflows/oss-policy.yml",
+      ".github/workflows/rtk-required.yml",
+      "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "scripts/ops/r24/docs-claim-lint.mjs",
+      "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-v2-terminal-carriers.contract.test.mjs"
+    ],
+    "createPaths": [
+      "docs/OPS/R24/CORRECTIVE/WP706_ACCEPTANCE_MATRIX_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_CARRIER_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_STATE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_FIXTURE_MANIFEST_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_LEASE_RELEASE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_PROTECTED_WIP_BEFORE_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_STAGE_REGISTRY_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_TERMINAL_RECEIPT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_V2_TERMINAL_PREDECESSOR_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_CONTRACT_V1.json",
+      "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_OBSERVED_V1.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-CONTRACT.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-INTEGRATION.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-MODEL.json",
+      "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-MUTANTS.json",
+      "scripts/ops/r24/word-report-wp706.mjs",
+      "test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs",
+      "test/contracts/r24-wp706-terminal-carriers.contract.test.mjs",
+      "test/fixtures/r24-wp706-word-report-fixtures.js",
+      "test/unit/r24-wp706-word-report-integration.test.js",
+      "test/unit/r24-wp706-word-report-mutants.test.js",
+      "test/unit/r24-wp706-word-report.test.js"
+    ],
+    "deletePaths": [],
+    "renamePairs": []
+  },
+  "commands": [
+    "npm run agent:bootstrap -- --objective WP706 Word report-only replay and harness qualification",
+    "npm run agent:preflight -- --declaration /tmp/WP706_TASK_ARCHITECTURE_DECLARATION_V1.json",
+    "node scripts/ops/r24/corrective/stage-admission-verifier-anchor-v2.mjs",
+    "node scripts/ops/r24/corrective/admission-preparation.mjs",
+    "node --test test/unit/r24-wp706-word-report.test.js test/unit/r24-wp706-word-report-integration.test.js test/unit/r24-wp706-word-report-mutants.test.js test/contracts/r24-wp706-terminal-carriers.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs",
+    "npm ci --engine-strict",
+    "npm run build:renderer",
+    "npm run design-os:doctrine",
+    "npm run test:r24-post-audit",
+    "npm run test:r24-e0",
+    "npm run test:rtk",
+    "npm run test:electron",
+    "npm run security:audit:generic-sast",
+    "npm run oss:policy",
+    "npm audit --audit-level=high",
+    "npm test",
+    "npm run agent:guardrails",
+    "node scripts/ops/r24/test-inventory.mjs",
+    "npm run r24:test-inventory",
+    "node scripts/ops/x1-desktop-parity-harness.mjs --json",
+    "git diff --check",
+    "git diff --cached --check",
+    "git status --short --branch",
+    "git add -- EXACT_WP706_WRITE_SET",
+    "git commit -m Implement WP706 Word report harness",
+    "git fetch origin main",
+    "git push origin codex/r24-wp706-word-report-v1-20260906",
+    "gh pr create",
+    "gh pr checks PR --watch",
+    "gh pr merge PR --merge",
+    "gh run watch RUN --exit-status",
+    "node scripts/ops/r24/corrective/protected-wip-snapshot.mjs",
+    "node /tmp/WP706_EXTERNAL_TERMINAL_V1.mjs --issue",
+    "node /tmp/WP706_EXTERNAL_TERMINAL_V1.mjs --verify"
+  ],
+  "acceptanceSignals": [
+    "WP706_REPORT_ONLY_FULLBOOK_HARNESS_QUALIFIED",
+    "V2_CERTIFIED_DONE_FENCE_99_RELEASED_WIP_0",
+    "C1_DISPOSABLE_FULLBOOK_BLOCKER_RECEIPT_EXACTLY_BOUND",
+    "WORD_ROUNDTRIP_PROFILE_VERDICT_BLOCKED",
+    "NO_WORD_PROCESS_OR_USER_DOCUMENT_ACCESS",
+    "NO_APPLY_SAFE_APPLY_ROUTE_PASS_RELEASE_OR_PROGRAM_PASS_AUTHORITY",
+    "SEVEN_REQUIRED_TEST_PROFILES_CLOSED",
+    "ACTUAL_SOURCE_IMPLEMENTATION_MUTANTS_KILLED",
+    "NORMAL_PROTECTED_MERGE_EXACT_POSTMERGE_AND_TERMINAL_RELEASE",
+    "WP706_FENCE_100_RELEASED_WIP_0",
+    "PRODUCT_GRAPH_INCREMENT_ONE",
+    "WP707_NOT_ACTIVATED_WITHOUT_OWNER_GATE",
+    "PROGRAM_DONE_FALSE"
+  ],
+  "authorityCeiling": [
+    "BOUNDED_CI_OPERATION",
+    "BOUNDED_REPOSITORY_WRITE",
+    "BRANCH_WORKTREE",
+    "COMMIT",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT",
+    "LOCAL_TEST_BUILD_EVIDENCE",
+    "PR_CREATE_OR_UPDATE",
+    "PUSH",
+    "READ_ONLY_GITHUB_API"
+  ],
+  "externalEffects": [
+    "GITHUB_CI",
+    "GITHUB_PR",
+    "GITHUB_PROTECTED_MERGE",
+    "GIT_PUSH",
+    "LOCAL_EXTERNAL_TERMINAL_ARTIFACT"
+  ],
+  "predecessors": [
+    {
+      "id": "V2_PREDECESSOR_TERMINAL_RECEIPT",
+      "digest": "4c9ba500004601e9a4ecc634755e4c49360027ed47d49134abfdda6fadac9b8b",
+      "status": "EXTERNALLY_VERIFIED_DONE"
+    },
+    {
+      "id": "V2_PREDECESSOR_TERMINAL_VERIFICATION",
+      "digest": "fdbaa8822e978278f10654d48de61c88fad25685b48658e239d4b86d48964a5f",
+      "status": "PASS"
+    },
+    {
+      "id": "V2_LEASE_RELEASE_DISPOSITION",
+      "digest": "8d86e62dd630f5e47d52a0ba86f6a38272eb69a92cbb09e6f7bea0676cef44c5",
+      "status": "RELEASED_WIP_0"
+    },
+    {
+      "id": "C1_FULLBOOK_ROUTE_RECEIPT",
+      "digest": "e92dc34711f44c36346904b96329f1605d4770b199ca4541574a1df9d6794b3e",
+      "status": "FAIL_CLOSED_BLOCKER_EVIDENCE"
+    },
+    {
+      "id": "STANDING_OWNER_AUTHORITY_BINDING",
+      "digest": "be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
+      "status": "ACTIVE_WITH_PARENT_WP706_DIRECTION"
+    }
+  ],
+  "lease": {
+    "fencingCounter": 100,
+    "status": "ACTIVE",
+    "wip": 1,
+    "predecessorReleaseDigest": "8d86e62dd630f5e47d52a0ba86f6a38272eb69a92cbb09e6f7bea0676cef44c5"
+  },
+  "model": "gpt-5.6-sol",
+  "reasoningEffort": "xhigh",
+  "stopConditions": [
+    "BASE_OR_ORIGIN_MAIN_DRIFT",
+    "DIRTY_ACTIVE_WORKTREE_BEFORE_FIRST_WRITE",
+    "PREDECESSOR_TERMINAL_OR_RELEASE_DRIFT",
+    "C1_RECEIPT_OR_WORD_PROFILE_DRIFT",
+    "WORD_PROVIDER_INVOCATION_REQUIRED",
+    "USER_DOCUMENT_ACCESS_REQUIRED",
+    "ROUTE_PASS_APPLY_OR_SAFE_APPLY_PROMOTION",
+    "SECOND_ACTIVE_CONTOUR",
+    "PROTECTED_WIP_MUTATION",
+    "REQUIRED_TEST_SKIP_OR_ZERO_DENOMINATOR",
+    "CANDIDATE_OR_POSTMERGE_CI_NOT_GREEN"
+  ]
+}

@@ -14,9 +14,9 @@
     "baselineDigest": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
     "wordReportContractDigest": "dd18c87fe61e27b5aff24f304f6bb1a8513b0ef507816a6523cb9dd280747db6",
     "observedReportDigest": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c",
-    "carrierRegistryDigest": "7a410f0ad70abc2a9a69d6ef87b707bcb2da2c2bb5b5d2bca820a69e2ad4779c",
+    "carrierRegistryDigest": "b42f2e768f746d68f54db7ca35b51f40649556b19508b4e92808e79b3c986e76",
     "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
-    "claimBindingDigest": "3cfdcce9ce8e5dbaafb7decf709c9217ba3940c41196c591df8bd464dbc142d5"
+    "claimBindingDigest": "e6091bc4e9b86eb96d9e10ca6c1bddaa3e74aaaf448439ea45ebb976896216fb"
   },
   "sourceCounts": {
     "BLOCKED_TYPED": 2,

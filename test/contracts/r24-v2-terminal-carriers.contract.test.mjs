@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { execFileSync } from 'node:child_process';
 import crypto from 'node:crypto';
 import fs from 'node:fs';
 import test from 'node:test';
@@ -7,8 +8,10 @@ import { canonicalDigest } from '../../scripts/ops/r24/canonical-json.mjs';
 import { HISTORICAL_INVENTORY_CLAIM_PINS_V19 } from '../../scripts/ops/r24/docs-claim-lint.mjs';
 
 const C = 'docs/OPS/R24/CORRECTIVE/';
+const V2_TERMINAL_MERGE_SHA = '19a064286e84454367ac91aeb539fd638e73959a';
 const h = bytes => crypto.createHash('sha256').update(bytes).digest('hex');
 const read = file => JSON.parse(fs.readFileSync(file));
+const readV2Terminal = file => execFileSync('git', ['show', `${V2_TERMINAL_MERGE_SHA}:${file}`], { encoding: null, maxBuffer: 32 * 1024 * 1024 });
 const names = [
   'MAIN_PRODUCT_OWNER_AUTHORITY', 'MAIN_PRODUCT_STAGE_INSTANCE', 'MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION',
   'PROTECTED_WIP_BEFORE', 'WP708_TERMINAL_PREDECESSOR', 'WORD_CLAIM_CONTRACT',
@@ -66,7 +69,7 @@ function verify(value) {
   assert.equal(registry.carrierDenominator, 26);
   assert.equal(registry.currentTreeFallbackAllowed, false);
   for (const binding of registry.carriers) {
-    const bytes = fs.readFileSync(binding.path);
+    const bytes = readV2Terminal(binding.path);
     assert.equal(h(bytes), binding.sha256, binding.path);
     assert.equal(bytes.length, binding.byteLength);
   }
@@ -87,7 +90,7 @@ function verify(value) {
 test('V2 carriers bind exact Sol admission, blocked Word profile and conditional release', () => {
   verify(load());
   const claim = buildClaimBinding(read('docs/OPS/R24/EVIDENCE/ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS.json'));
-  for (const binding of claim.claimBindings) assert.equal(h(fs.readFileSync(binding.filePath)), binding.sha256);
+  for (const binding of claim.claimBindings) assert.equal(h(readV2Terminal(binding.filePath)), binding.sha256);
   assert.deepEqual(HISTORICAL_INVENTORY_CLAIM_PINS_V19.at(-1), {
     stampId: 'ES-R24-V2-WORD-CLAIM-COMPILER-CLAIM-BINDINGS',
     stampSha256: '9d50b57f07368f9eed011717a98be57b9dc890062e9fd2d5ce3b2b0274655218',

@@ -15,7 +15,7 @@
   "approvals": [
     {
       "filePath": ".github/workflows/oss-policy.yml",
-      "sha256": "99a9af6d186cf325287000163878bd2359aecc29e94ec223274e2f4d9352c8d4",
+      "sha256": "f6365e2cb8b9284903f5be41df963dfc2f292c487212d0c6f1cf8b0396a64e8e",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."
@@ -43,7 +43,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP706_CARRIER_REGISTRY_V1.json",
-      "sha256": "cc90126d1d0c73d12d458cc8383447fed4c24305b3371d9feae6924bc1d747e4",
+      "sha256": "fe874ad15f27cc1b34f193840bcc773f4d4f343f57a4d912de8f6c676cd027e8",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."
@@ -57,7 +57,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_STATE_V1.json",
-      "sha256": "1c43d09cc0c2fbed280979cd2c4dd6cef803687db1fd774fb8f957abaa13cddb",
+      "sha256": "0a19b6fa45a2c02bc0b2f7f041e4d5ca16b70595e6c1337f20810b56d1c9c4fa",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."
@@ -78,7 +78,7 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP706_LEASE_RELEASE_V1.json",
-      "sha256": "5e4118cf399916073e9c4636f006d7faf314136080fdb2f11e9d6f448114299e",
+      "sha256": "3be63c5635abffa4931f51763baf8ea35b7db3e84ef6e4eb68f9b778ebd81b95",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."
@@ -120,14 +120,14 @@
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP706_STAGE_REGISTRY_V1.json",
-      "sha256": "80b22b2f6d286817a2eb762e27a657c743b31662aa1cc3505076d55f1cbfac9d",
+      "sha256": "9a269b3fd25b652a3575e75b0ef73c57980e8509bf4b86cfc473d3c5ba52497e",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."
     },
     {
       "filePath": "docs/OPS/R24/CORRECTIVE/WP706_TERMINAL_RECEIPT_V1.json",
-      "sha256": "554acf15fec1b769e085c3098a3a318f3ed3b0ab927f470a464a79fc478dfd93",
+      "sha256": "07ab98aa62c03fe8b97313d7ecf0b70b7c7b91bcad6317a6fb7c6c67d0be759f",
       "approvedBy": "owner-standing-authority:be68bd97021d13fbfb75c73791bda7f6bfeebecebf525d4a927d1a4c9fe9efd6",
       "approvedAtUtc": "2026-09-06T02:00:00Z",
       "rationale": "Bounded WP706 report-only harness; Word remains BLOCKED, no provider invocation or apply authority, and WP707 remains owner-gated."

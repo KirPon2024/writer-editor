@@ -17,10 +17,10 @@
     "releaseBasis": "WP706_REQUIRED_DELIVERY_AND_EXTERNAL_TERMINAL_VERIFIED"
   },
   "bindings": {
-    "carrierRegistryDigest": "cc90126d1d0c73d12d458cc8383447fed4c24305b3371d9feae6924bc1d747e4",
+    "carrierRegistryDigest": "fe874ad15f27cc1b34f193840bcc773f4d4f343f57a4d912de8f6c676cd027e8",
     "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
-    "effectiveStateDigest": "1c43d09cc0c2fbed280979cd2c4dd6cef803687db1fd774fb8f957abaa13cddb",
-    "stageRegistryDigest": "80b22b2f6d286817a2eb762e27a657c743b31662aa1cc3505076d55f1cbfac9d"
+    "effectiveStateDigest": "0a19b6fa45a2c02bc0b2f7f041e4d5ca16b70595e6c1337f20810b56d1c9c4fa",
+    "stageRegistryDigest": "9a269b3fd25b652a3575e75b0ef73c57980e8509bf4b86cfc473d3c5ba52497e"
   },
   "releasePredicates": [
     "EXACT_CANDIDATE_COMMIT",

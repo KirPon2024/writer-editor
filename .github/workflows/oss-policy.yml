@@ -35,7 +35,6 @@ jobs:
       - name: Falsify inventory boundaries
         run: node --test test/contracts/r24-c1b-test-inventory.contract.test.mjs
       - name: Run broad maintained baseline
-        # Historical P03 no-authority compatibility anchor only: docs/OPS/R24/CORRECTIVE/WP708_GOVERNANCE_CHANGE_APPROVALS_V1.json
         env:
           GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: npm test
@@ -162,11 +161,9 @@ jobs:
       - run: npm ci --engine-strict
       - run: node scripts/ops/r24/corrective/post-audit-corrections.mjs --check-static
       - run: node scripts/ops/r24/corrective/audit-r2-corrections.mjs --check
-      # Historical P03 no-authority compatibility anchor only: docs/OPS/R24/CORRECTIVE/WP708_GOVERNANCE_CHANGE_APPROVALS_V1.json
       - env:
           EFFECTIVE_MODE: STRICT
           GOVERNANCE_CHANGE_APPROVALS_PATH: docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
-        # Historical P03 no-authority compatibility anchor only: docs/OPS/R24/CORRECTIVE/WP708_GOVERNANCE_CHANGE_APPROVALS_V1.json
         run: node scripts/ops/governance-change-detection.mjs --json --base-ref origin/main --approvals-path docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json
 
   oss-policy-core:

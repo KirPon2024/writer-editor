@@ -158,6 +158,9 @@ jobs:
       - name: Run R2.4 V2 Word claim compiler gate
         run: node --test test/unit/r24-v2-word-claim-compiler.test.js test/unit/r24-v2-word-claim-mutants.test.js
 
+      - name: Run R2.4 WP-706 Word report-only harness gate
+        run: node --test test/unit/r24-wp706-word-report.test.js test/unit/r24-wp706-word-report-integration.test.js test/unit/r24-wp706-word-report-mutants.test.js test/contracts/r24-wp706-terminal-carriers.contract.test.mjs test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs
+
       - name: Run maintained Atlas event contract graph
         run: npm run -s test:atlas-event-contract
 

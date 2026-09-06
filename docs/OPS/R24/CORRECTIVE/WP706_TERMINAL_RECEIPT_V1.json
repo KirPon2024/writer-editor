@@ -1,0 +1,96 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_TERMINAL_RECEIPT_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_LOCAL_AND_EXTERNAL_DELIVERY_PREDICATES",
+  "issuedAtUtc": "2026-09-06T02:00:00Z",
+  "baseIdentity": {
+    "sha": "19a064286e84454367ac91aeb539fd638e73959a",
+    "tree": "3999b6863a4c3d293d0098ce05eb47e4f0296bca",
+    "branch": "codex/r24-wp706-word-report-v1-20260906"
+  },
+  "bindings": {
+    "carrierRegistryDigest": "b42f2e768f746d68f54db7ca35b51f40649556b19508b4e92808e79b3c986e76",
+    "claimBindingDigest": "e6091bc4e9b86eb96d9e10ca6c1bddaa3e74aaaf448439ea45ebb976896216fb",
+    "leaseReleaseDigest": "ef72db647b10c0123d747aa313f31285102af7e2b6cde19fbc2bc8e6af5bfc16",
+    "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
+    "effectiveStateDigest": "ab2458ecf45c7482ff8edea8c84ad25253adc42213de49a6496a7d37b897d26a",
+    "stageRegistryDigest": "c87ed7539c05eb3adbace3062bcd17499ff53a05bfd77a0df69b304ef3ad3aa7",
+    "wordReportObservedDigest": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c"
+  },
+  "localEvidence": {
+    "focusedTests": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0
+    },
+    "actualSourceMutants": {
+      "killed": 10,
+      "survived": 0,
+      "importFailures": 0
+    },
+    "inventory": {
+      "files": 1444,
+      "requiredSkips": 0,
+      "unexplainedSkips": 0
+    }
+  },
+  "activationOutcome": {
+    "nodeId": "WP-706_WORD_REPORT",
+    "sourceState": "PENDING",
+    "targetStateAfterDelivery": "DONE",
+    "doneCount": 88,
+    "blockedTypedCount": 2,
+    "pendingCount": 9,
+    "ineligibleOptionalCount": 10,
+    "wordProfileVerdict": "BLOCKED",
+    "reportHarnessVerdict": "PASS",
+    "graphDerivedSuccessor": "WP-707_WORD_APPLY",
+    "successorOwnerGateStatus": "UNRESOLVED_DENY",
+    "nextReadySet": [],
+    "nextReadyActivated": false
+  },
+  "requiredDeliveryPredicates": [
+    {
+      "id": "COMMIT",
+      "status": "PENDING"
+    },
+    {
+      "id": "PUSH",
+      "status": "PENDING"
+    },
+    {
+      "id": "PULL_REQUEST",
+      "status": "PENDING"
+    },
+    {
+      "id": "CANDIDATE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "PROTECTED_MERGE",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXACT_POSTMERGE_CI",
+      "status": "PENDING"
+    },
+    {
+      "id": "EXTERNAL_TERMINAL_RECEIPT_AND_LEASE_RELEASE",
+      "status": "PENDING"
+    }
+  ],
+  "nonClaims": [
+    "NO_FRESH_WORD_PROVIDER_EXECUTION_BY_WP706",
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

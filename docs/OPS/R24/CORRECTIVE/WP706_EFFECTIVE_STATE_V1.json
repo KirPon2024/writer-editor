@@ -1,0 +1,61 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_EFFECTIVE_STATE_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "CONDITIONAL_DONE_PENDING_REQUIRED_DELIVERY",
+  "baseSha": "19a064286e84454367ac91aeb539fd638e73959a",
+  "sourceBindings": {
+    "baselineDigest": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
+    "wordReportContractDigest": "dd18c87fe61e27b5aff24f304f6bb1a8513b0ef507816a6523cb9dd280747db6",
+    "observedReportDigest": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c",
+    "carrierRegistryDigest": "b42f2e768f746d68f54db7ca35b51f40649556b19508b4e92808e79b3c986e76",
+    "acceptanceMatrixDigest": "ea0aec20fa9d2bcd1bc4b79c2be5f77819870e6403d20d1d4de071e13c830e43",
+    "claimBindingDigest": "e6091bc4e9b86eb96d9e10ca6c1bddaa3e74aaaf448439ea45ebb976896216fb"
+  },
+  "sourceCounts": {
+    "BLOCKED_TYPED": 2,
+    "DONE": 87,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 10
+  },
+  "targetCounts": {
+    "BLOCKED_TYPED": 2,
+    "DONE": 88,
+    "INELIGIBLE_OPTIONAL": 10,
+    "PENDING": 9
+  },
+  "targetGraph": {
+    "completeGraphDenominator": 109,
+    "statesDigest": "db7d82128c30bed68a377a3d64c37f1552b015af07b7f9f5c017aa0ad3163f6a",
+    "transition": {
+      "nodeId": "WP-706_WORD_REPORT",
+      "from": "PENDING",
+      "to": "DONE",
+      "basis": "REPORT_ONLY_HARNESS_DELIVERED_WORD_PROFILE_REMAINS_BLOCKED"
+    }
+  },
+  "wordProfileVerdict": "BLOCKED",
+  "wordProfileTerminalPass": false,
+  "nextReadySet": [],
+  "ownerGatedSuccessorSet": [
+    "WP-707_WORD_APPLY"
+  ],
+  "nextReadyActivated": false,
+  "successorAuthorityGranted": false,
+  "ownerGateStatus": "UNRESOLVED_DENY",
+  "nonClaims": [
+    "NO_FRESH_WORD_PROVIDER_EXECUTION",
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_RELEASE_READINESS",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_PROGRAM_DONE"
+  ]
+}

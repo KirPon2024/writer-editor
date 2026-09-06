@@ -1,0 +1,172 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_CARRIER_REGISTRY_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "ADMITTED_CANDIDATE_CARRIER_SET",
+  "byteIdentityRole": "ADMITTED_CANDIDATE_ARTIFACT_MANIFEST_NOT_BASE_TREE_CONTENTS",
+  "currentTreeFallbackAllowed": false,
+  "carrierDenominator": 29,
+  "excludedDependentCarriers": [
+    "docs/OPS/R24/CORRECTIVE/WP706_CARRIER_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_ACCEPTANCE_MATRIX_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_STATE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_STAGE_REGISTRY_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_LEASE_RELEASE_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_TERMINAL_RECEIPT_V1.json",
+    "docs/OPS/R24/CORRECTIVE/WP706_GOVERNANCE_CHANGE_APPROVALS_V1.json",
+    "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS.json"
+  ],
+  "carriers": [
+    {
+      "path": ".github/workflows/oss-policy.yml",
+      "sha256": "f6365e2cb8b9284903f5be41df963dfc2f292c487212d0c6f1cf8b0396a64e8e",
+      "byteLength": 21555
+    },
+    {
+      "path": ".github/workflows/rtk-required.yml",
+      "sha256": "5c55150e990d0f3b4685cf89a763f33527c1241d615a63fe225785900271545a",
+      "byteLength": 5397
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/C1B_TEST_INVENTORY_V1.json",
+      "sha256": "18ad98a0dde943ba3f96a9517dbcca3380c4cac8090eaada92d8b9129e79661b",
+      "byteLength": 437664
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_EFFECTIVE_GRAPH_BASELINE_V1.json",
+      "sha256": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
+      "byteLength": 5644
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_FEATURE_INTEGRATION_MANIFEST_V1.json",
+      "sha256": "84b343cd0675ee38786a723782e71df3a86998c4754a22a74ead7cd5dbdc0be7",
+      "byteLength": 1547
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_FIXTURE_MANIFEST_V1.json",
+      "sha256": "505f1ed8191bfed8c35034688ff8d6150c60028a1e1b80870bbd3c8db4c9fedb",
+      "byteLength": 1920
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_OWNER_AUTHORITY_V1.json",
+      "sha256": "eb35d186abfdba953f5752cc176b2cddda49b979d769dd3aed4327383554b6c3",
+      "byteLength": 11822
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_SELECTION_RECEIPT_V1.json",
+      "sha256": "00a76e9487bb3bdbceec2274d4becde12fceb31d35220cd4adf793d0a5a640af",
+      "byteLength": 1287
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_STAGE_ADMISSION_ATTESTATION_V1.json",
+      "sha256": "b3ad131741c75d450c1d65e4d62e8d2df387e399e4dd4a53b6cff21a936c50be",
+      "byteLength": 1756
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_MAIN_PRODUCT_STAGE_INSTANCE_V1.json",
+      "sha256": "e1b675c3bca2de53af7b03b34e0e42d3b1181c93282939bf3a8ff93a0a393201",
+      "byteLength": 12302
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_PROTECTED_WIP_BEFORE_V1.json",
+      "sha256": "0ea77252657bb55f8ceaa84a7f2fc0fa58a86be72cd696544df0ac96df670121",
+      "byteLength": 118388
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_V2_TERMINAL_PREDECESSOR_V1.json",
+      "sha256": "91173e0b6becf17ba811ea0f2ccb5c61989edf8494c6f34ed01f16e0e6092152",
+      "byteLength": 1173
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_CONTRACT_V1.json",
+      "sha256": "dd18c87fe61e27b5aff24f304f6bb1a8513b0ef507816a6523cb9dd280747db6",
+      "byteLength": 2805
+    },
+    {
+      "path": "docs/OPS/R24/CORRECTIVE/WP706_WORD_REPORT_OBSERVED_V1.json",
+      "sha256": "f5ef247277de2bf8ada307d9a4fe0eb23f20839609b495e361742304babb592c",
+      "byteLength": 2702
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-CONTRACT.json",
+      "sha256": "e788e92f7c93c3955d0ec299b65b4bfb3890f61f3186dc1feb29dce23c6f916d",
+      "byteLength": 862
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-INTEGRATION.json",
+      "sha256": "de6f4328707c839aecae3afe230c38f0d27eab90a4499c460fedd9bdf0feef80",
+      "byteLength": 1177
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-MODEL.json",
+      "sha256": "3ae46ad232e78f2acea3718db29b9396778f048075221f036d940fa21d458677",
+      "byteLength": 2072
+    },
+    {
+      "path": "docs/OPS/R24/EVIDENCE/ES-R24-WP-706-WORD-REPORT-MUTANTS.json",
+      "sha256": "3132ec84b823dc36d18ba70faebac9597f996bc0df069514402c75c8db11c7f1",
+      "byteLength": 1041
+    },
+    {
+      "path": "scripts/ops/r24/corrective/post-audit-certification-set.mjs",
+      "sha256": "de8210cb73b499ade5f24eb6eeb97cd7b4a2c1bedfb627c88cbed67e5c439fb5",
+      "byteLength": 728810
+    },
+    {
+      "path": "scripts/ops/r24/docs-claim-lint.mjs",
+      "sha256": "3feab54ad15022b14586853ce03f3e495d216a25f3e4c4356f41bcc3513a1c1c",
+      "byteLength": 20115
+    },
+    {
+      "path": "scripts/ops/r24/word-report-wp706.mjs",
+      "sha256": "861400a1d6ef65cb3e64ea514312753eb10e5026fa16720bc00286b0425e254f",
+      "byteLength": 13045
+    },
+    {
+      "path": "test/contracts/r24-v2-post-audit-compatibility.contract.test.mjs",
+      "sha256": "e421ae16074098045e31e9f050d2df4b2adf0b96048ddaa115bebb21fc03c0c8",
+      "byteLength": 5838
+    },
+    {
+      "path": "test/contracts/r24-v2-terminal-carriers.contract.test.mjs",
+      "sha256": "78fb8d4e63ba8ad4bbf94572441e26670c48d0d213a948cb2811db7f24af60f5",
+      "byteLength": 8957
+    },
+    {
+      "path": "test/contracts/r24-wp706-post-audit-compatibility.contract.test.mjs",
+      "sha256": "c3de67441c6ea71dd1079407267f37509c395adf3901bc88b17ab220876020b1",
+      "byteLength": 5800
+    },
+    {
+      "path": "test/contracts/r24-wp706-terminal-carriers.contract.test.mjs",
+      "sha256": "9033ce5f7aa3202600717f2e1610e52daa3204e06986794c69f20a3fb1f02179",
+      "byteLength": 8418
+    },
+    {
+      "path": "test/fixtures/r24-wp706-word-report-fixtures.js",
+      "sha256": "d3fab29267ec88381a90d155ece81454a3bcaf2f4fedda26eea1e824bc0e6e53",
+      "byteLength": 1435
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report-integration.test.js",
+      "sha256": "d515e0a2834a84bbefcd19b5ca77d0488b05b85e1e68c2ac52c90def699585c1",
+      "byteLength": 2624
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report-mutants.test.js",
+      "sha256": "6e6900353737ddfb4a70564e57099bf01eaa71746990b3d9682a834e45a2fc53",
+      "byteLength": 3958
+    },
+    {
+      "path": "test/unit/r24-wp706-word-report.test.js",
+      "sha256": "61bdf35fb3579b751d735a5e5de233c2125ab04eadf32d70bef5185317e09196",
+      "byteLength": 4247
+    }
+  ]
+}

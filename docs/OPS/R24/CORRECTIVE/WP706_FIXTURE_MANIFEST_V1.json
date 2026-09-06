@@ -1,0 +1,66 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_FIXTURE_MANIFEST_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "denominator": 7,
+  "fixtures": [
+    {
+      "profileId": "CONTRACT_NEGATIVE",
+      "selector": "SCIENTIFIC_AND_PROGRAM_CONTRACT_MUTATIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "UNIT",
+      "selector": "WORD_REPORT_VALID_AND_INVALID_INPUTS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "INTEGRATION",
+      "selector": "C1_MATRIX_V2_TERMINAL_AND_CURRENT_HEAD_BINDING",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "IMPLEMENTATION_MUTANTS",
+      "selector": "TEN_ACTUAL_SOURCE_MUTATIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "HOSTILE_CORPUS",
+      "selector": "ROUTE_APPLY_DOCUMENT_PROVIDER_RELEASE_AND_PROGRAM_PROMOTIONS",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "ROUNDTRIP",
+      "selector": "C1_DISPOSABLE_FULLBOOK_ROUND01_OBSERVED_BLOCKER_REPLAY",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    },
+    {
+      "profileId": "PHYSICAL_PROVIDER",
+      "selector": "COMMITTED_C1_WORD_16_112_PHYSICAL_BLOCKER_EVIDENCE_NO_NEW_INVOCATION",
+      "synthetic": true,
+      "userDocuments": 0,
+      "required": true
+    }
+  ],
+  "zeroDenominatorFails": true,
+  "skipsFailRequiredEvidence": true
+}

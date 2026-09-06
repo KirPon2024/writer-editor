@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_MAIN_PRODUCT_SELECTION_RECEIPT_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS_SELECTED_NEXT_READY_REPORT_CONTOUR",
+  "selectedNode": "WP-706_WORD_REPORT",
+  "selectedNodeStateBefore": "PENDING",
+  "rawSchedulerReadySet": [
+    "WP-706_WORD_REPORT"
+  ],
+  "selectionClass": "GRAPH_DERIVED_NEXT_READY_REPORT_ONLY_CONTOUR",
+  "selectionAuthority": "CURRENT_OWNER_ASSIGNMENT_PLUS_PARENT_EXPLICIT_DIRECTION",
+  "ownerGate": null,
+  "dependencies": {
+    "WP-705_NEGOTIATION_CORPUS": "DONE",
+    "V2_WORD_CLAIM_COMPILER": "DONE",
+    "WP-207_WRITER_REFINEMENT": "DONE",
+    "W0_WORD_PHYSICAL_RECERTIFICATION": "DONE"
+  },
+  "effectiveGraphBaselineDigest": "d0af78c9f2e418f470de00455bec796ea7982d39a592a3884e84bf544d945c67",
+  "nonClaims": [
+    "NO_OWNER_GATE_INVENTION",
+    "NO_WORD_PROVIDER_INVOCATION",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_WORD_PROFILE_PROMOTION",
+    "NO_PROGRAM_DONE"
+  ]
+}

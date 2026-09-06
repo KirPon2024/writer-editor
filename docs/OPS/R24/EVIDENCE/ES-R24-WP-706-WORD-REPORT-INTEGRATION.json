@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "YALKEN_R24_EVIDENCE_STAMP_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-INTEGRATION",
+  "kind": "INTEGRATION",
+  "observations": {
+    "v2NodeCertifiedDone": true,
+    "fullBookDenominatorBound": true,
+    "plannedLedgerOperations": 2000,
+    "round01AttemptedOperations": 379,
+    "exactOperationIdsMatched": 0,
+    "nativeLifecycleVerified": 0,
+    "routePass": false,
+    "userDocumentsTouched": false,
+    "wordProductTerminalPass": false,
+    "profileVerdict": "BLOCKED",
+    "freshProviderExecutionByWp706": false
+  },
+  "sourceDigests": {
+    "c1Receipt": "e92dc34711f44c36346904b96329f1605d4770b199ca4541574a1df9d6794b3e",
+    "c1Matrix": "9d1b42ea0036f61f7f4fb6883392976c76234a5810d55742ed7d7f762ed62fb5",
+    "v2ExternalTerminal": "4c9ba500004601e9a4ecc634755e4c49360027ed47d49134abfdda6fadac9b8b"
+  }
+}

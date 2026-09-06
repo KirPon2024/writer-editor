@@ -1,0 +1,81 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_WORD_REPORT_OBSERVED_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "status": "WP706_REPORT_ONLY_HARNESS_QUALIFIED_BLOCKED",
+  "nodeVerdict": "DONE_AFTER_REQUIRED_DELIVERY",
+  "profileId": "WORD_ROUNDTRIP",
+  "profileVerdict": "BLOCKED",
+  "programVerdict": "NEEDS_MORE_EVIDENCE",
+  "programDone": false,
+  "evaluationIdentity": {
+    "headSha": "19a064286e84454367ac91aeb539fd638e73959a",
+    "originMainSha": "19a064286e84454367ac91aeb539fd638e73959a",
+    "treeSha": "3999b6863a4c3d293d0098ce05eb47e4f0296bca"
+  },
+  "physicalSource": {
+    "evidenceRole": "COMMITTED_HISTORICAL_DISPOSABLE_PROVIDER_BLOCKER_EVIDENCE",
+    "freshProviderExecutionByWp706": false,
+    "physicalHeadSha": "8504d5fa8db9af9456cc6a6d0ec8b1aa8ad4d81a",
+    "wordVersion": "16.112",
+    "wordBuild": "16.112.26081010",
+    "corpusId": "YALKEN_WHOLE_BOOK_CANONICAL_SYNTHETIC_V1_20260815T000001Z",
+    "targetWords": 42000,
+    "sceneCount": 21,
+    "plannedLedgerOperations": 2000,
+    "round01AttemptedOperations": 379,
+    "completeRoundSemanticOracleGreen": true,
+    "routeCompleted": false
+  },
+  "blockerVector": {
+    "exactTextOperationIds": {
+      "matched": 0,
+      "expected": 105
+    },
+    "productReturnApplyGreen": false,
+    "formattingApplyCode": "RTK_FORMATTING_OPERATION_UNKNOWN_KEY",
+    "nativeLifecycle": {
+      "verified": 0,
+      "blocked": 38
+    },
+    "completedRoundReuseBindingOk": false
+  },
+  "harnessQualification": {
+    "reportOnly": true,
+    "receiptContractValid": true,
+    "matrixBindingValid": true,
+    "denominatorClosed": true,
+    "zeroDenominatorFails": true,
+    "skipsFailRequiredEvidence": true,
+    "expectedFullBookDenominatorDigest": "b079b65f20491b8fc50fe4deb5fa4c8372e804a31b32f59c1a77748bfe023530",
+    "expectedWordProfileDigest": "966a5f2df9676329e074f3314798bb28ac5f2a57389b72cf6e03701e5fb1b265"
+  },
+  "authority": {
+    "wordProcessInvoked": false,
+    "productMutationAuthority": false,
+    "productApplyAuthority": false,
+    "safeApplyExpansion": false,
+    "routePassClaim": false,
+    "wordTerminalPass": false,
+    "userDocumentsAllowed": false,
+    "userDocumentsRead": 0,
+    "userDocumentsMutated": 0,
+    "runtimeNetworkActivated": false
+  },
+  "successor": {
+    "stageId": "WP-707_WORD_APPLY",
+    "graphDerived": true,
+    "activated": false,
+    "ownerGateRequired": "WORD_MULTI_SCENE_SEPARATE_ADR"
+  },
+  "nonClaims": [
+    "NO_FRESH_WORD_PROVIDER_EXECUTION_BY_WP706",
+    "NO_WORD_PRODUCT_TERMINAL_PASS",
+    "NO_ROUTE_PASS",
+    "NO_PRODUCT_APPLY_AUTHORITY",
+    "NO_SAFE_APPLY_EXPANSION",
+    "NO_USER_DOCUMENT_AUTHORITY",
+    "NO_SUCCESSOR_ACTIVATION",
+    "NO_RELEASE_READINESS",
+    "NO_PROGRAM_DONE"
+  ]
+}

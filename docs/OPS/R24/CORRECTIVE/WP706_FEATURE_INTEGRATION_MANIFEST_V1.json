@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_FEATURE_INTEGRATION_MANIFEST_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "sourcePlanRoles": {
+    "externalSourcePlanDigest": "1f5b5b7b63a9f7806db1ecbcd8fa5f16484a73df3fe51f9a5d699d52f4c3fb9a",
+    "compiledProgramFileDigest": "da754a8a0e2c09014f342b908502e83ab975488ab665feb2a8a66d0b0d46ae0a",
+    "rolesDistinct": true
+  },
+  "programDone": false,
+  "status": "PASS_REPORT_ONLY_PROJECTION",
+  "productPlane": {
+    "mutation": false,
+    "commands": [],
+    "events": [],
+    "effects": [],
+    "backgroundJobs": []
+  },
+  "interfacePlane": {
+    "uiSurface": false,
+    "designOs": false,
+    "rendererMutation": false
+  },
+  "projection": {
+    "kind": "WORD_FULLBOOK_REPORT_ONLY_PROJECTION",
+    "inputs": [
+      "C1_COMMITTED_FULLBOOK_BLOCKER_RECEIPT",
+      "C1_INTEROP_CHAIN_MATRIX",
+      "V2_EXTERNAL_TERMINAL_RELEASE",
+      "SCIENTIFIC_WORD_CONTRACT"
+    ],
+    "output": "BLOCKED_WORD_REPORT_WITH_EXACT_DENOMINATORS"
+  },
+  "stateClasses": [
+    "DERIVED_STATE"
+  ],
+  "ports": {
+    "productPorts": [],
+    "designOsReadOnlyPorts": []
+  },
+  "guards": [
+    "EXACT_HEAD_TREE",
+    "EXACT_SOURCE_DIGESTS",
+    "NO_PROVIDER_INVOCATION",
+    "NO_PROFILE_EVIDENCE_TRANSFER",
+    "NO_APPLY_OR_USER_DOCUMENT_AUTHORITY"
+  ],
+  "fallback": "FAIL_CLOSED_AND_KEEP_WORD_BLOCKED",
+  "performance": "BOUNDED_JSON_ONLY_PARSE_AND_PROJECTION_ONLY",
+  "accessibility": "NOT_APPLICABLE_NO_UI",
+  "runtimeNetwork": false,
+  "newDependency": false
+}

@@ -1,0 +1,155 @@
+{
+  "schemaVersion": "YALKEN_R24_WP706_ACCEPTANCE_MATRIX_V1",
+  "stageId": "WP-706_WORD_REPORT",
+  "evidenceStampId": "ES-R24-WP-706-WORD-REPORT-CLAIM-BINDINGS",
+  "programDone": false,
+  "status": "LOCAL_IMPLEMENTATION_ACCEPTED_DELIVERY_NOT_PRECLAIMED",
+  "denominator": 29,
+  "rows": [
+    {
+      "id": "A01_ADMISSION",
+      "status": "PASS",
+      "evidence": "exact Sol xhigh admission at fence 100"
+    },
+    {
+      "id": "A02_PREDECESSOR",
+      "status": "PASS",
+      "evidence": "V2 external terminal release verified"
+    },
+    {
+      "id": "A03_CONTRACT",
+      "status": "PASS",
+      "evidence": "scientific contract and executable program bound"
+    },
+    {
+      "id": "A04_BASE_IDENTITY",
+      "status": "PASS",
+      "evidence": "exact base commit and tree bound"
+    },
+    {
+      "id": "A05_REPORT_VALID",
+      "status": "PASS",
+      "evidence": "valid full-book blocker evidence compiles deterministically"
+    },
+    {
+      "id": "A06_WORD_BLOCKED",
+      "status": "PASS",
+      "evidence": "Word profile remains BLOCKED"
+    },
+    {
+      "id": "A07_NO_ROUTE_PASS",
+      "status": "PASS",
+      "evidence": "route PASS is denied"
+    },
+    {
+      "id": "A08_NO_APPLY",
+      "status": "PASS",
+      "evidence": "product apply authority is denied"
+    },
+    {
+      "id": "A09_NO_SAFE_APPLY",
+      "status": "PASS",
+      "evidence": "Safe Apply expansion is denied"
+    },
+    {
+      "id": "A10_NO_USER_DOCS",
+      "status": "PASS",
+      "evidence": "user documents are out of scope"
+    },
+    {
+      "id": "A11_NO_WORD_INVOCATION",
+      "status": "PASS",
+      "evidence": "WP706 does not invoke Word"
+    },
+    {
+      "id": "A12_C1_BINDING",
+      "status": "PASS",
+      "evidence": "committed C1 receipt and matrix are exact-bound"
+    },
+    {
+      "id": "A13_V2_BINDING",
+      "status": "PASS",
+      "evidence": "V2 terminal receipt verification and release are exact-bound"
+    },
+    {
+      "id": "A14_TESTS",
+      "status": "PASS",
+      "evidence": "9 focused tests passed"
+    },
+    {
+      "id": "A15_MUTANTS",
+      "status": "PASS",
+      "evidence": "10 actual source mutants killed with zero import failures"
+    },
+    {
+      "id": "A16_CARRIER_SET",
+      "status": "PASS",
+      "evidence": "29 independent candidate carriers bound"
+    },
+    {
+      "id": "A17_GRAPH_BASELINE",
+      "status": "PASS",
+      "evidence": "109-node baseline recomputed"
+    },
+    {
+      "id": "A18_WP706_TRANSITION",
+      "status": "PASS",
+      "evidence": "only WP706 transitions to DONE after delivery"
+    },
+    {
+      "id": "A19_WORD_PROFILE_STABLE",
+      "status": "PASS",
+      "evidence": "Word profile does not transition"
+    },
+    {
+      "id": "A20_WP707_GATED",
+      "status": "PASS",
+      "evidence": "WP707 remains inactive behind unresolved owner gate"
+    },
+    {
+      "id": "A21_PROTECTED_WIP",
+      "status": "PASS",
+      "evidence": "302 foreign worktrees including 11 dirty sets protected"
+    },
+    {
+      "id": "A22_PROGRAM_FALSE",
+      "status": "PASS",
+      "evidence": "programDone remains false"
+    },
+    {
+      "id": "D01_COMMIT",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "candidate commit pending"
+    },
+    {
+      "id": "D02_PUSH",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "remote push pending"
+    },
+    {
+      "id": "D03_PR",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "pull request pending"
+    },
+    {
+      "id": "D04_CANDIDATE_CI",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "candidate CI pending"
+    },
+    {
+      "id": "D05_MERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "protected merge pending"
+    },
+    {
+      "id": "D06_POSTMERGE",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "exact postmerge CI pending"
+    },
+    {
+      "id": "D07_EXTERNAL_TERMINAL",
+      "status": "REQUIRED_NOT_PRECLAIMED",
+      "evidence": "external terminal receipt and release pending"
+    }
+  ]
+}
